@@ -1,14 +1,9 @@
-// src/app/api/analyze/route.ts 
-//
-// 说明：
-//  - C 用 useChat 消费 AI SDK 原生流（文本增量 + 工具调用 start/done 事件），
-//    前端「阶段时间线」由 tool 事件的 start/done 驱动。
-//  - 最终结论（契约⑤ VerdictResult）后续周次以结构化 JSON 输出，本周先跑通文本流。
-//  - mock 工具：B 交付后把 ragSearch 换成真实实现；C 交付后把 sandboxAnalyze 换成真实实现。
-
+// src/app/api/analyze/route.ts —— 第 1 周：接入 normalize + prompt，跑通闭环
 import { streamText, tool } from 'ai';
 import { createOpenAI } from '@ai-sdk/openai';
 import { z } from 'zod';
+import { SYSTEM_PROMPT } from '@/lib/agent/prompt';
+import { normalize } from '@/lib/agent/normalize';
 import type { RagSearchResult, SandboxResult } from '@/lib/contracts';
 
 const deepseek = createOpenAI({
@@ -53,18 +48,20 @@ const sandboxAnalyze = tool({
 
 export async function POST(req: Request) {
   const { input } = await req.json();
+  const normalized = await normalize(input);
 
   const result = streamText({
     model: deepseek('deepseek-chat'),
-    system: [
-      '你是反诈研判分析师。SOP：',
-      '1) 规范化输入，识别 URL 与关键实体；',
-      '2) 调 rag_search 检索相似案例；',
-      '3) 低置信度或样本可疑时调 sandbox_analyze；',
-      '4) 综合证据输出风险分级(安全/可疑/高危/诈骗)+置信度+处置建议。',
-    ].join('\n'),
+    system: SYSTEM_PROMPT,
     tools: { rag_search: ragSearch, sandbox_analyze: sandboxAnalyze },
-    prompt: input,
+    prompt: [
+      `原始输入：${normalized.raw}`,
+      `输入类型：${normalized.inputType}`,
+      `识别到的 URL：${normalized.urls.join(', ') || '无'}`,
+      `短链展开：${normalized.resolvedUrls.map((r) => `${r.from} -> ${r.to}`).join('; ') || '无'}`,
+      `关键实体：${normalized.entities.join(', ') || '无'}`,
+      `命中高危词：${normalized.riskKeywords.join(', ') || '无'}`,
+    ].join('\n'),
   });
 
   return result.toDataStreamResponse();
