@@ -14,7 +14,7 @@ const deepseek = createOpenAI({
 // mock 工具 —— B 交付后替换为真实 rag_search
 const ragSearch = tool({
   description: '检索相似诈骗案例与话术模式，返回相似度等置信度信号',
-  parameters: z.object({
+  inputSchema: z.object({
     query: z.string().describe('从输入提取的检索查询'),
   }),
   execute: async ({ query }): Promise<RagSearchResult> => {
@@ -31,7 +31,7 @@ const ragSearch = tool({
 // mock 工具 —— C 交付后替换为真实 sandbox_analyze
 const sandboxAnalyze = tool({
   description: '把可疑 URL 提交沙箱做动态分析，返回行为证据',
-  parameters: z.object({
+  inputSchema: z.object({
     url: z.string().describe('要分析的可疑 URL'),
   }),
   execute: async ({ url }): Promise<SandboxResult> => {
@@ -64,5 +64,5 @@ export async function POST(req: Request) {
     ].join('\n'),
   });
 
-  return result.toDataStreamResponse();
+  return result.toUIMessageStreamResponse();
 }
