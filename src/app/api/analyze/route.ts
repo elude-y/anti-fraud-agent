@@ -1,4 +1,4 @@
-// src/app/api/analyze/route.ts —— 第 1 周：接入 normalize + prompt，跑通闭环
+// src/app/api/analyze/route.ts —— 整合版：A 的研判逻辑 + ai@7 API
 import { streamText, tool } from 'ai';
 import { createOpenAI } from '@ai-sdk/openai';
 import { z } from 'zod';
