@@ -6,10 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:ui": "node scripts/ui-smoke.mjs"
   },
   "dependencies": {
     "@ai-sdk/openai": "^4.0.89",
+    "@phosphor-icons/react": "^2.1.10",
     "ai": "^7.0.133",
     "next": "16.4.0",
     "react": "19.3.0",
