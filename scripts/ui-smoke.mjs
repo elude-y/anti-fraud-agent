@@ -1,4 +1,4 @@
-import { existsSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { spawn } from "node:child_process";
 
 const chromeCandidates = [
@@ -15,6 +15,8 @@ const port = 9339;
 const profile = `${process.env.TEMP ?? "."}\\safeagent-ui-smoke`;
 const input = "https://bank-secure-verify.example.cn/login";
 const pageUrl = `http://localhost:3000/analyze?input=${encodeURIComponent(input)}`;
+const artifactsDirectory = new URL("../artifacts/", import.meta.url);
+mkdirSync(artifactsDirectory, { recursive: true });
 const browser = spawn(chrome, [
   "--headless=new",
   "--disable-gpu",
