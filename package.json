@@ -7,11 +7,13 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test:ui": "node scripts/ui-smoke.mjs"
+    "test:ui": "node scripts/ui-smoke.mjs",
+    "embed": "tsx -r dotenv/config scripts/embed.ts"
   },
   "dependencies": {
     "@ai-sdk/openai": "^4.0.89",
     "@phosphor-icons/react": "^2.1.10",
+    "@supabase/supabase-js": "^2.117.3",
     "ai": "^7.0.133",
     "next": "16.4.0",
     "react": "19.3.0",
@@ -23,9 +25,11 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "dotenv": "^16.6.1",
     "eslint": "^9",
     "eslint-config-next": "16.4.0",
     "tailwindcss": "^4",
+    "tsx": "^4.23.15",
     "typescript": "^5"
   }
 }
