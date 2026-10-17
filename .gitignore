@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+# 环境密钥文件，绝对不要上传github
+.env
+.env.local
+*.env
+
+# 依赖
+node_modules

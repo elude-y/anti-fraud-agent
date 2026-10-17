@@ -1,29 +1,30 @@
 {
   "name": "anti-fraud-agent",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "next lint",
+    "embed": "tsx -r dotenv/config scripts/embed.ts"
   },
   "dependencies": {
-    "@ai-sdk/openai": "^4.0.89",
-    "ai": "^7.0.133",
-    "next": "16.4.0",
-    "react": "19.3.0",
-    "react-dom": "19.3.0",
-    "zod": "^4.6.5"
+    "@supabase/supabase-js": "^2.117.3",
+    "@tailwindcss/postcss": "^4.3.3",
+    "next": "^14.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@tailwindcss/turbopack": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "16.4.0",
-    "tailwindcss": "^4",
-    "typescript": "^5"
+    "@types/node": "^20.16.11",
+    "@types/react": "^18.3.11",
+    "autoprefixer": "^10.6.1",
+    "dotenv": "^16.6.1",
+    "postcss": "^8.5.30",
+    "tailwindcss": "^4.3.3",
+    "tsx": "^4.23.15",
+    "typescript": "^5.6.2"
   }
 }
