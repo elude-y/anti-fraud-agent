@@ -42,7 +42,7 @@ export async function POST(req: Request) {
   }));
 
   // 3. 计算契约要求的三个置信指标
-  const { topSimilarity, labelAgreement, coverageScore } = calcSignals(matches);
+  const { topSimilarity, labelAgreement, coverageScore } = calcSignals(matches, query);
 
   // 返回完整RagSearchResult对象
   return Response.json({

@@ -2,6 +2,7 @@ import { vectorSearchCases } from "../db/cases";
 import { createEmbedding } from "./embedding";
 import { calcSignals } from "./signals";
 import { createSupabaseClient } from "../db/supabase";
+import { rerank } from "./rerank";
 
 
 // 契约输出类型
@@ -64,7 +65,15 @@ export async function rag_search(query:string):Promise<RagSearchResult>{
     }
   }
 
-  //3.计算三个置信信号
-  const sig = calcSignals(matches);
-  return { matches, ...sig };
+  // 2.重排（混合打分 + 可选 LLM）
+  const reranked = await rerank(query, {
+    matches,
+    topSimilarity: 0,
+    labelAgreement: 0,
+    coverageScore: 0,
+  });
+
+  // 3.计算三个置信信号（基于重排后的顺序与 query 的要素覆盖）
+  const sig = calcSignals(reranked.matches, query);
+  return { matches: reranked.matches, ...sig };
 }
