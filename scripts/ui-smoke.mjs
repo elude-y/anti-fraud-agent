@@ -95,20 +95,39 @@ async function evaluate(client, expression) {
 try {
   await waitForDebugger();
   const targetResponse = await fetch(
-    `http://127.0.0.1:${port}/json/new?${encodeURIComponent(pageUrl)}`,
+    `http://127.0.0.1:${port}/json/new?${encodeURIComponent("about:blank")}`,
     { method: "PUT" },
   );
   const target = await targetResponse.json();
   const client = createCdpClient(target.webSocketDebuggerUrl);
   await client.ready;
   await client.send("Runtime.enable");
+  await client.send("Page.enable");
+  await client.send("Page.navigate", { url: pageUrl });
 
   for (let attempt = 0; attempt < 30; attempt += 1) {
     const ready = await evaluate(client, "document.readyState === 'complete'");
     if (ready) break;
     await delay(200);
   }
-  await delay(900);
+  let hydrated = false;
+  for (let attempt = 0; attempt < 50; attempt += 1) {
+    hydrated = await evaluate(client, `(() => {
+      const textarea = document.querySelector('textarea');
+      const button = [...document.querySelectorAll('button')]
+        .find((item) => item.textContent.includes('启动智能研判'));
+      return Boolean(textarea?.value.includes('bank-secure-verify') && button && !button.disabled);
+    })()`);
+    if (hydrated) break;
+    await delay(200);
+  }
+  if (!hydrated) {
+    const diagnostic = await evaluate(client, `({
+      href: location.href,
+      text: document.body?.innerText.slice(0, 500) ?? '',
+    })`);
+    throw new Error(`页面尚未完成交互水合：${JSON.stringify(diagnostic)}`);
+  }
 
   const clicked = await evaluate(client, `(() => {
     const button = [...document.querySelectorAll('button')]

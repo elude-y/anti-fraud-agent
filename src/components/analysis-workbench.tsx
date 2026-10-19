@@ -219,7 +219,10 @@ export default function AnalysisWorkbench() {
       }
     }, 0);
 
-    return () => window.clearTimeout(timer);
+    return () => {
+      bootstrappedRef.current = false;
+      window.clearTimeout(timer);
+    };
   }, [sendMessage]);
 
   const resetAnalysis = () => {
