@@ -1,9 +1,8 @@
 import { vectorSearchCases } from "../db/cases";
 import { createEmbedding } from "./embedding";
 import { calcSignals } from "./signals";
-import { createSupabaseClient } from "../db/supabase";
 import { rerank } from "./rerank";
-
+import { searchMemory, memoryStoreSize } from "./memoryStore";
 
 // 契约输出类型
 export interface RagSearchResult {
@@ -18,22 +17,22 @@ export interface RagSearchResult {
   }>;
   topSimilarity: number;
   labelAgreement: number;
-  coverageScore: number;}
-export async function rag_search(query:string):Promise<RagSearchResult>{
-  // 1.获取向量（失败时降级为关键词检索，保证断网也能返回结果）
-  let queryVec: number[] | null = null;
-  try {
-    queryVec = await createEmbedding(query);
-  } catch (err) {
-    console.error("embedding 调用失败，降级关键词检索：", (err as Error).message);
-    queryVec = null;
-  }
+  coverageScore: number;
+}
 
+export async function rag_search(query:string):Promise<RagSearchResult>{
+  let queryVec: number[] | null = null;
   let matches: RagSearchResult["matches"] = [];
 
-  if(queryVec){
-    // 向量正常，执行向量检索
-    const raw = await vectorSearchCases(queryVec,5);
+  // RAG_OFFLINE=1 时强制走内存库，用于离线演示与兜底验证
+  const forcedOffline = process.env.RAG_OFFLINE === "1";
+
+  try {
+    if (forcedOffline) throw new Error("RAG_OFFLINE=1，强制离线");
+
+    // 1. 联网路径：embedding + 向量检索（RPC match_cases）
+    queryVec = await createEmbedding(query);
+    const raw = await vectorSearchCases(queryVec, 5);
     matches = raw.map(r=>({
       caseId: r.id,
       title: r.title,
@@ -43,29 +42,23 @@ export async function rag_search(query:string):Promise<RagSearchResult>{
       similarity: Number(r.similarity),
       source: r.source,
     }));
-  }else{
-    // ⭐embedding调用失败，降级关键词检索
-    const supabase = createSupabaseClient()
-    const {data} = await supabase
-      .from("cases")
-      .select("id,title,category,risk_label,content,source")
-      .or(`title.ilike.%${query}%,content.ilike.%${query}%`)
-      .limit(5)
-    if(!data) matches = []
-    else{
-      matches = data.map(r=>({
-        caseId: r.id,
-        title: r.title,
-        category: r.category,
-        riskLabel: r.risk_label as "安全"|"可疑"|"高危"|"诈骗",
-        content: r.content,
-        similarity:0.5, //关键词检索固定虚拟相似度
-        source: r.source,
-      }))
+  } catch (err) {
+    // 2. 兜底路径：内存向量库
+    console.warn(
+      `检索降级到内存向量库（${(err as Error).message}；内存库 ${memoryStoreSize()} 条）`
+    );
+    if (!queryVec && !forcedOffline) {
+      try {
+        queryVec = await createEmbedding(query);
+      } catch {
+        // 连 embedding 都不可用 → 走关键词检索
+        queryVec = null;
+      }
     }
+    matches = searchMemory(query, queryVec, 5);
   }
 
-  // 2.重排（混合打分 + 可选 LLM）
+  // 3. 重排（混合打分 + 可选 LLM）
   const reranked = await rerank(query, {
     matches,
     topSimilarity: 0,
@@ -73,7 +66,7 @@ export async function rag_search(query:string):Promise<RagSearchResult>{
     coverageScore: 0,
   });
 
-  // 3.计算三个置信信号（基于重排后的顺序与 query 的要素覆盖）
+  // 4. 计算三个置信信号（基于重排后的顺序与 query 的要素覆盖）
   const sig = calcSignals(reranked.matches, query);
   return { matches: reranked.matches, ...sig };
 }
