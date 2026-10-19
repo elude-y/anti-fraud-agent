@@ -1,54 +1,22 @@
-import { createSupabaseClient } from "@/lib/db/supabase";
-import type { RagSearchResult, RagMatch } from "@/lib/contracts";
-import { createEmbedding } from "@/lib/rag/embedding";
-import { calcSignals } from "@/lib/rag/signals";
+import { NextResponse } from "next/server";
+import { rag_search } from "@/lib/rag/retrieve";
 
-const supabase = createSupabaseClient();
+export async function POST(request: Request) {
+  try {
+    const body = await request.json() as { query?: unknown; topK?: unknown };
+    const query = typeof body.query === "string" ? body.query.trim() : "";
+    const topK = typeof body.topK === "number" ? Math.max(1, Math.min(body.topK, 5)) : 3;
+    if (!query) {
+      return NextResponse.json({ error: "query 不能为空" }, { status: 400 });
+    }
 
-type MatchRow = {
-  id: string;
-  title: string;
-  category: string;
-  risk_label: string;
-  content: string;
-  source: string | null;
-  similarity: number;
-};
-
-export async function POST(req: Request) {
-  const { query, topK = 3 } = await req.json();
-  // 1. 文本转向量
-  const embedding = await createEmbedding(query);
-
-  // 2. 向量检索，获取真实相似度
-  //    PostgREST 的 select 不支持 `1 - (embedding <=> $1)`，必须走数据库函数 match_cases
-  //    （见 supabase/migrations/02_match_cases.sql）
-  const { data, error } = await supabase.rpc("match_cases", {
-    query_embedding: embedding,
-    match_count: topK,
-  });
-
-  if (error) throw error;
-
-  // 组装RagMatch数组（契约①字段：caseId / riskLabel，不是数据库的 id / risk_label）
-  const matches: RagMatch[] = ((data ?? []) as MatchRow[]).map((item) => ({
-    caseId: item.id,
-    title: item.title,
-    category: item.category,
-    riskLabel: item.risk_label as "安全" | "可疑" | "高危" | "诈骗",
-    content: item.content,
-    similarity: Number(Number(item.similarity).toFixed(2)),
-    source: item.source ?? "",
-  }));
-
-  // 3. 计算契约要求的三个置信指标
-  const { topSimilarity, labelAgreement, coverageScore } = calcSignals(matches);
-
-  // 返回完整RagSearchResult对象
-  return Response.json({
-    matches,
-    topSimilarity,
-    labelAgreement,
-    coverageScore
-  } as RagSearchResult);
+    const result = await rag_search(query);
+    return NextResponse.json({
+      ...result,
+      matches: result.matches.slice(0, topK),
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "检索失败";
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
 }

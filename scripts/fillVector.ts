@@ -4,13 +4,14 @@ console.log("NEXT_PUBLIC_SUPABASE_URL =", process.env.NEXT_PUBLIC_SUPABASE_URL);
 
 // 【模拟向量，完全不调用外部API，不会报404！】
 async function getEmbedding(text: string) {
+  void text;
   // 生成1024维随机向量，适配pgvector
   const vec = Array.from({length:1024}, ()=>Math.random());
   return vec;
 }
 
 async function embedAll() {
-  const { createSupabaseClient } = await import("../src/lib/db/supabase.ts");
+  const { createSupabaseClient } = await import("../src/lib/db/supabase");
   const supabase = createSupabaseClient();
 
   console.log("脚本开始执行！");

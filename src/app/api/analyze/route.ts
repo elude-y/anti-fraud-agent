@@ -1,7 +1,9 @@
 import { createUIMessageStream, createUIMessageStreamResponse } from "ai";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { computeConfidence } from "@/lib/agent/confidence";
 import { normalize } from "@/lib/agent/normalize";
+import { computeRuleScore } from "@/lib/agent/rules";
 import type {
   AnalysisStage,
   AnalysisStreamResult,
@@ -13,7 +15,7 @@ import type {
   SandboxEvidencePayload,
   VerdictResult,
 } from "@/lib/contracts";
-import { searchAntiFraudCases } from "@/lib/rag/search";
+import { rag_search } from "@/lib/rag/retrieve";
 import { sandboxAnalyze } from "@/lib/sandbox/analyze";
 import { redactUrlForDisplay } from "@/lib/sandbox/url-utils";
 
@@ -82,7 +84,7 @@ function sandboxSourceLabel(source: SandboxEnvelope["source"]) {
 function buildResult(input: {
   normalized: Awaited<ReturnType<typeof normalize>>;
   mode: "link" | "message";
-  rag: ReturnType<typeof searchAntiFraudCases>;
+  rag: Awaited<ReturnType<typeof rag_search>>;
   sandbox: SandboxEnvelope;
 }) {
   const { normalized, mode, rag, sandbox } = input;
@@ -94,7 +96,14 @@ function buildResult(input: {
     verdict = "高危";
   }
 
-  const keywordBoost = Math.min(normalized.riskKeywords.length, 5) * 0.025;
+  const ruleScore = computeRuleScore(normalized);
+  const confidenceSignals = computeConfidence(
+    rag.topSimilarity,
+    rag.labelAgreement,
+    rag.coverageScore,
+    ruleScore,
+  );
+  const keywordBoost = Math.min(normalized.riskKeywords.length, 5) * 0.015;
   const sandboxBoost = sandbox.providers.virustotal === "used" || sandbox.providers.urlscan === "used" ? 0.035 : 0;
   const confidenceFloor = verdict === "诈骗"
     ? 0.84
@@ -105,7 +114,7 @@ function buildResult(input: {
         : 0.9;
   const confidence = Math.max(confidenceFloor, Math.min(
     verdict === "安全" ? 0.97 : 0.95,
-    0.52 + rag.topSimilarity * 0.25 + rag.labelAgreement * 0.09 + rag.coverageScore * 0.09 + keywordBoost + sandboxBoost,
+    confidenceSignals.score + keywordBoost + sandboxBoost,
   ));
 
   const suggestion = verdict === "安全"
@@ -214,7 +223,7 @@ export async function POST(request: Request) {
 
         await emitStage("rag", "active");
         await emitTool("rag_search", "start", { query: redactedInput });
-        const rag = searchAntiFraudCases(input);
+        const rag = await rag_search(input);
         await delay(240);
         await emitTool("rag_search", "done", rag);
         const ragNode = evidenceNode("rag", "案例库检索完成", {
@@ -233,6 +242,7 @@ export async function POST(request: Request) {
           tags: [
             `Top-1 ${(rag.topSimilarity * 100).toFixed(0)}%`,
             `覆盖度 ${(rag.coverageScore * 100).toFixed(0)}%`,
+            `规则分 ${(computeRuleScore(normalized) * 100).toFixed(0)}%`,
             normalized.riskKeywords.length ? `风险词 ${normalized.riskKeywords.slice(0, 3).join(" / ")}` : "未命中高危词",
           ],
         }, 2);

@@ -1,20 +1,11 @@
-import type { CaseItem } from "../db/cases";
-type MatchItem = {
-  caseId:string;
-  title:string;
-  category:string;
-  riskLabel:"安全"|"可疑"|"高危"|"诈骗";
-  content:string;
-  similarity:number;
-  source:string|null;
-};
+import type { RagMatch } from "@/lib/contracts";
 /**
  * 文档三个信号：
  * topSimilarity：top‑1最大相似度
  * labelAgreement：风险标签一致性，匹配集合风险标签相同占比
  * coverageScore：检索案例类别与输入文本类别覆盖度，简易实现
  */
-export function calcSignals(matches:MatchItem[]){
+export function calcSignals(matches: RagMatch[]) {
   if(matches.length ===0){
     return { topSimilarity:0, labelAgreement:0, coverageScore:0 };
   }

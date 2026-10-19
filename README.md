@@ -7,6 +7,7 @@ SafeAgent 是面向可疑链接和诈骗短信的智能研判系统。当前版�
 - `/api/analyze` 通过 AI SDK 的 UI Message Stream 流式输出阶段、工具、证据和最终结论。
 - 研判页使用 `useChat` 消费服务端流事件，而不是在前端伪造分析进度。
 - 沙箱统一接入 urlscan.io、VirusTotal 和内置 Tier0 模板。
+- RAG 优先使用 Supabase 向量检索，缺少密钥或 Embedding 服务时自动回退到内置案例索引。
 - 未配置 API Key、断网或额度耗尽时，Tier0 仍可完成离线演示。
 - 沙箱证据节点展示截图、跳转链、表单字段、脚本行为、IOC、数据来源与降级原因。
 - 历史记录保存完整分析快照，可从历史页载入并回放同一份证据链。
@@ -30,6 +31,11 @@ npm run dev
 | `URLSCAN_VISIBILITY` | 扫描可见性，默认 `unlisted` |
 | `URLSCAN_MAX_WAIT_MS` | 等待扫描结果的最长时间 |
 | `VIRUSTOTAL_API_KEY` | 启用 VirusTotal URL、域名与 IOC 查询 |
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase 项目地址，启用在线案例库 |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase 匿名访问密钥 |
+| `EMBEDDING_BASE_URL` | 兼容 OpenAI Embeddings 协议的服务地址 |
+| `EMBEDDING_API_KEY` | Embedding 服务密钥 |
+| `EMBEDDING_MODEL` | Embedding 模型名称 |
 | `DEEPSEEK_API_KEY` | 保留的模型密钥，不影响 Tier0 演示主链路 |
 
 演示域名、保留域名、回环地址和私有 IP 不会提交给外部沙箱。

@@ -1,70 +1,70 @@
-import { vectorSearchCases } from "../db/cases";
-import { createEmbedding } from "./embedding";
-import { calcSignals } from "./signals";
-import { createSupabaseClient } from "../db/supabase";
+import type { RagMatch, RagSearchResult as ContractRagSearchResult } from "@/lib/contracts";
+import { vectorSearchCases } from "@/lib/db/cases";
+import { createSupabaseClient, isSupabaseConfigured } from "@/lib/db/supabase";
+import { createEmbedding } from "@/lib/rag/embedding";
+import { calcSignals } from "@/lib/rag/signals";
+import { searchAntiFraudCases } from "@/lib/rag/search";
 
+export type RagSearchResult = ContractRagSearchResult;
 
-// 契约输出类型
-export interface RagSearchResult {
-  matches: Array<{
-    caseId: string;
-    title: string;
-    category: string;
-    riskLabel: '安全'|'可疑'|'高危'|'诈骗';
-    content: string;
-    similarity: number;
-    source: string|null;
-  }>;
-  topSimilarity: number;
-  labelAgreement: number;
-  coverageScore: number;}
-export async function rag_search(query:string):Promise<RagSearchResult>{
-  // 1.获取向量（失败时降级为关键词检索，保证断网也能返回结果）
-  let queryVec: number[] | null = null;
+async function keywordSearch(query: string): Promise<RagMatch[]> {
+  if (!isSupabaseConfigured()) return [];
+
   try {
-    queryVec = await createEmbedding(query);
-  } catch (err) {
-    console.error("embedding 调用失败，降级关键词检索：", (err as Error).message);
-    queryVec = null;
-  }
-
-  let matches: RagSearchResult["matches"] = [];
-
-  if(queryVec){
-    // 向量正常，执行向量检索
-    const raw = await vectorSearchCases(queryVec,5);
-    matches = raw.map(r=>({
-      caseId: r.id,
-      title: r.title,
-      category: r.category,
-      riskLabel: r.risk_label as "安全"|"可疑"|"高危"|"诈骗",
-      content: r.content,
-      similarity: Number(r.similarity),
-      source: r.source,
-    }));
-  }else{
-    // ⭐embedding调用失败，降级关键词检索
-    const supabase = createSupabaseClient()
-    const {data} = await supabase
+    const supabase = createSupabaseClient();
+    const { data, error } = await supabase
       .from("cases")
       .select("id,title,category,risk_label,content,source")
       .or(`title.ilike.%${query}%,content.ilike.%${query}%`)
-      .limit(5)
-    if(!data) matches = []
-    else{
-      matches = data.map(r=>({
-        caseId: r.id,
-        title: r.title,
-        category: r.category,
-        riskLabel: r.risk_label as "安全"|"可疑"|"高危"|"诈骗",
-        content: r.content,
-        similarity:0.5, //关键词检索固定虚拟相似度
-        source: r.source,
-      }))
-    }
+      .limit(5);
+
+    if (error || !data) return [];
+    return data.map((item) => ({
+      caseId: item.id as string,
+      title: item.title as string,
+      category: item.category as string,
+      riskLabel: item.risk_label as RagMatch["riskLabel"],
+      content: item.content as string,
+      similarity: 0.5,
+      source: (item.source as string | null) ?? "Supabase 案例库",
+    }));
+  } catch {
+    return [];
+  }
+}
+
+export async function rag_search(query: string): Promise<RagSearchResult> {
+  const localFallback = searchAntiFraudCases(query);
+
+  if (!isSupabaseConfigured()) return localFallback;
+
+  let queryVector: number[] | null = null;
+  try {
+    queryVector = await createEmbedding(query);
+  } catch {
+    const keywordMatches = await keywordSearch(query);
+    if (!keywordMatches.length) return localFallback;
+    const signals = calcSignals(keywordMatches);
+    return { matches: keywordMatches, ...signals };
   }
 
-  //3.计算三个置信信号
-  const sig = calcSignals(matches);
-  return { matches, ...sig };
+  try {
+    const rows = await vectorSearchCases(queryVector, 5);
+    if (!rows.length) return localFallback;
+
+    const matches: RagMatch[] = rows.map((item) => ({
+      caseId: item.id,
+      title: item.title,
+      category: item.category,
+      riskLabel: item.risk_label as RagMatch["riskLabel"],
+      content: item.content,
+      similarity: Number(item.similarity),
+      source: item.source ?? "Supabase 案例库",
+    }));
+    return { matches, ...calcSignals(matches) };
+  } catch {
+    const keywordMatches = await keywordSearch(query);
+    if (!keywordMatches.length) return localFallback;
+    return { matches: keywordMatches, ...calcSignals(keywordMatches) };
+  }
 }

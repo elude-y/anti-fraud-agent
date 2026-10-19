@@ -1,12 +1,15 @@
 import { createClient } from "@supabase/supabase-js";
 
+export function isSupabaseConfigured() {
+  return Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+}
+
 export function createSupabaseClient() {
-  // 用.env里真实的变量名
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string;
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   if (!supabaseUrl || !supabaseAnonKey) {
-    throw new Error("读取Supabase环境变量失败！");
+    throw new Error("未配置 Supabase，使用本地案例库兜底");
   }
   return createClient(supabaseUrl, supabaseAnonKey);
 }

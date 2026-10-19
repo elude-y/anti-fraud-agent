@@ -10,8 +10,9 @@ export async function POST(req: NextRequest) {
     }
     const result = await rag_search(query);
     return NextResponse.json(result);
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "检索失败";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
