@@ -1,68 +1,64 @@
-// src/app/api/analyze/route.ts —— 整合版：A 的研判逻辑 + ai@7 API
-import { streamText, tool } from 'ai';
+// src/app/api/analyze/route.ts —— 第 2 周：确定性编排（置信度调度）+ LLM 综合研判
+import { generateText } from 'ai';
 import { createOpenAI } from '@ai-sdk/openai';
-import { z } from 'zod';
-import { SYSTEM_PROMPT } from '@/lib/agent/prompt';
-import { normalize } from '@/lib/agent/normalize';
-import type { RagSearchResult, SandboxResult } from '@/lib/contracts';
+import { runAnalysis } from '@/lib/agent/orchestrate';
+import { deriveVerdict, deriveSuggestion } from '@/lib/agent/synthesize';
+import type { EvidenceNode, VerdictResult } from '@/lib/contracts';
 
 const deepseek = createOpenAI({
   apiKey: process.env.DEEPSEEK_API_KEY,
   baseURL: process.env.DEEPSEEK_BASE_URL ?? 'https://api.deepseek.com/v1',
 });
 
-// mock 工具 —— B 交付后替换为真实 rag_search
-const ragSearch = tool({
-  description: '检索相似诈骗案例与话术模式，返回相似度等置信度信号',
-  inputSchema: z.object({
-    query: z.string().describe('从输入提取的检索查询'),
-  }),
-  execute: async ({ query }): Promise<RagSearchResult> => {
-    void query;
-    return {
-      matches: [],
-      topSimilarity: 0.5,
-      labelAgreement: 1,
-      coverageScore: 0.5,
-    };
-  },
-});
-
-// mock 工具 —— C 交付后替换为真实 sandbox_analyze
-const sandboxAnalyze = tool({
-  description: '把可疑 URL 提交沙箱做动态分析，返回行为证据',
-  inputSchema: z.object({
-    url: z.string().describe('要分析的可疑 URL'),
-  }),
-  execute: async ({ url }): Promise<SandboxResult> => {
-    return {
-      redirectChain: [],
-      finalUrl: url,
-      formFields: [],
-      jsBehaviors: [],
-      iocHits: [],
-      verdict: 'mock',
-    };
-  },
-});
-
 export async function POST(req: Request) {
   const { input } = await req.json();
-  const normalized = await normalize(input);
 
-  const result = streamText({
-    model: deepseek('deepseek-chat'),
-    system: SYSTEM_PROMPT,
-    tools: { rag_search: ragSearch, sandbox_analyze: sandboxAnalyze },
-    prompt: [
-      `原始输入：${normalized.raw}`,
-      `输入类型：${normalized.inputType}`,
-      `识别到的 URL：${normalized.urls.join(', ') || '无'}`,
-      `短链展开：${normalized.resolvedUrls.map((r) => `${r.from} -> ${r.to}`).join('; ') || '无'}`,
-      `关键实体：${normalized.entities.join(', ') || '无'}`,
-      `命中高危词：${normalized.riskKeywords.join(', ') || '无'}`,
-    ].join('\n'),
-  });
+  // 1. 确定性编排：代码算置信度、决定路径、调用真实 RAG + 沙箱
+  const analysis = await runAnalysis(input);
 
-  return result.toUIMessageStreamResponse();
+  // 2. 确定性分级（沙箱行为可推翻 RAG 结论）
+  const verdict = deriveVerdict(analysis.confidence, analysis.rag.matches, analysis.sandbox);
+  const suggestion = deriveSuggestion(verdict);
+
+  // 3. LLM 生成一句话研判理由（增强可解释性）；失败则静默跳过
+  let reason = '';
+  try {
+    const { text } = await generateText({
+      model: deepseek('deepseek-chat'),
+      system: '你是反诈研判分析师。基于给定证据，用一句话概括研判依据（不超过 50 字）。',
+      prompt: [
+        `风险等级：${verdict}`,
+        `综合置信度：${(analysis.confidence.score * 100).toFixed(0)}%`,
+        `路径：${analysis.decision.path}（${analysis.decision.reason}）`,
+        `检索相似案例：${analysis.rag.matches.length} 条`,
+        analysis.sandbox
+          ? `沙箱结论：${analysis.sandbox.verdict}，跳转 ${analysis.sandbox.redirectChain.length} 次，表单字段 ${analysis.sandbox.formFields.length} 个`
+          : '未触发沙箱（快速路径）',
+      ].join('\n'),
+    });
+    reason = text.trim();
+  } catch {
+    reason = '';
+  }
+
+  // 4. 组装结论节点 + 最终结果
+  const conclusionNode: EvidenceNode = {
+    id: `conclusion-${Date.now()}`,
+    type: 'conclusion',
+    label: `研判结论：${verdict}`,
+    payload: {
+      description: suggestion,
+      tags: [`置信度 ${(analysis.confidence.score * 100).toFixed(0)}%`, `路径 ${analysis.decision.path}`],
+    },
+    ts: Date.now(),
+  };
+
+  const result: VerdictResult = {
+    verdict,
+    confidence: Number(analysis.confidence.score.toFixed(2)),
+    suggestion: reason ? `${reason.replace(/。+$/, '')}。${suggestion}` : suggestion,
+    evidenceChain: [...analysis.evidenceChain, conclusionNode],
+  };
+
+  return Response.json(result);
 }
