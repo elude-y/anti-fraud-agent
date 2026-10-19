@@ -248,6 +248,12 @@
   font-size: 11px;
 }
 
+.replayNotice {
+  margin: 8px 2px 0;
+  color: #0b9a7c;
+  font-size: 11px;
+}
+
 .sampleRow {
   display: flex;
   flex-wrap: wrap;

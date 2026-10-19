@@ -24,18 +24,16 @@ import {
   Moon,
   ShieldCheck,
   Sparkle,
-  SpinnerGap,
   Sun,
   Truck,
   UserCircle,
   UsersThree,
   WarningCircle,
 } from "@phosphor-icons/react";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import styles from "./home.module.css";
 
 type AnalysisMode = "link" | "message";
-type AnalysisStage = "idle" | "searching" | "verifying" | "complete";
 
 const examples = [
   { label: "快递理赔", value: "【速运中心】您的包裹已破损，请点击 http://claim-example.cn 办理理赔。", icon: Truck, tone: "violet" },
@@ -53,27 +51,13 @@ const toneClass = {
   indigo: styles.indigo,
 };
 
-const stageContent = {
-  idle: { label: "", detail: "", icon: ShieldCheck },
-  searching: { label: "正在检索相似案例", detail: "连接反诈知识库", icon: SpinnerGap },
-  verifying: { label: "正在沙箱验证", detail: "分析页面行为与威胁特征", icon: SpinnerGap },
-  complete: { label: "分析完成", detail: "已生成风险证据链", icon: CheckCircle },
-};
-
 export default function Home() {
   const router = useRouter();
   const [mode, setMode] = useState<AnalysisMode>("link");
   const [value, setValue] = useState("");
-  const [stage, setStage] = useState<AnalysisStage>("idle");
   const [quietLight, setQuietLight] = useState(false);
   const [invalid, setInvalid] = useState(false);
   const fieldRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
-  const timersRef = useRef<number[]>([]);
-
-  useEffect(() => {
-    const timers = timersRef.current;
-    return () => timers.forEach((timer) => window.clearTimeout(timer));
-  }, []);
 
   const switchMode = (nextMode: AnalysisMode) => {
     setMode(nextMode);
@@ -97,32 +81,14 @@ export default function Home() {
       return;
     }
 
-    timersRef.current.forEach((timer) => window.clearTimeout(timer));
     setInvalid(false);
-    setStage("searching");
-    timersRef.current = [
-      window.setTimeout(() => setStage("verifying"), 1200),
-      window.setTimeout(() => setStage("complete"), 2600),
-      window.setTimeout(() => router.push(`/analyze?input=${encodeURIComponent(value.trim())}`), 3400),
-    ];
+    router.push(`/analyze?input=${encodeURIComponent(value.trim())}&autorun=1`);
   };
-
-  const StatusIcon = stageContent[stage].icon;
 
   return (
     <main className={`${styles.page} ${quietLight ? styles.quietLight : ""}`}>
       <div className={styles.ambientOne} aria-hidden="true" />
       <div className={styles.ambientTwo} aria-hidden="true" />
-      <div className={`${styles.statusCapsule} ${stage !== "idle" ? styles.statusVisible : ""}`} aria-live="polite">
-        <span className={`${styles.statusIcon} ${stage === "searching" || stage === "verifying" ? styles.spinning : ""}`}>
-          <StatusIcon size={20} weight="bold" />
-        </span>
-        <span>
-          <strong>{stageContent[stage].label}</strong>
-          <small>{stageContent[stage].detail}</small>
-        </span>
-      </div>
-
       <header className={styles.header}>
         <Link className={styles.brand} href="/" aria-label="SafeAgent 首页">
           <span className={styles.brandMark}><ShieldCheck size={26} weight="fill" /></span>

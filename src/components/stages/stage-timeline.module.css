@@ -1,0 +1,92 @@
+.timeline {
+  display: grid;
+  gap: 7px;
+  padding: 15px 17px 19px;
+}
+
+.item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 36px 1fr auto;
+  align-items: center;
+  gap: 11px;
+  min-height: 55px;
+  padding: 8px 10px;
+  color: #75849a;
+  border-radius: 12px;
+  transition: color 180ms ease, background 180ms ease, transform 180ms ease;
+}
+
+.item:not(:last-child)::after {
+  position: absolute;
+  top: 47px;
+  bottom: -16px;
+  left: 28px;
+  width: 1px;
+  content: "";
+  background: rgba(112, 137, 177, 0.18);
+}
+
+.icon {
+  z-index: 1;
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border-radius: 11px;
+  background: #edf1f7;
+}
+
+.copy strong,
+.copy small {
+  display: block;
+}
+
+.copy strong {
+  color: inherit;
+  font-size: 12px;
+}
+
+.copy small {
+  margin-top: 3px;
+  color: #9aa6b7;
+  font-size: 10px;
+}
+
+.state {
+  font-size: 10px;
+  font-weight: 720;
+}
+
+.done {
+  color: #0a9f80;
+}
+
+.done .icon {
+  color: #0ead89;
+  background: #e4f8f2;
+}
+
+.active {
+  color: #2e6df6;
+  background: #edf3ff;
+  transform: translateX(3px);
+}
+
+.active .icon {
+  color: #fff;
+  background: #3c76ee;
+  box-shadow: 0 8px 18px rgba(55, 112, 237, 0.24);
+  animation: pulse 1.35s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .active .icon {
+    animation: none;
+  }
+}

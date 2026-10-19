@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SafeAgent
 
-## Getting Started
+SafeAgent 是面向可疑链接和诈骗短信的智能研判系统。当前版本完成输入规范化、案例检索、置信度融合、沙箱行为验证、证据链可视化、历史快照与全链路回放。
 
-First, run the development server:
+## 核心能力
+
+- `/api/analyze` 通过 AI SDK 的 UI Message Stream 流式输出阶段、工具、证据和最终结论。
+- 研判页使用 `useChat` 消费服务端流事件，而不是在前端伪造分析进度。
+- 沙箱统一接入 urlscan.io、VirusTotal 和内置 Tier0 模板。
+- 未配置 API Key、断网或额度耗尽时，Tier0 仍可完成离线演示。
+- 沙箱证据节点展示截图、跳转链、表单字段、脚本行为、IOC、数据来源与降级原因。
+- 历史记录保存完整分析快照，可从历史页载入并回放同一份证据链。
+- 可疑 URL 只在服务端处理，前端不创建可点击跳转。
+
+## 本地运行
 
 ```bash
+npm install
+cp .env.example .env.local
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+打开 `http://localhost:3000`。所有环境变量均为可选项，空配置会自动使用 Tier0。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 环境变量
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| 变量 | 作用 |
+| --- | --- |
+| `URLSCAN_API_KEY` | 启用 urlscan.io 动态扫描 |
+| `URLSCAN_VISIBILITY` | 扫描可见性，默认 `unlisted` |
+| `URLSCAN_MAX_WAIT_MS` | 等待扫描结果的最长时间 |
+| `VIRUSTOTAL_API_KEY` | 启用 VirusTotal URL、域名与 IOC 查询 |
+| `DEEPSEEK_API_KEY` | 保留的模型密钥，不影响 Tier0 演示主链路 |
 
-## Learn More
+演示域名、保留域名、回环地址和私有 IP 不会提交给外部沙箱。
 
-To learn more about Next.js, take a look at the following resources:
+## 验证命令
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run lint
+npm run build
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+浏览器冒烟测试需要先启动产品服务：
 
-## Deploy on Vercel
+```bash
+npm start -- -p 3001
+SAFEAGENT_BASE_URL=http://127.0.0.1:3001 npm run test:ui
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+PowerShell 写法：
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```powershell
+$env:SAFEAGENT_BASE_URL='http://127.0.0.1:3001'
+npm run test:ui
+```
+
+测试覆盖流式研判、Tier0 降级、证据渲染、历史入库、快照回放和 390px 移动端横向溢出检查。
+
+## 主要接口
+
+- `POST /api/analyze`：流式研判入口，接受 `messages` 或兼容的 `{ input, mode }` 请求体。
+- `POST /api/sandbox`：独立沙箱分析入口。
+- `GET /api/sandbox`：返回外部沙箱配置状态。
+- `GET /api/cases`：案例库数据。

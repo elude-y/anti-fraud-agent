@@ -10,6 +10,7 @@ export interface HistoryRecord {
   evidenceCount: number;
   createdAt: string;
   source: string;
+  snapshotId?: string;
 }
 
 export const demoCases: CaseItem[] = [

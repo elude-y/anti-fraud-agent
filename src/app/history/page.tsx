@@ -18,6 +18,15 @@ import styles from "@/app/workspace.module.css";
 
 const filters: Array<"全部" | RiskLevel> = ["全部", "诈骗", "高危", "可疑", "安全"];
 
+function readStoredHistory() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem("safeagent:history") ?? "[]") as unknown;
+    return Array.isArray(parsed) ? parsed as HistoryRecord[] : [];
+  } catch {
+    return [];
+  }
+}
+
 function badgeClass(level: RiskLevel) {
   if (level === "诈骗") return styles.badgeFraud;
   if (level === "高危") return styles.badgeHigh;
@@ -32,7 +41,7 @@ export default function HistoryPage() {
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
-      const stored = JSON.parse(localStorage.getItem("safeagent:history") ?? "[]") as HistoryRecord[];
+      const stored = readStoredHistory();
       setRecords([...stored, ...seedHistory]);
     }, 0);
     return () => window.clearTimeout(timer);
@@ -82,7 +91,14 @@ export default function HistoryPage() {
                 <p className={styles.historySummary}>{record.summary}</p>
                 <span className={`${styles.riskBadge} ${badgeClass(record.verdict)}`}>{record.verdict}</span>
                 <span className={styles.numeric}>{(record.confidence * 100).toFixed(0)}% · {record.evidenceCount} 节点</span>
-                <Link className={styles.textButton} href={`/analyze?input=${encodeURIComponent(record.input)}`}><ArrowCounterClockwise size={15} />回放</Link>
+                <Link
+                  className={styles.textButton}
+                  href={record.snapshotId
+                    ? `/analyze?replay=${encodeURIComponent(record.snapshotId)}`
+                    : `/analyze?input=${encodeURIComponent(record.input)}&autorun=1`}
+                >
+                  <ArrowCounterClockwise size={15} />回放
+                </Link>
               </article>
             ))}
             {visibleRecords.length === 0 && <div className={styles.emptyState}><div><span className={styles.emptyStateIcon}><MagnifyingGlass size={33} /></span><h3>没有匹配记录</h3><p>调整关键词或风险筛选条件后再试。</p></div></div>}

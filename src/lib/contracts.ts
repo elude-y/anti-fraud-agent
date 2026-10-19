@@ -1,4 +1,6 @@
-// src/lib/contracts.ts 
+import type { UIMessage } from "ai";
+
+// src/lib/contracts.ts
 
 // ────────────────────────────────────────────────────────────
 // 契约① RAG 检索结果（B 实现 rag_search 的返回，A 消费）
@@ -44,6 +46,32 @@ export interface SandboxResult {
   iocHits: IocHit[];
   verdict: string;
   raw?: unknown;
+}
+
+export type SandboxSource =
+  | 'tier0'
+  | 'urlscan'
+  | 'virustotal+tier0'
+  | 'urlscan+virustotal';
+
+export type ProviderState = 'used' | 'not-configured' | 'skipped' | 'failed';
+
+export interface SandboxEnvelope {
+  source: SandboxSource;
+  latencyMs: number;
+  result: SandboxResult;
+  providers: {
+    urlscan: ProviderState;
+    virustotal: ProviderState;
+  };
+  fallbackReasons: string[];
+}
+
+export interface SandboxEvidencePayload {
+  description: string;
+  tags: string[];
+  sandbox: SandboxResult;
+  sandboxMeta: Omit<SandboxEnvelope, 'result'>;
 }
 
 // ────────────────────────────────────────────────────────────
@@ -93,3 +121,50 @@ export interface VerdictResult {
   suggestion: string; // 处置建议
   evidenceChain: EvidenceNode[];
 }
+
+export type AnalysisStage =
+  | 'normalize'
+  | 'rag'
+  | 'confidence'
+  | 'sandbox'
+  | 'synthesis'
+  | 'done';
+
+export type AnalysisTool = 'rag_search' | 'sandbox_analyze' | 'check_ioc';
+
+export type StreamEvent =
+  | { type: 'stage'; stage: AnalysisStage }
+  | { type: 'tool'; tool: AnalysisTool; status: 'start' | 'done'; data?: unknown }
+  | { type: 'text'; delta: string }
+  | ({ type: 'result' } & VerdictResult);
+
+export interface StageStreamData {
+  stage: AnalysisStage;
+  status: 'active' | 'done';
+  at: number;
+}
+
+export interface ToolStreamData {
+  tool: AnalysisTool;
+  status: 'start' | 'done';
+  at: number;
+  data?: unknown;
+}
+
+export interface AnalysisStreamResult extends VerdictResult {
+  input: string;
+  mode: 'link' | 'message';
+  sandbox: SandboxResult;
+  sandboxMeta: Omit<SandboxEnvelope, 'result'>;
+  summary: string;
+}
+
+export type SafeAgentUIMessage = UIMessage<
+  never,
+  {
+    stage: StageStreamData;
+    tool: ToolStreamData;
+    evidence: EvidenceNode;
+    result: AnalysisStreamResult;
+  }
+>;

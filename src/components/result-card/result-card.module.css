@@ -1,0 +1,163 @@
+.body {
+  padding: 20px 22px 24px;
+}
+
+.heading {
+  display: grid;
+  grid-template-columns: 68px minmax(0, 1fr);
+  gap: 15px;
+  align-items: start;
+}
+
+.heading h3 {
+  margin: 2px 0 0;
+  font-size: 26px;
+  letter-spacing: -0.04em;
+}
+
+.heading p {
+  margin: 8px 0 0;
+  color: #728198;
+  font-size: 10px;
+  line-height: 1.65;
+}
+
+.eyebrow {
+  color: #8c9bb0;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.riskMark {
+  display: grid;
+  width: 68px;
+  height: 68px;
+  place-items: center;
+  border-radius: 21px;
+}
+
+.fraud { color: #ef5362; background: #fff0f2; }
+.high { color: #f2743a; background: #fff1e9; }
+.suspicious { color: #d79a19; background: #fff7dd; }
+.safe { color: #0aaa86; background: #e7f9f4; }
+
+.confidence {
+  margin-top: 20px;
+}
+
+.confidence > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  color: #77869c;
+  font-size: 10px;
+}
+
+.confidence strong {
+  color: #27364d;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.track {
+  height: 7px;
+  margin-top: 8px;
+  overflow: hidden;
+  border-radius: 99px;
+  background: #edf1f7;
+}
+
+.track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #5c8af4, #2e6df6);
+  transition: width 600ms ease;
+}
+
+.suggestion {
+  margin-top: 18px;
+  padding: 14px;
+  color: #53657e;
+  font-size: 11px;
+  line-height: 1.72;
+  border-radius: 13px;
+  background: rgba(242, 246, 252, 0.84);
+}
+
+.meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  margin-top: 14px;
+}
+
+.meta > span {
+  display: grid;
+  grid-template-columns: 16px 1fr;
+  gap: 2px 6px;
+  padding: 10px;
+  color: #8a96a8;
+  font-size: 8px;
+  border: 1px solid rgba(112, 139, 183, 0.12);
+  border-radius: 10px;
+}
+
+.meta svg {
+  grid-row: 1 / 3;
+  margin-top: 2px;
+  color: #6d8dcc;
+}
+
+.meta strong {
+  color: #40516b;
+  font-size: 10px;
+}
+
+.empty {
+  display: grid;
+  min-height: 330px;
+  padding: 35px;
+  place-items: center;
+  text-align: center;
+}
+
+.emptyIcon {
+  display: grid;
+  width: 76px;
+  height: 76px;
+  margin: 0 auto 16px;
+  place-items: center;
+  color: #6c91df;
+  border-radius: 24px;
+  background: linear-gradient(145deg, #f0f5ff, #e5edff);
+}
+
+.empty h3 {
+  margin: 0;
+  font-size: 17px;
+}
+
+.empty p {
+  max-width: 330px;
+  margin: 8px auto 0;
+  color: #8794a8;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+@media (max-width: 520px) {
+  .heading {
+    grid-template-columns: 55px minmax(0, 1fr);
+  }
+
+  .riskMark {
+    width: 55px;
+    height: 55px;
+    border-radius: 17px;
+  }
+
+  .heading h3 {
+    font-size: 22px;
+  }
+}

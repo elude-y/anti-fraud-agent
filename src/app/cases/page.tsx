@@ -9,10 +9,10 @@ import {
   MagnifyingGlass,
   ShieldWarning,
 } from "@phosphor-icons/react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import AppHeader from "@/components/app-header";
 import { demoCases } from "@/lib/demo-data";
-import type { RiskLevel } from "@/lib/contracts";
+import type { CaseItem, CasesResponse, RiskLevel } from "@/lib/contracts";
 import styles from "@/app/workspace.module.css";
 
 const categories = ["全部", "快递理赔", "ETC 通知", "冒充客服", "银行认证", "中奖活动"];
@@ -25,18 +25,34 @@ function badgeClass(level: RiskLevel) {
 }
 
 export default function CasesPage() {
+  const [cases, setCases] = useState<CaseItem[]>(demoCases);
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("全部");
   const [selectedId, setSelectedId] = useState(demoCases[0].id);
 
-  const visibleCases = useMemo(() => demoCases.filter((item) => {
+  useEffect(() => {
+    let active = true;
+    void fetch("/api/cases")
+      .then((response) => response.ok ? response.json() as Promise<CasesResponse> : null)
+      .then((payload) => {
+        if (active && payload?.items.length) setCases(payload.items);
+      })
+      .catch(() => {
+        // Keep the bundled demo cases when the API is unavailable.
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const visibleCases = useMemo(() => cases.filter((item) => {
     const categoryMatch = category === "全部" || item.category === category;
     const keyword = query.trim().toLowerCase();
     const queryMatch = !keyword || `${item.title} ${item.content} ${item.category}`.toLowerCase().includes(keyword);
     return categoryMatch && queryMatch;
-  }), [category, query]);
+  }), [cases, category, query]);
 
-  const selected = demoCases.find((item) => item.id === selectedId) ?? visibleCases[0] ?? demoCases[0];
+  const selected = cases.find((item) => item.id === selectedId) ?? visibleCases[0] ?? cases[0];
 
   return (
     <main className={styles.page}>
@@ -48,7 +64,7 @@ export default function CasesPage() {
             <h1>反诈案例知识库</h1>
             <p>按诈骗类型检索真实案例特征，查看典型话术、关键风险信号与处置建议。案例数据将作为 RAG 检索和标签一致性判断的依据。</p>
           </div>
-          <div className={styles.headingMeta}><span className={styles.liveBadge}>{demoCases.length} 条演示案例已索引</span></div>
+          <div className={styles.headingMeta}><span className={styles.liveBadge}>{cases.length} 条案例已索引</span></div>
         </header>
 
         <div className={styles.caseLayout}>

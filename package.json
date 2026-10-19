@@ -12,9 +12,11 @@
   },
   "dependencies": {
     "@ai-sdk/openai": "^4.0.89",
+    "@ai-sdk/react": "^4.0.147",
     "@phosphor-icons/react": "^2.1.10",
     "@supabase/supabase-js": "^2.117.3",
     "ai": "^7.0.133",
+    "framer-motion": "^11.18.2",
     "next": "16.4.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
