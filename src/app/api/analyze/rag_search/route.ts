@@ -1,5 +1,5 @@
 import { createSupabaseClient } from "@/lib/db/supabase";
-import type { RagSearchResult, RagMatch } from "@/lib/contracts";
+import type { RagSearchResult, RagMatch, RagPatternMatch } from "@/lib/contracts";
 import { createEmbedding } from "@/lib/rag/embedding";
 import { calcSignals } from "@/lib/rag/signals";
 
@@ -15,22 +15,33 @@ type MatchRow = {
   similarity: number;
 };
 
+type PatternRow = {
+  id: string;
+  pattern: string;
+  category: string;
+  keywords: string[] | null;
+  similarity: number;
+};
+
 export async function POST(req: Request) {
-  const { query, topK = 3 } = await req.json();
+  const { query, topK = 3, patternK = 3 } = await req.json();
   // 1. 文本转向量
   const embedding = await createEmbedding(query);
 
-  // 2. 向量检索，获取真实相似度
-  //    PostgREST 的 select 不支持 `1 - (embedding <=> $1)`，必须走数据库函数 match_cases
-  //    （见 supabase/migrations/02_match_cases.sql）
+  // 2. 案例向量检索（RPC match_cases，相似度在数据库函数里算）
   const { data, error } = await supabase.rpc("match_cases", {
     query_embedding: embedding,
     match_count: topK,
   });
-
   if (error) throw error;
 
-  // 组装RagMatch数组（契约①字段：caseId / riskLabel，不是数据库的 id / risk_label）
+  // 3. 话术模式检索（RPC match_patterns）
+  const { data: patData, error: patErr } = await supabase.rpc("match_patterns", {
+    query_embedding: embedding,
+    match_count: patternK,
+  });
+  if (patErr) console.warn("话术模式检索失败：", patErr.message);
+
   const matches: RagMatch[] = ((data ?? []) as MatchRow[]).map((item) => ({
     caseId: item.id,
     title: item.title,
@@ -41,12 +52,20 @@ export async function POST(req: Request) {
     source: item.source ?? "",
   }));
 
-  // 3. 计算契约要求的三个置信指标
+  const patterns: RagPatternMatch[] = ((patData ?? []) as PatternRow[]).map((p) => ({
+    patternId: p.id,
+    pattern: p.pattern,
+    category: p.category,
+    keywords: p.keywords ?? [],
+    similarity: Number(Number(p.similarity).toFixed(4)),
+  }));
+
+  // 4. 计算契约要求的三个置信指标
   const { topSimilarity, labelAgreement, coverageScore } = calcSignals(matches, query);
 
-  // 返回完整RagSearchResult对象
   return Response.json({
     matches,
+    patterns,
     topSimilarity,
     labelAgreement,
     coverageScore
