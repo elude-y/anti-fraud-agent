@@ -8,6 +8,8 @@ import { rerank } from "@/lib/rag/rerank";
 import { searchMemory, searchMemoryPatterns, memoryStoreSize } from "@/lib/rag/memoryStore";
 import { searchAntiFraudCases } from "@/lib/rag/search";
 
+const MIN_RELEVANCE = 0.08;
+
 /**
  * RAG 检索（合并 B 第二/三周 + C 第二周）：
  *   1) 联网：Supabase 向量检索（案例 match_cases + 话术 match_patterns）
@@ -35,7 +37,7 @@ export async function rag_search(query: string): Promise<RagSearchResult> {
         content: item.content,
         similarity: Number(item.similarity),
         source: item.source ?? "Supabase 案例库",
-      }));
+      })).filter((item) => item.similarity >= MIN_RELEVANCE);
 
       // 话术模式单独兜底：它失败不应影响已拿到的案例结果
       try {
@@ -46,7 +48,7 @@ export async function rag_search(query: string): Promise<RagSearchResult> {
           category: r.category,
           keywords: r.keywords ?? [],
           similarity: Number(Number(r.similarity).toFixed(4)),
-        }));
+        })).filter((item) => item.similarity >= MIN_RELEVANCE);
       } catch (pe) {
         console.warn(`话术模式检索失败，改用内存库：${(pe as Error).message}`);
         patterns = searchMemoryPatterns(query, queryVec, 3);
@@ -73,13 +75,15 @@ export async function rag_search(query: string): Promise<RagSearchResult> {
       content: m.content,
       similarity: m.similarity,
       source: m.source ?? "本地案例库",
-    }));
-    patterns = searchMemoryPatterns(query, queryVec, 3);
+    })).filter((item) => item.similarity >= MIN_RELEVANCE);
+    patterns = searchMemoryPatterns(query, queryVec, 3)
+      .filter((item) => item.similarity >= MIN_RELEVANCE);
   }
 
   // 3. 最终兜底：demo 关键词检索（C 的 search.ts）
   if (matches.length === 0) {
-    return searchAntiFraudCases(query);
+    const fallback = searchAntiFraudCases(query);
+    return { ...fallback, patterns };
   }
 
   // 4. 重排（B 的 rerank：混合打分 + 可选 LLM）

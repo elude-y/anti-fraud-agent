@@ -9,7 +9,9 @@ SafeAgent 是面向可疑链接和诈骗短信的智能研判系统。当前版�
 - 沙箱统一接入 urlscan.io、VirusTotal 和内置 Tier0 模板。
 - RAG 优先使用 Supabase 向量检索，缺少密钥或 Embedding 服务时自动回退到内置案例索引。
 - 未配置 API Key、断网或额度耗尽时，Tier0 仍可完成离线演示。
+- Tier0 行为在界面中明确标注为离线模板，不会与真实在线扫描混淆。
 - 沙箱证据节点展示截图、跳转链、表单字段、脚本行为、IOC、数据来源与降级原因。
+- 展示与分析快照会脱敏手机号、证件号、银行卡号、邮箱及 URL 敏感参数。
 - 历史记录保存完整分析快照，可从历史页载入并回放同一份证据链。
 - 可疑 URL 只在服务端处理，前端不创建可点击跳转。
 
@@ -58,10 +60,13 @@ PowerShell 写法：
 
 ```powershell
 $env:SAFEAGENT_BASE_URL='http://127.0.0.1:3001'
+npm run test:api
 npm run test:ui
 ```
 
-测试覆盖流式研判、Tier0 降级、证据渲染、历史入库、快照回放和 390px 移动端横向溢出检查。
+测试覆盖流式研判、安全链接、纯短信、PII 脱敏、Tier0 降级、证据渲染、历史入库、快照回放和 390px 移动端结果页。
+
+录制演示视频可参考 [`docs/c-demo-guide.md`](docs/c-demo-guide.md)。
 
 ## 主要接口
 

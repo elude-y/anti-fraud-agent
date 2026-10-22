@@ -119,7 +119,7 @@ export default function EvidenceChain({ evidence }: EvidenceChainProps) {
                       ) : (
                         <div className={styles.shotEmpty}>
                           <ImageSquare size={28} />
-                          <span>离线模式未生成远程截图</span>
+                          <span>Tier0 模板模式，未生成远程截图</span>
                         </div>
                       )}
                       <dl className={styles.metaList}>

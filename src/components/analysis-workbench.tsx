@@ -60,7 +60,7 @@ const samples = {
 };
 
 function sourceLabel(source: AnalysisStreamResult["sandboxMeta"]["source"]) {
-  if (source === "tier0") return "Tier0 离线沙箱";
+  if (source === "tier0") return "Tier0 离线模板";
   if (source === "urlscan") return "urlscan.io";
   if (source === "urlscan+virustotal") return "urlscan.io + VirusTotal";
   return "VirusTotal + Tier0";
@@ -141,6 +141,7 @@ export default function AnalysisWorkbench() {
     sendMessage,
     setMessages,
     stop,
+    clearError,
     status,
     error: chatError,
   } = useChat<SafeAgentUIMessage>({
@@ -160,7 +161,10 @@ export default function AnalysisWorkbench() {
       }
 
       if (part.type === "data-tool") {
-        setActiveTool(part.data.status === "start" ? runningLabels[part.data.tool] ?? "研判中" : "");
+        const label = runningLabels[part.data.tool] ?? "研判中";
+        setActiveTool((current) => part.data.status === "start"
+          ? label
+          : current === label ? "" : current);
         return;
       }
 
@@ -178,7 +182,11 @@ export default function AnalysisWorkbench() {
         persistResult(part.data);
       }
     },
-    onError: (caught) => setError(caught.message),
+    onError: (caught) => {
+      setError(caught.message);
+      setActiveStage(-1);
+      setActiveTool("");
+    },
     onFinish: () => setActiveTool(""),
   });
 
@@ -227,6 +235,7 @@ export default function AnalysisWorkbench() {
 
   const resetAnalysis = () => {
     void stop();
+    clearError();
     setMessages([]);
     resetRunState();
   };
@@ -238,6 +247,7 @@ export default function AnalysisWorkbench() {
       return;
     }
 
+    clearError();
     resetRunState();
     setMessages([]);
     void sendMessage({ text: nextInput }, { body: { mode } });

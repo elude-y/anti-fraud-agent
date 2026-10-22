@@ -19,7 +19,7 @@ function riskClass(level: RiskLevel, classes: Record<string, string>) {
 }
 
 function sourceLabel(source: AnalysisStreamResult["sandboxMeta"]["source"]) {
-  if (source === "tier0") return "Tier0 离线";
+  if (source === "tier0") return "Tier0 离线模板";
   if (source === "urlscan") return "urlscan.io";
   if (source === "urlscan+virustotal") return "双源在线";
   return "VirusTotal + Tier0";

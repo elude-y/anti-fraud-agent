@@ -235,8 +235,19 @@ try {
     deviceScaleFactor: 1,
     mobile: true,
   });
-  await client.send("Page.navigate", { url: `${baseUrl}/analyze` });
-  await delay(1400);
+  await client.send("Page.navigate", {
+    url: `${baseUrl}/analyze?input=${encodeURIComponent(input)}&autorun=1`,
+  });
+  let mobileText = "";
+  for (let attempt = 0; attempt < 50; attempt += 1) {
+    await delay(300);
+    mobileText = await evaluate(client, "document.body?.innerText ?? ''");
+    if (mobileText.includes("研判结论：诈骗") && mobileText.includes("沙箱行为证据已回传")) break;
+  }
+  checks.mobileResult = mobileText.includes("研判结论：诈骗")
+    && mobileText.includes("沙箱行为证据已回传");
+  if (!checks.mobileResult) throw new Error("移动端未完成研判结果渲染");
+
   const mobileLayout = await evaluate(client, `({
     viewport: document.documentElement.clientWidth,
     content: document.documentElement.scrollWidth,
@@ -244,6 +255,13 @@ try {
   if (mobileLayout.content > mobileLayout.viewport) {
     throw new Error(`移动端出现横向溢出：${JSON.stringify(mobileLayout)}`);
   }
+  await evaluate(client, `(() => {
+    const heading = [...document.querySelectorAll('h2')]
+      .find((item) => item.textContent.includes('证据链'));
+    heading?.scrollIntoView({ block: 'start' });
+    return true;
+  })()`);
+  await delay(250);
   const mobileScreenshot = await client.send("Page.captureScreenshot", {
     format: "png",
     fromSurface: true,

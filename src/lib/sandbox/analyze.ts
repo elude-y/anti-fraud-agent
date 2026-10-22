@@ -59,6 +59,9 @@ export async function sandboxAnalyze(
     urlscan: isUrlscanConfigured() ? "skipped" : "not-configured",
     virustotal: isVirusTotalConfigured() ? "skipped" : "not-configured",
   };
+  if (!isUrlscanConfigured() && !isVirusTotalConfigured()) {
+    fallbackReasons.push("未配置在线沙箱，已使用 Tier0 内置行为模板");
+  }
 
   if (options.forceTier0 || skipReason || !targetUrl) {
     return {

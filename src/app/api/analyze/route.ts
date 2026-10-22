@@ -71,14 +71,19 @@ function evidenceNode(
 }
 
 function redactInput(input: string, urls: string[]) {
-  return urls.reduce((current, url) => current.replace(url, redactUrlForDisplay(url)), input);
+  return urls
+    .reduce((current, url) => current.replace(url, redactUrlForDisplay(url)), input)
+    .replace(/\b1[3-9]\d{9}\b/g, "[手机号已脱敏]")
+    .replace(/\b\d{17}[\dXx]\b/g, "[证件号已脱敏]")
+    .replace(/\b\d{16,19}\b/g, "[卡号已脱敏]")
+    .replace(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi, "[邮箱已脱敏]");
 }
 
 function sandboxSourceLabel(source: SandboxEnvelope["source"]) {
   if (source === "urlscan+virustotal") return "urlscan.io + VirusTotal";
   if (source === "urlscan") return "urlscan.io";
   if (source === "virustotal+tier0") return "VirusTotal + Tier0";
-  return "Tier0 离线";
+  return "Tier0 离线模板";
 }
 
 function buildResult(input: {
@@ -88,8 +93,9 @@ function buildResult(input: {
   sandbox: SandboxEnvelope;
 }) {
   const { normalized, mode, rag, sandbox } = input;
-  const ragLevel = rag.matches[0]?.riskLabel ?? "可疑";
-  let verdict = higherRisk(ragLevel, asRiskLevel(sandbox.result.verdict));
+  const ragLevel = rag.matches[0]?.riskLabel ?? null;
+  const sandboxLevel = asRiskLevel(sandbox.result.verdict);
+  let verdict = ragLevel ? higherRisk(ragLevel, sandboxLevel) : sandboxLevel;
 
   if (!normalized.urls.length && verdict === "诈骗") verdict = "高危";
   if (!normalized.urls.length && normalized.riskKeywords.length >= 2 && riskRank[verdict] < riskRank["高危"]) {
