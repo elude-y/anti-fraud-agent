@@ -20,6 +20,16 @@ export interface RagSearchResult {
   topSimilarity: number; // top-1 相似度 [0,1]
   labelAgreement: number; // top-K 标签一致性 [0,1]
   coverageScore: number; // 关键要素覆盖度 [0,1]
+  /** 命中的话术模式（patterns 表），与案例互补；可选字段，向后兼容 */
+  patterns?: RagPatternMatch[];
+}
+
+export interface RagPatternMatch {
+  patternId: string;
+  pattern: string; // 话术模式描述
+  category: string;
+  keywords: string[];
+  similarity: number; // 余弦相似度 [0,1]
 }
 
 // ────────────────────────────────────────────────────────────
