@@ -69,6 +69,8 @@ npm run test:ui
 
 录制演示视频可参考 [`docs/c-demo-guide.md`](docs/c-demo-guide.md)。
 
+完整职责验收见 [`docs/c-completion-audit.md`](docs/c-completion-audit.md)。
+
 重新生成 Tier0 模板快照：
 
 ```powershell
