@@ -76,6 +76,19 @@ export function findSandboxEvidence(evidence: AnalysisStreamResult["evidenceChai
   return node.payload as SandboxEvidencePayload;
 }
 
+export function isSimulatedScreenshot(sandbox: SandboxResult) {
+  if (!sandbox.raw || typeof sandbox.raw !== "object") return false;
+  const raw = sandbox.raw as Record<string, unknown>;
+  if (raw.screenshotType === "simulated") return true;
+  const behavior = raw.behavior;
+  return Boolean(
+    behavior
+      && typeof behavior === "object"
+      && "screenshotType" in behavior
+      && behavior.screenshotType === "simulated",
+  );
+}
+
 export function buildRiskSignals(sandbox: SandboxResult): RiskSignalSummary[] {
   const fields = sensitiveFields(sandbox);
   const redirectCount = Math.max(0, sandbox.redirectChain.length - 1);

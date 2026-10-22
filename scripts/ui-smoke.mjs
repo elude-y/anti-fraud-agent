@@ -166,6 +166,8 @@ try {
     riskVisualization: state.text.includes("检测到 4 类高风险信号")
       && state.text.includes("攻击链推演")
       && state.text.includes("为什么判为危险"),
+    snapshot: state.text.includes("TIER0 模拟快照")
+      && state.text.includes("由 Tier0 离线模板生成"),
   };
   const snapshotId = await evaluate(client, `(() => {
     try {

@@ -21,6 +21,7 @@ import type { EvidenceNode, SandboxEvidencePayload } from "@/lib/contracts";
 import {
   buildAttackChain,
   buildRiskSignals,
+  isSimulatedScreenshot,
   type RiskSignalId,
   type RiskTone,
 } from "@/lib/risk-explanation";
@@ -108,6 +109,7 @@ export default function EvidenceChain({ evidence }: EvidenceChainProps) {
         const attackChain = sandboxPayload ? buildAttackChain(sandboxPayload.sandbox) : [];
         const detectedSignalCount = riskSignals.filter((signal) => signal.active).length;
         const sandboxDangerous = sandboxPayload ? sandboxPayload.sandbox.verdict !== "安全" : false;
+        const simulatedScreenshot = sandboxPayload ? isSimulatedScreenshot(sandboxPayload.sandbox) : false;
 
         return (
           <motion.article
@@ -201,18 +203,32 @@ export default function EvidenceChain({ evidence }: EvidenceChainProps) {
                     <section className={styles.shotPanel}>
                       <div className={styles.detailTitle}><ImageSquare size={16} />页面截图</div>
                       {sandboxPayload.sandbox.screenshotUrl ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          src={sandboxPayload.sandbox.screenshotUrl}
-                          alt="沙箱页面截图"
-                          loading="lazy"
-                          referrerPolicy="no-referrer"
-                        />
+                        <div className={styles.shotFrame}>
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={sandboxPayload.sandbox.screenshotUrl}
+                            alt={simulatedScreenshot
+                              ? "Tier0 模板模拟页面快照"
+                              : "沙箱页面截图"}
+                            loading="lazy"
+                            referrerPolicy="no-referrer"
+                          />
+                          {simulatedScreenshot && (
+                            <span className={styles.snapshotBadge}>TIER0 模拟快照</span>
+                          )}
+                        </div>
                       ) : (
                         <div className={styles.shotEmpty}>
                           <ImageSquare size={28} />
                           <span>Tier0 模板模式，未生成远程截图</span>
                         </div>
+                      )}
+                      {sandboxPayload.sandbox.screenshotUrl && (
+                        <p className={styles.snapshotCaption}>
+                          {simulatedScreenshot
+                            ? "由 Tier0 离线模板生成，用于演示页面行为，不是真实网站截图。"
+                            : "截图来自在线沙箱扫描结果。"}
+                        </p>
                       )}
                       <dl className={styles.metaList}>
                         <div><dt>数据来源</dt><dd>{sandboxPayload.sandboxMeta.source}</dd></div>

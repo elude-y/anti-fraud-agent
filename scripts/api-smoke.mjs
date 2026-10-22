@@ -44,15 +44,33 @@ checks.forceTier0 = sandbox.payload.source === "tier0"
   && sandbox.payload.result?.redirectChain?.length === 3
   && sandbox.payload.result?.formFields?.length > 0;
 
+const unknownSandbox = await json("/api/sandbox", {
+  method: "POST",
+  headers: { "content-type": "application/json" },
+  body: JSON.stringify({
+    url: "https://unknown-service.example/login",
+    forceTier0: true,
+  }),
+});
+checks.unknownSnapshot = unknownSandbox.payload.result?.screenshotUrl === "/tier0-unknown-snapshot.png";
+
 const malicious = await analyze("https://bank-secure-verify.example.cn/login", "link");
 checks.malicious = malicious.verdict === "诈骗"
   && malicious.sandboxMeta.source === "tier0"
-  && malicious.sandbox.formFields.includes("银行卡号");
+  && malicious.sandbox.formFields.includes("银行卡号")
+  && malicious.sandbox.screenshotUrl === "/tier0-bank-snapshot.png"
+  && (malicious.sandbox.raw?.screenshotType === "simulated"
+    || malicious.sandbox.raw?.behavior?.screenshotType === "simulated");
 
 const safe = await analyze("https://www.gov.cn/zhengce/", "link");
 checks.safe = safe.verdict === "安全"
   && safe.sandbox.formFields.length === 0
-  && safe.sandbox.redirectChain.length === 1;
+  && safe.sandbox.redirectChain.length === 1
+  && safe.sandbox.screenshotUrl === "/tier0-safe-snapshot.png";
+
+const snapshotResponse = await fetch(`${baseUrl}${sandbox.payload.result.screenshotUrl}`);
+checks.snapshotAsset = snapshotResponse.ok
+  && snapshotResponse.headers.get("content-type")?.includes("image/png");
 
 const pii = await analyze(
   "客服称订单异常，请联系 13800138000，身份证 11010519491231002X，邮箱 test@example.com 办理退款。",
