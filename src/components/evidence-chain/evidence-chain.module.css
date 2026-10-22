@@ -103,6 +103,252 @@
   background: rgba(247, 250, 255, 0.86);
 }
 
+.toneCritical {
+  --tone-color: #dd4c5c;
+  --tone-bg: #fff1f3;
+  --tone-border: rgba(221, 76, 92, 0.22);
+}
+
+.toneHigh {
+  --tone-color: #dd713a;
+  --tone-bg: #fff3ec;
+  --tone-border: rgba(221, 113, 58, 0.22);
+}
+
+.toneMedium {
+  --tone-color: #bd861c;
+  --tone-bg: #fff8e5;
+  --tone-border: rgba(189, 134, 28, 0.2);
+}
+
+.toneSafe {
+  --tone-color: #0b987b;
+  --tone-bg: #edfaf6;
+  --tone-border: rgba(11, 152, 123, 0.2);
+}
+
+.toneNeutral {
+  --tone-color: #71839a;
+  --tone-bg: #f1f5fa;
+  --tone-border: rgba(113, 131, 154, 0.18);
+}
+
+.riskOverview {
+  padding: 14px;
+  border: 1px solid var(--tone-border);
+  border-radius: 12px;
+  background: var(--tone-bg);
+}
+
+.riskHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.riskHeader > div {
+  min-width: 0;
+}
+
+.riskHeader > div > span {
+  display: block;
+  color: color-mix(in srgb, var(--tone-color) 72%, #738198);
+  font-size: 7px;
+  font-weight: 820;
+  letter-spacing: 0.1em;
+}
+
+.riskHeader strong {
+  display: block;
+  margin-top: 3px;
+  color: #293b52;
+  font-size: 13px;
+}
+
+.riskHeader em {
+  margin-left: auto;
+  padding: 6px 9px;
+  color: var(--tone-color);
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 800;
+  border: 1px solid var(--tone-border);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.riskTitleIcon {
+  display: grid;
+  width: 39px;
+  height: 39px;
+  flex: 0 0 auto;
+  place-items: center;
+  color: var(--tone-color);
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: inset 0 0 0 1px var(--tone-border);
+}
+
+.riskSignalGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.riskSignalItem {
+  display: grid;
+  grid-template-columns: 29px minmax(0, 1fr);
+  gap: 8px;
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid rgba(107, 135, 180, 0.13);
+  border-left: 2px solid var(--tone-color);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.signalIcon {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  color: var(--tone-color);
+  border-radius: 8px;
+  background: var(--tone-bg);
+}
+
+.signalCopy {
+  min-width: 0;
+}
+
+.signalCopy small {
+  display: block;
+  color: #8290a4;
+  font-size: 8px;
+}
+
+.signalCopy strong {
+  display: block;
+  margin-top: 1px;
+  color: #24364e;
+  font-size: 18px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.signalCopy em {
+  display: -webkit-box;
+  margin-top: 5px;
+  overflow: hidden;
+  color: #8895a7;
+  font-size: 7px;
+  font-style: normal;
+  line-height: 1.45;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.attackBlock {
+  margin-top: 11px;
+  padding: 12px;
+  border: 1px solid rgba(103, 132, 179, 0.13);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.attackHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 11px;
+}
+
+.attackHeading > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #455b77;
+  font-size: 10px;
+  font-weight: 760;
+}
+
+.attackHeading > span svg {
+  color: #df5a50;
+}
+
+.attackHeading small {
+  color: #97a3b4;
+  font-size: 8px;
+}
+
+.attackFlow {
+  display: flex;
+  align-items: stretch;
+  min-width: 0;
+}
+
+.attackNodeWrap {
+  display: flex;
+  flex: 1 1 0;
+  align-items: center;
+  min-width: 0;
+}
+
+.attackStage {
+  display: grid;
+  grid-template-columns: 23px minmax(0, 1fr);
+  gap: 2px 7px;
+  flex: 1;
+  min-width: 0;
+  min-height: 76px;
+  padding: 9px;
+  border: 1px solid var(--tone-border);
+  border-top: 3px solid var(--tone-color);
+  border-radius: 9px;
+  background: var(--tone-bg);
+}
+
+.attackStage strong {
+  align-self: end;
+  overflow: hidden;
+  color: #344960;
+  font-size: 9px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.attackStage small {
+  grid-column: 2;
+  display: -webkit-box;
+  overflow: hidden;
+  color: #78889c;
+  font-size: 7px;
+  line-height: 1.45;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.attackStep {
+  grid-row: 1 / 3;
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  color: var(--tone-color);
+  font-size: 8px;
+  font-weight: 850;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.attackArrow {
+  flex: 0 0 22px;
+  color: #a1afc1;
+  transform: translateX(2px);
+}
+
 .sandboxGrid {
   display: grid;
   grid-template-columns: minmax(230px, 0.78fr) minmax(0, 1.22fr);
@@ -344,6 +590,29 @@
   .signalGrid {
     grid-template-columns: 1fr;
   }
+
+  .riskSignalGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .attackFlow {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .attackNodeWrap {
+    flex-direction: column;
+  }
+
+  .attackStage {
+    width: 100%;
+  }
+
+  .attackArrow {
+    flex-basis: 18px;
+    margin-block: 2px;
+    transform: rotate(90deg);
+  }
 }
 
 @media (max-width: 560px) {
@@ -369,6 +638,31 @@
 
   .sandboxDetail {
     padding: 10px;
+  }
+
+  .riskOverview,
+  .attackBlock {
+    padding: 10px;
+  }
+
+  .riskSignalGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .riskHeader {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .riskHeader em {
+    order: -1;
+    margin-left: 0;
+  }
+
+  .attackHeading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 3px;
   }
 
   .nodeHeader {

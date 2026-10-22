@@ -1,18 +1,29 @@
 "use client";
 
 import {
+  ArrowRight,
   Brain,
+  CheckCircle,
+  Code,
   Cube,
   Fingerprint,
   Gauge,
+  GlobeHemisphereEast,
   ImageSquare,
   LinkSimple,
   MagnifyingGlass,
   ShieldCheck,
+  ShieldWarning,
   WarningCircle,
 } from "@phosphor-icons/react";
 import { motion, useReducedMotion } from "framer-motion";
 import type { EvidenceNode, SandboxEvidencePayload } from "@/lib/contracts";
+import {
+  buildAttackChain,
+  buildRiskSignals,
+  type RiskSignalId,
+  type RiskTone,
+} from "@/lib/risk-explanation";
 import styles from "./evidence-chain.module.css";
 
 const nodeIcons = {
@@ -29,6 +40,21 @@ const providerLabels = {
   "not-configured": "未配置",
   skipped: "已跳过",
   failed: "调用失败",
+};
+
+const signalIcons: Record<RiskSignalId, typeof WarningCircle> = {
+  fields: Fingerprint,
+  redirect: LinkSimple,
+  scripts: Code,
+  ioc: GlobeHemisphereEast,
+};
+
+const toneClasses: Record<RiskTone, string> = {
+  critical: styles.toneCritical,
+  high: styles.toneHigh,
+  medium: styles.toneMedium,
+  safe: styles.toneSafe,
+  neutral: styles.toneNeutral,
 };
 
 function isSandboxPayload(payload: unknown): payload is SandboxEvidencePayload {
@@ -78,6 +104,10 @@ export default function EvidenceChain({ evidence }: EvidenceChainProps) {
         const Icon = riskIcon(node);
         const view = payloadView(node);
         const sandboxPayload = isSandboxPayload(node.payload) ? node.payload : null;
+        const riskSignals = sandboxPayload ? buildRiskSignals(sandboxPayload.sandbox) : [];
+        const attackChain = sandboxPayload ? buildAttackChain(sandboxPayload.sandbox) : [];
+        const detectedSignalCount = riskSignals.filter((signal) => signal.active).length;
+        const sandboxDangerous = sandboxPayload ? sandboxPayload.sandbox.verdict !== "安全" : false;
 
         return (
           <motion.article
@@ -105,6 +135,68 @@ export default function EvidenceChain({ evidence }: EvidenceChainProps) {
 
               {sandboxPayload && (
                 <div className={styles.sandboxDetail}>
+                  <section
+                    className={`${styles.riskOverview} ${toneClasses[sandboxDangerous ? "critical" : "safe"]}`}
+                    aria-label="沙箱风险信号总览"
+                  >
+                    <div className={styles.riskHeader}>
+                      <span className={styles.riskTitleIcon}>
+                        {sandboxDangerous
+                          ? <ShieldWarning size={23} weight="fill" />
+                          : <CheckCircle size={23} weight="fill" />}
+                      </span>
+                      <div>
+                        <span>WHY THIS SCORE</span>
+                        <strong>
+                          {sandboxDangerous
+                            ? `检测到 ${detectedSignalCount} 类高风险信号`
+                            : "未检测到高风险页面行为"}
+                        </strong>
+                      </div>
+                      <em>{sandboxPayload.sandbox.verdict}</em>
+                    </div>
+
+                    <div className={styles.riskSignalGrid}>
+                      {riskSignals.map((signal) => {
+                        const SignalIcon = signalIcons[signal.id];
+                        return (
+                          <div
+                            className={`${styles.riskSignalItem} ${toneClasses[signal.tone]}`}
+                            key={signal.id}
+                          >
+                            <span className={styles.signalIcon}><SignalIcon size={17} weight="fill" /></span>
+                            <span className={styles.signalCopy}>
+                              <small>{signal.label}</small>
+                              <strong>{signal.value}</strong>
+                              <em>{signal.detail}</em>
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </section>
+
+                  <section className={styles.attackBlock} aria-label="风险攻击链">
+                    <div className={styles.attackHeading}>
+                      <span><WarningCircle size={16} weight="fill" />攻击链推演</span>
+                      <small>从诱导入口到敏感信息外发</small>
+                    </div>
+                    <div className={styles.attackFlow}>
+                      {attackChain.map((stage, stageIndex) => (
+                        <div className={styles.attackNodeWrap} key={stage.id}>
+                          <div className={`${styles.attackStage} ${toneClasses[stage.tone]}`}>
+                            <span className={styles.attackStep}>{stageIndex + 1}</span>
+                            <strong>{stage.label}</strong>
+                            <small>{stage.detail}</small>
+                          </div>
+                          {stageIndex < attackChain.length - 1 && (
+                            <ArrowRight className={styles.attackArrow} size={17} weight="bold" aria-hidden="true" />
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+
                   <div className={styles.sandboxGrid}>
                     <section className={styles.shotPanel}>
                       <div className={styles.detailTitle}><ImageSquare size={16} />页面截图</div>

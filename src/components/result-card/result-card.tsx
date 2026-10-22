@@ -4,11 +4,14 @@ import {
   CheckCircle,
   Clock,
   Cube,
+  Fingerprint,
+  LinkSimple,
   ShieldCheck,
   WarningCircle,
 } from "@phosphor-icons/react";
 import { motion, useReducedMotion } from "framer-motion";
 import type { AnalysisStreamResult, RiskLevel } from "@/lib/contracts";
+import { buildRiskReasons, type RiskReasonId } from "@/lib/risk-explanation";
 import styles from "./result-card.module.css";
 
 function riskClass(level: RiskLevel, classes: Record<string, string>) {
@@ -24,6 +27,25 @@ function sourceLabel(source: AnalysisStreamResult["sandboxMeta"]["source"]) {
   if (source === "urlscan+virustotal") return "双源在线";
   return "VirusTotal + Tier0";
 }
+
+const reasonIcons: Record<RiskReasonId, typeof WarningCircle> = {
+  brand: WarningCircle,
+  fields: Fingerprint,
+  redirect: LinkSimple,
+  scripts: WarningCircle,
+  ioc: ShieldCheck,
+  "safe-domain": ShieldCheck,
+  "safe-fields": CheckCircle,
+  "safe-scripts": CheckCircle,
+};
+
+const toneClasses = {
+  critical: styles.toneCritical,
+  high: styles.toneHigh,
+  medium: styles.toneMedium,
+  safe: styles.toneSafe,
+  neutral: styles.toneNeutral,
+};
 
 interface ResultCardProps {
   result: AnalysisStreamResult | null;
@@ -45,6 +67,7 @@ export default function ResultCard({ result }: ResultCardProps) {
   }
 
   const dangerous = result.verdict !== "安全";
+  const reasons = buildRiskReasons(result).slice(0, 4);
 
   return (
     <motion.div
@@ -65,6 +88,27 @@ export default function ResultCard({ result }: ResultCardProps) {
           <p>{result.summary}</p>
         </div>
       </div>
+
+      <section className={styles.reasonSection} aria-label={`为什么判为${result.verdict}`}>
+        <div className={styles.reasonHeader}>
+          <span>{dangerous ? "为什么判为危险" : "为什么判为安全"}</span>
+          <strong>{reasons.length} 项依据</strong>
+        </div>
+        <div className={styles.reasonList}>
+          {reasons.map((reason) => {
+            const Icon = reasonIcons[reason.id];
+            return (
+              <div className={`${styles.reasonRow} ${toneClasses[reason.tone]}`} key={reason.id}>
+                <span className={styles.reasonIcon}><Icon size={16} weight="fill" /></span>
+                <div>
+                  <strong>{reason.label}</strong>
+                  <p>{reason.detail}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
 
       <div className={styles.confidence}>
         <div><span>综合置信度</span><strong>{(result.confidence * 100).toFixed(0)}%</strong></div>

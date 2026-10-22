@@ -163,6 +163,9 @@ try {
     evidence: state.text.includes("沙箱行为证据已回传"),
     fallback: state.text.includes("Tier0 离线"),
     history: state.saved > 0,
+    riskVisualization: state.text.includes("检测到 4 类高风险信号")
+      && state.text.includes("攻击链推演")
+      && state.text.includes("为什么判为危险"),
   };
   const snapshotId = await evaluate(client, `(() => {
     try {
@@ -256,9 +259,8 @@ try {
     throw new Error(`移动端出现横向溢出：${JSON.stringify(mobileLayout)}`);
   }
   await evaluate(client, `(() => {
-    const heading = [...document.querySelectorAll('h2')]
-      .find((item) => item.textContent.includes('证据链'));
-    heading?.scrollIntoView({ block: 'start' });
+    const riskOverview = document.querySelector('[class*="riskOverview"]');
+    riskOverview?.scrollIntoView({ block: 'center' });
     return true;
   })()`);
   await delay(250);
