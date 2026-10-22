@@ -16,7 +16,8 @@ import path from "node:path";
 import { createEmbedding } from "../src/lib/rag/embedding";
 import { vectorSearchCases } from "../src/lib/db/cases";
 import { rerank } from "../src/lib/rag/rerank";
-import { calcSignals, type MatchItem } from "../src/lib/rag/signals";
+import { calcSignals } from "../src/lib/rag/signals";
+import type { RagMatch } from "../src/lib/contracts";
 
 interface Labeled {
   query: string;
@@ -62,7 +63,7 @@ const HARD: Labeled[] = [
   { query: "短信链接说账号异常", expected: "ETC" },
 ];
 
-function rankOf(matches: MatchItem[], expected: string): number {
+function rankOf(matches: RagMatch[], expected: string): number {
   const i = matches.findIndex((m) => m.category === expected);
   return i < 0 ? 0 : i + 1; // 0 = 未命中
 }
@@ -70,8 +71,8 @@ function rankOf(matches: MatchItem[], expected: string): number {
 interface Row {
   query: string;
   expected: string;
-  baseMatches: MatchItem[];
-  rrMatches: MatchItem[];
+  baseMatches: RagMatch[];
+  rrMatches: RagMatch[];
   baseSig: { topSimilarity: number; labelAgreement: number; coverageScore: number };
   rrSig: { topSimilarity: number; labelAgreement: number; coverageScore: number };
 }
@@ -81,14 +82,14 @@ async function runSet(set: Labeled[], name: string): Promise<Row[]> {
   for (const [i, item] of set.entries()) {
     const vec = await createEmbedding(item.query);
     const raw = await vectorSearchCases(vec, 5);
-    const matches: MatchItem[] = raw.map((r) => ({
+    const matches: RagMatch[] = raw.map((r) => ({
       caseId: r.id,
       title: r.title,
       category: r.category,
       riskLabel: r.risk_label as "安全" | "可疑" | "高危" | "诈骗",
       content: r.content,
       similarity: Number(r.similarity),
-      source: r.source,
+      source: r.source ?? "Supabase 案例库",
     }));
     const baseSig = calcSignals(matches, item.query);
     const reranked = await rerank(item.query, {

@@ -1,7 +1,7 @@
 import type { RagMatch, RagPatternMatch, RagSearchResult } from "@/lib/contracts";
 import { vectorSearchCases } from "@/lib/db/cases";
 import { vectorSearchPatterns } from "@/lib/db/patterns";
-import { createSupabaseClient, isSupabaseConfigured } from "@/lib/db/supabase";
+import { isSupabaseConfigured } from "@/lib/db/supabase";
 import { createEmbedding } from "@/lib/rag/embedding";
 import { calcSignals } from "@/lib/rag/signals";
 import { rerank } from "@/lib/rag/rerank";

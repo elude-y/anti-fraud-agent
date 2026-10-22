@@ -85,7 +85,6 @@ export default function AnalysisWorkbench() {
   const [activeTool, setActiveTool] = useState("");
   const [error, setError] = useState("");
   const [replayLabel, setReplayLabel] = useState("");
-  const bootstrappedRef = useRef(false);
   const persistedRef = useRef(false);
 
   function resetRunState() {
@@ -185,11 +184,13 @@ export default function AnalysisWorkbench() {
 
   const running = status === "submitted" || status === "streaming";
   const displayedError = error || chatError?.message || "";
+  const sendMessageRef = useRef(sendMessage);
 
   useEffect(() => {
-    if (bootstrappedRef.current) return;
-    bootstrappedRef.current = true;
+    sendMessageRef.current = sendMessage;
+  }, [sendMessage]);
 
+  useEffect(() => {
     const timer = window.setTimeout(() => {
       const params = new URLSearchParams(window.location.search);
       const replayId = params.get("replay");
@@ -214,16 +215,15 @@ export default function AnalysisWorkbench() {
         setInput(query);
         setMode(nextMode);
         if (params.get("autorun") === "1") {
-          void sendMessage({ text: query }, { body: { mode: nextMode } });
+          void sendMessageRef.current({ text: query }, { body: { mode: nextMode } });
         }
       }
     }, 0);
 
     return () => {
-      bootstrappedRef.current = false;
       window.clearTimeout(timer);
     };
-  }, [sendMessage]);
+  }, []);
 
   const resetAnalysis = () => {
     void stop();
@@ -259,10 +259,10 @@ export default function AnalysisWorkbench() {
               <div><h2>提交研判对象</h2><p>可疑链接只发送到服务端沙箱，前端不会直接打开</p></div>
             </div>
             <div className={styles.modeSwitch} role="tablist" aria-label="研判类型">
-              <button className={mode === "link" ? styles.modeActive : ""} type="button" onClick={() => switchMode("link")}>
+              <button className={mode === "link" ? styles.modeActive : ""} type="button" role="tab" aria-selected={mode === "link"} onClick={() => switchMode("link")}>
                 <LinkSimple size={16} />链接
               </button>
-              <button className={mode === "message" ? styles.modeActive : ""} type="button" onClick={() => switchMode("message")}>
+              <button className={mode === "message" ? styles.modeActive : ""} type="button" role="tab" aria-selected={mode === "message"} onClick={() => switchMode("message")}>
                 <ChatCircleDots size={16} />短信
               </button>
             </div>
@@ -274,6 +274,8 @@ export default function AnalysisWorkbench() {
                 value={input}
                 maxLength={500}
                 aria-label={mode === "link" ? "输入可疑链接" : "输入可疑短信"}
+                aria-invalid={Boolean(displayedError)}
+                aria-describedby={displayedError ? "analysis-input-error" : undefined}
                 placeholder={mode === "link" ? "粘贴需要研判的链接，例如：https://example.com" : "粘贴完整短信内容，保留发送方、话术和链接信息"}
                 onChange={(event) => { setInput(event.target.value); setError(""); }}
                 disabled={running}
@@ -283,18 +285,18 @@ export default function AnalysisWorkbench() {
               />
               <span className={styles.charCount}>{input.length}/500</span>
             </div>
-            {displayedError && <p className={styles.inputError}>{displayedError}</p>}
-            {replayLabel && <p className={styles.replayNotice}>{replayLabel}</p>}
+            {displayedError && <p className={styles.inputError} id="analysis-input-error" role="alert">{displayedError}</p>}
+            {replayLabel && <p className={styles.replayNotice} role="status">{replayLabel}</p>}
             <div className={styles.sampleRow}>
               {samples[mode].map((sample, index) => (
-                <button type="button" key={sample} onClick={() => { setInput(sample); setError(""); }}>
+                <button type="button" key={sample} disabled={running} onClick={() => { setInput(sample); setError(""); }}>
                   示例 {index + 1}
                 </button>
               ))}
             </div>
             <div className={styles.runRow}>
               <span className={styles.privacyNote}><LockKey size={15} weight="fill" />敏感参数在展示前脱敏</span>
-              <button className={styles.primaryButton} type="button" disabled={running} onClick={runAnalysis}>
+              <button className={styles.primaryButton} type="button" disabled={running} aria-busy={running} onClick={runAnalysis}>
                 {running
                   ? <><ArrowClockwise size={17} className={styles.spinning} />{activeTool || "研判进行中"}</>
                   : <><Sparkle size={17} weight="fill" />启动智能研判</>}

@@ -9,16 +9,16 @@
  */
 import http from "node:http";
 import { rerank } from "../src/lib/rag/rerank";
-import type { MatchItem } from "../src/lib/rag/signals";
+import type { RagMatch } from "../src/lib/contracts";
 
 const PORT = 18099;
 const BASE = `http://127.0.0.1:${PORT}/v1`;
 
 // 三条内容相同、相似度相同的假数据 → 混合打分会保持原顺序，便于验证 LLM 的排序被真正应用
-const matches: MatchItem[] = [
-  { caseId: "A", title: "案例A", category: "刷单", riskLabel: "诈骗", content: "内容", similarity: 0.8, source: null },
-  { caseId: "B", title: "案例B", category: "刷单", riskLabel: "诈骗", content: "内容", similarity: 0.8, source: null },
-  { caseId: "C", title: "案例C", category: "刷单", riskLabel: "诈骗", content: "内容", similarity: 0.8, source: null },
+const matches: RagMatch[] = [
+  { caseId: "A", title: "案例A", category: "刷单", riskLabel: "诈骗", content: "内容", similarity: 0.8, source: "测试数据" },
+  { caseId: "B", title: "案例B", category: "刷单", riskLabel: "诈骗", content: "内容", similarity: 0.8, source: "测试数据" },
+  { caseId: "C", title: "案例C", category: "刷单", riskLabel: "诈骗", content: "内容", similarity: 0.8, source: "测试数据" },
 ];
 
 function makeServer(reply: string) {

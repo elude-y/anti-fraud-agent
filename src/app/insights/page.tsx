@@ -33,7 +33,7 @@ export default function InsightsPage() {
             <h1>研判数据洞察</h1>
             <p>汇总样本量、风险分布、响应速度与威胁信号，帮助演示系统运行情况。当前页面使用可替换的演示数据结构，后续可直接接入真实统计接口。</p>
           </div>
-          <div className={styles.headingMeta}><span className={styles.liveBadge}>数据更新于 2 分钟前</span></div>
+          <div className={styles.headingMeta}><span className={styles.softBadge}>演示数据（非实时）</span></div>
         </header>
 
         <section className={styles.statsGrid} aria-label="平台核心指标">

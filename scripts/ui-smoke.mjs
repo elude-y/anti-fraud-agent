@@ -186,6 +186,21 @@ try {
   } else {
     checks.replay = false;
   }
+
+  await client.send("Page.navigate", { url: `${pageUrl}&autorun=1` });
+  for (let attempt = 0; attempt < 35; attempt += 1) {
+    await delay(300);
+    const autorunState = await evaluate(client, `(() => ({
+      value: document.querySelector('textarea')?.value ?? '',
+      text: document.body?.innerText ?? '',
+    }))()`);
+    if (autorunState.value.includes("bank-secure-verify") && autorunState.text.includes("研判结论：诈骗")) {
+      checks.autorun = true;
+      break;
+    }
+  }
+  checks.autorun ??= false;
+
   const failed = Object.entries(checks).filter(([, value]) => !value).map(([key]) => key);
   if (failed.length) throw new Error(`UI 冒烟测试失败：${failed.join(", ")}`);
 

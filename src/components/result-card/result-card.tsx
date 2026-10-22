@@ -7,7 +7,7 @@ import {
   ShieldCheck,
   WarningCircle,
 } from "@phosphor-icons/react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import type { AnalysisStreamResult, RiskLevel } from "@/lib/contracts";
 import styles from "./result-card.module.css";
 
@@ -30,6 +30,8 @@ interface ResultCardProps {
 }
 
 export default function ResultCard({ result }: ResultCardProps) {
+  const reduceMotion = useReducedMotion();
+
   if (!result) {
     return (
       <div className={styles.empty}>
@@ -47,9 +49,11 @@ export default function ResultCard({ result }: ResultCardProps) {
   return (
     <motion.div
       className={styles.body}
-      initial={{ opacity: 0, y: 14 }}
+      role="status"
+      aria-live="polite"
+      initial={reduceMotion ? false : { opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.35 }}
+      transition={{ duration: reduceMotion ? 0 : 0.35 }}
     >
       <div className={styles.heading}>
         <span className={`${styles.riskMark} ${riskClass(result.verdict, styles)}`}>

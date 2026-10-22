@@ -11,7 +11,7 @@ import {
   ShieldCheck,
   WarningCircle,
 } from "@phosphor-icons/react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import type { EvidenceNode, SandboxEvidencePayload } from "@/lib/contracts";
 import styles from "./evidence-chain.module.css";
 
@@ -58,6 +58,8 @@ interface EvidenceChainProps {
 }
 
 export default function EvidenceChain({ evidence }: EvidenceChainProps) {
+  const reduceMotion = useReducedMotion();
+
   if (!evidence.length) {
     return (
       <div className={styles.empty}>
@@ -71,7 +73,7 @@ export default function EvidenceChain({ evidence }: EvidenceChainProps) {
   }
 
   return (
-    <div className={styles.list}>
+    <div className={styles.list} aria-label="研判证据链" aria-live="polite">
       {evidence.map((node, index) => {
         const Icon = riskIcon(node);
         const view = payloadView(node);
@@ -81,9 +83,9 @@ export default function EvidenceChain({ evidence }: EvidenceChainProps) {
           <motion.article
             className={`${styles.node} ${node.type === "conclusion" ? styles.conclusion : ""}`}
             key={node.id}
-            initial={{ opacity: 0, y: 12 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.28, delay: Math.min(index * 0.025, 0.14) }}
+            transition={{ duration: reduceMotion ? 0 : 0.28, delay: reduceMotion ? 0 : Math.min(index * 0.025, 0.14) }}
           >
             <span className={styles.nodeIcon}><Icon size={22} weight="duotone" /></span>
             <div className={styles.nodeBody}>

@@ -214,10 +214,10 @@ export default function Home() {
       </section>
 
       <section className={styles.metrics} id="metrics" aria-label="平台数据">
-        <div><span className={styles.metricIcon}><FileText size={27} /></span><strong>128,546<small>累计研判样本</small></strong></div>
-        <div><span className={`${styles.metricIcon} ${styles.metricGreen}`}><ShieldCheck size={27} /></span><strong>96.3%<small>总体识别准确率</small></strong></div>
-        <div><span className={`${styles.metricIcon} ${styles.metricOrange}`}><Lightning size={27} /></span><strong>2.8s<small>平均响应时间</small></strong></div>
-        <div><span className={`${styles.metricIcon} ${styles.metricPurple}`}><UsersThree size={27} /></span><strong>1,286<small>今日研判样本</small></strong></div>
+        <div><span className={styles.metricIcon}><FileText size={27} /></span><strong>6<small>结构化研判阶段</small></strong></div>
+        <div><span className={`${styles.metricIcon} ${styles.metricGreen}`}><ShieldCheck size={27} /></span><strong>4 类<small>可解释置信度信号</small></strong></div>
+        <div><span className={`${styles.metricIcon} ${styles.metricOrange}`}><Lightning size={27} /></span><strong>2 条<small>快速与沙箱混合路径</small></strong></div>
+        <div><span className={`${styles.metricIcon} ${styles.metricPurple}`}><UsersThree size={27} /></span><strong>Tier0<small>断网可用的离线兜底</small></strong></div>
       </section>
     </main>
   );

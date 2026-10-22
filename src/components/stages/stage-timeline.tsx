@@ -8,7 +8,7 @@ import {
   Gauge,
   MagnifyingGlass,
 } from "@phosphor-icons/react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import styles from "./stage-timeline.module.css";
 
 const stages = [
@@ -26,8 +26,10 @@ interface StageTimelineProps {
 }
 
 export default function StageTimeline({ activeStage, completedStages }: StageTimelineProps) {
+  const reduceMotion = useReducedMotion();
+
   return (
-    <div className={styles.timeline}>
+    <div className={styles.timeline} aria-label="研判阶段进度" aria-live="polite">
       {stages.map((stage, index) => {
         const Icon = stage.icon;
         const done = index < completedStages;
@@ -37,9 +39,9 @@ export default function StageTimeline({ activeStage, completedStages }: StageTim
           <motion.div
             className={`${styles.item} ${done ? styles.done : ""} ${active ? styles.active : ""}`}
             key={stage.label}
-            initial={{ opacity: 0, x: -8 }}
+            initial={reduceMotion ? false : { opacity: 0, x: -8 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: index * 0.035, duration: 0.22 }}
+            transition={{ delay: reduceMotion ? 0 : index * 0.035, duration: reduceMotion ? 0 : 0.22 }}
           >
             <span className={styles.icon}>
               {done ? <CheckCircle size={19} weight="fill" /> : <Icon size={19} />}
