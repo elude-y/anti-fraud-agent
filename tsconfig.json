@@ -40,7 +40,6 @@
     "scripts/scripts"
   ],
   "exclude": [
-    "node_modules",
-    "scripts/generate-embedding.ts"
+    "node_modules"
   ]
 }
