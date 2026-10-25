@@ -158,6 +158,17 @@ try {
     if (state.text.includes("研判结论：诈骗") && state.saved > 0) break;
   }
 
+  let streamFinished = false;
+  for (let attempt = 0; attempt < 20; attempt += 1) {
+    streamFinished = await evaluate(client, `(() => {
+      const button = [...document.querySelectorAll('button')]
+        .find((item) => item.textContent.includes('启动智能研判'));
+      return Boolean(button && !button.disabled);
+    })()`);
+    if (streamFinished) break;
+    await delay(150);
+  }
+
   const checks = {
     verdict: state.text.includes("研判结论：诈骗"),
     evidence: state.text.includes("沙箱行为证据已回传"),
@@ -168,6 +179,10 @@ try {
       && state.text.includes("为什么判为危险"),
     snapshot: state.text.includes("TIER0 模拟快照")
       && state.text.includes("由 Tier0 离线模板生成"),
+    providerStatus: state.text.includes("URLScan")
+      && state.text.includes("VirusTotal")
+      && state.text.includes("Tier0"),
+    streamFinished,
   };
   const snapshotId = await evaluate(client, `(() => {
     try {

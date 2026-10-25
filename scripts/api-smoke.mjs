@@ -9,11 +9,11 @@ function parseResult(streamText) {
   throw new Error("流式响应中没有 data-result");
 }
 
-async function analyze(input, mode) {
+async function analyze(input, mode, forceTier0 = true) {
   const response = await fetch(`${baseUrl}/api/analyze`, {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify({ input, mode }),
+    body: JSON.stringify({ input, mode, forceTier0 }),
   });
   const text = await response.text();
   if (!response.ok) throw new Error(`/api/analyze ${response.status}: ${text}`);
@@ -31,6 +31,13 @@ const checks = {};
 
 const providerStatus = await json("/api/sandbox");
 checks.providerStatus = providerStatus.payload.providers?.tier0 === true;
+
+const iocValidation = await fetch(`${baseUrl}/api/check-ioc`, {
+  method: "POST",
+  headers: { "content-type": "application/json" },
+  body: JSON.stringify({ value: "" }),
+});
+checks.checkIocValidation = iocValidation.status === 400;
 
 const sandbox = await json("/api/sandbox", {
   method: "POST",

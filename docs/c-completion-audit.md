@@ -1,14 +1,15 @@
 # C 任务完成审计
 
-状态：代码与离线验收完成。真实 urlscan.io / VirusTotal 在线调用需要项目密钥，当前环境未配置，因此未做真实联网结果验证。
+状态：代码、离线验收和真实在线双源验证均已完成。2026-10-25 使用 `https://www.wikipedia.org/` 验证 urlscan.io 与 VirusTotal 均成功返回。
 
 ## 职责验收
 
 | 要求 | 实现 | 验证 |
 | --- | --- | --- |
 | `sandbox_analyze(url)` | `src/lib/sandbox/analyze.ts`、`POST /api/sandbox` | `test:api` |
-| urlscan.io 接入 | `src/lib/sandbox/urlscan.ts` | 类型检查、构建；等待真实密钥联网复验 |
-| VirusTotal IOC | `src/lib/sandbox/virustotal.ts`、`checkIoc` | 类型检查、构建；等待真实密钥联网复验 |
+| urlscan.io 接入 | `src/lib/sandbox/urlscan.ts` | 已联网验证真实截图与页面结果 |
+| VirusTotal IOC | `src/lib/sandbox/virustotal.ts`、`checkIoc` | 已联网验证域名信誉查询 |
+| 独立 `check_ioc` 工具接口 | `POST /api/check-ioc` | 参数校验、供应商状态与持久化 |
 | Tier0 离线兜底 | `src/lib/sandbox/tier0.ts` | 恶意、安全、未知、纯短信场景 |
 | 页面截图 | 五种 Tier0 模板快照 + 在线 urlscan 截图 | `snapshotAsset`、UI 截图检查 |
 | 跳转链 | 沙箱证据节点 | API/UI 冒烟测试 |
@@ -43,9 +44,9 @@ npm run test:ui
 
 最近一次结果：全部通过。生产构建和 390px 移动端结果页也已单独验证。
 
-## 外部条件项
+## 在线配置
 
-在 `.env.local` 配置以下变量并重启服务后，才能完成真实在线双源复验：
+当前 `.env.local` 已配置并验证以下变量：
 
 ```env
 URLSCAN_API_KEY=
@@ -58,4 +59,4 @@ VIRUSTOTAL_API_KEY=
 Invoke-RestMethod http://127.0.0.1:3000/api/sandbox
 ```
 
-`urlscan` 和 `virustotal` 都变为 `true` 后，提交一个真实、可公开访问且不含隐私信息的测试域名，检查在线截图、跳转链、DOM 行为和 IOC 结果。
+`urlscan` 和 `virustotal` 当前均为 `true`。真实测试应继续使用可公开访问且不含隐私信息的域名。

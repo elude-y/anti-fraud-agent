@@ -22,6 +22,7 @@ import { redactUrlForDisplay } from "@/lib/sandbox/url-utils";
 const requestSchema = z.object({
   input: z.string().max(500).optional(),
   mode: z.enum(["link", "message"]).optional(),
+  forceTier0: z.boolean().optional().default(false),
   messages: z.array(z.object({
     role: z.string(),
     parts: z.array(z.unknown()),
@@ -36,10 +37,6 @@ function asRiskLevel(value: string): RiskLevel {
   return value === "安全" || value === "可疑" || value === "高危" || value === "诈骗"
     ? value
     : "可疑";
-}
-
-function higherRisk(left: RiskLevel, right: RiskLevel) {
-  return riskRank[right] > riskRank[left] ? right : left;
 }
 
 function messageText(messages: Array<{ role: string; parts: unknown[] }> | undefined) {
@@ -95,7 +92,7 @@ function buildResult(input: {
   const { normalized, mode, rag, sandbox } = input;
   const ragLevel = rag.matches[0]?.riskLabel ?? null;
   const sandboxLevel = asRiskLevel(sandbox.result.verdict);
-  let verdict = ragLevel ? higherRisk(ragLevel, sandboxLevel) : sandboxLevel;
+  let verdict = sandboxLevel;
 
   if (!normalized.urls.length && verdict === "诈骗") verdict = "高危";
   if (!normalized.urls.length && normalized.riskKeywords.length >= 2 && riskRank[verdict] < riskRank["高危"]) {
@@ -129,9 +126,14 @@ function buildResult(input: {
       ? "证据尚不足以确认恶意。请勿填写敏感信息，通过官方渠道核实链接来源后再决定是否访问。"
       : "请立即停止访问或继续沟通，不要填写银行卡、密码或验证码；保留截图和原始消息，并通过官方渠道报警或核实。";
 
-  const summary = sandbox.result.iocHits.length
-    ? `${rag.matches[0] ? `命中“${rag.matches[0].category}”相似案例，` : ""}沙箱发现 ${sandbox.result.iocHits.length} 条 IOC 与 ${sandbox.result.formFields.length} 个敏感字段。`
-    : `完成案例检索与 ${sandboxSourceLabel(sandbox.source)} 验证，未发现可确认的敏感表单采集。`;
+  const riskyIocCount = sandbox.result.iocHits.filter(
+    (item) => !/白名单|低风险|暂无|暂未|安全/.test(item.verdict),
+  ).length;
+  const summary = verdict === "安全"
+    ? "沙箱完成页面行为检查，未发现敏感表单、高风险脚本或恶意跳转，最终判定为安全。"
+    : riskyIocCount
+      ? `${rag.matches[0] ? `命中“${rag.matches[0].category}”相似案例，` : ""}沙箱发现 ${riskyIocCount} 条风险 IOC 与 ${sandbox.result.formFields.length} 个敏感字段。`
+      : `完成案例检索与 ${sandboxSourceLabel(sandbox.source)} 验证，页面证据仍存在可疑特征。`;
 
   return {
     verdict,
@@ -142,6 +144,9 @@ function buildResult(input: {
     normalized,
     rag,
     sandbox,
+    ragLevel,
+    sandboxLevel,
+    conflict: Boolean(ragLevel && ragLevel !== verdict),
   };
 }
 
@@ -260,7 +265,9 @@ export async function POST(request: Request) {
           url: normalized.urls[0] ? redactUrlForDisplay(normalized.urls[0]) : null,
         });
         if (normalized.urls[0]) await emitTool("check_ioc", "start", { target: normalized.urls[0] });
-        const sandbox = await sandboxAnalyze(normalized.urls[0] ?? input, input);
+        const sandbox = await sandboxAnalyze(normalized.urls[0] ?? input, input, {
+          forceTier0: parsed.data.forceTier0,
+        });
         await emitTool("sandbox_analyze", "done", {
           source: sandbox.source,
           providers: sandbox.providers,
@@ -293,12 +300,16 @@ export async function POST(request: Request) {
 
         await emitStage("synthesis", "active");
         const analyzed = buildResult({ normalized, mode, rag, sandbox });
+        const synthesisDescription = analyzed.conflict
+          ? `案例检索给出“${analyzed.ragLevel}”，沙箱行为证据指向“${analyzed.sandboxLevel}”。按行为证据优先原则，最终采用“${analyzed.verdict}”。`
+          : `案例相似度、IOC 信誉与沙箱行为已完成交叉验证，当前证据方向指向“${analyzed.verdict}”。`;
         const synthesisNode = evidenceNode("synthesis", "多源证据交叉验证", {
-          description: `案例相似度、IOC 信誉与沙箱行为已完成交叉验证，当前证据方向指向“${analyzed.verdict}”。`,
+          description: synthesisDescription,
           tags: [
             rag.matches[0]?.category ?? "无高相关案例",
             sandbox.result.brandImpersonation ? `疑似仿冒 ${sandbox.result.brandImpersonation}` : "未确认品牌仿冒",
             `${sandbox.result.iocHits.length} 条 IOC`,
+            ...(analyzed.conflict ? ["沙箱证据优先"] : []),
           ],
         }, 4);
         await emitEvidence(synthesisNode);
