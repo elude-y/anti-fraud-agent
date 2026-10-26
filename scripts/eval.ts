@@ -72,6 +72,10 @@ const SAFE: Labeled[] = [
   { query: "12321举报中心：您反映的垃圾短信已受理", expected: "正常服务" },
   { query: "【中国工商银行】您尾号8877的储蓄卡消费128.00元", expected: "银行" },
   { query: "【建设银行】您账户入账工资8600元", expected: "银行" },
+  // 反诈提醒类：文案含验证码/转账等词，但语义是劝阻，不得判成诈骗
+  { query: "【工商银行】请勿向他人透露验证码、银行卡密码，谨防诈骗", expected: "正常服务" },
+  { query: "警方提示：凡是要求转账到安全账户的都是诈骗，请勿轻信", expected: "正常服务" },
+  { query: "政务服务网提醒：办理业务无需提供银行卡验证码", expected: "正常服务" },
 ];
 
 function rankOf(matches: MatchItem[], expected: string): number {
