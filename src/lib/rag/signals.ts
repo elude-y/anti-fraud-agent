@@ -104,6 +104,21 @@ function bigrams(text: string): Set<string> {
 }
 
 /**
+ * 高危索取类要素：出现这些词说明输入在向用户索要资金或凭证。
+ * 「官方域名 + 索要验证码」是典型的仿冒特征，不能因为域名可信就判安全。
+ */
+const HIGH_RISK_ELEMENTS = [
+  "验证码", "银行卡", "密码", "身份证", "转账", "汇款", "垫付",
+  "解冻金", "保证金", "安全账户", "屏幕共享", "刷单", "点击链接",
+];
+
+/** 统计输入中命中的高危要素个数 */
+export function highRiskElementCount(text: string): number {
+  const t = text ?? "";
+  return HIGH_RISK_ELEMENTS.filter((w) => t.includes(w)).length;
+}
+
+/**
  * 关键要素覆盖度：
  *   1) query 命中词表 → 这些要素（含同义词）在检索结果文本中出现的比例
  *   2) 未命中词表     → 退化为 query 与 top-1 内容的字符二元组重合率

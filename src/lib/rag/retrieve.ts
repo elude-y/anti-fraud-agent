@@ -4,7 +4,7 @@ import { createEmbedding } from "./embedding";
 import { calcSignals } from "./signals";
 import { rerank } from "./rerank";
 import { searchMemory, searchMemoryPatterns, memoryStoreSize } from "./memoryStore";
-import { checkList } from "./iocList";
+import { checkList, type ListHit } from "./iocList";
 import type { RagPatternMatch, ListMatch } from "../contracts";
 
 // 契约输出类型
@@ -40,17 +40,32 @@ function mapPatterns(
   }));
 }
 
+/** 转成契约结构：去掉内部的 entityOnly，补充 decisive */
+function toListMatch(hit: ListHit | null, decisive: boolean): ListMatch | null {
+  if (!hit) return null;
+  return {
+    list: hit.list,
+    type: hit.type,
+    value: hit.value,
+    verdict: hit.verdict,
+    matchedBy: hit.matchedBy,
+    decisive,
+  };
+}
+
 const EMPTY_SIGNALS = { topSimilarity: 0, labelAgreement: 0, coverageScore: 0 };
 
 export async function rag_search(query:string):Promise<RagSearchResult>{
-  // 0. 黑白名单优先判定：命中白名单直接返回「安全」，不再走向量召回
+  // 0. 黑白名单优先判定
+  //    白名单只在「输入是裸实体」时短路：域名可信 ≠ 这条消息内容可信，
+  //    句子中提及 gov.cn 的诈骗短信不能因此被判为安全。
   const listHit = await checkList(query);
-  if (listHit?.list === "white") {
+  if (listHit?.list === "white" && listHit.entityOnly) {
     return {
       matches: [],
       patterns: [],
       ...EMPTY_SIGNALS,
-      listMatch: listHit,
+      listMatch: toListMatch(listHit, true),
     };
   }
 
@@ -112,5 +127,12 @@ export async function rag_search(query:string):Promise<RagSearchResult>{
 
   // 4. 计算三个置信信号（基于重排后的顺序与 query 的要素覆盖）
   const sig = calcSignals(reranked.matches, query);
-  return { matches: reranked.matches, patterns, ...sig, listMatch: listHit };
+  // 黑名单命中是决定性判定；白名单未短路时只是信号（decisive = false）
+  const decisive = listHit?.list === "black";
+  return {
+    matches: reranked.matches,
+    patterns,
+    ...sig,
+    listMatch: toListMatch(listHit, decisive),
+  };
 }

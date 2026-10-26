@@ -138,7 +138,8 @@
 ```
 输入
  ├─ 命中黑名单 → 标记「诈骗」，向量检索结果仅作证据补充
- ├─ 命中白名单 → 直接判定「安全」，短路返回（matches 为空，不再召回）
+ ├─ 命中白名单且输入是裸实体（纯 URL/域名/号码）→ 判「安全」，短路返回（matches 为空）
+ ├─ 命中白名单但只是句中提及 → 记 listMatch（decisive=false），继续内容检索
  └─ 未命中     → 走 embedding + 向量检索 + 重排
 ```
 
@@ -212,6 +213,20 @@ SAFE 集即问题修复清单的验收标准：gov.cn、开会通知、正常快
 ✅ 冒充公检法  → top-1 [冒充公检法/诈骗] 0.7403
 ```
 
+白名单短路边界（scripts/verify-ioc.ts）：
+
+```
+裸 URL（https://www.gov.cn/）            → listMatch=white/decisive=true  matches=0
+句子提及号码（请拨打 95588 核实…）        → listMatch=white/decisive=false matches=5
+仿冒「点击 http://gov.cn 领取补贴，请填写银行卡号和验证码」→ decisive=false，top1=诈骗/ETC
+黑名单（https://etc-auth.example/login） → listMatch=black/decisive=true  matches=5
+```
+
+**为什么要区分**：白名单只证明「这个域名/号码本身可信」，不证明「这条消息内容善意」。
+若整句提及即判安全，攻击者只要在文案里带上 gov.cn 就能绕过；
+因此白名单只在输入是裸实体时短路，句中提及仅作为信号。
+另外重排层对「含 ≥2 个高危索取要素（验证码/银行卡/转账…）」的输入会把安全类案例降权 0.5，
+避免仿冒官方域名的短信被安全案例顶到 top-1。
 向量区分度（银行 / ETC / 快递理赔）：
 
 ```
@@ -253,7 +268,7 @@ SAFE 集即问题修复清单的验收标准：gov.cn、开会通知、正常快
 # 2. 灌入种子数据（幂等，可重复执行）
 #    supabase/seed.sql
 
-# 3. 生成向量（bge-m3，1024 维）
+# 3. 生成向量（bge-m3，1024 维，同时补齐 cases 与 patterns）
 npm run embed
 
 # 4. 导出离线快照（案例 / 话术 / 黑白名单）
@@ -283,7 +298,7 @@ npx tsx scripts/dedupe-iocs.ts
 |---|---|
 | `labelAgreement`、`coverageScore` 口径重写（第 2 周） | A 的置信度阈值需重新校准 |
 | 契约① 新增可选字段 `patterns: RagPatternMatch[]` | A 不消费则无影响，向后兼容 |
-| **契约① 新增可选字段 `listMatch`（黑白名单命中）** | **A 应先看 `listMatch`：white 直接判安全（matches 为空），black 直接判诈骗** |
+| **契约① 新增可选字段 `listMatch`（黑白名单命中）** | **A 应先看 `listMatch.decisive`：true 时按名单结论（white=安全 / black=诈骗）；false 时名单只是信号，仍按 matches 判断** |
 | 契约③ `GET /api/cases` 修正字段为 `riskLabel`（驼峰） | C 的案例库页可直接取用 |
 | `GET /api/cases` 新增 `page` / `pageSize` 分页 | C 可翻页，`total` / `totalPages` 已返回 |
 | **新增类别 `银行`、`正常服务`，风险标签为「安全」** | C 的案例库页若按类别做筛选器，需同步加上这两类；A 的置信度逻辑需能接受 `安全` 作为 top-1 结果 |

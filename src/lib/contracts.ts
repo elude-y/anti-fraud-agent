@@ -26,8 +26,9 @@ export interface RagSearchResult {
   patterns?: RagPatternMatch[];
   /**
    * 黑白名单命中结果（确定性判定，优先级高于向量召回）。
-   *   list = 'white'：该输入为可信实体，matches 为空，应直接判「安全」
-   *   list = 'black'：该输入命中已知恶意实体，应直接判「诈骗」，matches 仅作证据
+   *   list = 'white' + decisive = true ：输入只是一个裸实体（纯 URL/域名/号码），可直接判「安全」
+   *   list = 'white' + decisive = false：句子中提及了可信实体，但内容仍需按向量检索结果判断
+   *   list = 'black'                   ：命中已知恶意实体，应直接判「诈骗」，matches 仅作证据
    * 未命中时为 null。
    */
   listMatch?: ListMatch | null;
@@ -39,6 +40,8 @@ export interface ListMatch {
   value: string;
   verdict: string; // 安全 / 恶意
   matchedBy: 'domain' | 'phone' | 'url' | 'ip';
+  /** 该名单命中是否足以直接决定结论（白名单仅对裸实体生效） */
+  decisive?: boolean;
 }
 
 export interface RagPatternMatch {

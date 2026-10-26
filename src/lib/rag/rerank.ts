@@ -1,5 +1,5 @@
 import type { RagSearchResult } from "./retrieve";
-import { keywordScore, hasSpecificElements, type MatchItem } from "./signals";
+import { keywordScore, hasSpecificElements, highRiskElementCount, type MatchItem } from "./signals";
 
 /**
  * 检索重排（第二周）。
@@ -26,10 +26,17 @@ export function hybridRerank(query: string, matches: MatchItem[]): MatchItem[] {
   // 强行重排会把错误类别顶上来 —— 此时保留向量原序。
   if (!hasSpecificElements(query)) return matches;
 
-  return matches
-    .map((m, i) => ({ m, i, s: hybridScore(query, m) }))
-    .sort((a, b) => (b.s - a.s) || (a.i - b.i))
-    .map((x) => x.m);
+  // 输入含多个高危索取要素（验证码/银行卡/转账…）时，
+  // 「安全类案例」不应排在诈骗案例之前 —— 官方域名 + 索要凭证本身就是仿冒特征。
+  const penalizeSafe = highRiskElementCount(query) >= 2;
+
+  const scored = matches.map((m, i) => {
+    let s = hybridScore(query, m);
+    if (penalizeSafe && m.riskLabel === "安全") s *= 0.5;
+    return { m, i, s };
+  });
+  scored.sort((a, b) => (b.s - a.s) || (a.i - b.i));
+  return scored.map((x) => x.m);
 }
 
 /**
