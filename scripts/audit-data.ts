@@ -28,6 +28,7 @@ const EXPECTED_CATEGORIES = [
 interface CaseRow {
   title: string;
   category: string;
+  risk_label: string;
   content: string;
   source: string | null;
   tags: string[] | null;
@@ -44,7 +45,7 @@ function check(name: string, expect: string, actual: string, ok: boolean) {
 (async () => {
   const { data: caseData, error: ce } = await supabase
     .from("cases")
-    .select("title,category,content,source,tags,embedding");
+    .select("title,category,risk_label,content,source,tags,embedding");
   if (ce) throw ce;
   const cases = (caseData ?? []) as CaseRow[];
 
@@ -92,9 +93,9 @@ function check(name: string, expect: string, actual: string, ok: boolean) {
   check("patterns 关键词覆盖", "100%", `${pWithKw}/${patterns.length}`, pWithKw === patterns.length);
 
   // iocs
-  const { data: iocData, error: ie } = await supabase.from("iocs").select("type,value");
+  const { data: iocData, error: ie } = await supabase.from("iocs").select("type,value,list_type");
   if (ie) throw ie;
-  const iocs = (iocData ?? []) as { type: string; value: string }[];
+  const iocs = (iocData ?? []) as { type: string; value: string; list_type: string | null }[];
   const byType = new Map<string, number>();
   for (const i of iocs) byType.set(i.type, (byType.get(i.type) ?? 0) + 1);
   check("iocs 总数", ">0", String(iocs.length), iocs.length > 0);
@@ -104,6 +105,14 @@ function check(name: string, expect: string, actual: string, ok: boolean) {
     [...byType.entries()].map(([k, v]) => `${k}:${v}`).join(" "),
     byType.size >= 4
   );
+
+  const white = iocs.filter((i) => i.list_type === "white").length;
+  const black = iocs.filter((i) => i.list_type !== "white").length;
+  check("黑白名单", "均 >0", `white:${white} black:${black}`, white > 0 && black > 0);
+
+  // 安全类案例（问题修复：正常输入需要有落点）
+  const safeCases = cases.filter((c) => c.risk_label === "安全").length;
+  check("安全类案例", ">0", String(safeCases), safeCases > 0);
 
   const failed = results.filter((r) => !r.ok);
   const md = [

@@ -4,7 +4,8 @@ import { createEmbedding } from "./embedding";
 import { calcSignals } from "./signals";
 import { rerank } from "./rerank";
 import { searchMemory, searchMemoryPatterns, memoryStoreSize } from "./memoryStore";
-import type { RagPatternMatch } from "../contracts";
+import { checkList } from "./iocList";
+import type { RagPatternMatch, ListMatch } from "../contracts";
 
 // 契约输出类型
 export interface RagSearchResult {
@@ -22,6 +23,8 @@ export interface RagSearchResult {
   coverageScore: number;
   /** 命中的话术模式（与案例互补，可选字段） */
   patterns?: RagPatternMatch[];
+  /** 黑白名单命中（确定性判定，优先级高于向量召回） */
+  listMatch?: ListMatch | null;
 }
 
 /** 把数据库返回的话术模式行映射成契约结构 */
@@ -37,7 +40,20 @@ function mapPatterns(
   }));
 }
 
+const EMPTY_SIGNALS = { topSimilarity: 0, labelAgreement: 0, coverageScore: 0 };
+
 export async function rag_search(query:string):Promise<RagSearchResult>{
+  // 0. 黑白名单优先判定：命中白名单直接返回「安全」，不再走向量召回
+  const listHit = await checkList(query);
+  if (listHit?.list === "white") {
+    return {
+      matches: [],
+      patterns: [],
+      ...EMPTY_SIGNALS,
+      listMatch: listHit,
+    };
+  }
+
   let queryVec: number[] | null = null;
   let matches: RagSearchResult["matches"] = [];
   let patterns: RagPatternMatch[] = [];
@@ -96,5 +112,5 @@ export async function rag_search(query:string):Promise<RagSearchResult>{
 
   // 4. 计算三个置信信号（基于重排后的顺序与 query 的要素覆盖）
   const sig = calcSignals(reranked.matches, query);
-  return { matches: reranked.matches, patterns, ...sig };
+  return { matches: reranked.matches, patterns, ...sig, listMatch: listHit };
 }

@@ -84,6 +84,24 @@ function write(name: string, rows: unknown[]) {
       }))
       .filter((r) => r.embedding.length === 1024)
   );
+
+  // 黑白名单快照（离线判定兜底）
+  const { data: iocData, error: ie } = await supabase
+    .from("iocs")
+    .select("list_type,type,value,verdict");
+  if (ie) throw ie;
+
+  write(
+    "ioc-list.json",
+    ((iocData ?? []) as { list_type: string; type: string; value: string; verdict: string | null }[]).map(
+      (r) => ({
+        list: r.list_type === "white" ? "white" : "black",
+        type: r.type,
+        value: r.value,
+        verdict: r.verdict ?? (r.list_type === "white" ? "安全" : "恶意"),
+      })
+    )
+  );
 })().catch((e) => {
   console.error("导出失败:", e);
   process.exit(1);

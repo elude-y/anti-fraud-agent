@@ -24,6 +24,21 @@ export interface RagSearchResult {
    * 该字段为可选，A 侧不消费时不受影响（向后兼容）。
    */
   patterns?: RagPatternMatch[];
+  /**
+   * 黑白名单命中结果（确定性判定，优先级高于向量召回）。
+   *   list = 'white'：该输入为可信实体，matches 为空，应直接判「安全」
+   *   list = 'black'：该输入命中已知恶意实体，应直接判「诈骗」，matches 仅作证据
+   * 未命中时为 null。
+   */
+  listMatch?: ListMatch | null;
+}
+
+export interface ListMatch {
+  list: 'white' | 'black';
+  type: string; // domain / phone / url / shortlink / ip
+  value: string;
+  verdict: string; // 安全 / 恶意
+  matchedBy: 'domain' | 'phone' | 'url' | 'ip';
 }
 
 export interface RagPatternMatch {

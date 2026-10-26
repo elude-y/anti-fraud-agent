@@ -1,4 +1,4 @@
-/**
+﻿/**
  * 从数据库导出可复现的种子 SQL（第五周「数据可溯源」配套）。
  *
  * 输出：supabase/seed.sql
@@ -48,6 +48,7 @@ interface IocRow {
   value: string;
   verdict: string | null;
   source: string | null;
+  list_type: string;
 }
 
 (async () => {
@@ -55,7 +56,7 @@ interface IocRow {
     await Promise.all([
       supabase.from("cases").select("id,title,category,risk_label,content,source,tags").order("title"),
       supabase.from("patterns").select("id,pattern,category,keywords").order("category"),
-      supabase.from("iocs").select("id,type,value,verdict,source").order("type"),
+      supabase.from("iocs").select("id,type,value,verdict,source,list_type").order("type"),
     ]);
   if (ce) throw ce;
   if (pe) throw pe;
@@ -89,11 +90,14 @@ interface IocRow {
   lines.push("");
 
   lines.push("-- ── iocs ───────────────────────────────────────────────");
-  lines.push("-- 全部为保留命名空间（.example 域名 / RFC 5737 文档地址段），非真实恶意目标");
-  lines.push("insert into iocs (id,type,value,verdict,source,last_seen) values");
+  lines.push("-- list_type: white = 白名单（政府/银行/运营商官方实体），black = 黑名单（示例保留地址）");
+  lines.push("insert into iocs (id,type,value,verdict,source,list_type,last_seen) values");
   lines.push(
     ((iocs ?? []) as IocRow[])
-      .map((i) => `(${q(i.id)},${q(i.type)},${q(i.value)},${q(i.verdict)},${q(i.source)},now())`)
+      .map(
+        (i) =>
+          `(${q(i.id)},${q(i.type)},${q(i.value)},${q(i.verdict)},${q(i.source)},${q(i.list_type)},now())`
+      )
       .join(",\n")
   );
   lines.push("on conflict (id) do nothing;");
