@@ -1,0 +1,69 @@
+.statusGroup {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 7px;
+}
+
+.badge,
+.provider {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 0 11px;
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+  border-radius: 10px;
+}
+
+.badge {
+  color: #2f67c9;
+  border: 1px solid rgba(61, 115, 210, 0.16);
+  background: #edf4ff;
+}
+
+.badge.online {
+  color: #087e68;
+  border-color: rgba(8, 126, 104, 0.16);
+  background: #eaf9f4;
+}
+
+.badge.fallback {
+  color: #7b6a3a;
+  border-color: rgba(152, 122, 45, 0.16);
+  background: #fff8e8;
+}
+
+.provider {
+  color: #60728b;
+  border: 1px solid rgba(106, 134, 180, 0.14);
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.provider svg {
+  color: #15987e;
+}
+
+.provider i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.dotOnline {
+  background: #18ad89;
+  box-shadow: 0 0 0 3px rgba(24, 173, 137, 0.12);
+}
+
+.dotOffline {
+  background: #b0b9c5;
+}
+
+@media (max-width: 760px) {
+  .statusGroup {
+    justify-content: flex-start;
+  }
+}

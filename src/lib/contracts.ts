@@ -150,7 +150,7 @@ export type StreamEvent =
 
 export interface StageStreamData {
   stage: AnalysisStage;
-  status: 'active' | 'done';
+  status: 'active' | 'done' | 'skipped';
   at: number;
 }
 
@@ -164,8 +164,9 @@ export interface ToolStreamData {
 export interface AnalysisStreamResult extends VerdictResult {
   input: string;
   mode: 'link' | 'message';
-  sandbox: SandboxResult;
-  sandboxMeta: Omit<SandboxEnvelope, 'result'>;
+  path: 'fast' | 'sandbox';
+  sandbox: SandboxResult | null;
+  sandboxMeta: Omit<SandboxEnvelope, 'result'> | null;
   summary: string;
 }
 

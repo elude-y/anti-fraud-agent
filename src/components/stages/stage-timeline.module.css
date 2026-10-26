@@ -67,6 +67,15 @@
   background: #e4f8f2;
 }
 
+.skipped {
+  color: #8a96a8;
+}
+
+.skipped .icon {
+  color: #8a96a8;
+  background: #edf1f7;
+}
+
 .active {
   color: #2e6df6;
   background: #edf3ff;

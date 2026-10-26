@@ -1,23 +1,31 @@
 const baseUrl = (process.env.SAFEAGENT_BASE_URL ?? "http://127.0.0.1:3000").replace(/\/$/, "");
 
-function parseResult(streamText) {
+function parseEvents(streamText) {
+  const events = [];
   for (const line of streamText.split("\n")) {
     if (!line.startsWith("data: ")) continue;
-    const payload = JSON.parse(line.slice(6));
-    if (payload.type === "data-result") return payload.data;
+    if (line.slice(6).trim() === "[DONE]") continue;
+    events.push(JSON.parse(line.slice(6)));
   }
-  throw new Error("流式响应中没有 data-result");
+  return events;
 }
 
-async function analyze(input, mode) {
+async function analyzeWithEvents(input, mode, forceTier0 = true) {
   const response = await fetch(`${baseUrl}/api/analyze`, {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify({ input, mode }),
+    body: JSON.stringify({ input, mode, forceTier0 }),
   });
   const text = await response.text();
   if (!response.ok) throw new Error(`/api/analyze ${response.status}: ${text}`);
-  return parseResult(text);
+  const events = parseEvents(text);
+  const result = events.find((event) => event.type === "data-result")?.data;
+  if (!result) throw new Error("流式响应中没有 data-result");
+  return { result, events };
+}
+
+async function analyze(input, mode, forceTier0 = true) {
+  return (await analyzeWithEvents(input, mode, forceTier0)).result;
 }
 
 async function json(path, options) {
@@ -31,6 +39,13 @@ const checks = {};
 
 const providerStatus = await json("/api/sandbox");
 checks.providerStatus = providerStatus.payload.providers?.tier0 === true;
+
+const iocValidation = await fetch(`${baseUrl}/api/check-ioc`, {
+  method: "POST",
+  headers: { "content-type": "application/json" },
+  body: JSON.stringify({ value: "" }),
+});
+checks.checkIocValidation = iocValidation.status === 400;
 
 const sandbox = await json("/api/sandbox", {
   method: "POST",
@@ -67,6 +82,32 @@ checks.safe = safe.verdict === "安全"
   && safe.sandbox.formFields.length === 0
   && safe.sandbox.redirectChain.length === 1
   && safe.sandbox.screenshotUrl === "/tier0-safe-snapshot.png";
+checks.safeWhitelistPriority = safe.summary.includes("安全") && !safe.summary.includes("诈骗");
+
+const meeting = await analyze("明天下午三点开会，请准时参加。", "message");
+checks.normalMessage = ["安全", "可疑"].includes(meeting.verdict)
+  && !meeting.summary.includes("命中“")
+  && meeting.confidence < malicious.confidence;
+
+const bankMessage = await analyze(
+  "【工商银行】您的账户需认证，请点击 https://bank-secure-verify.example.cn/login 输入银行卡号和验证码。",
+  "message",
+);
+checks.bankSummary = bankMessage.summary.includes("银行") && !bankMessage.summary.includes("ETC");
+
+const quick = await analyzeWithEvents(
+  "骗子冒充快递，说包裹运输破损，要给理赔，不让用官方APP，诱导下载第三方陌生软件办理理赔，窃取手机信息。",
+  "message",
+);
+const quickConfidence = quick.events.find((event) => event.type === "data-evidence" && event.data?.type === "confidence")?.data?.payload?.score;
+checks.fastPath = quick.result.path === "fast"
+  && quick.result.sandbox === null
+  && quick.result.sandboxMeta === null
+  && quick.result.evidenceChain.every((node) => node.type !== "sandbox")
+  && quick.events.some((event) => event.type === "data-stage" && event.data?.stage === "sandbox" && event.data?.status === "skipped")
+  && quick.events.every((event) => event.type !== "data-tool" || event.data?.tool !== "sandbox_analyze")
+  && quick.result.confidence === quickConfidence;
+checks.confidenceVaries = new Set([malicious.confidence, safe.confidence, meeting.confidence, quick.result.confidence]).size > 2;
 
 const snapshotResponse = await fetch(`${baseUrl}${sandbox.payload.result.screenshotUrl}`);
 checks.snapshotAsset = snapshotResponse.ok

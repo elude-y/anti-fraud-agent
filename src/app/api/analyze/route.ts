@@ -4,6 +4,7 @@ import { z } from "zod";
 import { computeConfidence } from "@/lib/agent/confidence";
 import { normalize } from "@/lib/agent/normalize";
 import { computeRuleScore } from "@/lib/agent/rules";
+import { decidePath } from "@/lib/agent/stateMachine";
 import type {
   AnalysisStage,
   AnalysisStreamResult,
@@ -22,6 +23,7 @@ import { redactUrlForDisplay } from "@/lib/sandbox/url-utils";
 const requestSchema = z.object({
   input: z.string().max(500).optional(),
   mode: z.enum(["link", "message"]).optional(),
+  forceTier0: z.boolean().optional().default(false),
   messages: z.array(z.object({
     role: z.string(),
     parts: z.array(z.unknown()),
@@ -31,15 +33,12 @@ const requestSchema = z.object({
 });
 
 const riskRank: Record<RiskLevel, number> = { "安全": 0, "可疑": 1, "高危": 2, "诈骗": 3 };
+const MIN_RAG_SIMILARITY = 0.6;
 
 function asRiskLevel(value: string): RiskLevel {
   return value === "安全" || value === "可疑" || value === "高危" || value === "诈骗"
     ? value
     : "可疑";
-}
-
-function higherRisk(left: RiskLevel, right: RiskLevel) {
-  return riskRank[right] > riskRank[left] ? right : left;
 }
 
 function messageText(messages: Array<{ role: string; parts: unknown[] }> | undefined) {
@@ -86,42 +85,37 @@ function sandboxSourceLabel(source: SandboxEnvelope["source"]) {
   return "Tier0 离线模板";
 }
 
+function inputCategory(raw: string): "银行" | "ETC" | "快递" | null {
+  if (/工商银行|建设银行|农业银行|中国银行|招商银行|银行(?!卡)|工行|建行|农行|中行|招行|\bbank\b/i.test(raw)) return "银行";
+  if (/ETC|高速通行/i.test(raw)) return "ETC";
+  if (/快递|包裹|物流|顺丰|中通|圆通|韵达|申通/i.test(raw)) return "快递";
+  return null;
+}
+
+function relevantRagMatch(rag: Awaited<ReturnType<typeof rag_search>>, raw: string) {
+  const top = rag.matches[0];
+  if (!top || rag.topSimilarity < MIN_RAG_SIMILARITY || top.similarity < MIN_RAG_SIMILARITY) return null;
+  const category = inputCategory(raw);
+  if (category === "银行" && !/银行|KYC/i.test(top.category)) return null;
+  if (category === "ETC" && !/ETC/i.test(top.category)) return null;
+  if (category === "快递" && !/快递|物流/i.test(top.category)) return null;
+  return top;
+}
+
 function buildResult(input: {
   normalized: Awaited<ReturnType<typeof normalize>>;
   mode: "link" | "message";
-  rag: Awaited<ReturnType<typeof rag_search>>;
-  sandbox: SandboxEnvelope;
+  sandbox: SandboxEnvelope | null;
+  trustedMatch: Awaited<ReturnType<typeof rag_search>>["matches"][number] | null;
+  confidence: ReturnType<typeof computeConfidence>;
 }) {
-  const { normalized, mode, rag, sandbox } = input;
-  const ragLevel = rag.matches[0]?.riskLabel ?? null;
-  const sandboxLevel = asRiskLevel(sandbox.result.verdict);
-  let verdict = ragLevel ? higherRisk(ragLevel, sandboxLevel) : sandboxLevel;
-
-  if (!normalized.urls.length && verdict === "诈骗") verdict = "高危";
-  if (!normalized.urls.length && normalized.riskKeywords.length >= 2 && riskRank[verdict] < riskRank["高危"]) {
-    verdict = "高危";
-  }
-
-  const ruleScore = computeRuleScore(normalized);
-  const confidenceSignals = computeConfidence(
-    rag.topSimilarity,
-    rag.labelAgreement,
-    rag.coverageScore,
-    ruleScore,
-  );
-  const keywordBoost = Math.min(normalized.riskKeywords.length, 5) * 0.015;
-  const sandboxBoost = sandbox.providers.virustotal === "used" || sandbox.providers.urlscan === "used" ? 0.035 : 0;
-  const confidenceFloor = verdict === "诈骗"
-    ? 0.84
-    : verdict === "高危"
-      ? 0.78
-      : verdict === "可疑"
-        ? 0.66
-        : 0.9;
-  const confidence = Math.max(confidenceFloor, Math.min(
-    verdict === "安全" ? 0.97 : 0.95,
-    confidenceSignals.score + keywordBoost + sandboxBoost,
-  ));
+  const { normalized, mode, sandbox, trustedMatch, confidence } = input;
+  const sandboxLevel = sandbox ? asRiskLevel(sandbox.result.verdict) : null;
+  const verdict: RiskLevel = sandboxLevel === "安全"
+    ? "安全"
+    : sandboxLevel && trustedMatch && riskRank[trustedMatch.riskLabel] > riskRank[sandboxLevel]
+      ? trustedMatch.riskLabel
+      : sandboxLevel ?? trustedMatch?.riskLabel ?? "可疑";
 
   const suggestion = verdict === "安全"
     ? "当前未发现明确恶意行为。建议仍通过官方 App、官网或客服电话独立核验后再操作。"
@@ -129,19 +123,36 @@ function buildResult(input: {
       ? "证据尚不足以确认恶意。请勿填写敏感信息，通过官方渠道核实链接来源后再决定是否访问。"
       : "请立即停止访问或继续沟通，不要填写银行卡、密码或验证码；保留截图和原始消息，并通过官方渠道报警或核实。";
 
-  const summary = sandbox.result.iocHits.length
-    ? `${rag.matches[0] ? `命中“${rag.matches[0].category}”相似案例，` : ""}沙箱发现 ${sandbox.result.iocHits.length} 条 IOC 与 ${sandbox.result.formFields.length} 个敏感字段。`
-    : `完成案例检索与 ${sandboxSourceLabel(sandbox.source)} 验证，未发现可确认的敏感表单采集。`;
+  const riskyIocCount = sandbox?.result.iocHits.filter(
+    (item) => !/白名单|低风险|暂无|暂未|安全/.test(item.verdict),
+  ).length ?? 0;
+  const category = inputCategory(normalized.raw);
+  const categoryContext = category ? `输入涉及${category}，` : "";
+  const matchContext = `${categoryContext}${trustedMatch ? `命中“${trustedMatch.category}”相似案例，` : ""}`;
+  const summary = verdict === "安全"
+    ? sandbox
+      ? sandbox.source === "tier0"
+        ? "离线白名单与规则判定为安全；建议仍通过官方入口核验。"
+        : "沙箱与白名单证据指向安全；建议仍通过官方入口核验。"
+      : `${matchContext}案例检索与规则未发现明显风险，建议通过官方入口再次核验。`
+    : riskyIocCount
+      ? `${matchContext}沙箱发现 ${riskyIocCount} 条风险 IOC 与 ${sandbox?.result.formFields.length ?? 0} 个敏感字段。`
+      : sandbox
+        ? normalized.urls.length
+          ? `${matchContext}完成案例检索与 ${sandboxSourceLabel(sandbox.source)} 验证，现有证据指向“${verdict}”。`
+          : `${matchContext}未提取到可验证的链接，现有短信与案例证据指向“${verdict}”，请核实消息来源。`
+        : `${matchContext}高置信度案例检索与规则信号指向“${verdict}”，未调用沙箱。`;
 
   return {
     verdict,
-    confidence,
+    confidence: confidence.score,
     suggestion,
     summary,
     inputType: mode,
     normalized,
-    rag,
     sandbox,
+    sandboxLevel,
+    conflict: Boolean(trustedMatch && sandboxLevel && trustedMatch.riskLabel !== sandboxLevel),
   };
 }
 
@@ -176,7 +187,7 @@ export async function POST(request: Request) {
   const stream = createUIMessageStream<SafeAgentUIMessage>({
     onError: (error) => error instanceof Error ? error.message : "研判流发生未知错误",
     execute: async ({ writer }) => {
-      const emitStage = async (stage: AnalysisStage, status: "active" | "done") => {
+      const emitStage = async (stage: AnalysisStage, status: "active" | "done" | "skipped") => {
         writer.write({
           type: "data-stage",
           id: `stage-${stage}-${status}`,
@@ -243,62 +254,89 @@ export async function POST(request: Request) {
         await emitStage("rag", "done");
 
         await emitStage("confidence", "active");
+        const ruleScore = computeRuleScore(normalized);
+        const confidence = computeConfidence(rag.topSimilarity, rag.labelAgreement, rag.coverageScore, ruleScore);
+        const trustedMatch = relevantRagMatch(rag, normalized.raw);
+        const pathDecision = decidePath(confidence, normalized);
+        const path = pathDecision.path === "fast" && !trustedMatch ? "sandbox" : pathDecision.path;
+        const pathReason = pathDecision.path === "fast" && !trustedMatch
+          ? "检索结果相关性不足或案例类别与输入不符，转入沙箱验证。"
+          : pathDecision.reason;
         const confidenceNode = evidenceNode("confidence", "置信度信号融合", {
-          description: `标签一致性 ${(rag.labelAgreement * 100).toFixed(0)}%，关键要素覆盖度 ${(rag.coverageScore * 100).toFixed(0)}%，进入沙箱交叉验证。`,
+          description: `综合置信度 ${(confidence.score * 100).toFixed(0)}%，标签一致性 ${(rag.labelAgreement * 100).toFixed(0)}%，关键要素覆盖度 ${(rag.coverageScore * 100).toFixed(0)}%。${pathReason}`,
           tags: [
             `Top-1 ${(rag.topSimilarity * 100).toFixed(0)}%`,
             `覆盖度 ${(rag.coverageScore * 100).toFixed(0)}%`,
-            `规则分 ${(computeRuleScore(normalized) * 100).toFixed(0)}%`,
+            `规则分 ${(ruleScore * 100).toFixed(0)}%`,
             normalized.riskKeywords.length ? `风险词 ${normalized.riskKeywords.slice(0, 3).join(" / ")}` : "未命中高危词",
           ],
+          score: confidence.score,
+          path,
         }, 2);
         await emitEvidence(confidenceNode);
         await emitStage("confidence", "done");
 
-        await emitStage("sandbox", "active");
-        await emitTool("sandbox_analyze", "start", {
-          url: normalized.urls[0] ? redactUrlForDisplay(normalized.urls[0]) : null,
-        });
-        if (normalized.urls[0]) await emitTool("check_ioc", "start", { target: normalized.urls[0] });
-        const sandbox = await sandboxAnalyze(normalized.urls[0] ?? input, input);
-        await emitTool("sandbox_analyze", "done", {
-          source: sandbox.source,
-          providers: sandbox.providers,
-          fallbackReasons: sandbox.fallbackReasons,
-        });
-        if (normalized.urls[0]) {
-          await emitTool("check_ioc", "done", {
-            virusTotal: sandbox.providers.virustotal,
-            iocHits: sandbox.result.iocHits,
+        let sandbox: SandboxEnvelope | null = null;
+        let sandboxNode: EvidenceNode | null = null;
+        if (path === "sandbox") {
+          await emitStage("sandbox", "active");
+          await emitTool("sandbox_analyze", "start", {
+            url: normalized.urls[0] ? redactUrlForDisplay(normalized.urls[0]) : null,
           });
-        }
-        const sandboxPayload: SandboxEvidencePayload = {
-          description: `捕获 ${sandbox.result.redirectChain.length} 段跳转、${sandbox.result.formFields.length} 个表单字段与 ${sandbox.result.jsBehaviors.length} 项脚本行为。`,
-          tags: [
-            sandboxSourceLabel(sandbox.source),
-            ...sandbox.result.formFields.slice(0, 3),
-            ...sandbox.result.jsBehaviors.slice(0, 2),
-          ],
-          sandbox: sandbox.result,
-          sandboxMeta: {
+          if (normalized.urls[0]) await emitTool("check_ioc", "start", { target: redactUrlForDisplay(normalized.urls[0]) });
+          sandbox = await sandboxAnalyze(normalized.urls[0] ?? input, input, {
+            forceTier0: parsed.data.forceTier0,
+          });
+          await emitTool("sandbox_analyze", "done", {
             source: sandbox.source,
-            latencyMs: sandbox.latencyMs,
             providers: sandbox.providers,
             fallbackReasons: sandbox.fallbackReasons,
-          },
-        };
-        const sandboxNode = evidenceNode("sandbox", "沙箱行为证据已回传", sandboxPayload, 3);
-        await emitEvidence(sandboxNode);
-        await emitStage("sandbox", "done");
+          });
+          if (normalized.urls[0]) {
+            await emitTool("check_ioc", "done", {
+              virusTotal: sandbox.providers.virustotal,
+              iocHits: sandbox.result.iocHits,
+            });
+          }
+          const sandboxPayload: SandboxEvidencePayload = {
+            description: normalized.urls.length
+              ? `捕获 ${sandbox.result.redirectChain.length} 段跳转、${sandbox.result.formFields.length} 个表单字段与 ${sandbox.result.jsBehaviors.length} 项脚本行为。`
+              : "未提取到链接，沙箱仅对短信文本及可用威胁线索进行离线评估。",
+            tags: [
+              sandboxSourceLabel(sandbox.source),
+              ...sandbox.result.formFields.slice(0, 3),
+              ...sandbox.result.jsBehaviors.slice(0, 2),
+            ],
+            sandbox: sandbox.result,
+            sandboxMeta: {
+              source: sandbox.source,
+              latencyMs: sandbox.latencyMs,
+              providers: sandbox.providers,
+              fallbackReasons: sandbox.fallbackReasons,
+            },
+          };
+          sandboxNode = evidenceNode("sandbox", "沙箱行为证据已回传", sandboxPayload, 3);
+          await emitEvidence(sandboxNode);
+          await emitStage("sandbox", "done");
+        } else {
+          await emitStage("sandbox", "skipped");
+        }
 
         await emitStage("synthesis", "active");
-        const analyzed = buildResult({ normalized, mode, rag, sandbox });
+        const analyzed = buildResult({ normalized, mode, sandbox, trustedMatch, confidence });
+        const synthesisDescription = analyzed.conflict
+          ? `可信案例给出“${trustedMatch?.riskLabel}”，${normalized.urls.length ? "沙箱行为" : "短信文本规则"}证据指向“${analyzed.sandboxLevel}”，综合判定为“${analyzed.verdict}”。`
+          : sandbox
+            ? `案例检索与${normalized.urls.length ? "沙箱行为" : "短信文本规则"}已完成综合研判，当前证据指向“${analyzed.verdict}”。`
+            : `高置信度案例检索与规则信号指向“${analyzed.verdict}”，快速路径无需沙箱。`;
         const synthesisNode = evidenceNode("synthesis", "多源证据交叉验证", {
-          description: `案例相似度、IOC 信誉与沙箱行为已完成交叉验证，当前证据方向指向“${analyzed.verdict}”。`,
+          description: synthesisDescription,
           tags: [
-            rag.matches[0]?.category ?? "无高相关案例",
-            sandbox.result.brandImpersonation ? `疑似仿冒 ${sandbox.result.brandImpersonation}` : "未确认品牌仿冒",
-            `${sandbox.result.iocHits.length} 条 IOC`,
+            trustedMatch?.category ?? "无可信案例匹配",
+            ...(sandbox ? [
+              sandbox.result.brandImpersonation ? `疑似仿冒 ${sandbox.result.brandImpersonation}` : "未确认品牌仿冒",
+              `${sandbox.result.iocHits.length} 条 IOC`,
+            ] : ["快速路径"]),
           ],
         }, 4);
         await emitEvidence(synthesisNode);
@@ -309,8 +347,8 @@ export async function POST(request: Request) {
           description: analyzed.suggestion,
           tags: [
             `置信度 ${(analyzed.confidence * 100).toFixed(0)}%`,
-            "证据 6 个",
-            sandboxSourceLabel(sandbox.source),
+            `证据 ${sandboxNode ? 6 : 5} 个`,
+            sandbox ? sandboxSourceLabel(sandbox.source) : "快速路径",
           ],
           verdict: analyzed.verdict,
           confidence: analyzed.confidence,
@@ -320,7 +358,7 @@ export async function POST(request: Request) {
           inputNode,
           ragNode,
           confidenceNode,
-          sandboxNode,
+          ...(sandboxNode ? [sandboxNode] : []),
           synthesisNode,
           conclusionNode,
         ];
@@ -334,13 +372,14 @@ export async function POST(request: Request) {
           ...verdictResult,
           input: redactedInput,
           mode,
-          sandbox: sandbox.result,
-          sandboxMeta: {
+          path,
+          sandbox: sandbox?.result ?? null,
+          sandboxMeta: sandbox ? {
             source: sandbox.source,
             latencyMs: sandbox.latencyMs,
             providers: sandbox.providers,
             fallbackReasons: sandbox.fallbackReasons,
-          },
+          } : null,
           summary: analyzed.summary,
         };
         writer.write({

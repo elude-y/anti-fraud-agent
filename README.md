@@ -79,7 +79,8 @@ npm run assets:tier0
 
 ## 主要接口
 
-- `POST /api/analyze`：流式研判入口，接受 `messages` 或兼容的 `{ input, mode }` 请求体。
+- `POST /api/analyze`：流式研判入口，接受 `messages` 或兼容的 `{ input, mode, forceTier0 }` 请求体。
 - `POST /api/sandbox`：独立沙箱分析入口。
 - `GET /api/sandbox`：返回外部沙箱配置状态。
+- `POST /api/check-ioc`：VirusTotal URL、域名或 IP 信誉查询。
 - `GET /api/cases`：案例库数据。
