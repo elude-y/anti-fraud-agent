@@ -1,9 +1,11 @@
 /**
  * 检索质量自测（第二周任务三）
  *
- * 两组测试集：
+ * 三组测试集：
  *   EASY —— 20 条完整话术，每类 2 条（覆盖度检查，验证基本可用性）
  *   HARD —— 12 条短查询/歧义查询（区分度检查，验证重排是否真有效）
+ *   SAFE —— 6 条正常输入（验收检查：gov.cn / 开会通知 / 正常快递 / 12321 / 银行短信
+ *           必须命中「安全」或「银行」，不能被判成诈骗）
  *
  * 对每组分别比较：纯向量（基线） vs 混合重排（向量 0.7 + 关键词 0.3）
  * 指标：top-1 命中率、top-3 命中率、MRR、三信号均值
@@ -60,6 +62,16 @@ const HARD: Labeled[] = [
   { query: "点赞赚钱", expected: "刷单" },
   { query: "抽奖中手机了要交运费", expected: "中奖" },
   { query: "短信链接说账号异常", expected: "ETC" },
+];
+
+// 正常输入：不得被判成诈骗（问题修复清单的验收标准）
+const SAFE: Labeled[] = [
+  { query: "https://www.gov.cn/", expected: "正常服务" },
+  { query: "明天上午十点在三楼会议室开会，请准时参加", expected: "正常服务" },
+  { query: "您的快递已放在丰巢柜，取件码8842", expected: "正常服务" },
+  { query: "12321举报中心：您反映的垃圾短信已受理", expected: "正常服务" },
+  { query: "【中国工商银行】您尾号8877的储蓄卡消费128.00元", expected: "银行" },
+  { query: "【建设银行】您账户入账工资8600元", expected: "银行" },
 ];
 
 function rankOf(matches: MatchItem[], expected: string): number {
@@ -179,6 +191,8 @@ function block(title: string, rows: Row[]): string[] {
   const easy = await runSet(EASY, "EASY");
   console.log("");
   const hard = await runSet(HARD, "HARD");
+  console.log("");
+  const safe = await runSet(SAFE, "SAFE");
 
   const report = [
     "# 检索质量自测报告",
@@ -189,10 +203,13 @@ function block(title: string, rows: Row[]): string[] {
     "",
     ...block("EASY 完整话术集", easy),
     ...block("HARD 短查询/歧义集", hard),
+    ...block("SAFE 正常输入集（不得判成诈骗）", safe),
     "## 说明",
     "",
     "- EASY 集基线已满分，说明 bge-m3 对完整话术的语义召回足够强，重排在此类样本上不改变类别命中；",
     "- HARD 集用于暴露差异：短查询缺上下文、类别边界重叠；",
+    "- SAFE 集对应问题修复清单的验收标准：gov.cn / 开会通知 / 正常快递 / 12321 必须命中「正常服务」，",
+    "  银行短信必须命中「银行」而不是 ETC。为此新增了「银行」「正常服务」两个类别共 12 条安全案例。",
     "- 调优过程中发现并修复了三个真实缺陷：",
     "  1. coverageScore 原实现是「命中类别数/3」，与“关键要素覆盖度”无关，已重写；",
     "  2. 关键词重排曾把「短信链接说账号异常」的 top-1 从 ETC 顶成其他类别（通用词无区分度），",
