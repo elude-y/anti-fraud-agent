@@ -3,6 +3,7 @@
 // 说明：离线（未配 Supabase）时 URL 样本相似度恒为 0，配好 Supabase + embedding 后重跑，
 //       才能得到「沙箱调用率 ~15%、准确率接近全量」的真实数据。
 
+import { config as loadEnv } from "dotenv";
 import { normalize } from "../src/lib/agent/normalize";
 import { computeRuleScore } from "../src/lib/agent/rules";
 import { rag_search } from "../src/lib/rag/retrieve";
@@ -11,6 +12,9 @@ import { decidePath } from "../src/lib/agent/stateMachine";
 import { sandboxAnalyze } from "../src/lib/sandbox/analyze";
 import { deriveVerdict } from "../src/lib/agent/synthesize";
 import type { RiskLevel, SandboxResult } from "../src/lib/contracts";
+
+// 加载 .env.local（tsx 独立运行时默认不加载，需手动指定）
+loadEnv({ path: ".env.local" });
 
 type Mode = "rag-only" | "sandbox-only" | "hybrid";
 
