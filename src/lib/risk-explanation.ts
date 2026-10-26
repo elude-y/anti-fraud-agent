@@ -12,6 +12,7 @@ export type RiskReasonId =
   | "redirect"
   | "scripts"
   | "ioc"
+  | "rag"
   | "safe-domain"
   | "safe-fields"
   | "safe-scripts";
@@ -134,6 +135,20 @@ export function buildRiskSignals(sandbox: SandboxResult): RiskSignalSummary[] {
 
 export function buildRiskReasons(result: AnalysisStreamResult): RiskReasonSummary[] {
   const sandbox = result.sandbox;
+  if (!sandbox) {
+    const ragEvidence = result.evidenceChain.find((node) => node.type === "rag");
+    const payload = ragEvidence?.payload;
+    const topMatch = payload && typeof payload === "object" && "matches" in payload
+      && Array.isArray(payload.matches) ? payload.matches[0] as { category?: string; similarity?: number } | undefined : undefined;
+    return [{
+      id: "rag",
+      label: topMatch?.category ? `相似案例：${topMatch.category}` : "案例与规则综合判断",
+      detail: topMatch?.similarity !== undefined
+        ? `案例相似度 ${(topMatch.similarity * 100).toFixed(0)}%；本次使用快速路径，未进行页面行为检查。`
+        : "本次使用快速路径，未进行页面行为检查。",
+      tone: result.verdict === "安全" ? "safe" : "medium",
+    }];
+  }
   const fields = sensitiveFields(sandbox);
   const scripts = riskyBehaviors(sandbox);
   const iocs = riskyIocs(sandbox);

@@ -290,6 +290,22 @@ try {
     Buffer.from(mobileScreenshot.data, "base64"),
   );
 
+  const fastInput = "骗子冒充快递，说包裹运输破损，要给理赔，不让用官方APP，诱导下载第三方陌生软件办理理赔，窃取手机信息。";
+  await client.send("Emulation.clearDeviceMetricsOverride");
+  await client.send("Page.navigate", {
+    url: `${baseUrl}/analyze?input=${encodeURIComponent(fastInput)}&autorun=1`,
+  });
+  let fastText = "";
+  for (let attempt = 0; attempt < 50; attempt += 1) {
+    await delay(300);
+    fastText = await evaluate(client, "document.body?.innerText ?? ''");
+    if (fastText.includes("研判结论：诈骗") && fastText.includes("无需调用")) break;
+  }
+  checks.fastPathRendering = fastText.includes("高置信度快速路径无需沙箱")
+    && fastText.includes("无需调用")
+    && !fastText.includes("沙箱行为证据已回传");
+  if (!checks.fastPathRendering) throw new Error("快速路径未正确渲染跳过状态和无沙箱结论");
+
   console.log(JSON.stringify({ ok: true, checks, savedHistory: state.saved, mobileLayout }, null, 2));
   client.close();
 } finally {

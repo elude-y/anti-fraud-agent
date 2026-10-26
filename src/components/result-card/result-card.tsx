@@ -21,7 +21,8 @@ function riskClass(level: RiskLevel, classes: Record<string, string>) {
   return classes.safe;
 }
 
-function sourceLabel(source: AnalysisStreamResult["sandboxMeta"]["source"]) {
+function sourceLabel(source: NonNullable<AnalysisStreamResult["sandboxMeta"]>["source"] | null) {
+  if (!source) return "未调用";
   if (source === "tier0") return "Tier0 离线模板";
   if (source === "urlscan") return "urlscan.io";
   if (source === "urlscan+virustotal") return "双源在线";
@@ -34,6 +35,7 @@ const reasonIcons: Record<RiskReasonId, typeof WarningCircle> = {
   redirect: LinkSimple,
   scripts: WarningCircle,
   ioc: ShieldCheck,
+  rag: ShieldCheck,
   "safe-domain": ShieldCheck,
   "safe-fields": CheckCircle,
   "safe-scripts": CheckCircle,
@@ -119,8 +121,8 @@ export default function ResultCard({ result }: ResultCardProps) {
 
       <div className={styles.meta}>
         <span><ShieldCheck size={15} />证据节点<strong>{result.evidenceChain.length} 个</strong></span>
-        <span><Cube size={15} />沙箱来源<strong>{sourceLabel(result.sandboxMeta.source)}</strong></span>
-        <span><Clock size={15} />沙箱响应<strong>{result.sandboxMeta.latencyMs} ms</strong></span>
+        <span><Cube size={15} />沙箱来源<strong>{sourceLabel(result.sandboxMeta?.source ?? null)}</strong></span>
+        <span><Clock size={15} />沙箱响应<strong>{result.sandboxMeta ? `${result.sandboxMeta.latencyMs} ms` : "无需调用"}</strong></span>
         <span><CheckCircle size={15} />链路状态<strong>可回放</strong></span>
       </div>
     </motion.div>

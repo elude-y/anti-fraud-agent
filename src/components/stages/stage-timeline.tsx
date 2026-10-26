@@ -23,21 +23,23 @@ const stages = [
 interface StageTimelineProps {
   activeStage: number;
   completedStages: number;
+  skippedStages: number[];
 }
 
-export default function StageTimeline({ activeStage, completedStages }: StageTimelineProps) {
+export default function StageTimeline({ activeStage, completedStages, skippedStages }: StageTimelineProps) {
   const reduceMotion = useReducedMotion();
 
   return (
     <div className={styles.timeline} aria-label="研判阶段进度" aria-live="polite">
       {stages.map((stage, index) => {
         const Icon = stage.icon;
-        const done = index < completedStages;
+        const skipped = skippedStages.includes(index);
+        const done = index < completedStages && !skipped;
         const active = index === activeStage;
 
         return (
           <motion.div
-            className={`${styles.item} ${done ? styles.done : ""} ${active ? styles.active : ""}`}
+            className={`${styles.item} ${done ? styles.done : ""} ${active ? styles.active : ""} ${skipped ? styles.skipped : ""}`}
             key={stage.label}
             initial={reduceMotion ? false : { opacity: 0, x: -8 }}
             animate={{ opacity: 1, x: 0 }}
@@ -48,9 +50,9 @@ export default function StageTimeline({ activeStage, completedStages }: StageTim
             </span>
             <span className={styles.copy}>
               <strong>{stage.label}</strong>
-              <small>{stage.detail}</small>
+              <small>{skipped ? "高置信度快速路径无需沙箱" : stage.detail}</small>
             </span>
-            <span className={styles.state}>{done ? "完成" : active ? "处理中" : "等待"}</span>
+            <span className={styles.state}>{skipped ? "跳过" : done ? "完成" : active ? "处理中" : "等待"}</span>
           </motion.div>
         );
       })}

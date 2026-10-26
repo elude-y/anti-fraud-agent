@@ -59,7 +59,8 @@ const samples = {
   ],
 };
 
-function sourceLabel(source: AnalysisStreamResult["sandboxMeta"]["source"]) {
+function sourceLabel(source: NonNullable<AnalysisStreamResult["sandboxMeta"]>["source"] | null) {
+  if (!source) return "RAG 快速路径";
   if (source === "tier0") return "Tier0 离线模板";
   if (source === "urlscan") return "urlscan.io";
   if (source === "urlscan+virustotal") return "urlscan.io + VirusTotal";
@@ -80,6 +81,7 @@ export default function AnalysisWorkbench() {
   const [input, setInput] = useState("");
   const [activeStage, setActiveStage] = useState(-1);
   const [completedStages, setCompletedStages] = useState(0);
+  const [skippedStages, setSkippedStages] = useState<number[]>([]);
   const [evidence, setEvidence] = useState<EvidenceNode[]>([]);
   const [result, setResult] = useState<AnalysisStreamResult | null>(null);
   const [activeTool, setActiveTool] = useState("");
@@ -90,6 +92,7 @@ export default function AnalysisWorkbench() {
   function resetRunState() {
     setActiveStage(-1);
     setCompletedStages(0);
+    setSkippedStages([]);
     setEvidence([]);
     setResult(null);
     setActiveTool("");
@@ -131,7 +134,7 @@ export default function AnalysisWorkbench() {
       summary: analysis.summary,
       evidenceCount: analysis.evidenceChain.length,
       createdAt,
-      source: sourceLabel(analysis.sandboxMeta.source),
+      source: sourceLabel(analysis.sandboxMeta?.source ?? null),
       snapshotId,
     };
     localStorage.setItem("safeagent:history", JSON.stringify([record, ...readHistory()].slice(0, 30)));
@@ -154,6 +157,9 @@ export default function AnalysisWorkbench() {
         if (part.data.status === "active") {
           setActiveStage(index);
         } else {
+          if (part.data.status === "skipped") {
+            setSkippedStages((current) => current.includes(index) ? current : [...current, index]);
+          }
           setCompletedStages((current) => Math.max(current, index + 1));
           setActiveStage(index < 5 ? index + 1 : -1);
         }
@@ -212,6 +218,7 @@ export default function AnalysisWorkbench() {
           setEvidence(snapshot.result.evidenceChain);
           setResult(snapshot.result);
           setCompletedStages(6);
+          setSkippedStages(snapshot.result.path === "fast" ? [3] : []);
           setReplayLabel(`已载入 ${snapshot.result.verdict} 研判快照`);
           return;
         }
@@ -323,7 +330,7 @@ export default function AnalysisWorkbench() {
             </div>
             <span className={styles.softBadge}>{completedStages}/6</span>
           </div>
-          <StageTimeline activeStage={activeStage} completedStages={completedStages} />
+          <StageTimeline activeStage={activeStage} completedStages={completedStages} skippedStages={skippedStages} />
         </aside>
       </div>
 
