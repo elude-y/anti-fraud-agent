@@ -1,6 +1,6 @@
 # 数据体检报告
 
-- 生成时间：2026-10-26T13:54:34.225Z
+- 生成时间：2026-10-26T14:02:31.965Z
 - 数据源：Supabase（cases / patterns / iocs）
 
 | 检查项 | 期望 | 实际 | 结果 |
@@ -16,9 +16,9 @@
 | patterns 总数 | >0 | 30 | 通过 |
 | patterns 向量覆盖 | 100% | 30/30 | 通过 |
 | patterns 关键词覆盖 | 100% | 30/30 | 通过 |
-| iocs 总数 | >0 | 42 | 通过 |
-| iocs 类型覆盖 | 4 类 | domain:18 url:5 shortlink:3 ip:4 phone:12 | 通过 |
-| 黑白名单 | 均 >0 | white:19 black:23 | 通过 |
+| iocs 总数 | >0 | 37 | 通过 |
+| iocs 类型覆盖 | 4 类 | domain:18 shortlink:3 ip:4 phone:12 | 通过 |
+| 黑白名单 | 均 >0 | white:19 black:18 | 通过 |
 | 安全类案例 | >0 | 12 | 通过 |
 
 ## 结论

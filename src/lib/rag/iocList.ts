@@ -87,9 +87,11 @@ export function matchList(entries: ListEntry[], input: string): ListHit | null {
       }
 
       if (e.type === "phone") {
-        // 号码按非数字边界匹配，避免误伤长数字串
+        // 号码按非数字边界匹配，避免误伤长数字串；
+        // 输入同时做一次"去分隔符"归一，兼容 955-88 / 955 88 / +86 95588 这类写法
+        const compact = input.replace(/[\s\-()]/g, "");
         const re = new RegExp(`(^|\\D)${e.value}(\\D|$)`);
-        if (re.test(input)) return hit(e, "phone");
+        if (re.test(input) || re.test(compact)) return hit(e, "phone");
         continue;
       }
 

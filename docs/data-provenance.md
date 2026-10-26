@@ -9,7 +9,7 @@
 |---|---|---|
 | `cases` | 67（55 诈骗 + 12 安全） | 案例库，检索的主体；**同时包含诈骗与正常两类，安全输入才有落点** |
 | `patterns` | 30 | 话术模式库，描述"骗术套路长什么样"，与案例互补 |
-| `iocs` | 42（白名单 19 + 黑名单 23） | 黑白名单：域名 / URL / 短链 / IP / 电话，检索前做确定性判定 |
+| `iocs` | 37（白名单 19 + 黑名单 18） | 黑白名单：域名 / 电话 / 短链 / IP，检索前做确定性判定 |
 
 ### cases 的类别分布（12 类）
 
@@ -34,14 +34,19 @@
 |---|---|---|
 | domain | 18 | 7 条白名单（gov.cn、银行官网）+ 11 条黑名单示例 |
 | phone | 12 | 全部为白名单（银行 / 运营商 / 12321 / 12381 / 12345 / 12306） |
-| url | 5 | 黑名单示例 |
 | ip | 4 | 黑名单示例（RFC 5737 文档地址段） |
 | shortlink | 3 | 黑名单示例 |
 
 | 名单 | 条数 | 判定含义 |
 |---|---|---|
 | `white` 白名单 | 19 | 命中即判「安全」，直接短路，不再做向量召回 |
-| `black` 黑名单 | 23 | 命中即标记「诈骗」，向量检索结果仅作证据补充 |
+| `black` 黑名单 | 18 | 命中即标记「诈骗」，向量检索结果仅作证据补充 |
+
+> **一次整合记录**：原本还有 5 条 `url` 类型的黑名单条目（如
+> `https://etc-auth.example/login?redirect=wx`），其主机名已被对应 `domain` 条目覆盖，
+> 属于冗余登记，已通过 `scripts/dedupe-iocs.ts --apply --drop-covered-urls` 删除。
+> 名单规模由 42 条降为 37 条，**匹配能力不变**（domain 条目匹配任意该主机下的 URL，
+> 删除后回归测试仍 11/11 通过）。被删记录保留在 git 历史中，可随时恢复。
 
 ## 2. 数据来源与口径
 
@@ -115,9 +120,16 @@
 **匹配规则**（`src/lib/rag/iocList.ts`）：
 
 - 域名：解析输入中的 host，做精确匹配或子域名后缀匹配（`www.gov.cn` 命中 `gov.cn`）
-- 电话：按非数字边界匹配，避免 `12321` 误伤 `123210`
-- URL / 短链 / IP：子串匹配
+- 电话：按非数字边界匹配，避免 `12321` 误伤 `123210`；输入会先去空格/短横线，
+  兼容 `955-88`、`955 88` 这类写法
+- 短链 / IP / URL：子串匹配
 - **黑名单优先**：同时命中两个名单时按恶意处理（宁可误报不可漏报）
+
+**数据约束与归一化**（`supabase/migrations/06_ioc_normalize.sql`）：
+
+- `value_norm` 生成列 = `lower(btrim(value))`，并建唯一索引
+- 同一实体以大小写或首尾空格不同形态重复登记时，插入会直接被数据库拒绝
+- `scripts/dedupe-iocs.ts` 提供名单体检：归一化重复、被 domain 覆盖的 URL、电话格式不规范
 
 ## 3. 判定与检索口径
 
@@ -168,8 +180,8 @@
 | 标题长度 ≥8 字 | 0 条不达标 ✅ |
 | 重复标题 | 0 组 ✅ |
 | patterns 总数 / 向量 / 关键词覆盖 | 30 / 30 / 30 ✅ |
-| iocs 总数与类型覆盖 | 42 条，5 类（domain/phone/url/ip/shortlink）✅ |
-| 黑白名单均非空 | white 19 / black 23 ✅ |
+| iocs 总数与类型覆盖 | 37 条，4 类（domain/phone/ip/shortlink）✅ |
+| 黑白名单均非空 | white 19 / black 18 ✅ |
 | 安全类案例 | 12 条 ✅ |
 
 ### 5.2 检索质量自测（`scripts/eval.ts` → `scripts/eval-report.md`）
@@ -236,6 +248,7 @@ SAFE 集即问题修复清单的验收标准：gov.cn、开会通知、正常快
 #    supabase/migrations/03_match_patterns.sql
 #    supabase/migrations/04_kb_read_policies.sql
 #    supabase/migrations/05_ioc_lists.sql
+#    supabase/migrations/06_ioc_normalize.sql
 
 # 2. 灌入种子数据（幂等，可重复执行）
 #    supabase/seed.sql
@@ -257,9 +270,12 @@ npx tsx scripts/verify-safe.ts
 
 # 8. 黑白名单自检
 npx tsx scripts/verify-ioc.ts
+
+# 9. 名单去重体检（加 --apply 才改数据；--drop-covered-urls 删除被 domain 覆盖的 URL）
+npx tsx scripts/dedupe-iocs.ts
 ```
 
-`supabase/seed.sql` 由 `scripts/generate-seed-sql.ts` 从数据库导出，包含全部 139 条记录（67 + 30 + 42），按主键幂等。**它不包含 embedding**：向量由固定文本确定性生成，执行 `npm run embed` 即可重建。
+`supabase/seed.sql` 由 `scripts/generate-seed-sql.ts` 从数据库导出，包含全部 134 条记录（67 + 30 + 37），按主键幂等。**它不包含 embedding**：向量由固定文本确定性生成，执行 `npm run embed` 即可重建。
 
 ## 8. 对 A / C 的交接要点
 
