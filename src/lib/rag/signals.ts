@@ -104,6 +104,49 @@ function bigrams(text: string): Set<string> {
 }
 
 /**
+ * 高危索取类要素：出现这些词说明输入在向用户索要资金或凭证。
+ * 「官方域名 + 索要验证码」是典型的仿冒特征，不能因为域名可信就判安全。
+ */
+const HIGH_RISK_ELEMENTS = [
+  "验证码", "银行卡", "密码", "身份证", "转账", "汇款", "垫付",
+  "解冻金", "保证金", "安全账户", "屏幕共享", "刷单", "点击链接",
+];
+
+/**
+ * 否定/警示语：出现在句子中时，说明这句话是在**劝阻**而不是**索取**。
+ * 例如「请勿向他人透露验证码」「凡是要求转账到安全账户的都是诈骗」，
+ * 这类官方反诈提醒不能因为含高危词就被判为诈骗。
+ */
+const NEGATION_WORDS = [
+  "请勿", "勿", "不要", "切勿", "无需", "不用", "不必", "谨防", "防范",
+  "警惕", "不得", "不能", "严禁", "避免", "凡是", "冒充", "谨记",
+];
+
+/** 按句切分（句号/感叹号/问号/分号/换行），逗号不切，避免把劝阻句拆散 */
+function splitSentences(text: string): string[] {
+  return (text ?? "").split(/[。！？!?；;\n]/).filter((s) => s.trim().length > 0);
+}
+
+/**
+ * 统计输入中命中的高危要素个数。
+ *
+ * 关键修正：**按句判断否定语义**。
+ * 句子中出现「请勿 / 切勿 / 无需 / 凡是 … 都是诈骗 / 冒充」等警示词时，
+ * 该句的高危要素视为"被劝阻"而非"被索取"，不计入。
+ */
+export function highRiskElementCount(text: string): number {
+  let count = 0;
+  for (const sentence of splitSentences(text)) {
+    const negated = NEGATION_WORDS.some((w) => sentence.includes(w));
+    if (negated) continue;
+    for (const w of HIGH_RISK_ELEMENTS) {
+      if (sentence.includes(w)) count++;
+    }
+  }
+  return count;
+}
+
+/**
  * 关键要素覆盖度：
  *   1) query 命中词表 → 这些要素（含同义词）在检索结果文本中出现的比例
  *   2) 未命中词表     → 退化为 query 与 top-1 内容的字符二元组重合率

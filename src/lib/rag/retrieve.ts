@@ -1,4 +1,4 @@
-import type { RagMatch, RagPatternMatch, RagSearchResult } from "@/lib/contracts";
+import type { RagMatch, RagPatternMatch, RagSearchResult, ListMatch } from "@/lib/contracts";
 import { vectorSearchCases } from "@/lib/db/cases";
 import { vectorSearchPatterns } from "@/lib/db/patterns";
 import { isSupabaseConfigured } from "@/lib/db/supabase";
@@ -7,8 +7,24 @@ import { calcSignals } from "@/lib/rag/signals";
 import { rerank } from "@/lib/rag/rerank";
 import { searchMemory, searchMemoryPatterns, memoryStoreSize } from "@/lib/rag/memoryStore";
 import { searchAntiFraudCases } from "@/lib/rag/search";
+import { checkList, type ListHit } from "./iocList";
 
 const MIN_RELEVANCE = 0.08;
+
+/** 转成契约结构：去掉内部的 entityOnly，补充 decisive */
+function toListMatch(hit: ListHit | null, decisive: boolean): ListMatch | null {
+  if (!hit) return null;
+  return {
+    list: hit.list,
+    type: hit.type,
+    value: hit.value,
+    verdict: hit.verdict,
+    matchedBy: hit.matchedBy,
+    decisive,
+  };
+}
+
+const EMPTY_SIGNALS = { topSimilarity: 0, labelAgreement: 0, coverageScore: 0 };
 
 /**
  * RAG 检索（合并 B 第二/三周 + C 第二周）：
@@ -19,6 +35,17 @@ const MIN_RELEVANCE = 0.08;
  *   5) 信号：要素覆盖度 + 加权一致性（B 的 calcSignals）
  */
 export async function rag_search(query: string): Promise<RagSearchResult> {
+  // 0. 黑白名单优先判定：白名单仅在「输入是裸实体」时短路
+  const listHit = await checkList(query);
+  if (listHit?.list === "white" && listHit.entityOnly) {
+    return {
+      matches: [],
+      patterns: [],
+      ...EMPTY_SIGNALS,
+      listMatch: toListMatch(listHit, true),
+    };
+  }
+
   const forcedOffline = process.env.RAG_OFFLINE === "1";
   let matches: RagMatch[] = [];
   let patterns: RagPatternMatch[] = [];
@@ -83,7 +110,7 @@ export async function rag_search(query: string): Promise<RagSearchResult> {
   // 3. 最终兜底：demo 关键词检索（C 的 search.ts）
   if (matches.length === 0) {
     const fallback = searchAntiFraudCases(query);
-    return { ...fallback, patterns };
+    return { ...fallback, patterns, listMatch: toListMatch(listHit, listHit?.list === "black") };
   }
 
   // 4. 重排（B 的 rerank：混合打分 + 可选 LLM）
@@ -96,5 +123,7 @@ export async function rag_search(query: string): Promise<RagSearchResult> {
 
   // 5. 信号（B 的 calcSignals，含 query 要素覆盖）
   const sig = calcSignals(reranked.matches, query);
-  return { matches: reranked.matches, patterns, ...sig };
+  // 黑名单命中是决定性判定；白名单未短路时只是信号（decisive = false）
+  const decisive = listHit?.list === "black";
+  return { matches: reranked.matches, patterns, ...sig, listMatch: toListMatch(listHit, decisive) };
 }

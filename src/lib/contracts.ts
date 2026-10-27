@@ -22,6 +22,8 @@ export interface RagSearchResult {
   coverageScore: number; // 关键要素覆盖度 [0,1]
   /** 命中的话术模式（patterns 表），与案例互补；可选字段，向后兼容 */
   patterns?: RagPatternMatch[];
+  /** 黑白名单命中结果（确定性判定，优先级高于向量召回）；未命中时为 null */
+  listMatch?: ListMatch | null;
 }
 
 export interface RagPatternMatch {
@@ -30,6 +32,16 @@ export interface RagPatternMatch {
   category: string;
   keywords: string[];
   similarity: number; // 余弦相似度 [0,1]
+}
+
+export interface ListMatch {
+  list: 'white' | 'black';
+  type: string; // domain / phone / url / shortlink / ip
+  value: string;
+  verdict: string; // 安全 / 恶意
+  matchedBy: 'domain' | 'phone' | 'url' | 'ip';
+  /** 该名单命中是否足以直接决定结论（白名单仅对裸实体生效） */
+  decisive?: boolean;
 }
 
 // ────────────────────────────────────────────────────────────
