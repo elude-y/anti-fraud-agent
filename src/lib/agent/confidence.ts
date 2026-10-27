@@ -12,7 +12,7 @@ export interface ConfidenceResult {
 
 // 权重与阈值（暴露为常量 = 可配置）
 const WEIGHTS = { similarity: 0.5, agreement: 0.2, rule: 0.2, coverage: 0.1 };
-const THRESHOLD_HIGH = 0.8;
+const THRESHOLD_HIGH = 0.65;
 const THRESHOLD_MEDIUM = 0.55;
 
 export function computeConfidence(

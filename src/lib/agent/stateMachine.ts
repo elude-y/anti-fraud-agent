@@ -12,16 +12,24 @@ export interface PathDecision {
 export function decidePath(confidence: ConfidenceResult, input: NormalizedInput): PathDecision {
   const ruleScore = computeRuleScore(input);
 
-  // 规则兜底：即使 RAG 置信度很高，以下情况也强制进沙箱（防绕过）
-  const forceSandbox = input.resolvedUrls.length > 0 || ruleScore >= 0.5;
-
-  if (forceSandbox) {
+  // 硬规则兜底：短链必须进沙箱（隐藏真实目的地，RAG 无法判断）
+  if (input.resolvedUrls.length > 0) {
     return {
       path: 'sandbox',
       forceSandbox: true,
-      reason: '命中强制沙箱规则（短链 / 索要银行卡·验证码·身份证等）',
+      reason: '命中短链，需沙箱解析真实目的地',
     };
   }
 
-  return { path: confidence.path, forceSandbox: false, reason: confidence.reason };
+  // 高置信度优先：走快速路径不进沙箱（即使含风险词，也信任 RAG 结论）
+  if (confidence.path === 'fast') {
+    return { path: 'fast', forceSandbox: false, reason: confidence.reason };
+  }
+
+  // 其余（低/中置信度，或规则兜底）走沙箱
+  return {
+    path: 'sandbox',
+    forceSandbox: ruleScore >= 0.5,
+    reason: confidence.reason,
+  };
 }
