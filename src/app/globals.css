@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f7f9fc;
+  --foreground: #101827;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--background);
+}
+
+body {
+  min-width: 320px;
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(46, 109, 246, 0.3);
+  outline-offset: 3px;
+}
+
+::selection {
+  color: #fff;
+  background: #3a72ed;
+}
+
+/* ── 交互反馈增强 ── */
+/* 链接统一过渡 */
+a {
+  transition: color 0.18s ease, opacity 0.18s ease, background-color 0.18s ease;
+}
+
+/* 按钮统一按下反馈（按下去的触感） */
+button {
+  -webkit-tap-highlight-color: transparent;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(1px) scale(0.97);
+  transition-duration: 60ms;
+}
+
+/* 图标按钮 hover 微缩放（旋转类图标按钮除外） */
+button[aria-label]:hover:not(:disabled) {
+  filter: brightness(1.05);
+}

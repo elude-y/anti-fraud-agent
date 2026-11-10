@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tier0 Template Snapshot</title>
+  <style>
+    :root {
+      --accent: #b83c46;
+      --accent-soft: #fff0f2;
+      --ink: #172233;
+      --muted: #637085;
+      --line: #dfe6ef;
+      --paper: #f5f8fc;
+    }
+
+    * { box-sizing: border-box; }
+
+    [hidden] { display: none !important; }
+
+    html, body {
+      width: 100%;
+      min-height: 100%;
+      margin: 0;
+      color: var(--ink);
+      font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+      background: var(--paper);
+    }
+
+    body {
+      padding: 26px;
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.92), rgba(247, 250, 253, 0.96)),
+        repeating-linear-gradient(90deg, rgba(83, 107, 141, 0.06) 0 1px, transparent 1px 28px);
+    }
+
+    .browser {
+      width: 1228px;
+      min-height: 748px;
+      overflow: hidden;
+      border: 1px solid #ccd6e3;
+      border-radius: 18px;
+      background: #fff;
+      box-shadow: 0 26px 70px rgba(36, 55, 85, 0.16);
+    }
+
+    .chrome {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      height: 48px;
+      padding: 0 18px;
+      border-bottom: 1px solid #e3e9f1;
+      background: #f4f7fb;
+    }
+
+    .dots {
+      display: flex;
+      gap: 7px;
+    }
+
+    .dots span {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #c9d2df;
+    }
+
+    .address {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      width: 610px;
+      height: 30px;
+      padding: 0 12px;
+      color: #68768a;
+      font-size: 12px;
+      border: 1px solid #dbe3ed;
+      border-radius: 9px;
+      background: #fff;
+    }
+
+    .lock {
+      width: 8px;
+      height: 8px;
+      border: 2px solid #7a8ca3;
+      border-radius: 50%;
+    }
+
+    .banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 42px;
+      padding: 0 21px;
+      color: #8c2f38;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      border-bottom: 1px solid #f0c5ca;
+      background: #fff0f2;
+    }
+
+    .banner code {
+      color: #a85761;
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    .site-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 78px;
+      padding: 0 46px;
+      border-bottom: 1px solid #edf1f6;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 42px;
+      height: 48px;
+      place-items: center;
+      color: #fff;
+      font-size: 22px;
+      font-weight: 900;
+      clip-path: polygon(50% 0, 100% 17%, 91% 72%, 50% 100%, 9% 72%, 0 17%);
+      background: var(--accent);
+    }
+
+    .brand strong {
+      display: block;
+      font-size: 19px;
+    }
+
+    .brand small {
+      display: block;
+      margin-top: 3px;
+      color: #8894a6;
+      font-size: 10px;
+    }
+
+    .site-tag {
+      padding: 8px 12px;
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 750;
+      border: 1px solid color-mix(in srgb, var(--accent) 25%, #fff);
+      border-radius: 8px;
+      background: var(--accent-soft);
+    }
+
+    .main {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 52px;
+      padding: 55px 66px 48px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 11px;
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 780;
+      border-radius: 7px;
+      background: var(--accent-soft);
+    }
+
+    h1 {
+      margin: 21px 0 14px;
+      font-size: 43px;
+      line-height: 1.12;
+      letter-spacing: -0.05em;
+    }
+
+    .lead {
+      max-width: 510px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .alert {
+      max-width: 520px;
+      margin-top: 28px;
+      padding: 18px;
+      border: 1px solid #f1cbd0;
+      border-radius: 13px;
+      background: #fff7f8;
+    }
+
+    .alert strong {
+      display: block;
+      color: #9d3540;
+      font-size: 14px;
+    }
+
+    .alert p {
+      margin: 7px 0 0;
+      color: #7b5d62;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .steps {
+      display: grid;
+      gap: 10px;
+      margin-top: 25px;
+    }
+
+    .steps div {
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      align-items: center;
+      gap: 10px;
+      color: #637287;
+      font-size: 12px;
+    }
+
+    .steps span {
+      display: grid;
+      width: 22px;
+      height: 22px;
+      place-items: center;
+      color: var(--accent);
+      font-size: 10px;
+      font-weight: 800;
+      border-radius: 50%;
+      background: var(--accent-soft);
+    }
+
+    .form-card {
+      align-self: start;
+      padding: 28px;
+      border: 1px solid #dfe6ef;
+      border-radius: 16px;
+      background: #fff;
+      box-shadow: 0 20px 55px rgba(44, 62, 91, 0.12);
+    }
+
+    .form-card h2 {
+      margin: 0;
+      font-size: 21px;
+      letter-spacing: -0.03em;
+    }
+
+    .form-card > p {
+      margin: 7px 0 21px;
+      color: #8591a3;
+      font-size: 11px;
+    }
+
+    .field {
+      margin-top: 13px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 7px;
+      color: #5d6c80;
+      font-size: 11px;
+      font-weight: 650;
+    }
+
+    .field div {
+      display: flex;
+      align-items: center;
+      height: 42px;
+      padding: 0 12px;
+      color: #a4afbd;
+      font-size: 11px;
+      border: 1px solid #dce4ee;
+      border-radius: 9px;
+      background: #fafcff;
+    }
+
+    .sensitive {
+      border-color: #edb4bb !important;
+      background: #fff8f9 !important;
+    }
+
+    .submit {
+      display: grid;
+      height: 44px;
+      margin-top: 21px;
+      place-items: center;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 750;
+      border-radius: 9px;
+      background: var(--accent);
+    }
+
+    .form-note {
+      margin-top: 13px;
+      color: #a0aaba;
+      font-size: 9px;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    .safe-article {
+      grid-column: 1 / 3;
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: 28px;
+    }
+
+    .safe-copy {
+      padding: 28px;
+      border: 1px solid #dfe8e5;
+      border-radius: 14px;
+      background: #fff;
+    }
+
+    .safe-copy h2 {
+      margin: 16px 0 13px;
+      font-size: 28px;
+      letter-spacing: -0.035em;
+    }
+
+    .safe-copy p {
+      color: #637469;
+      font-size: 13px;
+      line-height: 1.9;
+    }
+
+    .safe-side {
+      display: grid;
+      align-content: start;
+      gap: 12px;
+      padding: 20px;
+      border: 1px solid #d7e8e2;
+      border-radius: 14px;
+      background: #f1faf7;
+    }
+
+    .safe-side strong {
+      color: #14745f;
+      font-size: 13px;
+    }
+
+    .safe-side span {
+      color: #668078;
+      font-size: 11px;
+      line-height: 1.65;
+    }
+
+    body[data-brand="etc"] {
+      --accent: #2567bf;
+      --accent-soft: #edf4ff;
+    }
+
+    body[data-brand="express"] {
+      --accent: #c86f20;
+      --accent-soft: #fff5e9;
+    }
+
+    body[data-brand="safe"] {
+      --accent: #158a70;
+      --accent-soft: #edf9f5;
+    }
+
+    body[data-brand="unknown"] {
+      --accent: #9a6b20;
+      --accent-soft: #fff8e8;
+    }
+  </style>
+</head>
+<body>
+  <div class="browser">
+    <div class="chrome">
+      <div class="dots"><span></span><span></span><span></span></div>
+      <div class="address"><span class="lock"></span><span id="address">https://example.invalid</span></div>
+    </div>
+    <div class="banner">
+      <span>TIER0 TEMPLATE · 模板模拟快照 · 非真实页面访问</span>
+      <code>SAFEAGENT OFFLINE DEMO</code>
+    </div>
+    <header class="site-header">
+      <div class="brand">
+        <span class="brand-mark">S</span>
+        <div><strong id="brandName">安全服务中心</strong><small id="brandSub">账户安全验证</small></div>
+      </div>
+      <span class="site-tag" id="siteTag">安全提醒</span>
+    </header>
+
+    <main class="main" id="riskMain">
+      <section>
+        <span class="eyebrow" id="eyebrow">账户状态异常</span>
+        <h1 id="headline">账户即将停用<br />请立即完成身份核验</h1>
+        <p class="lead" id="lead">系统检测到账户信息不完整。为保障资金安全，请在今日内完成验证，否则相关功能将被限制。</p>
+        <div class="alert">
+          <strong>操作提示</strong>
+          <p>请填写真实身份信息与银行卡资料。验证码仅用于本次身份确认，请勿关闭当前页面。</p>
+        </div>
+        <div class="steps">
+          <div><span>1</span><p>确认账户基本信息</p></div>
+          <div><span>2</span><p>填写银行卡与短信验证码</p></div>
+          <div><span>3</span><p>提交后等待系统审核</p></div>
+        </div>
+      </section>
+      <section class="form-card">
+        <h2 id="formTitle">身份核验</h2>
+        <p>请按页面要求补充以下信息</p>
+        <div class="field"><label>姓名</label><div>请输入姓名</div></div>
+        <div class="field"><label>身份证号</label><div class="sensitive">请输入身份证号码</div></div>
+        <div class="field"><label>银行卡号</label><div class="sensitive">请输入银行卡号</div></div>
+        <div class="field"><label>短信验证码</label><div class="sensitive">请输入 6 位验证码</div></div>
+        <div class="submit">立即验证</div>
+        <p class="form-note">Tier0 行为模板展示，不包含真实提交逻辑</p>
+      </section>
+    </main>
+
+    <main class="main" id="safeMain" hidden>
+      <div class="safe-article">
+        <article class="safe-copy">
+          <span class="eyebrow">政务公开 · 政策信息</span>
+          <h2>关于持续优化政务服务的通知</h2>
+          <p>官方门户页面结构完整，域名处于可信列表，未发现异常脚本、敏感表单或跨域跳转。SafeAgent 将此类页面标记为安全样例。</p>
+          <p>页面证据来自 Tier0 离线模板，仅用于演示安全结果与风险结果之间的视觉差异。</p>
+        </article>
+        <aside class="safe-side">
+          <strong>安全证据</strong>
+          <span>可信域名白名单</span>
+          <span>未发现敏感字段采集</span>
+          <span>未发现跨域外发脚本</span>
+          <span>无额外跳转链</span>
+        </aside>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(location.search);
+    const brand = params.get("brand") || "bank";
+    const variants = {
+      bank: {
+        address: "https://bank-secure-verify.example.cn/login",
+        brandName: "某银行安全中心",
+        brandSub: "账户安全验证",
+        siteTag: "账户异常",
+        eyebrow: "账户状态异常",
+        headline: "账户即将停用<br />请立即完成身份核验",
+        lead: "系统检测到账户信息不完整。为保障资金安全，请在今日内完成验证，否则相关功能将被限制。",
+        formTitle: "身份与银行卡核验",
+      },
+      etc: {
+        address: "https://etc-verify.example.cn/security",
+        brandName: "ETC 服务中心",
+        brandSub: "通行账户管理",
+        siteTag: "认证过期",
+        eyebrow: "ETC 账户已停用",
+        headline: "通行账户认证过期<br />请重新绑定银行卡",
+        lead: "您的 ETC 通行账户认证信息已失效。请重新填写身份与银行卡信息，以免影响高速通行。",
+        formTitle: "ETC 账户恢复",
+      },
+      express: {
+        address: "https://claim-express.example.cn/refund",
+        brandName: "速运理赔中心",
+        brandSub: "包裹异常处理",
+        siteTag: "理赔待领取",
+        eyebrow: "包裹破损理赔",
+        headline: "您的包裹已破损<br />请登记理赔信息",
+        lead: "系统检测到您的包裹在运输中受损。请填写收款信息以领取理赔款，超时将自动关闭申请。",
+        formTitle: "理赔信息登记",
+      },
+      unknown: {
+        address: "https://unknown-service.example/login",
+        brandName: "未知服务页面",
+        brandSub: "页面主体待核实",
+        siteTag: "信息待核实",
+        eyebrow: "页面来源未确认",
+        headline: "请先完成身份确认<br />再继续访问服务",
+        lead: "当前页面未匹配明确品牌模板。页面要求补充个人资料，建议核实访问来源后再操作。",
+        formTitle: "访客身份确认",
+      },
+    };
+
+    if (brand === "safe") {
+      document.body.dataset.brand = "safe";
+      document.querySelector("#address").textContent = "https://www.gov.cn/zhengce/";
+      document.querySelector("#brandName").textContent = "政务服务门户";
+      document.querySelector("#brandSub").textContent = "政策信息公开";
+      document.querySelector("#siteTag").textContent = "可信站点";
+      document.querySelector("#riskMain").hidden = true;
+      document.querySelector("#safeMain").hidden = false;
+    } else {
+      const variant = variants[brand] || variants.bank;
+      document.body.dataset.brand = brand;
+      for (const [id, value] of Object.entries(variant)) {
+        const element = document.querySelector(`#${id}`);
+        if (element) element.innerHTML = value;
+      }
+      if (brand === "unknown") {
+        const fields = [...document.querySelectorAll(".field")];
+        fields[0].querySelector("label").textContent = "手机号";
+        fields[0].querySelector("div").textContent = "请输入手机号";
+        fields.slice(1).forEach((field) => { field.hidden = true; });
+        document.querySelector(".alert p").textContent = "页面要求填写手机号以继续访问，但未展示清晰的运营主体与隐私说明。";
+        const stepTexts = document.querySelectorAll(".steps div p");
+        stepTexts[1].textContent = "确认手机号归属";
+        stepTexts[2].textContent = "提交后继续访问";
+      }
+    }
+  </script>
+</body>
+</html>

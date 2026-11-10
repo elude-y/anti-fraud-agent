@@ -1,0 +1,15 @@
+﻿M	docs/data-provenance.md
+M	scripts/audit-data.ts
+M	scripts/data-audit.md
+M	scripts/eval-report.md
+M	scripts/generate-seed-sql.ts
+M	src/app/api/cases/route.ts
+M	src/lib/contracts.ts
+M	src/lib/rag/data/cases-vectors.json
+M	supabase/seed.sql
+??	scripts/enrich-cases.ts
+??	scripts/seed-news-cases.ts
+??	scripts/seed-news-cases2.ts
+??	scripts/seed-news-cases3.ts
+??	scripts/seed-news-cases4.ts
+??	supabase/migrations/07_case_sources.sql
