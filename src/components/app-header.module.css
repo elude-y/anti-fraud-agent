@@ -120,6 +120,48 @@
   background: linear-gradient(155deg, #2f62d6 8%, #4c93e3 55%, #57d2da);
 }
 
+.brand:hover .brandMark {
+  filter: brightness(1.08);
+  transform: translateY(-2px) rotate(-4deg) scale(1.05);
+}
+
+.nav a svg {
+  transition: transform 190ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.nav a:hover {
+  transform: translateY(-2px);
+}
+
+.nav a:hover svg {
+  transform: translateY(-1px) scale(1.08);
+}
+
+.nav .active {
+  box-shadow: 0 10px 26px rgba(66, 105, 170, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.95);
+}
+
+.tools button:hover {
+  transform: translateY(-2px) rotate(4deg);
+}
+
+.tools .avatar:hover {
+  transform: translateY(-2px) rotate(-4deg) scale(1.04);
+}
+
+@keyframes headerDrop {
+  from { opacity: 0; translate: 0 -14px; filter: blur(5px); }
+  to { opacity: 1; translate: 0 0; filter: blur(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header *,
+  .header *::before,
+  .header *::after {
+    animation-duration: 1ms !important;
+    transition-duration: 1ms !important;
+  }
+}
 @media (max-width: 1120px) {
   .header {
     width: calc(100% - 36px);
@@ -210,3 +252,4 @@
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 }
+

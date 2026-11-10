@@ -370,6 +370,15 @@
   grid-template-columns: 1fr;
 }
 
+.screenshotProbe {
+  position: fixed;
+  top: -9999px;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
 .shotPanel,
 .redirectPanel,
 .signalGrid section {
@@ -392,19 +401,21 @@
 
 .shotFrame {
   position: relative;
+  display: block;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  height: auto;
+  min-height: 0;
   overflow: hidden;
   border-radius: 9px;
-  background: #e9eef7;
+  background: #f7f9fc;
 }
 
 .shotFrame img {
   display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top;
+  height: auto;
+  object-fit: contain;
+  object-position: top center;
 }
 
 .shotButton {
@@ -460,9 +471,9 @@
   position: fixed;
   z-index: 120;
   inset: 0;
-  display: grid;
-  padding: 34px;
-  place-items: center;
+  padding: 24px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .previewBackdrop {
@@ -477,10 +488,10 @@
 .previewPanel {
   position: relative;
   z-index: 1;
-  width: min(1180px, 94vw);
-  max-height: 90vh;
+  width: min(1440px, calc(100vw - 48px));
+  margin: 0 auto;
   padding: 12px;
-  overflow: auto;
+  overflow: visible;
   border: 1px solid rgba(255, 255, 255, 0.34);
   border-radius: 18px;
   background: #f7f9fc;
@@ -495,20 +506,21 @@
 }
 
 .previewClose {
-  position: sticky;
+  position: fixed;
   z-index: 2;
-  top: 0;
-  float: right;
+  top: 20px;
+  right: 24px;
   display: grid;
-  width: 42px;
-  height: 42px;
-  margin: 4px 4px -46px 0;
+  width: 44px;
+  height: 44px;
   cursor: pointer;
   place-items: center;
   color: #fff;
   border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 12px;
-  background: rgba(20, 31, 49, 0.82);
+  border-radius: 13px;
+  background: rgba(20, 31, 49, 0.86);
+  box-shadow: 0 10px 30px rgba(4, 12, 29, 0.28);
+  backdrop-filter: blur(12px);
 }
 
 .metaList {
@@ -701,6 +713,24 @@
   line-height: 1.7;
 }
 
+@media (max-width: 600px) {
+  .previewOverlay {
+    padding: 10px;
+  }
+
+  .previewPanel {
+    width: 100%;
+    padding: 6px;
+    border-radius: 13px;
+  }
+
+  .previewClose {
+    top: 12px;
+    right: 12px;
+    width: 40px;
+    height: 40px;
+  }
+}
 @media (max-width: 900px) {
   .sandboxGrid,
   .signalGrid {
@@ -786,3 +816,8 @@
     gap: 4px;
   }
 }
+
+
+
+
+

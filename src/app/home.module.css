@@ -82,6 +82,7 @@
   background: linear-gradient(145deg, #83adff 0%, #2464ee 62%, #2e7cff 100%);
   box-shadow: 0 10px 26px rgba(39, 104, 240, 0.28), inset 0 1px 1px rgba(255, 255, 255, 0.72);
   clip-path: polygon(50% 0, 100% 17%, 91% 72%, 50% 100%, 9% 72%, 0 17%);
+  transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1), filter 220ms ease;
 }
 
 .brand strong {
@@ -187,6 +188,7 @@
   position: relative;
   z-index: 3;
   padding: 36px 0 25px 7px;
+  animation: heroRise 680ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
 .eyebrow {
@@ -256,6 +258,7 @@
   position: relative;
   align-self: stretch;
   min-width: 0;
+  animation: heroRise 780ms 90ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
 .heroHalo {
@@ -268,6 +271,7 @@
   background: radial-gradient(ellipse, rgba(101, 190, 255, 0.36), rgba(120, 121, 255, 0.07) 54%, transparent 73%);
   filter: blur(14px);
   transform: translateX(-50%);
+  animation: haloPulse 6.4s ease-in-out infinite;
 }
 
 .shieldImage {
@@ -344,6 +348,8 @@
   background: rgba(255, 255, 255, 0.71);
   box-shadow: 0 22px 60px rgba(73, 106, 157, 0.11), inset 0 1px 0 #fff;
   backdrop-filter: blur(26px) saturate(1.18);
+  animation: heroRise 720ms 170ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  transition: box-shadow 240ms ease, border-color 240ms ease;
 }
 
 .tabs {
@@ -474,6 +480,8 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
+  position: relative;
+  overflow: hidden;
   height: 68px;
   padding: 0 22px;
   color: white;
@@ -551,7 +559,7 @@
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.65);
   box-shadow: 0 7px 20px rgba(69, 101, 151, 0.05);
-  transition: transform 170ms ease, box-shadow 170ms ease, background 170ms ease;
+  transition: transform 190ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 190ms ease, background 190ms ease, border-color 190ms ease;
 }
 
 .exampleChip:hover {
@@ -740,6 +748,95 @@
   animation: spin 900ms linear infinite;
 }
 
+.brand:hover .brandMark {
+  filter: brightness(1.08);
+  transform: translateY(-2px) rotate(-4deg) scale(1.05);
+}
+
+.heroCopy h1 em {
+  background-size: 190% 100%;
+  animation: headlineGlow 8s ease-in-out infinite;
+}
+
+.trustLine svg {
+  animation: iconPop 480ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.tabs button svg,
+.inputIcon svg,
+.exampleChip svg,
+.analyzeButton svg {
+  transition: transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.tabs button:hover svg,
+.inputShell:focus-within .inputIcon svg {
+  transform: translateY(-1px) scale(1.09);
+}
+
+.inputIcon {
+  transition: color 200ms ease, transform 200ms ease;
+}
+
+.inputShell:focus-within .inputIcon {
+  color: #2f6df5;
+}
+
+.analyzeButton::after {
+  position: absolute;
+  top: -25%;
+  bottom: -25%;
+  left: -50%;
+  width: 36%;
+  pointer-events: none;
+  content: "";
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.34), transparent);
+  transform: skewX(-20deg);
+  transition: left 560ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.analyzeButton:hover::after {
+  left: 118%;
+}
+
+.exampleChip:hover svg {
+  transform: scale(1.13) rotate(-5deg);
+}
+
+.analyzer:hover {
+  border-color: rgba(103, 145, 220, 0.18);
+  box-shadow: 0 27px 72px rgba(73, 106, 157, 0.14), inset 0 1px 0 #fff;
+}
+
+@keyframes heroRise {
+  from { opacity: 0; translate: 0 22px; filter: blur(5px); }
+  to { opacity: 1; translate: 0 0; filter: blur(0); }
+}
+
+@keyframes ringDriftA {
+  from { transform: translate3d(0, 0, 0) rotate(-17deg) scale(1); }
+  to { transform: translate3d(-22px, 18px, 0) rotate(-13deg) scale(1.04); }
+}
+
+@keyframes ringDriftB {
+  from { transform: translate3d(0, 0, 0) rotate(13deg) scale(1); }
+  to { transform: translate3d(24px, -16px, 0) rotate(17deg) scale(1.03); }
+}
+
+@keyframes haloPulse {
+  0%, 100% { opacity: 0.82; transform: translateX(-50%) scale(0.98); }
+  50% { opacity: 1; transform: translateX(-50%) scale(1.05); }
+}
+
+@keyframes headlineGlow {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes iconPop {
+  from { opacity: 0; transform: scale(0.82) rotate(-5deg); }
+  to { opacity: 1; transform: scale(1) rotate(0); }
+}
 @keyframes shieldFloat {
   0%, 100% { transform: translateX(-49%) translateY(0); }
   50% { transform: translateX(-49%) translateY(-8px); }
@@ -1091,3 +1188,7 @@
     transition-duration: 1ms !important;
   }
 }
+
+
+
+

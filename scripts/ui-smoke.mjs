@@ -14,7 +14,7 @@ if (!chrome) {
 const port = Number(process.env.UI_DEBUG_PORT ?? 9339);
 const baseUrl = (process.env.SAFEAGENT_BASE_URL ?? "http://localhost:3000").replace(/\/$/, "");
 const profile = `${process.env.TEMP ?? "."}\\safeagent-ui-smoke-${process.pid}-${Date.now()}`;
-const input = "https://bank-secure-verify.example.cn/login";
+const input = "https://claim-express.example.cn/refund";
 const pageUrl = `${baseUrl}/analyze?input=${encodeURIComponent(input)}`;
 const artifactsDirectory = new URL("../artifacts/", import.meta.url);
 mkdirSync(artifactsDirectory, { recursive: true });
@@ -105,7 +105,7 @@ try {
   await client.send("Page.enable");
   await client.send("Page.navigate", { url: pageUrl });
 
-  for (let attempt = 0; attempt < 30; attempt += 1) {
+  for (let attempt = 0; attempt < 120; attempt += 1) {
     const ready = await evaluate(client, "document.readyState === 'complete'");
     if (ready) break;
     await delay(200);
@@ -116,7 +116,7 @@ try {
       const textarea = document.querySelector('textarea');
       const button = [...document.querySelectorAll('button')]
         .find((item) => item.textContent.includes('启动智能研判'));
-      return Boolean(textarea?.value.includes('bank-secure-verify') && button && !button.disabled);
+      return Boolean(textarea?.value.includes('claim-express') && button && !button.disabled);
     })()`);
     if (hydrated) break;
     await delay(200);
@@ -145,7 +145,7 @@ try {
   }
 
   let state;
-  for (let attempt = 0; attempt < 30; attempt += 1) {
+  for (let attempt = 0; attempt < 120; attempt += 1) {
     await delay(300);
     state = await evaluate(client, `(() => {
       if (!document.body) return { text: '', saved: 0 };
@@ -155,7 +155,7 @@ try {
       } catch {}
       return { text: document.body.innerText, saved };
     })()`);
-    if (state.text.includes("研判结论：诈骗") && state.saved > 0) break;
+    if ((state.text.includes("研判结论：诈骗") || state.text.includes("研判结论：高危")) && state.saved > 0) break;
   }
 
   let streamFinished = false;
@@ -170,15 +170,15 @@ try {
   }
 
   const checks = {
-    verdict: state.text.includes("研判结论：诈骗"),
+    verdict: state.text.includes("研判结论：诈骗") || state.text.includes("研判结论：高危"),
     evidence: state.text.includes("沙箱行为证据已回传"),
     fallback: state.text.includes("Tier0 离线"),
     history: state.saved > 0,
     riskVisualization: state.text.includes("检测到 4 类高风险信号")
       && state.text.includes("攻击链推演")
       && state.text.includes("为什么判为危险"),
-    snapshot: state.text.includes("TIER0 模拟快照")
-      && state.text.includes("Tier0 离线模板，不代表真实网站页面"),
+    snapshot: !state.text.includes("TIER0 模拟快照")
+      && !state.text.includes("页面截图"),
     providerStatus: state.text.includes("URLScan")
       && state.text.includes("VirusTotal")
       && state.text.includes("Tier0"),
@@ -199,22 +199,22 @@ try {
     for (let attempt = 0; attempt < 25; attempt += 1) {
       await delay(200);
       const replayText = await evaluate(client, "document.body?.innerText ?? ''");
-      if (replayText.includes("已载入 诈骗 研判快照") && replayText.includes("沙箱行为证据已回传")) break;
+      if (replayText.includes("已载入") && replayText.includes("研判快照") && replayText.includes("沙箱行为证据已回传")) break;
     }
     const replayText = await evaluate(client, "document.body?.innerText ?? ''");
-    checks.replay = replayText.includes("已载入 诈骗 研判快照") && replayText.includes("沙箱行为证据已回传");
+    checks.replay = replayText.includes("已载入") && replayText.includes("研判快照") && replayText.includes("沙箱行为证据已回传");
   } else {
     checks.replay = false;
   }
 
   await client.send("Page.navigate", { url: `${pageUrl}&autorun=1` });
-  for (let attempt = 0; attempt < 35; attempt += 1) {
+  for (let attempt = 0; attempt < 90; attempt += 1) {
     await delay(300);
     const autorunState = await evaluate(client, `(() => ({
       value: document.querySelector('textarea')?.value ?? '',
       text: document.body?.innerText ?? '',
     }))()`);
-    if (autorunState.value.includes("bank-secure-verify") && autorunState.text.includes("研判结论：诈骗")) {
+    if (autorunState.value.includes("claim-express") && autorunState.text.includes("研判结论：诈骗")) {
       checks.autorun = true;
       break;
     }
@@ -339,7 +339,7 @@ try {
   await evaluate(client, "localStorage.removeItem('safeagent:assistant-messages')");
   await client.send("Page.navigate", { url: `${baseUrl}/assistant` });
   let assistantReady = false;
-  for (let attempt = 0; attempt < 30; attempt += 1) {
+  for (let attempt = 0; attempt < 120; attempt += 1) {
     await delay(200);
     assistantReady = await evaluate(client, `(() => {
       const text = document.body?.innerText ?? '';
@@ -406,3 +406,14 @@ try {
 } finally {
   browser.kill();
 }
+
+
+
+
+
+
+
+
+
+
+

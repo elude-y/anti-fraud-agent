@@ -461,6 +461,117 @@
   color: #d34d5a;
 }
 
+.sideInfo > div:hover {
+  transform: translateX(3px);
+}
+
+.assistantMark {
+  animation: markFloat 4.8s ease-in-out infinite;
+}
+
+.suggestions button {
+  animation: suggestionIn 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.suggestions button:nth-child(1) { animation-delay: 160ms; }
+.suggestions button:nth-child(2) { animation-delay: 220ms; }
+.suggestions button:nth-child(3) { animation-delay: 280ms; }
+.suggestions button:nth-child(4) { animation-delay: 340ms; }
+
+.suggestions button:hover {
+  transform: translateY(-3px);
+}
+
+.suggestions button svg {
+  transition: transform 180ms ease;
+}
+
+.suggestions button:hover svg {
+  transform: translateX(2px) rotate(-18deg);
+}
+
+.message {
+  animation: messageIn 320ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.onlineDot {
+  animation: onlinePulse 2.3s ease-out infinite;
+}
+
+.sendButton:not(:disabled) {
+  animation: sendGlow 2.6s ease-in-out infinite;
+}
+
+.sendButton:hover:not(:disabled) {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 14px 30px rgba(47, 110, 233, 0.3);
+}
+
+.sendButton:active:not(:disabled) {
+  transform: translateY(0) scale(0.96);
+}
+
+.promptLibraryPanel {
+  transform-origin: bottom left;
+  animation: promptPop 220ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.promptChoices button:hover {
+  transform: translateY(-2px);
+}
+
+.copyButton {
+  transition: color 160ms ease, transform 160ms ease;
+}
+
+.copyButton:hover {
+  transform: translateY(-1px);
+}
+
+@keyframes assistantIn {
+  from { opacity: 0; translate: 0 16px; }
+  to { opacity: 1; translate: 0 0; }
+}
+
+@keyframes sideReveal {
+  from { opacity: 0; translate: -12px 0; }
+  to { opacity: 1; translate: 0 0; }
+}
+
+@keyframes panelReveal {
+  from { opacity: 0; translate: 12px 0; filter: blur(4px); }
+  to { opacity: 1; translate: 0 0; filter: blur(0); }
+}
+
+@keyframes markFloat {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  50% { transform: translateY(-5px) rotate(-2deg); }
+}
+
+@keyframes suggestionIn {
+  from { opacity: 0; translate: 0 10px; }
+  to { opacity: 1; translate: 0 0; }
+}
+
+@keyframes messageIn {
+  from { opacity: 0; translate: 0 8px; }
+  to { opacity: 1; translate: 0 0; }
+}
+
+@keyframes onlinePulse {
+  0% { box-shadow: 0 0 0 0 rgba(22, 175, 136, 0.28); }
+  70%, 100% { box-shadow: 0 0 0 8px rgba(22, 175, 136, 0); }
+}
+
+@keyframes sendGlow {
+  0%, 100% { box-shadow: 0 10px 24px rgba(47, 110, 233, 0.22); }
+  50% { box-shadow: 0 13px 30px rgba(47, 110, 233, 0.34); }
+}
+
+@keyframes promptPop {
+  from { opacity: 0; transform: translateY(8px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
 @keyframes thinking {
   0%, 100% { opacity: 0.35; transform: translateY(0); }
   50% { opacity: 1; transform: translateY(-3px); }
@@ -563,3 +674,7 @@
     transition-duration: 1ms !important;
   }
 }
+
+
+
+

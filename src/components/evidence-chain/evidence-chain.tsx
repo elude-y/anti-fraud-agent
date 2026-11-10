@@ -20,6 +20,7 @@ import {
 } from "@phosphor-icons/react";
 import { motion, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import type { EvidenceNode, SandboxEvidencePayload } from "@/lib/contracts";
 import {
   buildAttackChain,
@@ -90,14 +91,21 @@ interface EvidenceChainProps {
 export default function EvidenceChain({ evidence }: EvidenceChainProps) {
   const reduceMotion = useReducedMotion();
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [readyScreenshots, setReadyScreenshots] = useState<Set<string>>(() => new Set());
+  const [failedScreenshots, setFailedScreenshots] = useState<Set<string>>(() => new Set());
 
   useEffect(() => {
     if (!previewUrl) return;
     const closeOnEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") setPreviewUrl(null);
     };
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     window.addEventListener("keydown", closeOnEscape);
-    return () => window.removeEventListener("keydown", closeOnEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", closeOnEscape);
+    };
   }, [previewUrl]);
 
   if (!evidence.length) {
@@ -123,7 +131,9 @@ export default function EvidenceChain({ evidence }: EvidenceChainProps) {
         const detectedSignalCount = riskSignals.filter((signal) => signal.active).length;
         const sandboxDangerous = sandboxPayload ? sandboxPayload.sandbox.verdict !== "安全" : false;
         const simulatedScreenshot = sandboxPayload ? isSimulatedScreenshot(sandboxPayload.sandbox) : false;
-        const screenshotUrl = sandboxPayload?.sandbox.screenshotUrl;
+        const screenshotUrl = sandboxPayload && !simulatedScreenshot ? sandboxPayload.sandbox.screenshotUrl : undefined;
+        const screenshotReady = Boolean(screenshotUrl && readyScreenshots.has(screenshotUrl));
+        const screenshotFailed = Boolean(screenshotUrl && failedScreenshots.has(screenshotUrl));
 
         return (
           <motion.article
@@ -213,8 +223,22 @@ export default function EvidenceChain({ evidence }: EvidenceChainProps) {
                     </div>
                   </section>
 
-                  <div className={`${styles.sandboxGrid} ${!screenshotUrl ? styles.sandboxGridWithoutScreenshot : ""}`}>
-                    {screenshotUrl && (
+                  <div className={`${styles.sandboxGrid} ${!screenshotReady ? styles.sandboxGridWithoutScreenshot : ""}`}>
+                    {screenshotUrl && !screenshotReady && !screenshotFailed && (
+                      // Probe the image off-layout so failed remote screenshots never leave an empty panel.
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        className={styles.screenshotProbe}
+                        src={screenshotUrl}
+                        alt=""
+                        aria-hidden="true"
+                        loading="eager"
+                        referrerPolicy="no-referrer"
+                        onLoad={() => setReadyScreenshots((current) => new Set(current).add(screenshotUrl))}
+                        onError={() => setFailedScreenshots((current) => new Set(current).add(screenshotUrl))}
+                      />
+                    )}
+                    {screenshotUrl && screenshotReady && (
                       <section className={styles.shotPanel}>
                         <div className={styles.detailTitle}><ImageSquare size={16} />页面截图</div>
                         <button
@@ -231,17 +255,18 @@ export default function EvidenceChain({ evidence }: EvidenceChainProps) {
                               : "沙箱页面截图"}
                             loading="lazy"
                             referrerPolicy="no-referrer"
+                            onError={() => {
+                              setReadyScreenshots((current) => {
+                                const next = new Set(current);
+                                next.delete(screenshotUrl);
+                                return next;
+                              });
+                              setFailedScreenshots((current) => new Set(current).add(screenshotUrl));
+                            }}
                           />
-                          {simulatedScreenshot && (
-                            <span className={styles.snapshotBadge}>TIER0 模拟快照</span>
-                          )}
                           <span className={styles.zoomHint}><ArrowsOut size={13} />查看大图</span>
                         </button>
-                        <p className={styles.snapshotCaption}>
-                          {simulatedScreenshot
-                            ? "Tier0 离线模板，不代表真实网站页面；点击可查看清晰大图。"
-                            : "截图来自在线沙箱扫描结果；点击可查看清晰大图。"}
-                        </p>
+
                         <dl className={styles.metaList}>
                           <div><dt>数据来源</dt><dd>{sandboxPayload.sandboxMeta.source}</dd></div>
                           <div><dt>响应耗时</dt><dd>{sandboxPayload.sandboxMeta.latencyMs} ms</dd></div>
@@ -262,7 +287,7 @@ export default function EvidenceChain({ evidence }: EvidenceChainProps) {
                           ))}
                         </ol>
                       ) : <p className={styles.muted}>未捕获跳转，输入中也没有可访问链接。</p>}
-                      {!screenshotUrl && (
+                      {!screenshotReady && (
                         <dl className={`${styles.metaList} ${styles.redirectMeta}`}>
                           <div><dt>数据来源</dt><dd>{sandboxPayload.sandboxMeta.source}</dd></div>
                           <div><dt>响应耗时</dt><dd>{sandboxPayload.sandboxMeta.latencyMs} ms</dd></div>
@@ -318,7 +343,7 @@ export default function EvidenceChain({ evidence }: EvidenceChainProps) {
           </motion.article>
         );
       })}
-      {previewUrl && (
+      {previewUrl && typeof document !== "undefined" && createPortal(
         <div className={styles.previewOverlay} role="dialog" aria-modal="true" aria-label="页面截图清晰预览">
           <button className={styles.previewBackdrop} type="button" aria-label="关闭截图预览" onClick={() => setPreviewUrl(null)} />
           <div className={styles.previewPanel}>
@@ -328,8 +353,15 @@ export default function EvidenceChain({ evidence }: EvidenceChainProps) {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={previewUrl} alt="沙箱页面截图清晰预览" />
           </div>
-        </div>
+        </div>,
+        document.body,
       )}
     </div>
   );
 }
+
+
+
+
+
+

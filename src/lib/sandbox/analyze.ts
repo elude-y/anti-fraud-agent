@@ -1,6 +1,7 @@
 import type { IocHit, RiskLevel, SandboxEnvelope, SandboxResult } from "@/lib/contracts";
 import { getTrustedDomain } from "@/lib/trusted-domains";
 import { analyzeWithTier0 } from "./tier0";
+import { captureLocalScreenshot, clearGeneratedScreenshots } from "./local-screenshot";
 import { analyzeWithUrlscan, isUrlscanConfigured } from "./urlscan";
 import { analyzeWithLightweight, type LightweightAnalysis } from "./lightweight";
 import { extractHttpUrl, getExternalAnalysisSkipReason } from "./url-utils";
@@ -53,6 +54,7 @@ export async function sandboxAnalyze(
   options: SandboxAnalyzeOptions = {},
 ): Promise<SandboxEnvelope> {
   const startedAt = Date.now();
+  await clearGeneratedScreenshots();
   const tier0 = analyzeWithTier0(urlInput, context);
   const targetUrl = extractHttpUrl(urlInput) ?? extractHttpUrl(context);
   const skipReason = options.forceTier0 ? "已强制使用 Tier0 离线模式" : getExternalAnalysisSkipReason(targetUrl);
@@ -108,8 +110,15 @@ export async function sandboxAnalyze(
   const urlscanPromise = needUrlscan && isUrlscanConfigured()
     ? analyzeWithUrlscan(targetUrl)
     : Promise.reject(new Error(needUrlscan ? "urlscan.io API 未配置" : "轻量检查未判定为极大风险，跳过完整扫描"));
+  const localScreenshotPromise = targetUrl
+    ? captureLocalScreenshot(targetUrl)
+    : Promise.resolve(null);
 
-  const [urlscanState, vtState] = await Promise.allSettled([urlscanPromise, vtPromise]);
+  const [urlscanState, vtState, screenshotState] = await Promise.allSettled([
+    urlscanPromise,
+    vtPromise,
+    localScreenshotPromise,
+  ]);
 
   if (urlscanState.status === "fulfilled") providers.urlscan = "used";
   else if (needUrlscan && isUrlscanConfigured()) {
@@ -138,8 +147,10 @@ export async function sandboxAnalyze(
   else if (lightweightResult) source = "lightweight";
   else if (vtLookups.length) source = "virustotal+tier0";
 
+  const localScreenshot = screenshotState.status === "fulfilled" ? screenshotState.value : null;
   const result: SandboxResult = {
     ...base,
+    screenshotUrl: localScreenshot ?? base.screenshotUrl,
     iocHits: mergeIocHits(base.iocHits, vtHits),
     verdict: vtLookups.length ? maxRisk(base.verdict, vtRisk(vtLookups)) : base.verdict,
     raw: {
@@ -147,6 +158,8 @@ export async function sandboxAnalyze(
       behavior: urlscanResult?.raw ?? lightweightResult?.raw ?? tier0.raw,
       virustotal: vtLookups.map((item) => item.raw),
       offlineFallback: !urlscanResult && !lightweightResult,
+      screenshotType: localScreenshot ? "captured" : undefined,
+      screenshotProvider: localScreenshot ? "local-browser" : undefined,
     },
   };
 
@@ -158,3 +171,7 @@ export async function sandboxAnalyze(
     fallbackReasons,
   };
 }
+
+
+
+

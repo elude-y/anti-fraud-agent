@@ -36,7 +36,6 @@ export function analyzeWithTier0(urlInput: string, context = ""): SandboxResult 
 
   if (highRisk) {
     const brand = signalText.includes("etc") ? "ETC 服务中心" : signalText.includes("bank") ? "银行安全中心" : "快递服务平台";
-    const snapshotVariant = signalText.includes("etc") ? "etc" : signalText.includes("bank") ? "bank" : "express";
     return {
       redirectChain: [
         { url: displayUrl, status: 302 },
@@ -44,7 +43,6 @@ export function analyzeWithTier0(urlInput: string, context = ""): SandboxResult 
         { url: `https://secure-form.example.org${url.pathname}`, status: 200 },
       ],
       finalUrl: `https://secure-form.example.org${url.pathname}`,
-      screenshotUrl: `/tier0-${snapshotVariant}-snapshot.png`,
       formFields: ["姓名", "身份证号", "银行卡号", "短信验证码"],
       jsBehaviors: ["读取浏览器指纹", "监听表单输入", "跨域外发数据", "阻止返回操作"],
       brandImpersonation: brand,
@@ -57,7 +55,7 @@ export function analyzeWithTier0(urlInput: string, context = ""): SandboxResult 
       raw: {
         source: "tier0",
         template: "credential-harvesting",
-        screenshotType: "simulated",
+        screenshotType: "not-captured",
         offlineFallback: true,
       },
     };
@@ -66,7 +64,6 @@ export function analyzeWithTier0(urlInput: string, context = ""): SandboxResult 
   return {
     redirectChain: hasRealUrl ? [{ url: displayUrl, status: 200 }] : [],
     finalUrl: hasRealUrl ? displayUrl : "未提取到链接",
-    screenshotUrl: hasRealUrl ? "/tier0-unknown-snapshot.png" : undefined,
     formFields: hasRealUrl ? ["手机号"] : [],
     jsBehaviors: hasRealUrl ? ["加载第三方统计脚本"] : ["无链接，未执行页面行为分析"],
     iocHits: hasRealUrl ? [{ type: "domain", value: host, verdict: "暂无明确恶意记录" }] : [],
@@ -75,8 +72,12 @@ export function analyzeWithTier0(urlInput: string, context = ""): SandboxResult 
     raw: {
       source: "tier0",
       template: hasRealUrl ? "unknown-domain" : "message-only",
-      screenshotType: hasRealUrl ? "simulated" : undefined,
+      screenshotType: "not-captured",
       offlineFallback: true,
     },
   };
 }
+
+
+
+

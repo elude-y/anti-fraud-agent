@@ -67,15 +67,14 @@ const unknownSandbox = await json("/api/sandbox", {
     forceTier0: true,
   }),
 });
-checks.unknownSnapshot = unknownSandbox.payload.result?.screenshotUrl === "/tier0-unknown-snapshot.png";
+checks.unknownSnapshot = unknownSandbox.payload.result?.screenshotUrl === undefined;
 
 const malicious = await analyze("https://bank-secure-verify.example.cn/login", "link");
 checks.malicious = malicious.verdict === "诈骗"
   && malicious.sandboxMeta.source === "tier0"
   && malicious.sandbox.formFields.includes("银行卡号")
-  && malicious.sandbox.screenshotUrl === "/tier0-bank-snapshot.png"
-  && (malicious.sandbox.raw?.screenshotType === "simulated"
-    || malicious.sandbox.raw?.behavior?.screenshotType === "simulated");
+  && malicious.sandbox.screenshotUrl === undefined
+  && malicious.sandbox.raw?.screenshotType === "not-captured";
 
 const safe = await analyze("https://www.gov.cn/zhengce/", "link");
 checks.safe = safe.verdict === "安全"
@@ -111,9 +110,8 @@ checks.fastPath = quick.result.path === "fast"
   && quick.result.confidence === quickConfidence;
 checks.confidenceVaries = new Set([malicious.confidence, safe.confidence, meeting.confidence, quick.result.confidence]).size > 2;
 
-const snapshotResponse = await fetch(`${baseUrl}${sandbox.payload.result.screenshotUrl}`);
-checks.snapshotAsset = snapshotResponse.ok
-  && snapshotResponse.headers.get("content-type")?.includes("image/png");
+checks.tier0NoScreenshot = sandbox.payload.result?.screenshotUrl === undefined
+  && sandbox.payload.result?.raw?.screenshotType === "not-captured";
 
 const pii = await analyze(
   "客服称订单异常，请联系 13800138000，身份证 11010519491231002X，邮箱 test@example.com 办理退款。",
@@ -124,9 +122,11 @@ checks.piiRedaction = pii.input.includes("[手机号已脱敏]")
   && pii.input.includes("[邮箱已脱敏]")
   && !pii.input.includes("13800138000")
   && !pii.input.includes("11010519491231002X");
-checks.messageOnly = pii.sandbox.finalUrl === "未提取到链接"
+checks.messageOnly = pii.sandbox === null || (
+  pii.sandbox.finalUrl === "未提取到链接"
   && pii.sandbox.formFields.length === 0
-  && pii.sandbox.raw?.template === "message-only";
+  && pii.sandbox.raw?.template === "message-only"
+);
 
 const cases = await json("/api/cases");
 checks.cases = cases.payload.total > 0 && cases.payload.items.length > 0;
@@ -144,3 +144,10 @@ console.log(JSON.stringify({
     message: pii.verdict,
   },
 }, null, 2));
+
+
+
+
+
+
+

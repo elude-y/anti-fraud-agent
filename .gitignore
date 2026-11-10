@@ -13,6 +13,7 @@
 # testing
 /coverage
 /artifacts/
+/public/generated-screenshots/
 
 # next.js
 /.next/
@@ -41,3 +42,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+

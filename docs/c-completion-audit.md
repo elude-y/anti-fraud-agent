@@ -11,7 +11,7 @@
 | VirusTotal IOC | `src/lib/sandbox/virustotal.ts`、`checkIoc` | 已联网验证域名信誉查询 |
 | 独立 `check_ioc` 工具接口 | `POST /api/check-ioc` | 参数校验、供应商状态与持久化 |
 | Tier0 离线兜底 | `src/lib/sandbox/tier0.ts` | 恶意、安全、未知、纯短信场景 |
-| 页面截图 | 五种 Tier0 模板快照 + 在线 urlscan 截图 | `snapshotAsset`、UI 截图检查 |
+| 页面截图 | 本地 Chrome 完整页真实截图，失败回退 urlscan；加载成功才展示，Tier0 不生成模拟截图 | `tier0NoScreenshot`、UI 截图检查 |
 | 跳转链 | 沙箱证据节点 | API/UI 冒烟测试 |
 | 表单字段 | 沙箱证据节点 | 恶意与安全场景 |
 | JS 行为 | 沙箱证据节点 | API/UI 冒烟测试 |
@@ -60,3 +60,5 @@ Invoke-RestMethod http://127.0.0.1:3000/api/sandbox
 ```
 
 `urlscan` 和 `virustotal` 当前均为 `true`。真实测试应继续使用可公开访问且不含隐私信息的域名。
+
+
