@@ -13,6 +13,9 @@ import { sandboxAnalyze } from "../src/lib/sandbox/analyze";
 import { deriveVerdict } from "../src/lib/agent/synthesize";
 import type { RiskLevel, SandboxResult } from "../src/lib/contracts";
 import { TEST_SET_200 } from "./test-set-200";
+import { writeFileSync } from "node:fs";
+import dotenv from "dotenv";
+dotenv.config({ path: ".env.local" });
 
 type Mode = "rule-only" | "rule-rag" | "full";
 
@@ -53,7 +56,7 @@ async function analyze(input: string, mode: Mode): Promise<RunResult> {
 
   if (mode === "full") {
     // 完整AI：置信度调度 + 规则兜底，低置信度才进沙箱
-    const decision = decidePath(confidence, normalized);
+    const decision = await decidePath(confidence, normalized);
     if (decision.path === "sandbox" && normalized.urls.length > 0) {
       const env = await sandboxAnalyze(normalized.urls[0], normalized.raw);
       sandbox = env.result;
@@ -98,17 +101,45 @@ async function runMode(mode: Mode): Promise<ModeStats> {
   return stats;
 }
 
-function printStats(mode: Mode, stats: ModeStats, n: number) {
+function printStats(mode: Mode, stats: ModeStats, n: number, riskyCount: number, safeCount: number) {
   const acc = ((stats.correct / n) * 100).toFixed(1);
   const sr = ((stats.sandboxCalls / n) * 100).toFixed(1);
   const avg = (stats.totalLatency / n).toFixed(0);
+  const tp = riskyCount - stats.falseNeg;
+  const fp = stats.falsePos;
+  const fn = stats.falseNeg;
+  const precision = tp + fp > 0 ? tp / (tp + fp) : 0;
+  const recall = tp + fn > 0 ? tp / (tp + fn) : 0;
+  const f1 = precision + recall > 0 ? (2 * precision * recall) / (precision + recall) : 0;
   console.log(`【${MODE_LABEL[mode]}】`);
   console.log(`  准确率：${acc}%  (${stats.correct}/${n})`);
+  console.log(`  Precision（精准率）：${(precision * 100).toFixed(1)}%`);
+  console.log(`  Recall（召回率）：${(recall * 100).toFixed(1)}%`);
+  console.log(`  F1：${(f1 * 100).toFixed(1)}%`);
   console.log(`  漏报（诈骗判成安全）：${stats.falseNeg} 条`);
   console.log(`  误报（安全判成风险）：${stats.falsePos} 条`);
   console.log(`  沙箱调用率：${sr}%`);
   console.log(`  平均耗时：${avg}ms`);
   console.log("");
+}
+
+function computeMetrics(stats: ModeStats, n: number, riskyCount: number) {
+  const tp = riskyCount - stats.falseNeg;
+  const fp = stats.falsePos;
+  const fn = stats.falseNeg;
+  const precision = tp + fp > 0 ? tp / (tp + fp) : 0;
+  const recall = tp + fn > 0 ? tp / (tp + fn) : 0;
+  const f1 = precision + recall > 0 ? (2 * precision * recall) / (precision + recall) : 0;
+  return {
+    accuracy: Number((stats.correct / n).toFixed(4)),
+    precision: Number(precision.toFixed(4)),
+    recall: Number(recall.toFixed(4)),
+    f1: Number(f1.toFixed(4)),
+    falseNeg: stats.falseNeg,
+    falsePos: stats.falsePos,
+    sandboxRate: Number((stats.sandboxCalls / n).toFixed(4)),
+    avgLatencyMs: Number((stats.totalLatency / n).toFixed(1)),
+  };
 }
 
 async function main() {
@@ -121,7 +152,7 @@ async function main() {
   const results: Record<Mode, ModeStats> = {} as Record<Mode, ModeStats>;
   for (const mode of ["rule-only", "rule-rag", "full"] as Mode[]) {
     results[mode] = await runMode(mode);
-    printStats(mode, results[mode], n);
+    printStats(mode, results[mode], n, riskyCount, safeCount);
   }
 
   // 完整AI 的误判明细（帮助定位难样本）
@@ -133,6 +164,27 @@ async function main() {
     }
   }
   console.log("\n结论：完整AI 通过置信度调度，用更低的沙箱调用率拿到更高准确率。\n");
+
+  // 保存原始实验结果（含数据口径说明）
+  const report = {
+    generatedAt: new Date().toISOString(),
+    dataset: {
+      source: "自建评测集（人工构造）",
+      note: "本测试集为人工构造的评测样本，用于消融对比，不代表真实线上流量。真实在线识别效果需单独统计并明确标注。",
+      composition: "60 典型诈骗短信 + 40 可疑链接/仿冒网站 + 60 正常样本 + 40 难判断（谐音/拆字/隐藏关键词）",
+      total: n,
+      risky: riskyCount,
+      safe: safeCount,
+    },
+    results: {
+      "rule-only": computeMetrics(results["rule-only"], n, riskyCount),
+      "rule-rag": computeMetrics(results["rule-rag"], n, riskyCount),
+      full: computeMetrics(results.full, n, riskyCount),
+    },
+    wrongCasesFull: full.wrong.map((w) => ({ label: w.label, verdict: w.verdict, input: w.input })),
+  };
+  writeFileSync("scripts/ablation-results.json", JSON.stringify(report, null, 2), "utf-8");
+  console.log("已保存实验结果到 scripts/ablation-results.json\n");
 }
 
 main().catch((e) => {

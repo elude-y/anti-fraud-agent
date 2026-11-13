@@ -807,6 +807,7 @@
 .badgeFraud { color: #e84e5e; background: #fff0f2; }
 .badgeHigh { color: #e96e31; background: #fff0e7; }
 .badgeSuspicious { color: #c58b19; background: #fff7df; }
+.badgePending { color: #6b7a92; background: #eef1f6; }
 .badgeSafe { color: #079b7b; background: #e8f8f4; }
 
 .numeric {
@@ -1507,35 +1508,23 @@
   background: radial-gradient(120% 80% at 50% 0%, transparent 45%, rgba(224, 231, 242, 0.55));
 }
 
-.cursorGlow {
-  position: fixed;
-  inset: 0;
-  z-index: 1; /* 位于背景之上、内容（z-index: 2）之下 */
-  pointer-events: none;
-  /* 由 CursorGlow 组件在挂载后写入 1，避免 SSR 首帧闪烁 */
-  opacity: var(--glow-opacity, 0);
-  background: radial-gradient(
-    280px circle at var(--glow-x, 50%) var(--glow-y, 30%),
-    rgba(46, 109, 246, 0.1) 0%,
-    rgba(46, 109, 246, 0.04) 10%,
-    transparent 30%
-  );
-  transition: opacity 280ms ease;
-}
-
-/* 触屏设备没有 hover，直接不渲染光晕层 */
-@media (hover: none) {
-  .cursorGlow {
-    display: none;
-  }
-}
-
-/* 用户偏好减少动态效果时保持静态，不做跟随 */
-@media (prefers-reduced-motion: reduce) {
-  .cursorGlow {
-    display: none;
-  }
-}
 
 
 
+
+/* 案例库：200 条数据仓分页与真实信号展示 */
+.caseControlPanel { margin-bottom: 18px; animation-delay: 40ms; }
+.caseControlPanel .toolbar { padding-block: 16px; }
+.filterButton small { margin-left: 5px; color: #8c9bb0; font-size: 8px; font-variant-numeric: tabular-nums; }
+.filterActive small { color: rgba(255, 255, 255, 0.78); }
+.caseLayoutSpaced { margin-top: 0; }
+.casePagination { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 13px 17px 16px; border-top: 1px solid rgba(105, 132, 177, 0.1); }
+.casePagination button { display: inline-flex; align-items: center; gap: 5px; min-height: 31px; padding: 0 10px; color: #55708f; font: inherit; font-size: 9px; font-weight: 700; cursor: pointer; border: 1px solid rgba(104, 132, 178, 0.14); border-radius: 9px; background: rgba(255, 255, 255, 0.78); transition: color 160ms ease, border-color 160ms ease, transform 160ms ease; }
+.casePagination button:hover:not(:disabled) { color: #2f6ee9; border-color: rgba(47, 110, 233, 0.26); transform: translateY(-1px); }
+.casePagination button:disabled { cursor: not-allowed; opacity: 0.38; }
+.casePagination span { color: #8b99ab; font-size: 9px; font-variant-numeric: tabular-nums; }
+.caseScript { margin: 0; padding: 12px 13px; color: #5f718b; font-size: 10px; line-height: 1.7; border-left: 3px solid #5c88e5; border-radius: 0 10px 10px 0; background: rgba(242, 247, 255, 0.82); }
+.caseEmpty { display: grid; min-height: 330px; padding: 35px; place-items: center; justify-items: center; text-align: center; color: #6b8ed4; }
+.caseEmpty h2 { margin: 12px 0 0; color: #34455f; font-size: 19px; }
+.caseEmpty p { margin: 7px 0 0; color: #8a97a9; font-size: 10px; }
+.caseEmpty button { margin-top: 17px; padding: 8px 12px; color: #2f6ee9; font: inherit; font-size: 9px; font-weight: 720; cursor: pointer; border: 1px solid rgba(47, 110, 233, 0.2); border-radius: 9px; background: #edf4ff; }

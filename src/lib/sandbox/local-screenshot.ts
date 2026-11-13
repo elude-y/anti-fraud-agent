@@ -4,6 +4,7 @@ import { existsSync } from "node:fs";
 import { mkdir, readFile, readdir, rm, unlink, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
+import { getExternalAnalysisSkipReason } from "./url-utils";
 
 const chromeCandidates = process.platform === "win32"
   ? [
@@ -191,6 +192,8 @@ async function runChromeFullPage(executable: string, url: string, outputPath: st
 export async function captureLocalScreenshot(target: URL): Promise<string | null> {
   if (process.env.SAFEAGENT_LOCAL_SCREENSHOT === "0") return null;
   if (!["http:", "https:"].includes(target.protocol)) return null;
+  // SSRF 防护：截图前检查目标，不截图 localhost/内网/云元数据地址
+  if (getExternalAnalysisSkipReason(target)) return null;
 
   const executable = chromeExecutable();
   if (!executable) return null;

@@ -20,6 +20,7 @@ function riskClass(level: RiskLevel, classes: Record<string, string>) {
   if (level === "诈骗") return classes.fraud;
   if (level === "高危") return classes.high;
   if (level === "可疑") return classes.suspicious;
+  if (level === "待核验") return classes.pending;
   return classes.safe;
 }
 

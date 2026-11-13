@@ -156,7 +156,7 @@ export interface EvidenceNode {
 // ────────────────────────────────────────────────────────────
 // 契约⑤ 研判结论（A 生产，C 渲染最终结论卡）
 // ────────────────────────────────────────────────────────────
-export type RiskLevel = '安全' | '可疑' | '高危' | '诈骗';
+export type RiskLevel = '安全' | '待核验' | '可疑' | '高危' | '诈骗';
 
 export interface VerdictResult {
   verdict: RiskLevel;

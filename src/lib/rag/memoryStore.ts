@@ -72,7 +72,9 @@ export function searchMemory(query: string, vec: number[] | null, topK = 5): Mat
   const useVector = !isEmpty(vec, dim);
 
   const scored = CASES.map((c) => {
-    const sim = useVector
+    // 空向量（未生成 embedding）的条目走关键词兜底，避免余弦计算 NaN
+    const hasEmbedding = Array.isArray(c.embedding) && c.embedding.length === dim;
+    const sim = useVector && hasEmbedding
       ? cosine(vec as number[], c.embedding)
       : keywordScore(query, `${c.title} ${c.content}`);
     return { c, sim };
@@ -101,7 +103,9 @@ export function searchMemoryPatterns(
   const useVector = !isEmpty(vec, dim);
 
   const scored = PATTERNS.map((p) => {
-    const sim = useVector
+    // 空向量条目走关键词兜底
+    const hasEmbedding = Array.isArray(p.embedding) && p.embedding.length === dim;
+    const sim = useVector && hasEmbedding
       ? cosine(vec as number[], p.embedding)
       : keywordScore(query, `${p.pattern} ${p.keywords.join(" ")}`);
     return { p, sim };

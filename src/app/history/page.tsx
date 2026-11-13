@@ -12,7 +12,6 @@ import {
 } from "@phosphor-icons/react";
 import { useEffect, useMemo, useState } from "react";
 import AppHeader from "@/components/app-header";
-import CursorGlow from "@/components/cursor-glow";
 import { seedHistory, type HistoryRecord } from "@/lib/demo-data";
 import type { RiskLevel } from "@/lib/contracts";
 import styles from "@/app/workspace.module.css";
@@ -23,6 +22,7 @@ function badgeClass(level: RiskLevel) {
   if (level === "诈骗") return styles.badgeFraud;
   if (level === "高危") return styles.badgeHigh;
   if (level === "可疑") return styles.badgeSuspicious;
+  if (level === "待核验") return styles.badgePending;
   return styles.badgeSafe;
 }
 
@@ -55,7 +55,6 @@ export default function HistoryPage() {
 
   return (
     <main className={`${styles.page} ${styles.gridPage}`}>
-      <CursorGlow className={styles.cursorGlow} />
       <AppHeader />
       <div className={styles.main}>
         <header className={styles.pageHeading}>

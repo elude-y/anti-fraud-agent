@@ -11,10 +11,10 @@ interface SandboxAnalyzeOptions {
   forceTier0?: boolean;
 }
 
-const riskRank: Record<RiskLevel, number> = { "安全": 0, "可疑": 1, "高危": 2, "诈骗": 3 };
+const riskRank: Record<RiskLevel, number> = { "安全": 0, "待核验": 1, "可疑": 2, "高危": 3, "诈骗": 4 };
 
 function asRiskLevel(value: string): RiskLevel {
-  return value === "安全" || value === "可疑" || value === "高危" || value === "诈骗" ? value : "可疑";
+  return value === "安全" || value === "待核验" || value === "可疑" || value === "高危" || value === "诈骗" ? value : "待核验";
 }
 
 function maxRisk(...levels: string[]) {

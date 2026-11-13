@@ -84,7 +84,7 @@ export async function runAnalysis(input: string): Promise<AnalysisResult> {
     ts: Date.now(),
   });
 
-  const decision = decidePath(confidence, normalized);
+  const decision = await decidePath(confidence, normalized);
   let sandbox: SandboxResult | null = null;
   let sandboxMeta: Omit<SandboxEnvelope, "result"> | null = null;
 
@@ -98,8 +98,10 @@ export async function runAnalysis(input: string): Promise<AnalysisResult> {
         providers: envelope.providers,
         fallbackReasons: envelope.fallbackReasons,
       };
+      const simulated = (sandbox.raw as { simulated?: boolean } | undefined)?.simulated === true;
+      const jumpVerb = simulated ? "离线模板推演" : "捕获";
       const payload: SandboxEvidencePayload = {
-        description: `捕获 ${sandbox.redirectChain.length} 段跳转、${sandbox.formFields.length} 个表单字段与 ${sandbox.jsBehaviors.length} 项脚本行为。`,
+        description: `${jumpVerb} ${sandbox.redirectChain.length} 段跳转、${sandbox.formFields.length} 个表单字段与 ${sandbox.jsBehaviors.length} 项脚本行为${simulated ? "（离线模拟，未真实访问目标）" : "。"}`,
         tags: [
           envelope.source,
           ...sandbox.formFields.slice(0, 3),

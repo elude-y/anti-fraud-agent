@@ -3,7 +3,7 @@ import { vectorSearchCases } from "@/lib/db/cases";
 import { vectorSearchPatterns } from "@/lib/db/patterns";
 import { isSupabaseConfigured } from "@/lib/db/supabase";
 import { createEmbedding } from "@/lib/rag/embedding";
-import { calcSignals } from "@/lib/rag/signals";
+import { calcSignals, normalizeText } from "@/lib/rag/signals";
 import { rerank } from "@/lib/rag/rerank";
 import { searchMemory, searchMemoryPatterns, memoryStoreSize } from "@/lib/rag/memoryStore";
 import { searchAntiFraudCases } from "@/lib/rag/search";
@@ -20,13 +20,15 @@ const MIN_RELEVANCE = 0.3;
  */
 export async function rag_search(query: string): Promise<RagSearchResult> {
   const forcedOffline = process.env.RAG_OFFLINE === "1";
+  // 向量编码前先归一化（谐音/拆字），让「信用咔」「点.击.认.领」能命中正常词库
+  const embeddedQuery = normalizeText(query);
   let matches: RagMatch[] = [];
   let patterns: RagPatternMatch[] = [];
 
   // 1. 联网路径：Supabase 向量检索（案例 + 话术）
   if (isSupabaseConfigured() && !forcedOffline) {
     try {
-      const queryVec = await createEmbedding(query);
+      const queryVec = await createEmbedding(embeddedQuery);
 
       const raw = await vectorSearchCases(queryVec, 5);
       matches = raw.map((item) => ({
@@ -63,7 +65,7 @@ export async function rag_search(query: string): Promise<RagSearchResult> {
   if (matches.length === 0 && memoryStoreSize() > 0) {
     let queryVec: number[] | null = null;
     try {
-      queryVec = await createEmbedding(query);
+      queryVec = await createEmbedding(embeddedQuery);
     } catch {
       queryVec = null;
     }

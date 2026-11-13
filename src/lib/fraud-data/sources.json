@@ -1,0 +1,322 @@
+[
+  {
+    "id": "SRC-001",
+    "name": "光明网",
+    "publisher": "公安部刑侦局（光明网转载）",
+    "publishedAt": "2025-07-29",
+    "region": "北京市",
+    "kind": "official",
+    "url": null,
+    "caseCount": 3
+  },
+  {
+    "id": "SRC-002",
+    "name": "光明网",
+    "publisher": "光明网",
+    "publishedAt": "2025-02-06",
+    "region": "北京市",
+    "kind": "media",
+    "url": null,
+    "caseCount": 5
+  },
+  {
+    "id": "SRC-003",
+    "name": "广州市公安局",
+    "publisher": "广州市公安局",
+    "publishedAt": "2026-03-21",
+    "region": "广东省广州市",
+    "kind": "official",
+    "url": null,
+    "caseCount": 3
+  },
+  {
+    "id": "SRC-004",
+    "name": "广州市中级人民法院",
+    "publisher": "广州市中级人民法院",
+    "publishedAt": "2023-09-18",
+    "region": "广东省广州市",
+    "kind": "official",
+    "url": null,
+    "caseCount": 4
+  },
+  {
+    "id": "SRC-005",
+    "name": "晋中市公安局",
+    "publisher": "国家反诈中心（晋中市公安局转载）",
+    "publishedAt": "2025-06-11",
+    "region": "山西省晋中市",
+    "kind": "official",
+    "url": null,
+    "caseCount": 44
+  },
+  {
+    "id": "SRC-006",
+    "name": "中央网信办",
+    "publisher": "国家网信办",
+    "publishedAt": "2022-04-14",
+    "region": "北京市",
+    "kind": "official",
+    "url": null,
+    "caseCount": 6
+  },
+  {
+    "id": "SRC-007",
+    "name": "怀化市公安局",
+    "publisher": "怀化市公安局",
+    "publishedAt": "2025-07-04",
+    "region": "湖南省怀化市",
+    "kind": "official",
+    "url": null,
+    "caseCount": 5
+  },
+  {
+    "id": "SRC-008",
+    "name": "淮北市公安局",
+    "publisher": "淮北市公安局",
+    "publishedAt": "2025-05-20",
+    "region": "安徽省淮北市",
+    "kind": "official",
+    "url": null,
+    "caseCount": 5
+  },
+  {
+    "id": "SRC-009",
+    "name": "江门市公安局",
+    "publisher": "江门市公安局",
+    "publishedAt": "2021-09-08",
+    "region": "广东省江门市",
+    "kind": "official",
+    "url": null,
+    "caseCount": 1
+  },
+  {
+    "id": "SRC-010",
+    "name": "江门市公安局",
+    "publisher": "江门市公安局",
+    "publishedAt": "2021-09-16",
+    "region": "广东省江门市",
+    "kind": "official",
+    "url": null,
+    "caseCount": 1
+  },
+  {
+    "id": "SRC-011",
+    "name": "锦州市公安局",
+    "publisher": "锦州市公安局",
+    "publishedAt": "2026-01-22",
+    "region": "辽宁省锦州市",
+    "kind": "official",
+    "url": null,
+    "caseCount": 1
+  },
+  {
+    "id": "SRC-012",
+    "name": "人民法院报",
+    "publisher": "人民法院报",
+    "publishedAt": "2025-11-28",
+    "region": "山西省",
+    "kind": "official",
+    "url": null,
+    "caseCount": 3
+  },
+  {
+    "id": "SRC-013",
+    "name": "平安浙江网",
+    "publisher": "人民公安报（平安浙江网转载）",
+    "publishedAt": "2026-09-27",
+    "region": "浙江省",
+    "kind": "official",
+    "url": null,
+    "caseCount": 5
+  },
+  {
+    "id": "SRC-014",
+    "name": "人民网湖南频道",
+    "publisher": "人民网湖南频道",
+    "publishedAt": "2025-08-26",
+    "region": "湖南省",
+    "kind": "media",
+    "url": null,
+    "caseCount": 3
+  },
+  {
+    "id": "SRC-015",
+    "name": "人民网四川频道",
+    "publisher": "人民网四川频道",
+    "publishedAt": "2025-11-15",
+    "region": "四川省",
+    "kind": "media",
+    "url": null,
+    "caseCount": 2
+  },
+  {
+    "id": "SRC-016",
+    "name": "铜陵市公安局",
+    "publisher": "铜陵市公安局",
+    "publishedAt": "2025-10-11",
+    "region": "安徽省铜陵市",
+    "kind": "official",
+    "url": null,
+    "caseCount": 3
+  },
+  {
+    "id": "SRC-017",
+    "name": "武汉市公安局",
+    "publisher": "武汉市公安局",
+    "publishedAt": "2026-01-14",
+    "region": "湖北省武汉市",
+    "kind": "official",
+    "url": null,
+    "caseCount": 1
+  },
+  {
+    "id": "SRC-018",
+    "name": "宣城市公安局",
+    "publisher": "宣城市公安局",
+    "publishedAt": "2026-03-16",
+    "region": "安徽省宣城市",
+    "kind": "official",
+    "url": null,
+    "caseCount": 4
+  },
+  {
+    "id": "SRC-019",
+    "name": "光明网",
+    "publisher": "央视新闻（光明网转载）",
+    "publishedAt": "2026-01-07",
+    "region": "北京市",
+    "kind": "media",
+    "url": null,
+    "caseCount": 4
+  },
+  {
+    "id": "SRC-020",
+    "name": "郑州市公安局",
+    "publisher": "郑州市公安局",
+    "publishedAt": "2024-07-05",
+    "region": "河南省郑州市",
+    "kind": "official",
+    "url": null,
+    "caseCount": 10
+  },
+  {
+    "id": "SRC-021",
+    "name": "中国警察网",
+    "publisher": "中国警察网-人民公安报",
+    "publishedAt": "2025-08-22",
+    "region": "北京市",
+    "kind": "official",
+    "url": null,
+    "caseCount": 3
+  },
+  {
+    "id": "SRC-022",
+    "name": "中国青年网",
+    "publisher": "中国青年网",
+    "publishedAt": "2026-05-28",
+    "region": "北京市",
+    "kind": "media",
+    "url": null,
+    "caseCount": 4
+  },
+  {
+    "id": "SRC-023",
+    "name": "最高人民法院",
+    "publisher": "最高人民法院",
+    "publishedAt": "2016-03-04",
+    "region": "北京市",
+    "kind": "official",
+    "url": null,
+    "caseCount": 9
+  },
+  {
+    "id": "SRC-024",
+    "name": "最高人民法院",
+    "publisher": "最高人民法院",
+    "publishedAt": "2019-11-19",
+    "region": "北京市",
+    "kind": "official",
+    "url": null,
+    "caseCount": 10
+  },
+  {
+    "id": "SRC-025",
+    "name": "最高人民法院",
+    "publisher": "最高人民法院",
+    "publishedAt": "2022-08-24",
+    "region": "北京市",
+    "kind": "official",
+    "url": null,
+    "caseCount": 6
+  },
+  {
+    "id": "SRC-026",
+    "name": "最高人民法院",
+    "publisher": "最高人民法院",
+    "publishedAt": "2022-09-06",
+    "region": "北京市",
+    "kind": "official",
+    "url": null,
+    "caseCount": 10
+  },
+  {
+    "id": "SRC-027",
+    "name": "最高人民法院",
+    "publisher": "最高人民法院",
+    "publishedAt": "2024-07-26",
+    "region": "北京市",
+    "kind": "official",
+    "url": null,
+    "caseCount": 10
+  },
+  {
+    "id": "SRC-028",
+    "name": "最高人民法院",
+    "publisher": "最高人民法院",
+    "publishedAt": "2025-12-01",
+    "region": "北京市",
+    "kind": "official",
+    "url": null,
+    "caseCount": 6
+  },
+  {
+    "id": "SRC-029",
+    "name": "最高人民法院",
+    "publisher": "最高人民法院",
+    "publishedAt": "2026-02-26",
+    "region": "北京市",
+    "kind": "official",
+    "url": null,
+    "caseCount": 5
+  },
+  {
+    "id": "SRC-030",
+    "name": "最高人民检察院",
+    "publisher": "最高人民检察院",
+    "publishedAt": "2021-06-23",
+    "region": "北京市",
+    "kind": "official",
+    "url": null,
+    "caseCount": 5
+  },
+  {
+    "id": "SRC-031",
+    "name": "最高人民检察院",
+    "publisher": "最高人民检察院",
+    "publishedAt": "2023-11-30",
+    "region": "北京市",
+    "kind": "official",
+    "url": null,
+    "caseCount": 11
+  },
+  {
+    "id": "SRC-032",
+    "name": "最高人民检察院",
+    "publisher": "最高人民检察院",
+    "publishedAt": "2024-02-23",
+    "region": "北京市",
+    "kind": "official",
+    "url": null,
+    "caseCount": 8
+  }
+]

@@ -52,6 +52,7 @@
 .fraud { color: #ef5362; background: #fff0f2; }
 .high { color: #f2743a; background: #fff1e9; }
 .suspicious { color: #d79a19; background: #fff7dd; }
+.pending { color: #6b7a92; background: #eef1f6; }
 .safe { color: #0aaa86; background: #e7f9f4; }
 
 .reasonSection {

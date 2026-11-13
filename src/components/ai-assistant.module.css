@@ -678,3 +678,44 @@
 
 
 
+
+/* AI 问答 / 专家研判模式切换 */
+.modeNav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  margin-bottom: 11px;
+  padding: 4px;
+  border: 1px solid rgba(106, 134, 179, 0.13);
+  border-radius: 13px;
+  background: rgba(235, 242, 252, 0.76);
+}
+
+.modeNav button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 34px;
+  color: #70819a;
+  font: inherit;
+  font-size: 9px;
+  font-weight: 720;
+  cursor: pointer;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  transition: color 170ms ease, background 170ms ease, box-shadow 170ms ease, transform 170ms ease;
+}
+
+.modeNav button:hover {
+  color: #2d69d9;
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.modeNav .modeActive {
+  color: #265fc9;
+  background: #fff;
+  box-shadow: 0 5px 13px rgba(62, 94, 146, 0.12);
+  transform: translateY(-1px);
+}

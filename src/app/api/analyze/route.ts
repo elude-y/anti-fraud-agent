@@ -5,6 +5,8 @@ import { computeConfidence } from "@/lib/agent/confidence";
 import { normalize } from "@/lib/agent/normalize";
 import { computeRuleScore } from "@/lib/agent/rules";
 import { decidePath } from "@/lib/agent/stateMachine";
+import { isTrustedDomainSafe, maxRisk } from "@/lib/agent/synthesize";
+import { synthesizeWithLLM } from "@/lib/agent/llm-synthesis";
 import type {
   AnalysisStage,
   AnalysisStreamResult,
@@ -22,7 +24,7 @@ import { redactUrlForDisplay } from "@/lib/sandbox/url-utils";
 
 const requestSchema = z.object({
   input: z.string().max(500).optional(),
-  mode: z.enum(["link", "message"]).optional(),
+  mode: z.string().optional(),
   forceTier0: z.boolean().optional().default(false),
   messages: z.array(z.object({
     role: z.string(),
@@ -32,13 +34,12 @@ const requestSchema = z.object({
   message: "缺少待研判内容",
 });
 
-const riskRank: Record<RiskLevel, number> = { "安全": 0, "可疑": 1, "高危": 2, "诈骗": 3 };
 const MIN_RAG_SIMILARITY = 0.6;
 
 function asRiskLevel(value: string): RiskLevel {
-  return value === "安全" || value === "可疑" || value === "高危" || value === "诈骗"
+  return value === "安全" || value === "待核验" || value === "可疑" || value === "高危" || value === "诈骗"
     ? value
-    : "可疑";
+    : "待核验";
 }
 
 function messageText(messages: Array<{ role: string; parts: unknown[] }> | undefined) {
@@ -143,17 +144,23 @@ function buildResult(input: {
 }) {
   const { normalized, mode, sandbox, trustedMatch, confidenceScore } = input;
   const sandboxLevel = sandbox ? asRiskLevel(sandbox.result.verdict) : null;
-  const verdict: RiskLevel = sandboxLevel === "安全"
+  // RAG 命中安全案例不产生定论（与 deriveVerdict 一致，交给沙箱/待核验）
+  const ragLevel = trustedMatch && trustedMatch.riskLabel !== "安全" ? trustedMatch.riskLabel : null;
+  // 综合判定：白名单可信域名 → 权威安全；否则取沙箱与 RAG 中风险更高的一方；
+  // 无任何有效证据时标「待核验」
+  const verdict: RiskLevel = isTrustedDomainSafe(sandbox?.result ?? null)
     ? "安全"
-    : sandboxLevel && trustedMatch && riskRank[trustedMatch.riskLabel] > riskRank[sandboxLevel]
-      ? trustedMatch.riskLabel
-      : sandboxLevel ?? trustedMatch?.riskLabel ?? "可疑";
+    : (sandboxLevel || ragLevel)
+      ? maxRisk(sandboxLevel ?? "安全", ragLevel ?? "安全")
+      : "待核验";
 
   const suggestion = verdict === "安全"
     ? "当前未发现明确恶意行为。建议仍通过官方 App、官网或客服电话独立核验后再操作。"
-    : verdict === "可疑"
-      ? "证据尚不足以确认恶意。请勿填写敏感信息，通过官方渠道核实链接来源后再决定是否访问。"
-      : "请立即停止访问或继续沟通，不要填写银行卡、密码或验证码；保留截图和原始消息，并通过官方渠道报警或核实。";
+    : verdict === "待核验"
+      ? "当前缺少可验证的证据，暂无法确认是否安全。请勿填写敏感信息，通过官方渠道核实后再操作。"
+      : verdict === "可疑"
+        ? "证据尚不足以确认恶意。请勿填写敏感信息，通过官方渠道核实链接来源后再决定是否访问。"
+        : "请立即停止访问或继续沟通，不要填写银行卡、密码或验证码；保留截图和原始消息，并通过官方渠道报警或核实。";
 
   const riskyIocCount = sandbox?.result.iocHits.filter(
     (item) => !/白名单|低风险|暂无|暂未|安全/.test(item.verdict),
@@ -164,25 +171,30 @@ function buildResult(input: {
   const conflict = Boolean(trustedMatch && sandboxLevel && trustedMatch.riskLabel !== sandboxLevel);
   const insufficientEvidence = !sandbox && !trustedMatch && normalized.riskKeywords.length === 0 && confidenceScore < 0.55;
 
-  let summary = verdict === "安全"
-    ? sandbox
+  let summary: string;
+  if (verdict === "待核验") {
+    summary = "当前未完成真实验证，无法确认该链接是否安全。建议通过官方渠道核实后再操作。";
+  } else if (verdict === "安全") {
+    summary = sandbox
       ? sandbox.source === "tier0"
         ? "离线白名单与规则判定为安全；建议仍通过官方入口核验。"
         : "沙箱与白名单证据指向安全；建议仍通过官方入口核验。"
-      : `${matchContext}案例检索与规则未发现明显风险，建议通过官方入口再次核验。`
-    : riskyIocCount
-      ? `${matchContext}沙箱发现 ${riskyIocCount} 条风险 IOC 与 ${sandbox?.result.formFields.length ?? 0} 个敏感字段。`
-      : sandbox
-        ? normalized.urls.length
-          ? `${matchContext}完成案例检索与 ${sandboxSourceLabel(sandbox.source)} 验证，现有证据指向“${verdict}”。`
-          : `${matchContext}未提取到可验证的链接，现有短信与案例证据指向“${verdict}”，请核实消息来源。`
-        : `${matchContext}高置信度案例检索与规则信号指向“${verdict}”，未调用沙箱。`;
+      : `${matchContext}案例检索与规则未发现明显风险，建议通过官方入口再次核验。`;
+  } else if (riskyIocCount) {
+    summary = `${matchContext}沙箱发现 ${riskyIocCount} 条风险 IOC 与 ${sandbox?.result.formFields.length ?? 0} 个敏感字段。`;
+  } else if (sandbox) {
+    summary = normalized.urls.length
+      ? `${matchContext}完成案例检索与 ${sandboxSourceLabel(sandbox.source)} 验证，现有证据指向“${verdict}”。`
+      : `${matchContext}未提取到可验证的链接，现有短信与案例证据指向“${verdict}”，请核实消息来源。`;
+  } else {
+    summary = `${matchContext}高置信度案例检索与规则信号指向“${verdict}”，未调用沙箱。`;
+  }
 
   // 证据冲突 / 证据不足时，明确告知用户，而不是含糊带过
   if (conflict) {
     summary = `检测结果存在冲突：案例检索指向“${trustedMatch?.riskLabel}”，行为检测指向“${sandboxLevel}”，已按更严格标准判定为“${verdict}”。`;
-  } else if (insufficientEvidence && verdict === "可疑") {
-    summary = "现有证据不足，无法确认风险等级，暂判定为“可疑”。建议通过官方渠道（如 96110 反诈专线）进一步核实。";
+  } else if (insufficientEvidence && (verdict === "可疑" || verdict === "待核验")) {
+    summary = "现有证据不足，无法确认风险等级，暂判定为“待核验”。建议通过官方渠道（如 96110 反诈专线）进一步核实。";
   }
 
   return {
@@ -213,6 +225,12 @@ export async function POST(request: Request) {
 
   const parsed = requestSchema.safeParse(body);
   if (!parsed.success) {
+    // 诊断用：记录具体校验失败原因，定位间歇性 400
+    const firstIssue = parsed.error.issues[0];
+    const reason = firstIssue
+      ? `${firstIssue.path.join(".") || "(root)"}: ${firstIssue.message}`
+      : "未知原因";
+    console.warn(`[analyze] 请求校验失败 → ${reason}`, JSON.stringify(body).slice(0, 400));
     return NextResponse.json({ message: "请输入 1 至 500 字的链接或短信内容" }, { status: 400 });
   }
 
@@ -225,7 +243,7 @@ export async function POST(request: Request) {
   }
 
   const inferredMode = input.match(/https?:\/\//i) ? "link" : "message";
-  const mode = parsed.data.mode ?? inferredMode;
+  const mode = parsed.data.mode === "link" || parsed.data.mode === "message" ? parsed.data.mode : inferredMode;
 
   const stream = createUIMessageStream<SafeAgentUIMessage>({
     onError: (error) => error instanceof Error ? error.message : "研判流发生未知错误",
@@ -300,7 +318,7 @@ export async function POST(request: Request) {
         const ruleScore = computeRuleScore(normalized);
         const confidence = computeConfidence(rag.topSimilarity, rag.labelAgreement, rag.coverageScore, ruleScore);
         const trustedMatch = relevantRagMatch(rag, normalized.raw);
-        const pathDecision = decidePath(confidence, normalized);
+        const pathDecision = await decidePath(confidence, normalized);
         const path = pathDecision.path === "fast" && !trustedMatch ? "sandbox" : pathDecision.path;
         const pathReason = pathDecision.path === "fast" && !trustedMatch
           ? "检索结果相关性不足或案例类别与输入不符，转入沙箱验证。"
@@ -308,6 +326,7 @@ export async function POST(request: Request) {
         const confidenceNode = evidenceNode("confidence", "前置检索信号评估", {
           description: `沙箱前置信度 ${(confidence.score * 100).toFixed(0)}%，标签一致性 ${(rag.labelAgreement * 100).toFixed(0)}%，关键要素覆盖度 ${(rag.coverageScore * 100).toFixed(0)}%。${pathReason}`,
           tags: [
+            pathDecision.planner === "llm" ? "模型规划路径" : "规则护栏",
             `Top-1 ${(rag.topSimilarity * 100).toFixed(0)}%`,
             `覆盖度 ${(rag.coverageScore * 100).toFixed(0)}%`,
             `规则分 ${(ruleScore * 100).toFixed(0)}%`,
@@ -341,9 +360,11 @@ export async function POST(request: Request) {
               iocHits: sandbox.result.iocHits,
             });
           }
+          const simulated = (sandbox.result.raw as { simulated?: boolean } | undefined)?.simulated === true;
+          const jumpVerb = simulated ? "离线模板推演" : "捕获";
           const sandboxPayload: SandboxEvidencePayload = {
             description: normalized.urls.length
-              ? `捕获 ${sandbox.result.redirectChain.length} 段跳转、${sandbox.result.formFields.length} 个表单字段与 ${sandbox.result.jsBehaviors.length} 项脚本行为。`
+              ? `${jumpVerb} ${sandbox.result.redirectChain.length} 段跳转、${sandbox.result.formFields.length} 个表单字段与 ${sandbox.result.jsBehaviors.length} 项脚本行为${simulated ? "（离线模拟，未真实访问目标）" : "。"}`
               : "未提取到链接，沙箱仅对短信文本及可用威胁线索进行离线评估。",
             tags: [
               sandboxSourceLabel(sandbox.source),
@@ -368,11 +389,35 @@ export async function POST(request: Request) {
         await emitStage("synthesis", "active");
         const confidenceScore = finalConfidenceScore(confidence.score, sandbox, trustedMatch);
         const analyzed = buildResult({ normalized, mode, sandbox, trustedMatch, confidenceScore });
-        const synthesisDescription = analyzed.conflict
+        const fallbackDescription = analyzed.conflict
           ? `可信案例给出“${trustedMatch?.riskLabel}”，${normalized.urls.length ? "沙箱行为" : "短信文本规则"}证据指向“${analyzed.sandboxLevel}”，综合判定为“${analyzed.verdict}”。`
           : sandbox
             ? `案例检索与${normalized.urls.length ? "沙箱行为" : "短信文本规则"}已完成综合研判，当前证据指向“${analyzed.verdict}”。`
             : `高置信度案例检索与规则信号指向“${analyzed.verdict}”，快速路径无需沙箱。`;
+        // LLM 主链路：用 DeepSeek 综合已有证据生成最终研判摘要；失败则回退到规则模板
+        const llmSummary = await synthesizeWithLLM({
+          verdict: analyzed.verdict,
+          confidence: confidenceScore,
+          category: trustedMatch?.category ?? inputCategory(normalized.raw) ?? "其他",
+          summary: analyzed.summary,
+          suggestion: analyzed.suggestion,
+          ragTop: trustedMatch
+            ? {
+              title: trustedMatch.title,
+              category: trustedMatch.category,
+              riskLabel: trustedMatch.riskLabel,
+              similarity: trustedMatch.similarity,
+            }
+            : null,
+          sandbox: sandbox
+            ? {
+              source: sandbox.source,
+              formFields: sandbox.result.formFields,
+              iocHits: sandbox.result.iocHits,
+            }
+            : null,
+        });
+        const synthesisDescription = llmSummary ?? fallbackDescription;
         const synthesisNode = evidenceNode("synthesis", "多源证据交叉验证", {
           description: synthesisDescription,
           tags: [

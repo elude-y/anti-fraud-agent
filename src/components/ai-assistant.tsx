@@ -7,6 +7,7 @@ import {
   ChatCircleDots,
   Check,
   Copy,
+  MagnifyingGlass,
   Plus,
   ShieldCheck,
   Sparkle,
@@ -20,10 +21,10 @@ const transport = new DefaultChatTransport({ api: "/api/assistant" });
 const storageKey = "safeagent:assistant-messages";
 
 const suggestions = [
+  "收到 ETC 停用短信让我点链接认证，是真的吗？",
   "陌生客服索要验证码，我该怎么办？",
+  "我已经点了链接还填了手机号，现在怎么办？",
   "怎么判断一个网站是不是官方网站？",
-  "收到 ETC 失效短信应该如何核实？",
-  "给我讲讲冒充公检法诈骗的常见话术",
 ] as const;
 
 function textFromParts(parts: Array<{ type: string; text?: string }>) {
@@ -111,7 +112,10 @@ export default function AiAssistant() {
       <aside className={styles.sidebar} aria-label="AI 助手功能说明">
         <div className={styles.sideBrand}>
           <span><ChatCircleDots size={22} weight="duotone" /></span>
-          <div><strong>AI 助手</strong><small>反诈问答与风险咨询</small></div>
+          <div>
+            <strong>AI 助手</strong>
+            <small>反诈问答与风险咨询</small>
+          </div>
         </div>
 
         <button className={styles.newChat} type="button" onClick={newConversation}>
@@ -119,7 +123,8 @@ export default function AiAssistant() {
         </button>
 
         <div className={styles.sideInfo}>
-          <div><BookOpenText size={18} /><span><strong>案例库增强</strong><small>结合真实反诈案例回答</small></span></div>
+          <div><BookOpenText size={18} /><span><strong>案例库检索</strong><small>自动匹配真实反诈案例</small></span></div>
+          <div><MagnifyingGlass size={18} /><span><strong>动态验证</strong><small>提供链接时自动沙箱检测</small></span></div>
           <div><ShieldCheck size={18} /><span><strong>安全优先</strong><small>提供核实与处置建议</small></span></div>
         </div>
 
@@ -131,7 +136,7 @@ export default function AiAssistant() {
           <div>
             <span className={styles.onlineDot} />
             <strong>SafeAgent AI 助手</strong>
-            <small>案例库增强</small>
+            <small>案例库检索 + 沙箱验证</small>
           </div>
           {messages.length > 0 && (
             <button type="button" onClick={newConversation}><Plus size={16} />新对话</button>
@@ -143,7 +148,7 @@ export default function AiAssistant() {
             <div className={styles.emptyState}>
               <span className={styles.assistantMark}><Sparkle size={28} weight="fill" /></span>
               <h1>有什么可以帮你分析的？</h1>
-              <p>询问可疑短信、陌生链接、诈骗话术或遇险后的处理方式，我会结合案例库给出建议。</p>
+              <p>识别可疑短信、验证陌生链接、拆解诈骗话术；追问"已经填了信息怎么办"我会结合上文继续给处置建议。</p>
               <div className={styles.suggestions}>
                 {suggestions.map((suggestion) => (
                   <button type="button" key={suggestion} onClick={() => submit(suggestion)}>

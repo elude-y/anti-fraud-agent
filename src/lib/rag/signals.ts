@@ -89,7 +89,7 @@ const HOMOPHONE_MAP: Record<string, string> = {
 };
 
 /** 归一化：谐音替换 + 去空格/拆字分隔符（点、星、@、加号、斜杠、箭头等） */
-function normalizeText(text: string): string {
+export function normalizeText(text: string): string {
   let s = text ?? "";
   for (const [k, v] of Object.entries(HOMOPHONE_MAP)) s = s.replaceAll(k, v);
   // 去空格与常见拆字分隔符（保留中文与字母数字，只清掉分隔用的符号）

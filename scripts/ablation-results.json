@@ -1,0 +1,50 @@
+{
+  "generatedAt": "2026-11-13T04:26:09.099Z",
+  "dataset": {
+    "source": "自建评测集（人工构造）",
+    "note": "本测试集为人工构造的评测样本，用于消融对比，不代表真实线上流量。真实在线识别效果需单独统计并明确标注。",
+    "composition": "60 典型诈骗短信 + 40 可疑链接/仿冒网站 + 60 正常样本 + 40 难判断（谐音/拆字/隐藏关键词）",
+    "total": 200,
+    "risky": 140,
+    "safe": 60
+  },
+  "results": {
+    "rule-only": {
+      "accuracy": 0.805,
+      "precision": 0.9903,
+      "recall": 0.7286,
+      "f1": 0.8395,
+      "falseNeg": 38,
+      "falsePos": 1,
+      "sandboxRate": 0,
+      "avgLatencyMs": 0
+    },
+    "rule-rag": {
+      "accuracy": 0.865,
+      "precision": 0.9913,
+      "recall": 0.8143,
+      "f1": 0.8941,
+      "falseNeg": 26,
+      "falsePos": 1,
+      "sandboxRate": 0,
+      "avgLatencyMs": 1034.8
+    },
+    "full": {
+      "accuracy": 0.995,
+      "precision": 0.9929,
+      "recall": 1,
+      "f1": 0.9964,
+      "falseNeg": 0,
+      "falsePos": 1,
+      "sandboxRate": 0.345,
+      "avgLatencyMs": 1322.5
+    }
+  },
+  "wrongCasesFull": [
+    {
+      "label": "安全",
+      "verdict": "可疑",
+      "input": "您的银行卡到账3000元"
+    }
+  ]
+}

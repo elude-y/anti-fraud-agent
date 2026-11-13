@@ -10,7 +10,6 @@ import {
   WarningCircle,
 } from "@phosphor-icons/react/dist/ssr";
 import AppHeader from "@/components/app-header";
-import CursorGlow from "@/components/cursor-glow";
 import { categoryStats, trendData } from "@/lib/demo-data";
 import styles from "@/app/workspace.module.css";
 
@@ -26,7 +25,6 @@ export default function InsightsPage() {
 
   return (
     <main className={`${styles.page} ${styles.gridPage}`}>
-      <CursorGlow className={styles.cursorGlow} />
       <AppHeader />
       <div className={styles.main}>
         <header className={styles.pageHeading}>

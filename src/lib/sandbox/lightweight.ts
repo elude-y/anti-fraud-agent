@@ -1,6 +1,6 @@
 // src/lib/sandbox/lightweight.ts —— 轻量动态检查：Agent 直接 fetch 链接，秒级抓证据
 import type { SandboxResult } from "@/lib/contracts";
-import { redactUrlForDisplay } from "./url-utils";
+import { getExternalAnalysisSkipReason, redactUrlForDisplay } from "./url-utils";
 
 const RISK_WORDS = [
   "理赔", "退款", "中奖", "验证码", "银行卡", "身份证", "冻结", "解冻",
@@ -79,7 +79,14 @@ export async function analyzeWithLightweight(url: URL): Promise<LightweightAnaly
       if (res.status >= 300 && res.status < 400) {
         const location = res.headers.get("location");
         if (!location) break;
-        current = new URL(location, current);
+        const next = new URL(location, current);
+        // SSRF 防护：每次重定向都重新检查目标，阻止跳转到 localhost/内网/云元数据
+        const redirectSkip = getExternalAnalysisSkipReason(next);
+        if (redirectSkip) {
+          redirectChain.push({ url: redactUrlForDisplay(next.toString()), status: 0 });
+          break;
+        }
+        current = next;
         continue;
       }
 

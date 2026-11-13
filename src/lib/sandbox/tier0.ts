@@ -44,7 +44,7 @@ export function analyzeWithTier0(urlInput: string, context = ""): SandboxResult 
       ],
       finalUrl: `https://secure-form.example.org${url.pathname}`,
       formFields: ["姓名", "身份证号", "银行卡号", "短信验证码"],
-      jsBehaviors: ["读取浏览器指纹", "监听表单输入", "跨域外发数据", "阻止返回操作"],
+      jsBehaviors: ["模板推测：读取浏览器指纹", "模板推测：监听表单输入", "模板推测：跨域外发数据", "模板推测：阻止返回操作"],
       brandImpersonation: brand,
       iocHits: [
         { type: "domain", value: host, verdict: "新注册/信誉不足" },
@@ -57,6 +57,7 @@ export function analyzeWithTier0(urlInput: string, context = ""): SandboxResult 
         template: "credential-harvesting",
         screenshotType: "not-captured",
         offlineFallback: true,
+        simulated: true,
       },
     };
   }
@@ -65,15 +66,16 @@ export function analyzeWithTier0(urlInput: string, context = ""): SandboxResult 
     redirectChain: hasRealUrl ? [{ url: displayUrl, status: 200 }] : [],
     finalUrl: hasRealUrl ? displayUrl : "未提取到链接",
     formFields: hasRealUrl ? ["手机号"] : [],
-    jsBehaviors: hasRealUrl ? ["加载第三方统计脚本"] : ["无链接，未执行页面行为分析"],
+    jsBehaviors: hasRealUrl ? ["模板推测：加载第三方统计脚本"] : ["无链接，未执行页面行为分析"],
     iocHits: hasRealUrl ? [{ type: "domain", value: host, verdict: "暂无明确恶意记录" }] : [],
-    // 未知域名但无任何风险信号 → 安全（离线无法验证，但不等于可疑）
-    verdict: hasRealUrl ? "安全" : "可疑",
+    // 未知域名：离线无法验证，不能直接判安全，统一标记「待核验」
+    verdict: hasRealUrl ? "待核验" : "待核验",
     raw: {
       source: "tier0",
       template: hasRealUrl ? "unknown-domain" : "message-only",
       screenshotType: "not-captured",
       offlineFallback: true,
+      simulated: true,
     },
   };
 }

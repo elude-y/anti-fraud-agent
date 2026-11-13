@@ -1,0 +1,5702 @@
+[
+  {
+    "id": "SCRIPT-0001",
+    "category": "冒充公检法",
+    "channel": "短信",
+    "stage": "制造紧迫",
+    "text": "您好，这里是某地公安局，您的身份信息涉嫌一起洗钱案件。如果现在不配合，系统会立即冻结您名下所有账户。请将资金转入安全监管账户接受清查",
+    "purpose": "冒充公安、检察院或法院工作人员，制造涉案恐慌并诱导资金审查",
+    "signals": [
+      "自称公检法",
+      "要求保密",
+      "伪造法律文书",
+      "安全账户",
+      "屏幕共享"
+    ],
+    "relatedCaseId": "CN-CASE-0024",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0002",
+    "category": "冒充公检法",
+    "channel": "短信",
+    "stage": "索取信息",
+    "text": "您好，这里是某地公安局，您的身份信息涉嫌一起洗钱案件。两小时内未完成核查，将按拒不配合处理。请提供银行卡号、余额和短信验证码",
+    "purpose": "冒充公安、检察院或法院工作人员，制造涉案恐慌并诱导资金审查",
+    "signals": [
+      "自称公检法",
+      "要求保密",
+      "伪造法律文书",
+      "安全账户",
+      "屏幕共享"
+    ],
+    "relatedCaseId": "CN-CASE-0024",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0003",
+    "category": "冒充公检法",
+    "channel": "短信",
+    "stage": "索取信息",
+    "text": "您好，这里是某地公安局，您的身份信息涉嫌一起洗钱案件。这是内部案件，泄露给家人会影响案件侦办。请下载视频会议软件并开启屏幕共享",
+    "purpose": "冒充公安、检察院或法院工作人员，制造涉案恐慌并诱导资金审查",
+    "signals": [
+      "自称公检法",
+      "要求保密",
+      "伪造法律文书",
+      "安全账户",
+      "屏幕共享"
+    ],
+    "relatedCaseId": "CN-CASE-0024",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0004",
+    "category": "冒充公检法",
+    "channel": "电话",
+    "stage": "制造紧迫",
+    "text": "我是专案组民警，现在需要您配合线上核查。如果现在不配合，系统会立即冻结您名下所有账户。请将资金转入安全监管账户接受清查",
+    "purpose": "冒充公安、检察院或法院工作人员，制造涉案恐慌并诱导资金审查",
+    "signals": [
+      "自称公检法",
+      "要求保密",
+      "伪造法律文书",
+      "安全账户",
+      "屏幕共享"
+    ],
+    "relatedCaseId": "CN-CASE-0024",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0005",
+    "category": "冒充公检法",
+    "channel": "电话",
+    "stage": "索取信息",
+    "text": "我是专案组民警，现在需要您配合线上核查。两小时内未完成核查，将按拒不配合处理。请提供银行卡号、余额和短信验证码",
+    "purpose": "冒充公安、检察院或法院工作人员，制造涉案恐慌并诱导资金审查",
+    "signals": [
+      "自称公检法",
+      "要求保密",
+      "伪造法律文书",
+      "安全账户",
+      "屏幕共享"
+    ],
+    "relatedCaseId": "CN-CASE-0024",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0006",
+    "category": "冒充公检法",
+    "channel": "电话",
+    "stage": "索取信息",
+    "text": "我是专案组民警，现在需要您配合线上核查。这是内部案件，泄露给家人会影响案件侦办。请下载视频会议软件并开启屏幕共享",
+    "purpose": "冒充公安、检察院或法院工作人员，制造涉案恐慌并诱导资金审查",
+    "signals": [
+      "自称公检法",
+      "要求保密",
+      "伪造法律文书",
+      "安全账户",
+      "屏幕共享"
+    ],
+    "relatedCaseId": "CN-CASE-0024",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0007",
+    "category": "冒充公检法",
+    "channel": "社交软件",
+    "stage": "制造紧迫",
+    "text": "您的银行卡被犯罪团伙使用，请立即接受资金审查。如果现在不配合，系统会立即冻结您名下所有账户。请将资金转入安全监管账户接受清查",
+    "purpose": "冒充公安、检察院或法院工作人员，制造涉案恐慌并诱导资金审查",
+    "signals": [
+      "自称公检法",
+      "要求保密",
+      "伪造法律文书",
+      "安全账户",
+      "屏幕共享"
+    ],
+    "relatedCaseId": "CN-CASE-0024",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0008",
+    "category": "冒充公检法",
+    "channel": "社交软件",
+    "stage": "索取信息",
+    "text": "您的银行卡被犯罪团伙使用，请立即接受资金审查。两小时内未完成核查，将按拒不配合处理。请提供银行卡号、余额和短信验证码",
+    "purpose": "冒充公安、检察院或法院工作人员，制造涉案恐慌并诱导资金审查",
+    "signals": [
+      "自称公检法",
+      "要求保密",
+      "伪造法律文书",
+      "安全账户",
+      "屏幕共享"
+    ],
+    "relatedCaseId": "CN-CASE-0024",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0009",
+    "category": "冒充公检法",
+    "channel": "社交软件",
+    "stage": "索取信息",
+    "text": "您的银行卡被犯罪团伙使用，请立即接受资金审查。这是内部案件，泄露给家人会影响案件侦办。请下载视频会议软件并开启屏幕共享",
+    "purpose": "冒充公安、检察院或法院工作人员，制造涉案恐慌并诱导资金审查",
+    "signals": [
+      "自称公检法",
+      "要求保密",
+      "伪造法律文书",
+      "安全账户",
+      "屏幕共享"
+    ],
+    "relatedCaseId": "CN-CASE-0024",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0010",
+    "category": "冒充公检法",
+    "channel": "网页",
+    "stage": "制造紧迫",
+    "text": "这是检察院的协查通知，请核对您的姓名和身份证号。如果现在不配合，系统会立即冻结您名下所有账户。请将资金转入安全监管账户接受清查",
+    "purpose": "冒充公安、检察院或法院工作人员，制造涉案恐慌并诱导资金审查",
+    "signals": [
+      "自称公检法",
+      "要求保密",
+      "伪造法律文书",
+      "安全账户",
+      "屏幕共享"
+    ],
+    "relatedCaseId": "CN-CASE-0024",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0011",
+    "category": "冒充公检法",
+    "channel": "网页",
+    "stage": "索取信息",
+    "text": "这是检察院的协查通知，请核对您的姓名和身份证号。两小时内未完成核查，将按拒不配合处理。请提供银行卡号、余额和短信验证码",
+    "purpose": "冒充公安、检察院或法院工作人员，制造涉案恐慌并诱导资金审查",
+    "signals": [
+      "自称公检法",
+      "要求保密",
+      "伪造法律文书",
+      "安全账户",
+      "屏幕共享"
+    ],
+    "relatedCaseId": "CN-CASE-0024",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0012",
+    "category": "冒充公检法",
+    "channel": "网页",
+    "stage": "索取信息",
+    "text": "这是检察院的协查通知，请核对您的姓名和身份证号。这是内部案件，泄露给家人会影响案件侦办。请下载视频会议软件并开启屏幕共享",
+    "purpose": "冒充公安、检察院或法院工作人员，制造涉案恐慌并诱导资金审查",
+    "signals": [
+      "自称公检法",
+      "要求保密",
+      "伪造法律文书",
+      "安全账户",
+      "屏幕共享"
+    ],
+    "relatedCaseId": "CN-CASE-0024",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0013",
+    "category": "冒充公检法",
+    "channel": "APP",
+    "stage": "制造紧迫",
+    "text": "案件已进入保密阶段，不能向任何人透露。如果现在不配合，系统会立即冻结您名下所有账户。请将资金转入安全监管账户接受清查",
+    "purpose": "冒充公安、检察院或法院工作人员，制造涉案恐慌并诱导资金审查",
+    "signals": [
+      "自称公检法",
+      "要求保密",
+      "伪造法律文书",
+      "安全账户",
+      "屏幕共享"
+    ],
+    "relatedCaseId": "CN-CASE-0024",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0014",
+    "category": "冒充公检法",
+    "channel": "APP",
+    "stage": "索取信息",
+    "text": "案件已进入保密阶段，不能向任何人透露。两小时内未完成核查，将按拒不配合处理。请提供银行卡号、余额和短信验证码",
+    "purpose": "冒充公安、检察院或法院工作人员，制造涉案恐慌并诱导资金审查",
+    "signals": [
+      "自称公检法",
+      "要求保密",
+      "伪造法律文书",
+      "安全账户",
+      "屏幕共享"
+    ],
+    "relatedCaseId": "CN-CASE-0024",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0015",
+    "category": "冒充公检法",
+    "channel": "APP",
+    "stage": "索取信息",
+    "text": "案件已进入保密阶段，不能向任何人透露。这是内部案件，泄露给家人会影响案件侦办。请下载视频会议软件并开启屏幕共享",
+    "purpose": "冒充公安、检察院或法院工作人员，制造涉案恐慌并诱导资金审查",
+    "signals": [
+      "自称公检法",
+      "要求保密",
+      "伪造法律文书",
+      "安全账户",
+      "屏幕共享"
+    ],
+    "relatedCaseId": "CN-CASE-0024",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0016",
+    "category": "虚假投资理财",
+    "channel": "短信",
+    "stage": "诱导转账",
+    "text": "老师，今天这只票有内部消息，跟上就能赚钱。名额只剩最后三个，错过今天就没有了。请点击链接下载投资APP并充值",
+    "purpose": "以荐股、内部消息或高收益平台诱导充值投资",
+    "signals": [
+      "稳赚不赔",
+      "内部消息",
+      "导师带单",
+      "陌生投资APP",
+      "无法提现"
+    ],
+    "relatedCaseId": "CN-CASE-0056",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0017",
+    "category": "虚假投资理财",
+    "channel": "短信",
+    "stage": "制造紧迫",
+    "text": "老师，今天这只票有内部消息，跟上就能赚钱。行情马上启动，再不充值就来不及了。请把资金转到平台指定的收款账户",
+    "purpose": "以荐股、内部消息或高收益平台诱导充值投资",
+    "signals": [
+      "稳赚不赔",
+      "内部消息",
+      "导师带单",
+      "陌生投资APP",
+      "无法提现"
+    ],
+    "relatedCaseId": "CN-CASE-0056",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0018",
+    "category": "虚假投资理财",
+    "channel": "短信",
+    "stage": "诱导转账",
+    "text": "老师，今天这只票有内部消息，跟上就能赚钱。账户已盈利，但需要补足保证金才能提现。请提供银行卡和验证码完成入金",
+    "purpose": "以荐股、内部消息或高收益平台诱导充值投资",
+    "signals": [
+      "稳赚不赔",
+      "内部消息",
+      "导师带单",
+      "陌生投资APP",
+      "无法提现"
+    ],
+    "relatedCaseId": "CN-CASE-0056",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0019",
+    "category": "虚假投资理财",
+    "channel": "电话",
+    "stage": "诱导转账",
+    "text": "我们平台有证券账户合作通道，可以带您稳定盈利。名额只剩最后三个，错过今天就没有了。请点击链接下载投资APP并充值",
+    "purpose": "以荐股、内部消息或高收益平台诱导充值投资",
+    "signals": [
+      "稳赚不赔",
+      "内部消息",
+      "导师带单",
+      "陌生投资APP",
+      "无法提现"
+    ],
+    "relatedCaseId": "CN-CASE-0056",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0020",
+    "category": "虚假投资理财",
+    "channel": "电话",
+    "stage": "制造紧迫",
+    "text": "我们平台有证券账户合作通道，可以带您稳定盈利。行情马上启动，再不充值就来不及了。请把资金转到平台指定的收款账户",
+    "purpose": "以荐股、内部消息或高收益平台诱导充值投资",
+    "signals": [
+      "稳赚不赔",
+      "内部消息",
+      "导师带单",
+      "陌生投资APP",
+      "无法提现"
+    ],
+    "relatedCaseId": "CN-CASE-0056",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0021",
+    "category": "虚假投资理财",
+    "channel": "电话",
+    "stage": "诱导转账",
+    "text": "我们平台有证券账户合作通道，可以带您稳定盈利。账户已盈利，但需要补足保证金才能提现。请提供银行卡和验证码完成入金",
+    "purpose": "以荐股、内部消息或高收益平台诱导充值投资",
+    "signals": [
+      "稳赚不赔",
+      "内部消息",
+      "导师带单",
+      "陌生投资APP",
+      "无法提现"
+    ],
+    "relatedCaseId": "CN-CASE-0056",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0022",
+    "category": "虚假投资理财",
+    "channel": "社交软件",
+    "stage": "诱导转账",
+    "text": "加入VIP投资群，老师一对一指导，收益稳定。名额只剩最后三个，错过今天就没有了。请点击链接下载投资APP并充值",
+    "purpose": "以荐股、内部消息或高收益平台诱导充值投资",
+    "signals": [
+      "稳赚不赔",
+      "内部消息",
+      "导师带单",
+      "陌生投资APP",
+      "无法提现"
+    ],
+    "relatedCaseId": "CN-CASE-0056",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0023",
+    "category": "虚假投资理财",
+    "channel": "社交软件",
+    "stage": "制造紧迫",
+    "text": "加入VIP投资群，老师一对一指导，收益稳定。行情马上启动，再不充值就来不及了。请把资金转到平台指定的收款账户",
+    "purpose": "以荐股、内部消息或高收益平台诱导充值投资",
+    "signals": [
+      "稳赚不赔",
+      "内部消息",
+      "导师带单",
+      "陌生投资APP",
+      "无法提现"
+    ],
+    "relatedCaseId": "CN-CASE-0056",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0024",
+    "category": "虚假投资理财",
+    "channel": "社交软件",
+    "stage": "诱导转账",
+    "text": "加入VIP投资群，老师一对一指导，收益稳定。账户已盈利，但需要补足保证金才能提现。请提供银行卡和验证码完成入金",
+    "purpose": "以荐股、内部消息或高收益平台诱导充值投资",
+    "signals": [
+      "稳赚不赔",
+      "内部消息",
+      "导师带单",
+      "陌生投资APP",
+      "无法提现"
+    ],
+    "relatedCaseId": "CN-CASE-0056",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0025",
+    "category": "虚假投资理财",
+    "channel": "网页",
+    "stage": "诱导转账",
+    "text": "这个项目有政府背书，名额有限，今天截止。名额只剩最后三个，错过今天就没有了。请点击链接下载投资APP并充值",
+    "purpose": "以荐股、内部消息或高收益平台诱导充值投资",
+    "signals": [
+      "稳赚不赔",
+      "内部消息",
+      "导师带单",
+      "陌生投资APP",
+      "无法提现"
+    ],
+    "relatedCaseId": "CN-CASE-0056",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0026",
+    "category": "虚假投资理财",
+    "channel": "网页",
+    "stage": "制造紧迫",
+    "text": "这个项目有政府背书，名额有限，今天截止。行情马上启动，再不充值就来不及了。请把资金转到平台指定的收款账户",
+    "purpose": "以荐股、内部消息或高收益平台诱导充值投资",
+    "signals": [
+      "稳赚不赔",
+      "内部消息",
+      "导师带单",
+      "陌生投资APP",
+      "无法提现"
+    ],
+    "relatedCaseId": "CN-CASE-0056",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0027",
+    "category": "虚假投资理财",
+    "channel": "网页",
+    "stage": "诱导转账",
+    "text": "这个项目有政府背书，名额有限，今天截止。账户已盈利，但需要补足保证金才能提现。请提供银行卡和验证码完成入金",
+    "purpose": "以荐股、内部消息或高收益平台诱导充值投资",
+    "signals": [
+      "稳赚不赔",
+      "内部消息",
+      "导师带单",
+      "陌生投资APP",
+      "无法提现"
+    ],
+    "relatedCaseId": "CN-CASE-0056",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0028",
+    "category": "虚假投资理财",
+    "channel": "APP",
+    "stage": "诱导转账",
+    "text": "先小额试投，盈利后随时可以提现。名额只剩最后三个，错过今天就没有了。请点击链接下载投资APP并充值",
+    "purpose": "以荐股、内部消息或高收益平台诱导充值投资",
+    "signals": [
+      "稳赚不赔",
+      "内部消息",
+      "导师带单",
+      "陌生投资APP",
+      "无法提现"
+    ],
+    "relatedCaseId": "CN-CASE-0056",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0029",
+    "category": "虚假投资理财",
+    "channel": "APP",
+    "stage": "制造紧迫",
+    "text": "先小额试投，盈利后随时可以提现。行情马上启动，再不充值就来不及了。请把资金转到平台指定的收款账户",
+    "purpose": "以荐股、内部消息或高收益平台诱导充值投资",
+    "signals": [
+      "稳赚不赔",
+      "内部消息",
+      "导师带单",
+      "陌生投资APP",
+      "无法提现"
+    ],
+    "relatedCaseId": "CN-CASE-0056",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0030",
+    "category": "虚假投资理财",
+    "channel": "APP",
+    "stage": "诱导转账",
+    "text": "先小额试投，盈利后随时可以提现。账户已盈利，但需要补足保证金才能提现。请提供银行卡和验证码完成入金",
+    "purpose": "以荐股、内部消息或高收益平台诱导充值投资",
+    "signals": [
+      "稳赚不赔",
+      "内部消息",
+      "导师带单",
+      "陌生投资APP",
+      "无法提现"
+    ],
+    "relatedCaseId": "CN-CASE-0056",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0031",
+    "category": "刷单返利",
+    "channel": "短信",
+    "stage": "诱导转账",
+    "text": "在家就能做，点赞关注即可返佣。任务未完成，本金和佣金都会被冻结。请下载任务APP并充值垫付",
+    "purpose": "以兼职点赞、连单任务和小额返利诱导垫资",
+    "signals": [
+      "轻松兼职",
+      "小额返利",
+      "连单垫付",
+      "任务冻结",
+      "陌生任务APP"
+    ],
+    "relatedCaseId": "CN-CASE-0038",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0032",
+    "category": "刷单返利",
+    "channel": "短信",
+    "stage": "诱导转账",
+    "text": "在家就能做，点赞关注即可返佣。系统检测到操作错误，需要补做一单才能提现。请向指定账户转账完成连单",
+    "purpose": "以兼职点赞、连单任务和小额返利诱导垫资",
+    "signals": [
+      "轻松兼职",
+      "小额返利",
+      "连单垫付",
+      "任务冻结",
+      "陌生任务APP"
+    ],
+    "relatedCaseId": "CN-CASE-0038",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0033",
+    "category": "刷单返利",
+    "channel": "短信",
+    "stage": "索取信息",
+    "text": "在家就能做，点赞关注即可返佣。名额有限，先垫付先排单。请提供收款码和银行卡信息",
+    "purpose": "以兼职点赞、连单任务和小额返利诱导垫资",
+    "signals": [
+      "轻松兼职",
+      "小额返利",
+      "连单垫付",
+      "任务冻结",
+      "陌生任务APP"
+    ],
+    "relatedCaseId": "CN-CASE-0038",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0034",
+    "category": "刷单返利",
+    "channel": "电话",
+    "stage": "诱导转账",
+    "text": "先做小额任务，完成后马上返现。任务未完成，本金和佣金都会被冻结。请下载任务APP并充值垫付",
+    "purpose": "以兼职点赞、连单任务和小额返利诱导垫资",
+    "signals": [
+      "轻松兼职",
+      "小额返利",
+      "连单垫付",
+      "任务冻结",
+      "陌生任务APP"
+    ],
+    "relatedCaseId": "CN-CASE-0038",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0035",
+    "category": "刷单返利",
+    "channel": "电话",
+    "stage": "诱导转账",
+    "text": "先做小额任务，完成后马上返现。系统检测到操作错误，需要补做一单才能提现。请向指定账户转账完成连单",
+    "purpose": "以兼职点赞、连单任务和小额返利诱导垫资",
+    "signals": [
+      "轻松兼职",
+      "小额返利",
+      "连单垫付",
+      "任务冻结",
+      "陌生任务APP"
+    ],
+    "relatedCaseId": "CN-CASE-0038",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0036",
+    "category": "刷单返利",
+    "channel": "电话",
+    "stage": "索取信息",
+    "text": "先做小额任务，完成后马上返现。名额有限，先垫付先排单。请提供收款码和银行卡信息",
+    "purpose": "以兼职点赞、连单任务和小额返利诱导垫资",
+    "signals": [
+      "轻松兼职",
+      "小额返利",
+      "连单垫付",
+      "任务冻结",
+      "陌生任务APP"
+    ],
+    "relatedCaseId": "CN-CASE-0038",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0037",
+    "category": "刷单返利",
+    "channel": "社交软件",
+    "stage": "诱导转账",
+    "text": "我们是正规商家，需要兼职人员帮忙提升销量。任务未完成，本金和佣金都会被冻结。请下载任务APP并充值垫付",
+    "purpose": "以兼职点赞、连单任务和小额返利诱导垫资",
+    "signals": [
+      "轻松兼职",
+      "小额返利",
+      "连单垫付",
+      "任务冻结",
+      "陌生任务APP"
+    ],
+    "relatedCaseId": "CN-CASE-0038",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0038",
+    "category": "刷单返利",
+    "channel": "社交软件",
+    "stage": "诱导转账",
+    "text": "我们是正规商家，需要兼职人员帮忙提升销量。系统检测到操作错误，需要补做一单才能提现。请向指定账户转账完成连单",
+    "purpose": "以兼职点赞、连单任务和小额返利诱导垫资",
+    "signals": [
+      "轻松兼职",
+      "小额返利",
+      "连单垫付",
+      "任务冻结",
+      "陌生任务APP"
+    ],
+    "relatedCaseId": "CN-CASE-0038",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0039",
+    "category": "刷单返利",
+    "channel": "社交软件",
+    "stage": "索取信息",
+    "text": "我们是正规商家，需要兼职人员帮忙提升销量。名额有限，先垫付先排单。请提供收款码和银行卡信息",
+    "purpose": "以兼职点赞、连单任务和小额返利诱导垫资",
+    "signals": [
+      "轻松兼职",
+      "小额返利",
+      "连单垫付",
+      "任务冻结",
+      "陌生任务APP"
+    ],
+    "relatedCaseId": "CN-CASE-0038",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0040",
+    "category": "刷单返利",
+    "channel": "网页",
+    "stage": "诱导转账",
+    "text": "加入任务群，每天轻松赚几百元。任务未完成，本金和佣金都会被冻结。请下载任务APP并充值垫付",
+    "purpose": "以兼职点赞、连单任务和小额返利诱导垫资",
+    "signals": [
+      "轻松兼职",
+      "小额返利",
+      "连单垫付",
+      "任务冻结",
+      "陌生任务APP"
+    ],
+    "relatedCaseId": "CN-CASE-0038",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0041",
+    "category": "刷单返利",
+    "channel": "网页",
+    "stage": "诱导转账",
+    "text": "加入任务群，每天轻松赚几百元。系统检测到操作错误，需要补做一单才能提现。请向指定账户转账完成连单",
+    "purpose": "以兼职点赞、连单任务和小额返利诱导垫资",
+    "signals": [
+      "轻松兼职",
+      "小额返利",
+      "连单垫付",
+      "任务冻结",
+      "陌生任务APP"
+    ],
+    "relatedCaseId": "CN-CASE-0038",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0042",
+    "category": "刷单返利",
+    "channel": "网页",
+    "stage": "索取信息",
+    "text": "加入任务群，每天轻松赚几百元。名额有限，先垫付先排单。请提供收款码和银行卡信息",
+    "purpose": "以兼职点赞、连单任务和小额返利诱导垫资",
+    "signals": [
+      "轻松兼职",
+      "小额返利",
+      "连单垫付",
+      "任务冻结",
+      "陌生任务APP"
+    ],
+    "relatedCaseId": "CN-CASE-0038",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0043",
+    "category": "刷单返利",
+    "channel": "APP",
+    "stage": "诱导转账",
+    "text": "这单是连单任务，做完一起结算。任务未完成，本金和佣金都会被冻结。请下载任务APP并充值垫付",
+    "purpose": "以兼职点赞、连单任务和小额返利诱导垫资",
+    "signals": [
+      "轻松兼职",
+      "小额返利",
+      "连单垫付",
+      "任务冻结",
+      "陌生任务APP"
+    ],
+    "relatedCaseId": "CN-CASE-0038",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0044",
+    "category": "刷单返利",
+    "channel": "APP",
+    "stage": "诱导转账",
+    "text": "这单是连单任务，做完一起结算。系统检测到操作错误，需要补做一单才能提现。请向指定账户转账完成连单",
+    "purpose": "以兼职点赞、连单任务和小额返利诱导垫资",
+    "signals": [
+      "轻松兼职",
+      "小额返利",
+      "连单垫付",
+      "任务冻结",
+      "陌生任务APP"
+    ],
+    "relatedCaseId": "CN-CASE-0038",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0045",
+    "category": "刷单返利",
+    "channel": "APP",
+    "stage": "索取信息",
+    "text": "这单是连单任务，做完一起结算。名额有限，先垫付先排单。请提供收款码和银行卡信息",
+    "purpose": "以兼职点赞、连单任务和小额返利诱导垫资",
+    "signals": [
+      "轻松兼职",
+      "小额返利",
+      "连单垫付",
+      "任务冻结",
+      "陌生任务APP"
+    ],
+    "relatedCaseId": "CN-CASE-0038",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0046",
+    "category": "冒充领导/熟人",
+    "channel": "短信",
+    "stage": "制造紧迫",
+    "text": "我是你领导，现在在外面开会，不方便接电话。事情很急，今天下班前必须处理。先帮我转一笔钱，明天就还你",
+    "purpose": "冒充领导、同事或亲友，以急事和保密为由要求转账",
+    "signals": [
+      "新号码",
+      "不方便接电话",
+      "紧急周转",
+      "要求保密",
+      "指定账户"
+    ],
+    "relatedCaseId": "CN-CASE-0006",
+    "source": "中国警察网-人民公安报",
+    "sourceUrl": "https://daan.cpd.com.cn/dajs/825/t_1197794.html",
+    "publishedAt": "2025-08-22"
+  },
+  {
+    "id": "SCRIPT-0047",
+    "category": "冒充领导/熟人",
+    "channel": "短信",
+    "stage": "建立信任",
+    "text": "我是你领导，现在在外面开会，不方便接电话。先别打电话，我现在不方便说话。把款转到这个指定账户，备注写往来款",
+    "purpose": "冒充领导、同事或亲友，以急事和保密为由要求转账",
+    "signals": [
+      "新号码",
+      "不方便接电话",
+      "紧急周转",
+      "要求保密",
+      "指定账户"
+    ],
+    "relatedCaseId": "CN-CASE-0006",
+    "source": "中国警察网-人民公安报",
+    "sourceUrl": "https://daan.cpd.com.cn/dajs/825/t_1197794.html",
+    "publishedAt": "2025-08-22"
+  },
+  {
+    "id": "SCRIPT-0048",
+    "category": "冒充领导/熟人",
+    "channel": "短信",
+    "stage": "建立信任",
+    "text": "我是你领导，现在在外面开会，不方便接电话。这个事涉及内部安排，暂时不要告诉同事。帮我代付一下，发票后面补",
+    "purpose": "冒充领导、同事或亲友，以急事和保密为由要求转账",
+    "signals": [
+      "新号码",
+      "不方便接电话",
+      "紧急周转",
+      "要求保密",
+      "指定账户"
+    ],
+    "relatedCaseId": "CN-CASE-0006",
+    "source": "中国警察网-人民公安报",
+    "sourceUrl": "https://daan.cpd.com.cn/dajs/825/t_1197794.html",
+    "publishedAt": "2025-08-22"
+  },
+  {
+    "id": "SCRIPT-0049",
+    "category": "冒充领导/熟人",
+    "channel": "电话",
+    "stage": "制造紧迫",
+    "text": "我是你朋友，手机丢了，这是新号。事情很急，今天下班前必须处理。先帮我转一笔钱，明天就还你",
+    "purpose": "冒充领导、同事或亲友，以急事和保密为由要求转账",
+    "signals": [
+      "新号码",
+      "不方便接电话",
+      "紧急周转",
+      "要求保密",
+      "指定账户"
+    ],
+    "relatedCaseId": "CN-CASE-0006",
+    "source": "中国警察网-人民公安报",
+    "sourceUrl": "https://daan.cpd.com.cn/dajs/825/t_1197794.html",
+    "publishedAt": "2025-08-22"
+  },
+  {
+    "id": "SCRIPT-0050",
+    "category": "冒充领导/熟人",
+    "channel": "电话",
+    "stage": "建立信任",
+    "text": "我是你朋友，手机丢了，这是新号。先别打电话，我现在不方便说话。把款转到这个指定账户，备注写往来款",
+    "purpose": "冒充领导、同事或亲友，以急事和保密为由要求转账",
+    "signals": [
+      "新号码",
+      "不方便接电话",
+      "紧急周转",
+      "要求保密",
+      "指定账户"
+    ],
+    "relatedCaseId": "CN-CASE-0006",
+    "source": "中国警察网-人民公安报",
+    "sourceUrl": "https://daan.cpd.com.cn/dajs/825/t_1197794.html",
+    "publishedAt": "2025-08-22"
+  },
+  {
+    "id": "SCRIPT-0051",
+    "category": "冒充领导/熟人",
+    "channel": "电话",
+    "stage": "建立信任",
+    "text": "我是你朋友，手机丢了，这是新号。这个事涉及内部安排，暂时不要告诉同事。帮我代付一下，发票后面补",
+    "purpose": "冒充领导、同事或亲友，以急事和保密为由要求转账",
+    "signals": [
+      "新号码",
+      "不方便接电话",
+      "紧急周转",
+      "要求保密",
+      "指定账户"
+    ],
+    "relatedCaseId": "CN-CASE-0006",
+    "source": "中国警察网-人民公安报",
+    "sourceUrl": "https://daan.cpd.com.cn/dajs/825/t_1197794.html",
+    "publishedAt": "2025-08-22"
+  },
+  {
+    "id": "SCRIPT-0052",
+    "category": "冒充领导/熟人",
+    "channel": "社交软件",
+    "stage": "制造紧迫",
+    "text": "我这边有个急事，先帮我周转一下。事情很急，今天下班前必须处理。先帮我转一笔钱，明天就还你",
+    "purpose": "冒充领导、同事或亲友，以急事和保密为由要求转账",
+    "signals": [
+      "新号码",
+      "不方便接电话",
+      "紧急周转",
+      "要求保密",
+      "指定账户"
+    ],
+    "relatedCaseId": "CN-CASE-0006",
+    "source": "中国警察网-人民公安报",
+    "sourceUrl": "https://daan.cpd.com.cn/dajs/825/t_1197794.html",
+    "publishedAt": "2025-08-22"
+  },
+  {
+    "id": "SCRIPT-0053",
+    "category": "冒充领导/熟人",
+    "channel": "社交软件",
+    "stage": "建立信任",
+    "text": "我这边有个急事，先帮我周转一下。先别打电话，我现在不方便说话。把款转到这个指定账户，备注写往来款",
+    "purpose": "冒充领导、同事或亲友，以急事和保密为由要求转账",
+    "signals": [
+      "新号码",
+      "不方便接电话",
+      "紧急周转",
+      "要求保密",
+      "指定账户"
+    ],
+    "relatedCaseId": "CN-CASE-0006",
+    "source": "中国警察网-人民公安报",
+    "sourceUrl": "https://daan.cpd.com.cn/dajs/825/t_1197794.html",
+    "publishedAt": "2025-08-22"
+  },
+  {
+    "id": "SCRIPT-0054",
+    "category": "冒充领导/熟人",
+    "channel": "社交软件",
+    "stage": "建立信任",
+    "text": "我这边有个急事，先帮我周转一下。这个事涉及内部安排，暂时不要告诉同事。帮我代付一下，发票后面补",
+    "purpose": "冒充领导、同事或亲友，以急事和保密为由要求转账",
+    "signals": [
+      "新号码",
+      "不方便接电话",
+      "紧急周转",
+      "要求保密",
+      "指定账户"
+    ],
+    "relatedCaseId": "CN-CASE-0006",
+    "source": "中国警察网-人民公安报",
+    "sourceUrl": "https://daan.cpd.com.cn/dajs/825/t_1197794.html",
+    "publishedAt": "2025-08-22"
+  },
+  {
+    "id": "SCRIPT-0055",
+    "category": "冒充领导/熟人",
+    "channel": "网页",
+    "stage": "制造紧迫",
+    "text": "有个内部项目可以带你一起做，不要告诉别人。事情很急，今天下班前必须处理。先帮我转一笔钱，明天就还你",
+    "purpose": "冒充领导、同事或亲友，以急事和保密为由要求转账",
+    "signals": [
+      "新号码",
+      "不方便接电话",
+      "紧急周转",
+      "要求保密",
+      "指定账户"
+    ],
+    "relatedCaseId": "CN-CASE-0006",
+    "source": "中国警察网-人民公安报",
+    "sourceUrl": "https://daan.cpd.com.cn/dajs/825/t_1197794.html",
+    "publishedAt": "2025-08-22"
+  },
+  {
+    "id": "SCRIPT-0056",
+    "category": "冒充领导/熟人",
+    "channel": "网页",
+    "stage": "建立信任",
+    "text": "有个内部项目可以带你一起做，不要告诉别人。先别打电话，我现在不方便说话。把款转到这个指定账户，备注写往来款",
+    "purpose": "冒充领导、同事或亲友，以急事和保密为由要求转账",
+    "signals": [
+      "新号码",
+      "不方便接电话",
+      "紧急周转",
+      "要求保密",
+      "指定账户"
+    ],
+    "relatedCaseId": "CN-CASE-0006",
+    "source": "中国警察网-人民公安报",
+    "sourceUrl": "https://daan.cpd.com.cn/dajs/825/t_1197794.html",
+    "publishedAt": "2025-08-22"
+  },
+  {
+    "id": "SCRIPT-0057",
+    "category": "冒充领导/熟人",
+    "channel": "网页",
+    "stage": "建立信任",
+    "text": "有个内部项目可以带你一起做，不要告诉别人。这个事涉及内部安排，暂时不要告诉同事。帮我代付一下，发票后面补",
+    "purpose": "冒充领导、同事或亲友，以急事和保密为由要求转账",
+    "signals": [
+      "新号码",
+      "不方便接电话",
+      "紧急周转",
+      "要求保密",
+      "指定账户"
+    ],
+    "relatedCaseId": "CN-CASE-0006",
+    "source": "中国警察网-人民公安报",
+    "sourceUrl": "https://daan.cpd.com.cn/dajs/825/t_1197794.html",
+    "publishedAt": "2025-08-22"
+  },
+  {
+    "id": "SCRIPT-0058",
+    "category": "冒充领导/熟人",
+    "channel": "APP",
+    "stage": "制造紧迫",
+    "text": "我换号了，先把新号码存一下。事情很急，今天下班前必须处理。先帮我转一笔钱，明天就还你",
+    "purpose": "冒充领导、同事或亲友，以急事和保密为由要求转账",
+    "signals": [
+      "新号码",
+      "不方便接电话",
+      "紧急周转",
+      "要求保密",
+      "指定账户"
+    ],
+    "relatedCaseId": "CN-CASE-0006",
+    "source": "中国警察网-人民公安报",
+    "sourceUrl": "https://daan.cpd.com.cn/dajs/825/t_1197794.html",
+    "publishedAt": "2025-08-22"
+  },
+  {
+    "id": "SCRIPT-0059",
+    "category": "冒充领导/熟人",
+    "channel": "APP",
+    "stage": "建立信任",
+    "text": "我换号了，先把新号码存一下。先别打电话，我现在不方便说话。把款转到这个指定账户，备注写往来款",
+    "purpose": "冒充领导、同事或亲友，以急事和保密为由要求转账",
+    "signals": [
+      "新号码",
+      "不方便接电话",
+      "紧急周转",
+      "要求保密",
+      "指定账户"
+    ],
+    "relatedCaseId": "CN-CASE-0006",
+    "source": "中国警察网-人民公安报",
+    "sourceUrl": "https://daan.cpd.com.cn/dajs/825/t_1197794.html",
+    "publishedAt": "2025-08-22"
+  },
+  {
+    "id": "SCRIPT-0060",
+    "category": "冒充领导/熟人",
+    "channel": "APP",
+    "stage": "建立信任",
+    "text": "我换号了，先把新号码存一下。这个事涉及内部安排，暂时不要告诉同事。帮我代付一下，发票后面补",
+    "purpose": "冒充领导、同事或亲友，以急事和保密为由要求转账",
+    "signals": [
+      "新号码",
+      "不方便接电话",
+      "紧急周转",
+      "要求保密",
+      "指定账户"
+    ],
+    "relatedCaseId": "CN-CASE-0006",
+    "source": "中国警察网-人民公安报",
+    "sourceUrl": "https://daan.cpd.com.cn/dajs/825/t_1197794.html",
+    "publishedAt": "2025-08-22"
+  },
+  {
+    "id": "SCRIPT-0061",
+    "category": "贷款/信用服务",
+    "channel": "短信",
+    "stage": "诱导转账",
+    "text": "您的贷款额度已批，点击链接即可提现。今天不处理，额度就会失效。请先支付保证金、手续费或解冻费",
+    "purpose": "以低息贷款、修复征信或解冻额度为由收取费用",
+    "signals": [
+      "低息无抵押",
+      "征信修复",
+      "解冻金",
+      "刷流水",
+      "陌生贷款APP"
+    ],
+    "relatedCaseId": "CN-CASE-0055",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0062",
+    "category": "贷款/信用服务",
+    "channel": "短信",
+    "stage": "诱导转账",
+    "text": "您的贷款额度已批，点击链接即可提现。账户已被冻结，必须马上缴纳解冻金。请转账20%的资金做风控验证",
+    "purpose": "以低息贷款、修复征信或解冻额度为由收取费用",
+    "signals": [
+      "低息无抵押",
+      "征信修复",
+      "解冻金",
+      "刷流水",
+      "陌生贷款APP"
+    ],
+    "relatedCaseId": "CN-CASE-0055",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0063",
+    "category": "贷款/信用服务",
+    "channel": "短信",
+    "stage": "索取信息",
+    "text": "您的贷款额度已批，点击链接即可提现。征信会受影响，后续无法贷款。请提供身份证、银行卡和验证码",
+    "purpose": "以低息贷款、修复征信或解冻额度为由收取费用",
+    "signals": [
+      "低息无抵押",
+      "征信修复",
+      "解冻金",
+      "刷流水",
+      "陌生贷款APP"
+    ],
+    "relatedCaseId": "CN-CASE-0055",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0064",
+    "category": "贷款/信用服务",
+    "channel": "电话",
+    "stage": "诱导转账",
+    "text": "我们可以帮您修复征信，保证下款。今天不处理，额度就会失效。请先支付保证金、手续费或解冻费",
+    "purpose": "以低息贷款、修复征信或解冻额度为由收取费用",
+    "signals": [
+      "低息无抵押",
+      "征信修复",
+      "解冻金",
+      "刷流水",
+      "陌生贷款APP"
+    ],
+    "relatedCaseId": "CN-CASE-0055",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0065",
+    "category": "贷款/信用服务",
+    "channel": "电话",
+    "stage": "诱导转账",
+    "text": "我们可以帮您修复征信，保证下款。账户已被冻结，必须马上缴纳解冻金。请转账20%的资金做风控验证",
+    "purpose": "以低息贷款、修复征信或解冻额度为由收取费用",
+    "signals": [
+      "低息无抵押",
+      "征信修复",
+      "解冻金",
+      "刷流水",
+      "陌生贷款APP"
+    ],
+    "relatedCaseId": "CN-CASE-0055",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0066",
+    "category": "贷款/信用服务",
+    "channel": "电话",
+    "stage": "索取信息",
+    "text": "我们可以帮您修复征信，保证下款。征信会受影响，后续无法贷款。请提供身份证、银行卡和验证码",
+    "purpose": "以低息贷款、修复征信或解冻额度为由收取费用",
+    "signals": [
+      "低息无抵押",
+      "征信修复",
+      "解冻金",
+      "刷流水",
+      "陌生贷款APP"
+    ],
+    "relatedCaseId": "CN-CASE-0055",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0067",
+    "category": "贷款/信用服务",
+    "channel": "社交软件",
+    "stage": "诱导转账",
+    "text": "低息无抵押，当天审批到账。今天不处理，额度就会失效。请先支付保证金、手续费或解冻费",
+    "purpose": "以低息贷款、修复征信或解冻额度为由收取费用",
+    "signals": [
+      "低息无抵押",
+      "征信修复",
+      "解冻金",
+      "刷流水",
+      "陌生贷款APP"
+    ],
+    "relatedCaseId": "CN-CASE-0055",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0068",
+    "category": "贷款/信用服务",
+    "channel": "社交软件",
+    "stage": "诱导转账",
+    "text": "低息无抵押，当天审批到账。账户已被冻结，必须马上缴纳解冻金。请转账20%的资金做风控验证",
+    "purpose": "以低息贷款、修复征信或解冻额度为由收取费用",
+    "signals": [
+      "低息无抵押",
+      "征信修复",
+      "解冻金",
+      "刷流水",
+      "陌生贷款APP"
+    ],
+    "relatedCaseId": "CN-CASE-0055",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0069",
+    "category": "贷款/信用服务",
+    "channel": "社交软件",
+    "stage": "索取信息",
+    "text": "低息无抵押，当天审批到账。征信会受影响，后续无法贷款。请提供身份证、银行卡和验证码",
+    "purpose": "以低息贷款、修复征信或解冻额度为由收取费用",
+    "signals": [
+      "低息无抵押",
+      "征信修复",
+      "解冻金",
+      "刷流水",
+      "陌生贷款APP"
+    ],
+    "relatedCaseId": "CN-CASE-0055",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0070",
+    "category": "贷款/信用服务",
+    "channel": "网页",
+    "stage": "诱导转账",
+    "text": "您的银行卡号填错了，贷款资金被冻结。今天不处理，额度就会失效。请先支付保证金、手续费或解冻费",
+    "purpose": "以低息贷款、修复征信或解冻额度为由收取费用",
+    "signals": [
+      "低息无抵押",
+      "征信修复",
+      "解冻金",
+      "刷流水",
+      "陌生贷款APP"
+    ],
+    "relatedCaseId": "CN-CASE-0055",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0071",
+    "category": "贷款/信用服务",
+    "channel": "网页",
+    "stage": "诱导转账",
+    "text": "您的银行卡号填错了，贷款资金被冻结。账户已被冻结，必须马上缴纳解冻金。请转账20%的资金做风控验证",
+    "purpose": "以低息贷款、修复征信或解冻额度为由收取费用",
+    "signals": [
+      "低息无抵押",
+      "征信修复",
+      "解冻金",
+      "刷流水",
+      "陌生贷款APP"
+    ],
+    "relatedCaseId": "CN-CASE-0055",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0072",
+    "category": "贷款/信用服务",
+    "channel": "网页",
+    "stage": "索取信息",
+    "text": "您的银行卡号填错了，贷款资金被冻结。征信会受影响，后续无法贷款。请提供身份证、银行卡和验证码",
+    "purpose": "以低息贷款、修复征信或解冻额度为由收取费用",
+    "signals": [
+      "低息无抵押",
+      "征信修复",
+      "解冻金",
+      "刷流水",
+      "陌生贷款APP"
+    ],
+    "relatedCaseId": "CN-CASE-0055",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0073",
+    "category": "贷款/信用服务",
+    "channel": "APP",
+    "stage": "诱导转账",
+    "text": "需要先验证还款能力，才能放款。今天不处理，额度就会失效。请先支付保证金、手续费或解冻费",
+    "purpose": "以低息贷款、修复征信或解冻额度为由收取费用",
+    "signals": [
+      "低息无抵押",
+      "征信修复",
+      "解冻金",
+      "刷流水",
+      "陌生贷款APP"
+    ],
+    "relatedCaseId": "CN-CASE-0055",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0074",
+    "category": "贷款/信用服务",
+    "channel": "APP",
+    "stage": "诱导转账",
+    "text": "需要先验证还款能力，才能放款。账户已被冻结，必须马上缴纳解冻金。请转账20%的资金做风控验证",
+    "purpose": "以低息贷款、修复征信或解冻额度为由收取费用",
+    "signals": [
+      "低息无抵押",
+      "征信修复",
+      "解冻金",
+      "刷流水",
+      "陌生贷款APP"
+    ],
+    "relatedCaseId": "CN-CASE-0055",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0075",
+    "category": "贷款/信用服务",
+    "channel": "APP",
+    "stage": "索取信息",
+    "text": "需要先验证还款能力，才能放款。征信会受影响，后续无法贷款。请提供身份证、银行卡和验证码",
+    "purpose": "以低息贷款、修复征信或解冻额度为由收取费用",
+    "signals": [
+      "低息无抵押",
+      "征信修复",
+      "解冻金",
+      "刷流水",
+      "陌生贷款APP"
+    ],
+    "relatedCaseId": "CN-CASE-0055",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0076",
+    "category": "冒充客服",
+    "channel": "短信",
+    "stage": "索取信息",
+    "text": "您好，我是平台客服，您的订单出现异常。如果不关闭，今晚会自动扣款。请下载会议软件并开启屏幕共享",
+    "purpose": "冒充电商、支付或物流客服，以退款、理赔和关闭扣费为由诱导操作",
+    "signals": [
+      "订单异常",
+      "百万保障",
+      "自动扣费",
+      "屏幕共享",
+      "验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0029",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0077",
+    "category": "冒充客服",
+    "channel": "短信",
+    "stage": "索取信息",
+    "text": "您好，我是平台客服，您的订单出现异常。退款通道只剩最后十分钟。请提供银行卡号、密码和验证码",
+    "purpose": "冒充电商、支付或物流客服，以退款、理赔和关闭扣费为由诱导操作",
+    "signals": [
+      "订单异常",
+      "百万保障",
+      "自动扣费",
+      "屏幕共享",
+      "验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0029",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0078",
+    "category": "冒充客服",
+    "channel": "短信",
+    "stage": "诱导转账",
+    "text": "您好，我是平台客服，您的订单出现异常。不配合会影响您的个人征信。请先缴纳保证金或手续费",
+    "purpose": "冒充电商、支付或物流客服，以退款、理赔和关闭扣费为由诱导操作",
+    "signals": [
+      "订单异常",
+      "百万保障",
+      "自动扣费",
+      "屏幕共享",
+      "验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0029",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0079",
+    "category": "冒充客服",
+    "channel": "电话",
+    "stage": "索取信息",
+    "text": "您开通了百万保障，今天开始自动扣费。如果不关闭，今晚会自动扣款。请下载会议软件并开启屏幕共享",
+    "purpose": "冒充电商、支付或物流客服，以退款、理赔和关闭扣费为由诱导操作",
+    "signals": [
+      "订单异常",
+      "百万保障",
+      "自动扣费",
+      "屏幕共享",
+      "验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0029",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0080",
+    "category": "冒充客服",
+    "channel": "电话",
+    "stage": "索取信息",
+    "text": "您开通了百万保障，今天开始自动扣费。退款通道只剩最后十分钟。请提供银行卡号、密码和验证码",
+    "purpose": "冒充电商、支付或物流客服，以退款、理赔和关闭扣费为由诱导操作",
+    "signals": [
+      "订单异常",
+      "百万保障",
+      "自动扣费",
+      "屏幕共享",
+      "验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0029",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0081",
+    "category": "冒充客服",
+    "channel": "电话",
+    "stage": "诱导转账",
+    "text": "您开通了百万保障，今天开始自动扣费。不配合会影响您的个人征信。请先缴纳保证金或手续费",
+    "purpose": "冒充电商、支付或物流客服，以退款、理赔和关闭扣费为由诱导操作",
+    "signals": [
+      "订单异常",
+      "百万保障",
+      "自动扣费",
+      "屏幕共享",
+      "验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0029",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0082",
+    "category": "冒充客服",
+    "channel": "社交软件",
+    "stage": "索取信息",
+    "text": "您的快递破损，我们为您办理三倍理赔。如果不关闭，今晚会自动扣款。请下载会议软件并开启屏幕共享",
+    "purpose": "冒充电商、支付或物流客服，以退款、理赔和关闭扣费为由诱导操作",
+    "signals": [
+      "订单异常",
+      "百万保障",
+      "自动扣费",
+      "屏幕共享",
+      "验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0029",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0083",
+    "category": "冒充客服",
+    "channel": "社交软件",
+    "stage": "索取信息",
+    "text": "您的快递破损，我们为您办理三倍理赔。退款通道只剩最后十分钟。请提供银行卡号、密码和验证码",
+    "purpose": "冒充电商、支付或物流客服，以退款、理赔和关闭扣费为由诱导操作",
+    "signals": [
+      "订单异常",
+      "百万保障",
+      "自动扣费",
+      "屏幕共享",
+      "验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0029",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0084",
+    "category": "冒充客服",
+    "channel": "社交软件",
+    "stage": "诱导转账",
+    "text": "您的快递破损，我们为您办理三倍理赔。不配合会影响您的个人征信。请先缴纳保证金或手续费",
+    "purpose": "冒充电商、支付或物流客服，以退款、理赔和关闭扣费为由诱导操作",
+    "signals": [
+      "订单异常",
+      "百万保障",
+      "自动扣费",
+      "屏幕共享",
+      "验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0029",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0085",
+    "category": "冒充客服",
+    "channel": "网页",
+    "stage": "索取信息",
+    "text": "您的会员误开通了，需要立即关闭。如果不关闭，今晚会自动扣款。请下载会议软件并开启屏幕共享",
+    "purpose": "冒充电商、支付或物流客服，以退款、理赔和关闭扣费为由诱导操作",
+    "signals": [
+      "订单异常",
+      "百万保障",
+      "自动扣费",
+      "屏幕共享",
+      "验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0029",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0086",
+    "category": "冒充客服",
+    "channel": "网页",
+    "stage": "索取信息",
+    "text": "您的会员误开通了，需要立即关闭。退款通道只剩最后十分钟。请提供银行卡号、密码和验证码",
+    "purpose": "冒充电商、支付或物流客服，以退款、理赔和关闭扣费为由诱导操作",
+    "signals": [
+      "订单异常",
+      "百万保障",
+      "自动扣费",
+      "屏幕共享",
+      "验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0029",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0087",
+    "category": "冒充客服",
+    "channel": "网页",
+    "stage": "诱导转账",
+    "text": "您的会员误开通了，需要立即关闭。不配合会影响您的个人征信。请先缴纳保证金或手续费",
+    "purpose": "冒充电商、支付或物流客服，以退款、理赔和关闭扣费为由诱导操作",
+    "signals": [
+      "订单异常",
+      "百万保障",
+      "自动扣费",
+      "屏幕共享",
+      "验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0029",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0088",
+    "category": "冒充客服",
+    "channel": "APP",
+    "stage": "索取信息",
+    "text": "您的商品有质量问题，我们主动给您退款。如果不关闭，今晚会自动扣款。请下载会议软件并开启屏幕共享",
+    "purpose": "冒充电商、支付或物流客服，以退款、理赔和关闭扣费为由诱导操作",
+    "signals": [
+      "订单异常",
+      "百万保障",
+      "自动扣费",
+      "屏幕共享",
+      "验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0029",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0089",
+    "category": "冒充客服",
+    "channel": "APP",
+    "stage": "索取信息",
+    "text": "您的商品有质量问题，我们主动给您退款。退款通道只剩最后十分钟。请提供银行卡号、密码和验证码",
+    "purpose": "冒充电商、支付或物流客服，以退款、理赔和关闭扣费为由诱导操作",
+    "signals": [
+      "订单异常",
+      "百万保障",
+      "自动扣费",
+      "屏幕共享",
+      "验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0029",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0090",
+    "category": "冒充客服",
+    "channel": "APP",
+    "stage": "诱导转账",
+    "text": "您的商品有质量问题，我们主动给您退款。不配合会影响您的个人征信。请先缴纳保证金或手续费",
+    "purpose": "冒充电商、支付或物流客服，以退款、理赔和关闭扣费为由诱导操作",
+    "signals": [
+      "订单异常",
+      "百万保障",
+      "自动扣费",
+      "屏幕共享",
+      "验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0029",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0091",
+    "category": "两卡/跑分洗钱",
+    "channel": "短信",
+    "stage": "索取信息",
+    "text": "借你的银行卡走一笔账，给你千元报酬。当天就要，晚了就来不及了。请把银行卡、手机卡和密码交给我",
+    "purpose": "以借卡、跑分、代收快递或取现为由招募洗钱帮手",
+    "signals": [
+      "出租银行卡",
+      "跑分返佣",
+      "代收现金",
+      "快递转移",
+      "高额报酬"
+    ],
+    "relatedCaseId": "CN-CASE-0085",
+    "source": "最高人民检察院",
+    "sourceUrl": "https://www.spp.gov.cn/xwfbh/wsfbt/202311/t20231130_635188.shtml",
+    "publishedAt": "2023-11-30"
+  },
+  {
+    "id": "SCRIPT-0092",
+    "category": "两卡/跑分洗钱",
+    "channel": "短信",
+    "stage": "建立信任",
+    "text": "借你的银行卡走一笔账，给你千元报酬。只是走个账，不会有人查。请把收到的钱转到指定账户",
+    "purpose": "以借卡、跑分、代收快递或取现为由招募洗钱帮手",
+    "signals": [
+      "出租银行卡",
+      "跑分返佣",
+      "代收现金",
+      "快递转移",
+      "高额报酬"
+    ],
+    "relatedCaseId": "CN-CASE-0085",
+    "source": "最高人民检察院",
+    "sourceUrl": "https://www.spp.gov.cn/xwfbh/wsfbt/202311/t20231130_635188.shtml",
+    "publishedAt": "2023-11-30"
+  },
+  {
+    "id": "SCRIPT-0093",
+    "category": "两卡/跑分洗钱",
+    "channel": "短信",
+    "stage": "诱导转账",
+    "text": "借你的银行卡走一笔账，给你千元报酬。你不做有的是人做。请帮忙取现后交给上门人员",
+    "purpose": "以借卡、跑分、代收快递或取现为由招募洗钱帮手",
+    "signals": [
+      "出租银行卡",
+      "跑分返佣",
+      "代收现金",
+      "快递转移",
+      "高额报酬"
+    ],
+    "relatedCaseId": "CN-CASE-0085",
+    "source": "最高人民检察院",
+    "sourceUrl": "https://www.spp.gov.cn/xwfbh/wsfbt/202311/t20231130_635188.shtml",
+    "publishedAt": "2023-11-30"
+  },
+  {
+    "id": "SCRIPT-0094",
+    "category": "两卡/跑分洗钱",
+    "channel": "电话",
+    "stage": "索取信息",
+    "text": "帮忙收个快递，里面是公司货款。当天就要，晚了就来不及了。请把银行卡、手机卡和密码交给我",
+    "purpose": "以借卡、跑分、代收快递或取现为由招募洗钱帮手",
+    "signals": [
+      "出租银行卡",
+      "跑分返佣",
+      "代收现金",
+      "快递转移",
+      "高额报酬"
+    ],
+    "relatedCaseId": "CN-CASE-0085",
+    "source": "最高人民检察院",
+    "sourceUrl": "https://www.spp.gov.cn/xwfbh/wsfbt/202311/t20231130_635188.shtml",
+    "publishedAt": "2023-11-30"
+  },
+  {
+    "id": "SCRIPT-0095",
+    "category": "两卡/跑分洗钱",
+    "channel": "电话",
+    "stage": "建立信任",
+    "text": "帮忙收个快递，里面是公司货款。只是走个账，不会有人查。请把收到的钱转到指定账户",
+    "purpose": "以借卡、跑分、代收快递或取现为由招募洗钱帮手",
+    "signals": [
+      "出租银行卡",
+      "跑分返佣",
+      "代收现金",
+      "快递转移",
+      "高额报酬"
+    ],
+    "relatedCaseId": "CN-CASE-0085",
+    "source": "最高人民检察院",
+    "sourceUrl": "https://www.spp.gov.cn/xwfbh/wsfbt/202311/t20231130_635188.shtml",
+    "publishedAt": "2023-11-30"
+  },
+  {
+    "id": "SCRIPT-0096",
+    "category": "两卡/跑分洗钱",
+    "channel": "电话",
+    "stage": "诱导转账",
+    "text": "帮忙收个快递，里面是公司货款。你不做有的是人做。请帮忙取现后交给上门人员",
+    "purpose": "以借卡、跑分、代收快递或取现为由招募洗钱帮手",
+    "signals": [
+      "出租银行卡",
+      "跑分返佣",
+      "代收现金",
+      "快递转移",
+      "高额报酬"
+    ],
+    "relatedCaseId": "CN-CASE-0085",
+    "source": "最高人民检察院",
+    "sourceUrl": "https://www.spp.gov.cn/xwfbh/wsfbt/202311/t20231130_635188.shtml",
+    "publishedAt": "2023-11-30"
+  },
+  {
+    "id": "SCRIPT-0097",
+    "category": "两卡/跑分洗钱",
+    "channel": "社交软件",
+    "stage": "索取信息",
+    "text": "只要提供收款码，不用你垫钱。当天就要，晚了就来不及了。请把银行卡、手机卡和密码交给我",
+    "purpose": "以借卡、跑分、代收快递或取现为由招募洗钱帮手",
+    "signals": [
+      "出租银行卡",
+      "跑分返佣",
+      "代收现金",
+      "快递转移",
+      "高额报酬"
+    ],
+    "relatedCaseId": "CN-CASE-0085",
+    "source": "最高人民检察院",
+    "sourceUrl": "https://www.spp.gov.cn/xwfbh/wsfbt/202311/t20231130_635188.shtml",
+    "publishedAt": "2023-11-30"
+  },
+  {
+    "id": "SCRIPT-0098",
+    "category": "两卡/跑分洗钱",
+    "channel": "社交软件",
+    "stage": "建立信任",
+    "text": "只要提供收款码，不用你垫钱。只是走个账，不会有人查。请把收到的钱转到指定账户",
+    "purpose": "以借卡、跑分、代收快递或取现为由招募洗钱帮手",
+    "signals": [
+      "出租银行卡",
+      "跑分返佣",
+      "代收现金",
+      "快递转移",
+      "高额报酬"
+    ],
+    "relatedCaseId": "CN-CASE-0085",
+    "source": "最高人民检察院",
+    "sourceUrl": "https://www.spp.gov.cn/xwfbh/wsfbt/202311/t20231130_635188.shtml",
+    "publishedAt": "2023-11-30"
+  },
+  {
+    "id": "SCRIPT-0099",
+    "category": "两卡/跑分洗钱",
+    "channel": "社交软件",
+    "stage": "诱导转账",
+    "text": "只要提供收款码，不用你垫钱。你不做有的是人做。请帮忙取现后交给上门人员",
+    "purpose": "以借卡、跑分、代收快递或取现为由招募洗钱帮手",
+    "signals": [
+      "出租银行卡",
+      "跑分返佣",
+      "代收现金",
+      "快递转移",
+      "高额报酬"
+    ],
+    "relatedCaseId": "CN-CASE-0085",
+    "source": "最高人民检察院",
+    "sourceUrl": "https://www.spp.gov.cn/xwfbh/wsfbt/202311/t20231130_635188.shtml",
+    "publishedAt": "2023-11-30"
+  },
+  {
+    "id": "SCRIPT-0100",
+    "category": "两卡/跑分洗钱",
+    "channel": "网页",
+    "stage": "索取信息",
+    "text": "做兼职跑分，按流水比例返佣。当天就要，晚了就来不及了。请把银行卡、手机卡和密码交给我",
+    "purpose": "以借卡、跑分、代收快递或取现为由招募洗钱帮手",
+    "signals": [
+      "出租银行卡",
+      "跑分返佣",
+      "代收现金",
+      "快递转移",
+      "高额报酬"
+    ],
+    "relatedCaseId": "CN-CASE-0085",
+    "source": "最高人民检察院",
+    "sourceUrl": "https://www.spp.gov.cn/xwfbh/wsfbt/202311/t20231130_635188.shtml",
+    "publishedAt": "2023-11-30"
+  },
+  {
+    "id": "SCRIPT-0101",
+    "category": "两卡/跑分洗钱",
+    "channel": "网页",
+    "stage": "建立信任",
+    "text": "做兼职跑分，按流水比例返佣。只是走个账，不会有人查。请把收到的钱转到指定账户",
+    "purpose": "以借卡、跑分、代收快递或取现为由招募洗钱帮手",
+    "signals": [
+      "出租银行卡",
+      "跑分返佣",
+      "代收现金",
+      "快递转移",
+      "高额报酬"
+    ],
+    "relatedCaseId": "CN-CASE-0085",
+    "source": "最高人民检察院",
+    "sourceUrl": "https://www.spp.gov.cn/xwfbh/wsfbt/202311/t20231130_635188.shtml",
+    "publishedAt": "2023-11-30"
+  },
+  {
+    "id": "SCRIPT-0102",
+    "category": "两卡/跑分洗钱",
+    "channel": "网页",
+    "stage": "诱导转账",
+    "text": "做兼职跑分，按流水比例返佣。你不做有的是人做。请帮忙取现后交给上门人员",
+    "purpose": "以借卡、跑分、代收快递或取现为由招募洗钱帮手",
+    "signals": [
+      "出租银行卡",
+      "跑分返佣",
+      "代收现金",
+      "快递转移",
+      "高额报酬"
+    ],
+    "relatedCaseId": "CN-CASE-0085",
+    "source": "最高人民检察院",
+    "sourceUrl": "https://www.spp.gov.cn/xwfbh/wsfbt/202311/t20231130_635188.shtml",
+    "publishedAt": "2023-11-30"
+  },
+  {
+    "id": "SCRIPT-0103",
+    "category": "两卡/跑分洗钱",
+    "channel": "APP",
+    "stage": "索取信息",
+    "text": "帮朋友代收一笔款，马上转出去就行。当天就要，晚了就来不及了。请把银行卡、手机卡和密码交给我",
+    "purpose": "以借卡、跑分、代收快递或取现为由招募洗钱帮手",
+    "signals": [
+      "出租银行卡",
+      "跑分返佣",
+      "代收现金",
+      "快递转移",
+      "高额报酬"
+    ],
+    "relatedCaseId": "CN-CASE-0085",
+    "source": "最高人民检察院",
+    "sourceUrl": "https://www.spp.gov.cn/xwfbh/wsfbt/202311/t20231130_635188.shtml",
+    "publishedAt": "2023-11-30"
+  },
+  {
+    "id": "SCRIPT-0104",
+    "category": "两卡/跑分洗钱",
+    "channel": "APP",
+    "stage": "建立信任",
+    "text": "帮朋友代收一笔款，马上转出去就行。只是走个账，不会有人查。请把收到的钱转到指定账户",
+    "purpose": "以借卡、跑分、代收快递或取现为由招募洗钱帮手",
+    "signals": [
+      "出租银行卡",
+      "跑分返佣",
+      "代收现金",
+      "快递转移",
+      "高额报酬"
+    ],
+    "relatedCaseId": "CN-CASE-0085",
+    "source": "最高人民检察院",
+    "sourceUrl": "https://www.spp.gov.cn/xwfbh/wsfbt/202311/t20231130_635188.shtml",
+    "publishedAt": "2023-11-30"
+  },
+  {
+    "id": "SCRIPT-0105",
+    "category": "两卡/跑分洗钱",
+    "channel": "APP",
+    "stage": "诱导转账",
+    "text": "帮朋友代收一笔款，马上转出去就行。你不做有的是人做。请帮忙取现后交给上门人员",
+    "purpose": "以借卡、跑分、代收快递或取现为由招募洗钱帮手",
+    "signals": [
+      "出租银行卡",
+      "跑分返佣",
+      "代收现金",
+      "快递转移",
+      "高额报酬"
+    ],
+    "relatedCaseId": "CN-CASE-0085",
+    "source": "最高人民检察院",
+    "sourceUrl": "https://www.spp.gov.cn/xwfbh/wsfbt/202311/t20231130_635188.shtml",
+    "publishedAt": "2023-11-30"
+  },
+  {
+    "id": "SCRIPT-0106",
+    "category": "网络婚恋/交友",
+    "channel": "短信",
+    "stage": "诱导转账",
+    "text": "我在这边工作，平时很孤单，想认真找个人。机会只有今天，错过就没有了。请下载这个平台并充值",
+    "purpose": "以恋爱、交友和共同未来为名诱导投资、拼单或赌博",
+    "signals": [
+      "快速确立关系",
+      "内部漏洞",
+      "共同投资",
+      "拼单返利",
+      "拒绝视频核验"
+    ],
+    "relatedCaseId": "CN-CASE-0050",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0107",
+    "category": "网络婚恋/交友",
+    "channel": "短信",
+    "stage": "建立信任",
+    "text": "我在这边工作，平时很孤单，想认真找个人。你不相信我，就是不在乎我。请把资金转到我的账户",
+    "purpose": "以恋爱、交友和共同未来为名诱导投资、拼单或赌博",
+    "signals": [
+      "快速确立关系",
+      "内部漏洞",
+      "共同投资",
+      "拼单返利",
+      "拒绝视频核验"
+    ],
+    "relatedCaseId": "CN-CASE-0050",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0108",
+    "category": "网络婚恋/交友",
+    "channel": "短信",
+    "stage": "诱导转账",
+    "text": "我在这边工作，平时很孤单，想认真找个人。先把这单做完，我们就能提现。请扫码支付拼单款",
+    "purpose": "以恋爱、交友和共同未来为名诱导投资、拼单或赌博",
+    "signals": [
+      "快速确立关系",
+      "内部漏洞",
+      "共同投资",
+      "拼单返利",
+      "拒绝视频核验"
+    ],
+    "relatedCaseId": "CN-CASE-0050",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0109",
+    "category": "网络婚恋/交友",
+    "channel": "电话",
+    "stage": "诱导转账",
+    "text": "我们一起投资，为以后生活做准备。机会只有今天，错过就没有了。请下载这个平台并充值",
+    "purpose": "以恋爱、交友和共同未来为名诱导投资、拼单或赌博",
+    "signals": [
+      "快速确立关系",
+      "内部漏洞",
+      "共同投资",
+      "拼单返利",
+      "拒绝视频核验"
+    ],
+    "relatedCaseId": "CN-CASE-0050",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0110",
+    "category": "网络婚恋/交友",
+    "channel": "电话",
+    "stage": "建立信任",
+    "text": "我们一起投资，为以后生活做准备。你不相信我，就是不在乎我。请把资金转到我的账户",
+    "purpose": "以恋爱、交友和共同未来为名诱导投资、拼单或赌博",
+    "signals": [
+      "快速确立关系",
+      "内部漏洞",
+      "共同投资",
+      "拼单返利",
+      "拒绝视频核验"
+    ],
+    "relatedCaseId": "CN-CASE-0050",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0111",
+    "category": "网络婚恋/交友",
+    "channel": "电话",
+    "stage": "诱导转账",
+    "text": "我们一起投资，为以后生活做准备。先把这单做完，我们就能提现。请扫码支付拼单款",
+    "purpose": "以恋爱、交友和共同未来为名诱导投资、拼单或赌博",
+    "signals": [
+      "快速确立关系",
+      "内部漏洞",
+      "共同投资",
+      "拼单返利",
+      "拒绝视频核验"
+    ],
+    "relatedCaseId": "CN-CASE-0050",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0112",
+    "category": "网络婚恋/交友",
+    "channel": "社交软件",
+    "stage": "诱导转账",
+    "text": "我叔叔在平台做管理，有内部漏洞。机会只有今天，错过就没有了。请下载这个平台并充值",
+    "purpose": "以恋爱、交友和共同未来为名诱导投资、拼单或赌博",
+    "signals": [
+      "快速确立关系",
+      "内部漏洞",
+      "共同投资",
+      "拼单返利",
+      "拒绝视频核验"
+    ],
+    "relatedCaseId": "CN-CASE-0050",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0113",
+    "category": "网络婚恋/交友",
+    "channel": "社交软件",
+    "stage": "建立信任",
+    "text": "我叔叔在平台做管理，有内部漏洞。你不相信我，就是不在乎我。请把资金转到我的账户",
+    "purpose": "以恋爱、交友和共同未来为名诱导投资、拼单或赌博",
+    "signals": [
+      "快速确立关系",
+      "内部漏洞",
+      "共同投资",
+      "拼单返利",
+      "拒绝视频核验"
+    ],
+    "relatedCaseId": "CN-CASE-0050",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0114",
+    "category": "网络婚恋/交友",
+    "channel": "社交软件",
+    "stage": "诱导转账",
+    "text": "我叔叔在平台做管理，有内部漏洞。先把这单做完，我们就能提现。请扫码支付拼单款",
+    "purpose": "以恋爱、交友和共同未来为名诱导投资、拼单或赌博",
+    "signals": [
+      "快速确立关系",
+      "内部漏洞",
+      "共同投资",
+      "拼单返利",
+      "拒绝视频核验"
+    ],
+    "relatedCaseId": "CN-CASE-0050",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0115",
+    "category": "网络婚恋/交友",
+    "channel": "网页",
+    "stage": "诱导转账",
+    "text": "先帮我拼一单，赚了钱我们就见面。机会只有今天，错过就没有了。请下载这个平台并充值",
+    "purpose": "以恋爱、交友和共同未来为名诱导投资、拼单或赌博",
+    "signals": [
+      "快速确立关系",
+      "内部漏洞",
+      "共同投资",
+      "拼单返利",
+      "拒绝视频核验"
+    ],
+    "relatedCaseId": "CN-CASE-0050",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0116",
+    "category": "网络婚恋/交友",
+    "channel": "网页",
+    "stage": "建立信任",
+    "text": "先帮我拼一单，赚了钱我们就见面。你不相信我，就是不在乎我。请把资金转到我的账户",
+    "purpose": "以恋爱、交友和共同未来为名诱导投资、拼单或赌博",
+    "signals": [
+      "快速确立关系",
+      "内部漏洞",
+      "共同投资",
+      "拼单返利",
+      "拒绝视频核验"
+    ],
+    "relatedCaseId": "CN-CASE-0050",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0117",
+    "category": "网络婚恋/交友",
+    "channel": "网页",
+    "stage": "诱导转账",
+    "text": "先帮我拼一单，赚了钱我们就见面。先把这单做完，我们就能提现。请扫码支付拼单款",
+    "purpose": "以恋爱、交友和共同未来为名诱导投资、拼单或赌博",
+    "signals": [
+      "快速确立关系",
+      "内部漏洞",
+      "共同投资",
+      "拼单返利",
+      "拒绝视频核验"
+    ],
+    "relatedCaseId": "CN-CASE-0050",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0118",
+    "category": "网络婚恋/交友",
+    "channel": "APP",
+    "stage": "诱导转账",
+    "text": "我带你做副业，稳赚不赔。机会只有今天，错过就没有了。请下载这个平台并充值",
+    "purpose": "以恋爱、交友和共同未来为名诱导投资、拼单或赌博",
+    "signals": [
+      "快速确立关系",
+      "内部漏洞",
+      "共同投资",
+      "拼单返利",
+      "拒绝视频核验"
+    ],
+    "relatedCaseId": "CN-CASE-0050",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0119",
+    "category": "网络婚恋/交友",
+    "channel": "APP",
+    "stage": "建立信任",
+    "text": "我带你做副业，稳赚不赔。你不相信我，就是不在乎我。请把资金转到我的账户",
+    "purpose": "以恋爱、交友和共同未来为名诱导投资、拼单或赌博",
+    "signals": [
+      "快速确立关系",
+      "内部漏洞",
+      "共同投资",
+      "拼单返利",
+      "拒绝视频核验"
+    ],
+    "relatedCaseId": "CN-CASE-0050",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0120",
+    "category": "网络婚恋/交友",
+    "channel": "APP",
+    "stage": "诱导转账",
+    "text": "我带你做副业，稳赚不赔。先把这单做完，我们就能提现。请扫码支付拼单款",
+    "purpose": "以恋爱、交友和共同未来为名诱导投资、拼单或赌博",
+    "signals": [
+      "快速确立关系",
+      "内部漏洞",
+      "共同投资",
+      "拼单返利",
+      "拒绝视频核验"
+    ],
+    "relatedCaseId": "CN-CASE-0050",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0121",
+    "category": "机票退改签",
+    "channel": "短信",
+    "stage": "索取信息",
+    "text": "您的航班因机械故障取消，我们为您办理改签。改签窗口只剩20分钟。请开启屏幕共享并提供验证码",
+    "purpose": "冒用航空公司身份，以航班延误和理赔为由诱导共享屏幕或转账",
+    "signals": [
+      "航班取消",
+      "改签理赔",
+      "屏幕共享",
+      "二维码",
+      "银行卡验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0009",
+    "source": "央视新闻（光明网转载）",
+    "sourceUrl": "https://m.gmw.cn/2026-01/07/content_1304294170.htm",
+    "publishedAt": "2026-01-07"
+  },
+  {
+    "id": "SCRIPT-0122",
+    "category": "机票退改签",
+    "channel": "短信",
+    "stage": "索取信息",
+    "text": "您的航班因机械故障取消，我们为您办理改签。不操作就无法保留座位。请扫描二维码填写银行卡信息",
+    "purpose": "冒用航空公司身份，以航班延误和理赔为由诱导共享屏幕或转账",
+    "signals": [
+      "航班取消",
+      "改签理赔",
+      "屏幕共享",
+      "二维码",
+      "银行卡验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0009",
+    "source": "央视新闻（光明网转载）",
+    "sourceUrl": "https://m.gmw.cn/2026-01/07/content_1304294170.htm",
+    "publishedAt": "2026-01-07"
+  },
+  {
+    "id": "SCRIPT-0123",
+    "category": "机票退改签",
+    "channel": "短信",
+    "stage": "诱导转账",
+    "text": "您的航班因机械故障取消，我们为您办理改签。退款失败会影响后续出行。请先转账验证账户",
+    "purpose": "冒用航空公司身份，以航班延误和理赔为由诱导共享屏幕或转账",
+    "signals": [
+      "航班取消",
+      "改签理赔",
+      "屏幕共享",
+      "二维码",
+      "银行卡验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0009",
+    "source": "央视新闻（光明网转载）",
+    "sourceUrl": "https://m.gmw.cn/2026-01/07/content_1304294170.htm",
+    "publishedAt": "2026-01-07"
+  },
+  {
+    "id": "SCRIPT-0124",
+    "category": "机票退改签",
+    "channel": "电话",
+    "stage": "索取信息",
+    "text": "航空公司赔付300元，请核对您的银行卡。改签窗口只剩20分钟。请开启屏幕共享并提供验证码",
+    "purpose": "冒用航空公司身份，以航班延误和理赔为由诱导共享屏幕或转账",
+    "signals": [
+      "航班取消",
+      "改签理赔",
+      "屏幕共享",
+      "二维码",
+      "银行卡验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0009",
+    "source": "央视新闻（光明网转载）",
+    "sourceUrl": "https://m.gmw.cn/2026-01/07/content_1304294170.htm",
+    "publishedAt": "2026-01-07"
+  },
+  {
+    "id": "SCRIPT-0125",
+    "category": "机票退改签",
+    "channel": "电话",
+    "stage": "索取信息",
+    "text": "航空公司赔付300元，请核对您的银行卡。不操作就无法保留座位。请扫描二维码填写银行卡信息",
+    "purpose": "冒用航空公司身份，以航班延误和理赔为由诱导共享屏幕或转账",
+    "signals": [
+      "航班取消",
+      "改签理赔",
+      "屏幕共享",
+      "二维码",
+      "银行卡验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0009",
+    "source": "央视新闻（光明网转载）",
+    "sourceUrl": "https://m.gmw.cn/2026-01/07/content_1304294170.htm",
+    "publishedAt": "2026-01-07"
+  },
+  {
+    "id": "SCRIPT-0126",
+    "category": "机票退改签",
+    "channel": "电话",
+    "stage": "诱导转账",
+    "text": "航空公司赔付300元，请核对您的银行卡。退款失败会影响后续出行。请先转账验证账户",
+    "purpose": "冒用航空公司身份，以航班延误和理赔为由诱导共享屏幕或转账",
+    "signals": [
+      "航班取消",
+      "改签理赔",
+      "屏幕共享",
+      "二维码",
+      "银行卡验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0009",
+    "source": "央视新闻（光明网转载）",
+    "sourceUrl": "https://m.gmw.cn/2026-01/07/content_1304294170.htm",
+    "publishedAt": "2026-01-07"
+  },
+  {
+    "id": "SCRIPT-0127",
+    "category": "机票退改签",
+    "channel": "社交软件",
+    "stage": "索取信息",
+    "text": "系统显示您的机票需要补差价。改签窗口只剩20分钟。请开启屏幕共享并提供验证码",
+    "purpose": "冒用航空公司身份，以航班延误和理赔为由诱导共享屏幕或转账",
+    "signals": [
+      "航班取消",
+      "改签理赔",
+      "屏幕共享",
+      "二维码",
+      "银行卡验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0009",
+    "source": "央视新闻（光明网转载）",
+    "sourceUrl": "https://m.gmw.cn/2026-01/07/content_1304294170.htm",
+    "publishedAt": "2026-01-07"
+  },
+  {
+    "id": "SCRIPT-0128",
+    "category": "机票退改签",
+    "channel": "社交软件",
+    "stage": "索取信息",
+    "text": "系统显示您的机票需要补差价。不操作就无法保留座位。请扫描二维码填写银行卡信息",
+    "purpose": "冒用航空公司身份，以航班延误和理赔为由诱导共享屏幕或转账",
+    "signals": [
+      "航班取消",
+      "改签理赔",
+      "屏幕共享",
+      "二维码",
+      "银行卡验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0009",
+    "source": "央视新闻（光明网转载）",
+    "sourceUrl": "https://m.gmw.cn/2026-01/07/content_1304294170.htm",
+    "publishedAt": "2026-01-07"
+  },
+  {
+    "id": "SCRIPT-0129",
+    "category": "机票退改签",
+    "channel": "社交软件",
+    "stage": "诱导转账",
+    "text": "系统显示您的机票需要补差价。退款失败会影响后续出行。请先转账验证账户",
+    "purpose": "冒用航空公司身份，以航班延误和理赔为由诱导共享屏幕或转账",
+    "signals": [
+      "航班取消",
+      "改签理赔",
+      "屏幕共享",
+      "二维码",
+      "银行卡验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0009",
+    "source": "央视新闻（光明网转载）",
+    "sourceUrl": "https://m.gmw.cn/2026-01/07/content_1304294170.htm",
+    "publishedAt": "2026-01-07"
+  },
+  {
+    "id": "SCRIPT-0130",
+    "category": "机票退改签",
+    "channel": "网页",
+    "stage": "索取信息",
+    "text": "退款需要先验证账户是否正常。改签窗口只剩20分钟。请开启屏幕共享并提供验证码",
+    "purpose": "冒用航空公司身份，以航班延误和理赔为由诱导共享屏幕或转账",
+    "signals": [
+      "航班取消",
+      "改签理赔",
+      "屏幕共享",
+      "二维码",
+      "银行卡验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0009",
+    "source": "央视新闻（光明网转载）",
+    "sourceUrl": "https://m.gmw.cn/2026-01/07/content_1304294170.htm",
+    "publishedAt": "2026-01-07"
+  },
+  {
+    "id": "SCRIPT-0131",
+    "category": "机票退改签",
+    "channel": "网页",
+    "stage": "索取信息",
+    "text": "退款需要先验证账户是否正常。不操作就无法保留座位。请扫描二维码填写银行卡信息",
+    "purpose": "冒用航空公司身份，以航班延误和理赔为由诱导共享屏幕或转账",
+    "signals": [
+      "航班取消",
+      "改签理赔",
+      "屏幕共享",
+      "二维码",
+      "银行卡验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0009",
+    "source": "央视新闻（光明网转载）",
+    "sourceUrl": "https://m.gmw.cn/2026-01/07/content_1304294170.htm",
+    "publishedAt": "2026-01-07"
+  },
+  {
+    "id": "SCRIPT-0132",
+    "category": "机票退改签",
+    "channel": "网页",
+    "stage": "诱导转账",
+    "text": "退款需要先验证账户是否正常。退款失败会影响后续出行。请先转账验证账户",
+    "purpose": "冒用航空公司身份，以航班延误和理赔为由诱导共享屏幕或转账",
+    "signals": [
+      "航班取消",
+      "改签理赔",
+      "屏幕共享",
+      "二维码",
+      "银行卡验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0009",
+    "source": "央视新闻（光明网转载）",
+    "sourceUrl": "https://m.gmw.cn/2026-01/07/content_1304294170.htm",
+    "publishedAt": "2026-01-07"
+  },
+  {
+    "id": "SCRIPT-0133",
+    "category": "机票退改签",
+    "channel": "APP",
+    "stage": "索取信息",
+    "text": "请下载会议软件，客服会指导您操作。改签窗口只剩20分钟。请开启屏幕共享并提供验证码",
+    "purpose": "冒用航空公司身份，以航班延误和理赔为由诱导共享屏幕或转账",
+    "signals": [
+      "航班取消",
+      "改签理赔",
+      "屏幕共享",
+      "二维码",
+      "银行卡验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0009",
+    "source": "央视新闻（光明网转载）",
+    "sourceUrl": "https://m.gmw.cn/2026-01/07/content_1304294170.htm",
+    "publishedAt": "2026-01-07"
+  },
+  {
+    "id": "SCRIPT-0134",
+    "category": "机票退改签",
+    "channel": "APP",
+    "stage": "索取信息",
+    "text": "请下载会议软件，客服会指导您操作。不操作就无法保留座位。请扫描二维码填写银行卡信息",
+    "purpose": "冒用航空公司身份，以航班延误和理赔为由诱导共享屏幕或转账",
+    "signals": [
+      "航班取消",
+      "改签理赔",
+      "屏幕共享",
+      "二维码",
+      "银行卡验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0009",
+    "source": "央视新闻（光明网转载）",
+    "sourceUrl": "https://m.gmw.cn/2026-01/07/content_1304294170.htm",
+    "publishedAt": "2026-01-07"
+  },
+  {
+    "id": "SCRIPT-0135",
+    "category": "机票退改签",
+    "channel": "APP",
+    "stage": "诱导转账",
+    "text": "请下载会议软件，客服会指导您操作。退款失败会影响后续出行。请先转账验证账户",
+    "purpose": "冒用航空公司身份，以航班延误和理赔为由诱导共享屏幕或转账",
+    "signals": [
+      "航班取消",
+      "改签理赔",
+      "屏幕共享",
+      "二维码",
+      "银行卡验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0009",
+    "source": "央视新闻（光明网转载）",
+    "sourceUrl": "https://m.gmw.cn/2026-01/07/content_1304294170.htm",
+    "publishedAt": "2026-01-07"
+  },
+  {
+    "id": "SCRIPT-0136",
+    "category": "快递理赔",
+    "channel": "短信",
+    "stage": "索取信息",
+    "text": "您的快递在运输中丢失，我们主动理赔。理赔通道24小时后关闭。请点击链接填写银行卡和验证码",
+    "purpose": "冒用快递或电商身份，以丢件、破损和违禁品为由诱导理赔操作",
+    "signals": [
+      "主动理赔",
+      "三倍赔偿",
+      "包裹违禁",
+      "陌生理赔链接",
+      "先交手续费"
+    ],
+    "relatedCaseId": "CN-CASE-0001",
+    "source": "人民公安报（平安浙江网转载）",
+    "sourceUrl": "http://www.pazjw.gov.cn/shuoan/202609/t20260927_31936970.shtml",
+    "publishedAt": "2026-09-27"
+  },
+  {
+    "id": "SCRIPT-0137",
+    "category": "快递理赔",
+    "channel": "短信",
+    "stage": "诱导转账",
+    "text": "您的快递在运输中丢失，我们主动理赔。不配合将无法获得赔偿。请先支付手续费或保证金",
+    "purpose": "冒用快递或电商身份，以丢件、破损和违禁品为由诱导理赔操作",
+    "signals": [
+      "主动理赔",
+      "三倍赔偿",
+      "包裹违禁",
+      "陌生理赔链接",
+      "先交手续费"
+    ],
+    "relatedCaseId": "CN-CASE-0001",
+    "source": "人民公安报（平安浙江网转载）",
+    "sourceUrl": "http://www.pazjw.gov.cn/shuoan/202609/t20260927_31936970.shtml",
+    "publishedAt": "2026-09-27"
+  },
+  {
+    "id": "SCRIPT-0138",
+    "category": "快递理赔",
+    "channel": "短信",
+    "stage": "索取信息",
+    "text": "您的快递在运输中丢失，我们主动理赔。包裹内有违禁品，需要马上处理。请下载理赔APP并开启屏幕共享",
+    "purpose": "冒用快递或电商身份，以丢件、破损和违禁品为由诱导理赔操作",
+    "signals": [
+      "主动理赔",
+      "三倍赔偿",
+      "包裹违禁",
+      "陌生理赔链接",
+      "先交手续费"
+    ],
+    "relatedCaseId": "CN-CASE-0001",
+    "source": "人民公安报（平安浙江网转载）",
+    "sourceUrl": "http://www.pazjw.gov.cn/shuoan/202609/t20260927_31936970.shtml",
+    "publishedAt": "2026-09-27"
+  },
+  {
+    "id": "SCRIPT-0139",
+    "category": "快递理赔",
+    "channel": "电话",
+    "stage": "索取信息",
+    "text": "包裹破损，三倍赔偿马上到账。理赔通道24小时后关闭。请点击链接填写银行卡和验证码",
+    "purpose": "冒用快递或电商身份，以丢件、破损和违禁品为由诱导理赔操作",
+    "signals": [
+      "主动理赔",
+      "三倍赔偿",
+      "包裹违禁",
+      "陌生理赔链接",
+      "先交手续费"
+    ],
+    "relatedCaseId": "CN-CASE-0001",
+    "source": "人民公安报（平安浙江网转载）",
+    "sourceUrl": "http://www.pazjw.gov.cn/shuoan/202609/t20260927_31936970.shtml",
+    "publishedAt": "2026-09-27"
+  },
+  {
+    "id": "SCRIPT-0140",
+    "category": "快递理赔",
+    "channel": "电话",
+    "stage": "诱导转账",
+    "text": "包裹破损，三倍赔偿马上到账。不配合将无法获得赔偿。请先支付手续费或保证金",
+    "purpose": "冒用快递或电商身份，以丢件、破损和违禁品为由诱导理赔操作",
+    "signals": [
+      "主动理赔",
+      "三倍赔偿",
+      "包裹违禁",
+      "陌生理赔链接",
+      "先交手续费"
+    ],
+    "relatedCaseId": "CN-CASE-0001",
+    "source": "人民公安报（平安浙江网转载）",
+    "sourceUrl": "http://www.pazjw.gov.cn/shuoan/202609/t20260927_31936970.shtml",
+    "publishedAt": "2026-09-27"
+  },
+  {
+    "id": "SCRIPT-0141",
+    "category": "快递理赔",
+    "channel": "电话",
+    "stage": "索取信息",
+    "text": "包裹破损，三倍赔偿马上到账。包裹内有违禁品，需要马上处理。请下载理赔APP并开启屏幕共享",
+    "purpose": "冒用快递或电商身份，以丢件、破损和违禁品为由诱导理赔操作",
+    "signals": [
+      "主动理赔",
+      "三倍赔偿",
+      "包裹违禁",
+      "陌生理赔链接",
+      "先交手续费"
+    ],
+    "relatedCaseId": "CN-CASE-0001",
+    "source": "人民公安报（平安浙江网转载）",
+    "sourceUrl": "http://www.pazjw.gov.cn/shuoan/202609/t20260927_31936970.shtml",
+    "publishedAt": "2026-09-27"
+  },
+  {
+    "id": "SCRIPT-0142",
+    "category": "快递理赔",
+    "channel": "社交软件",
+    "stage": "索取信息",
+    "text": "您的包裹被海关扣留，需要配合调查。理赔通道24小时后关闭。请点击链接填写银行卡和验证码",
+    "purpose": "冒用快递或电商身份，以丢件、破损和违禁品为由诱导理赔操作",
+    "signals": [
+      "主动理赔",
+      "三倍赔偿",
+      "包裹违禁",
+      "陌生理赔链接",
+      "先交手续费"
+    ],
+    "relatedCaseId": "CN-CASE-0001",
+    "source": "人民公安报（平安浙江网转载）",
+    "sourceUrl": "http://www.pazjw.gov.cn/shuoan/202609/t20260927_31936970.shtml",
+    "publishedAt": "2026-09-27"
+  },
+  {
+    "id": "SCRIPT-0143",
+    "category": "快递理赔",
+    "channel": "社交软件",
+    "stage": "诱导转账",
+    "text": "您的包裹被海关扣留，需要配合调查。不配合将无法获得赔偿。请先支付手续费或保证金",
+    "purpose": "冒用快递或电商身份，以丢件、破损和违禁品为由诱导理赔操作",
+    "signals": [
+      "主动理赔",
+      "三倍赔偿",
+      "包裹违禁",
+      "陌生理赔链接",
+      "先交手续费"
+    ],
+    "relatedCaseId": "CN-CASE-0001",
+    "source": "人民公安报（平安浙江网转载）",
+    "sourceUrl": "http://www.pazjw.gov.cn/shuoan/202609/t20260927_31936970.shtml",
+    "publishedAt": "2026-09-27"
+  },
+  {
+    "id": "SCRIPT-0144",
+    "category": "快递理赔",
+    "channel": "社交软件",
+    "stage": "索取信息",
+    "text": "您的包裹被海关扣留，需要配合调查。包裹内有违禁品，需要马上处理。请下载理赔APP并开启屏幕共享",
+    "purpose": "冒用快递或电商身份，以丢件、破损和违禁品为由诱导理赔操作",
+    "signals": [
+      "主动理赔",
+      "三倍赔偿",
+      "包裹违禁",
+      "陌生理赔链接",
+      "先交手续费"
+    ],
+    "relatedCaseId": "CN-CASE-0001",
+    "source": "人民公安报（平安浙江网转载）",
+    "sourceUrl": "http://www.pazjw.gov.cn/shuoan/202609/t20260927_31936970.shtml",
+    "publishedAt": "2026-09-27"
+  },
+  {
+    "id": "SCRIPT-0145",
+    "category": "快递理赔",
+    "channel": "网页",
+    "stage": "索取信息",
+    "text": "请添加理赔专员微信领取赔偿。理赔通道24小时后关闭。请点击链接填写银行卡和验证码",
+    "purpose": "冒用快递或电商身份，以丢件、破损和违禁品为由诱导理赔操作",
+    "signals": [
+      "主动理赔",
+      "三倍赔偿",
+      "包裹违禁",
+      "陌生理赔链接",
+      "先交手续费"
+    ],
+    "relatedCaseId": "CN-CASE-0001",
+    "source": "人民公安报（平安浙江网转载）",
+    "sourceUrl": "http://www.pazjw.gov.cn/shuoan/202609/t20260927_31936970.shtml",
+    "publishedAt": "2026-09-27"
+  },
+  {
+    "id": "SCRIPT-0146",
+    "category": "快递理赔",
+    "channel": "网页",
+    "stage": "诱导转账",
+    "text": "请添加理赔专员微信领取赔偿。不配合将无法获得赔偿。请先支付手续费或保证金",
+    "purpose": "冒用快递或电商身份，以丢件、破损和违禁品为由诱导理赔操作",
+    "signals": [
+      "主动理赔",
+      "三倍赔偿",
+      "包裹违禁",
+      "陌生理赔链接",
+      "先交手续费"
+    ],
+    "relatedCaseId": "CN-CASE-0001",
+    "source": "人民公安报（平安浙江网转载）",
+    "sourceUrl": "http://www.pazjw.gov.cn/shuoan/202609/t20260927_31936970.shtml",
+    "publishedAt": "2026-09-27"
+  },
+  {
+    "id": "SCRIPT-0147",
+    "category": "快递理赔",
+    "channel": "网页",
+    "stage": "索取信息",
+    "text": "请添加理赔专员微信领取赔偿。包裹内有违禁品，需要马上处理。请下载理赔APP并开启屏幕共享",
+    "purpose": "冒用快递或电商身份，以丢件、破损和违禁品为由诱导理赔操作",
+    "signals": [
+      "主动理赔",
+      "三倍赔偿",
+      "包裹违禁",
+      "陌生理赔链接",
+      "先交手续费"
+    ],
+    "relatedCaseId": "CN-CASE-0001",
+    "source": "人民公安报（平安浙江网转载）",
+    "sourceUrl": "http://www.pazjw.gov.cn/shuoan/202609/t20260927_31936970.shtml",
+    "publishedAt": "2026-09-27"
+  },
+  {
+    "id": "SCRIPT-0148",
+    "category": "快递理赔",
+    "channel": "APP",
+    "stage": "索取信息",
+    "text": "理赔链接已发送，请您尽快填写。理赔通道24小时后关闭。请点击链接填写银行卡和验证码",
+    "purpose": "冒用快递或电商身份，以丢件、破损和违禁品为由诱导理赔操作",
+    "signals": [
+      "主动理赔",
+      "三倍赔偿",
+      "包裹违禁",
+      "陌生理赔链接",
+      "先交手续费"
+    ],
+    "relatedCaseId": "CN-CASE-0001",
+    "source": "人民公安报（平安浙江网转载）",
+    "sourceUrl": "http://www.pazjw.gov.cn/shuoan/202609/t20260927_31936970.shtml",
+    "publishedAt": "2026-09-27"
+  },
+  {
+    "id": "SCRIPT-0149",
+    "category": "快递理赔",
+    "channel": "APP",
+    "stage": "诱导转账",
+    "text": "理赔链接已发送，请您尽快填写。不配合将无法获得赔偿。请先支付手续费或保证金",
+    "purpose": "冒用快递或电商身份，以丢件、破损和违禁品为由诱导理赔操作",
+    "signals": [
+      "主动理赔",
+      "三倍赔偿",
+      "包裹违禁",
+      "陌生理赔链接",
+      "先交手续费"
+    ],
+    "relatedCaseId": "CN-CASE-0001",
+    "source": "人民公安报（平安浙江网转载）",
+    "sourceUrl": "http://www.pazjw.gov.cn/shuoan/202609/t20260927_31936970.shtml",
+    "publishedAt": "2026-09-27"
+  },
+  {
+    "id": "SCRIPT-0150",
+    "category": "快递理赔",
+    "channel": "APP",
+    "stage": "索取信息",
+    "text": "理赔链接已发送，请您尽快填写。包裹内有违禁品，需要马上处理。请下载理赔APP并开启屏幕共享",
+    "purpose": "冒用快递或电商身份，以丢件、破损和违禁品为由诱导理赔操作",
+    "signals": [
+      "主动理赔",
+      "三倍赔偿",
+      "包裹违禁",
+      "陌生理赔链接",
+      "先交手续费"
+    ],
+    "relatedCaseId": "CN-CASE-0001",
+    "source": "人民公安报（平安浙江网转载）",
+    "sourceUrl": "http://www.pazjw.gov.cn/shuoan/202609/t20260927_31936970.shtml",
+    "publishedAt": "2026-09-27"
+  },
+  {
+    "id": "SCRIPT-0151",
+    "category": "中奖",
+    "channel": "短信",
+    "stage": "诱导转账",
+    "text": "恭喜您抽中手机大奖，运费到付即可领取。奖品保留时间只剩30分钟。请先支付运费、税费或保证金",
+    "purpose": "以抽奖中奖、幸运用户和免费礼品为由收取费用",
+    "signals": [
+      "意外中奖",
+      "先交税费",
+      "运费到付",
+      "限时领取",
+      "陌生领奖链接"
+    ],
+    "relatedCaseId": "CN-CASE-0020",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0152",
+    "category": "中奖",
+    "channel": "短信",
+    "stage": "索取信息",
+    "text": "恭喜您抽中手机大奖，运费到付即可领取。逾期未领取视为放弃。请提供银行卡和验证码",
+    "purpose": "以抽奖中奖、幸运用户和免费礼品为由收取费用",
+    "signals": [
+      "意外中奖",
+      "先交税费",
+      "运费到付",
+      "限时领取",
+      "陌生领奖链接"
+    ],
+    "relatedCaseId": "CN-CASE-0020",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0153",
+    "category": "中奖",
+    "channel": "短信",
+    "stage": "索取信息",
+    "text": "恭喜您抽中手机大奖，运费到付即可领取。税费不交无法发放奖金。请扫码填写领奖信息",
+    "purpose": "以抽奖中奖、幸运用户和免费礼品为由收取费用",
+    "signals": [
+      "意外中奖",
+      "先交税费",
+      "运费到付",
+      "限时领取",
+      "陌生领奖链接"
+    ],
+    "relatedCaseId": "CN-CASE-0020",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0154",
+    "category": "中奖",
+    "channel": "电话",
+    "stage": "诱导转账",
+    "text": "您的账号被抽中幸运用户，奖金即将发放。奖品保留时间只剩30分钟。请先支付运费、税费或保证金",
+    "purpose": "以抽奖中奖、幸运用户和免费礼品为由收取费用",
+    "signals": [
+      "意外中奖",
+      "先交税费",
+      "运费到付",
+      "限时领取",
+      "陌生领奖链接"
+    ],
+    "relatedCaseId": "CN-CASE-0020",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0155",
+    "category": "中奖",
+    "channel": "电话",
+    "stage": "索取信息",
+    "text": "您的账号被抽中幸运用户，奖金即将发放。逾期未领取视为放弃。请提供银行卡和验证码",
+    "purpose": "以抽奖中奖、幸运用户和免费礼品为由收取费用",
+    "signals": [
+      "意外中奖",
+      "先交税费",
+      "运费到付",
+      "限时领取",
+      "陌生领奖链接"
+    ],
+    "relatedCaseId": "CN-CASE-0020",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0156",
+    "category": "中奖",
+    "channel": "电话",
+    "stage": "索取信息",
+    "text": "您的账号被抽中幸运用户，奖金即将发放。税费不交无法发放奖金。请扫码填写领奖信息",
+    "purpose": "以抽奖中奖、幸运用户和免费礼品为由收取费用",
+    "signals": [
+      "意外中奖",
+      "先交税费",
+      "运费到付",
+      "限时领取",
+      "陌生领奖链接"
+    ],
+    "relatedCaseId": "CN-CASE-0020",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0157",
+    "category": "中奖",
+    "channel": "社交软件",
+    "stage": "诱导转账",
+    "text": "领奖需先缴纳个人所得税。奖品保留时间只剩30分钟。请先支付运费、税费或保证金",
+    "purpose": "以抽奖中奖、幸运用户和免费礼品为由收取费用",
+    "signals": [
+      "意外中奖",
+      "先交税费",
+      "运费到付",
+      "限时领取",
+      "陌生领奖链接"
+    ],
+    "relatedCaseId": "CN-CASE-0020",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0158",
+    "category": "中奖",
+    "channel": "社交软件",
+    "stage": "索取信息",
+    "text": "领奖需先缴纳个人所得税。逾期未领取视为放弃。请提供银行卡和验证码",
+    "purpose": "以抽奖中奖、幸运用户和免费礼品为由收取费用",
+    "signals": [
+      "意外中奖",
+      "先交税费",
+      "运费到付",
+      "限时领取",
+      "陌生领奖链接"
+    ],
+    "relatedCaseId": "CN-CASE-0020",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0159",
+    "category": "中奖",
+    "channel": "社交软件",
+    "stage": "索取信息",
+    "text": "领奖需先缴纳个人所得税。税费不交无法发放奖金。请扫码填写领奖信息",
+    "purpose": "以抽奖中奖、幸运用户和免费礼品为由收取费用",
+    "signals": [
+      "意外中奖",
+      "先交税费",
+      "运费到付",
+      "限时领取",
+      "陌生领奖链接"
+    ],
+    "relatedCaseId": "CN-CASE-0020",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0160",
+    "category": "中奖",
+    "channel": "网页",
+    "stage": "诱导转账",
+    "text": "点击链接填写收货信息即可领奖。奖品保留时间只剩30分钟。请先支付运费、税费或保证金",
+    "purpose": "以抽奖中奖、幸运用户和免费礼品为由收取费用",
+    "signals": [
+      "意外中奖",
+      "先交税费",
+      "运费到付",
+      "限时领取",
+      "陌生领奖链接"
+    ],
+    "relatedCaseId": "CN-CASE-0020",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0161",
+    "category": "中奖",
+    "channel": "网页",
+    "stage": "索取信息",
+    "text": "点击链接填写收货信息即可领奖。逾期未领取视为放弃。请提供银行卡和验证码",
+    "purpose": "以抽奖中奖、幸运用户和免费礼品为由收取费用",
+    "signals": [
+      "意外中奖",
+      "先交税费",
+      "运费到付",
+      "限时领取",
+      "陌生领奖链接"
+    ],
+    "relatedCaseId": "CN-CASE-0020",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0162",
+    "category": "中奖",
+    "channel": "网页",
+    "stage": "索取信息",
+    "text": "点击链接填写收货信息即可领奖。税费不交无法发放奖金。请扫码填写领奖信息",
+    "purpose": "以抽奖中奖、幸运用户和免费礼品为由收取费用",
+    "signals": [
+      "意外中奖",
+      "先交税费",
+      "运费到付",
+      "限时领取",
+      "陌生领奖链接"
+    ],
+    "relatedCaseId": "CN-CASE-0020",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0163",
+    "category": "中奖",
+    "channel": "APP",
+    "stage": "诱导转账",
+    "text": "这是平台官方活动，名额有限。奖品保留时间只剩30分钟。请先支付运费、税费或保证金",
+    "purpose": "以抽奖中奖、幸运用户和免费礼品为由收取费用",
+    "signals": [
+      "意外中奖",
+      "先交税费",
+      "运费到付",
+      "限时领取",
+      "陌生领奖链接"
+    ],
+    "relatedCaseId": "CN-CASE-0020",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0164",
+    "category": "中奖",
+    "channel": "APP",
+    "stage": "索取信息",
+    "text": "这是平台官方活动，名额有限。逾期未领取视为放弃。请提供银行卡和验证码",
+    "purpose": "以抽奖中奖、幸运用户和免费礼品为由收取费用",
+    "signals": [
+      "意外中奖",
+      "先交税费",
+      "运费到付",
+      "限时领取",
+      "陌生领奖链接"
+    ],
+    "relatedCaseId": "CN-CASE-0020",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0165",
+    "category": "中奖",
+    "channel": "APP",
+    "stage": "索取信息",
+    "text": "这是平台官方活动，名额有限。税费不交无法发放奖金。请扫码填写领奖信息",
+    "purpose": "以抽奖中奖、幸运用户和免费礼品为由收取费用",
+    "signals": [
+      "意外中奖",
+      "先交税费",
+      "运费到付",
+      "限时领取",
+      "陌生领奖链接"
+    ],
+    "relatedCaseId": "CN-CASE-0020",
+    "source": "国家反诈中心（晋中市公安局转载）",
+    "sourceUrl": "http://gaj.sxjz.gov.cn/site/Public/showinfo.aspx?id=2021020518020938250107",
+    "publishedAt": "2025-06-11"
+  },
+  {
+    "id": "SCRIPT-0166",
+    "category": "医保社保",
+    "channel": "短信",
+    "stage": "索取信息",
+    "text": "您的医保卡被停用，请点击链接恢复。今天不处理，医保待遇将被暂停。请提供身份证、银行卡和验证码",
+    "purpose": "冒用医保、社保部门身份，以停用、补贴和异常为由套取信息",
+    "signals": [
+      "医保停用",
+      "补贴到账",
+      "账户异常",
+      "补缴费用",
+      "仿冒政务链接"
+    ],
+    "relatedCaseId": "CN-CASE-0069",
+    "source": "淮北市公安局",
+    "sourceUrl": "https://gaj.huaibei.gov.cn/jwzx/jfts/57931954.html",
+    "publishedAt": "2025-05-20"
+  },
+  {
+    "id": "SCRIPT-0167",
+    "category": "医保社保",
+    "channel": "短信",
+    "stage": "诱导转账",
+    "text": "您的医保卡被停用，请点击链接恢复。账户即将冻结，请马上操作。请转账解冻账户",
+    "purpose": "冒用医保、社保部门身份，以停用、补贴和异常为由套取信息",
+    "signals": [
+      "医保停用",
+      "补贴到账",
+      "账户异常",
+      "补缴费用",
+      "仿冒政务链接"
+    ],
+    "relatedCaseId": "CN-CASE-0069",
+    "source": "淮北市公安局",
+    "sourceUrl": "https://gaj.huaibei.gov.cn/jwzx/jfts/57931954.html",
+    "publishedAt": "2025-05-20"
+  },
+  {
+    "id": "SCRIPT-0168",
+    "category": "医保社保",
+    "channel": "短信",
+    "stage": "索取信息",
+    "text": "您的医保卡被停用，请点击链接恢复。逾期将影响全家报销。请点击链接填写个人信息",
+    "purpose": "冒用医保、社保部门身份，以停用、补贴和异常为由套取信息",
+    "signals": [
+      "医保停用",
+      "补贴到账",
+      "账户异常",
+      "补缴费用",
+      "仿冒政务链接"
+    ],
+    "relatedCaseId": "CN-CASE-0069",
+    "source": "淮北市公安局",
+    "sourceUrl": "https://gaj.huaibei.gov.cn/jwzx/jfts/57931954.html",
+    "publishedAt": "2025-05-20"
+  },
+  {
+    "id": "SCRIPT-0169",
+    "category": "医保社保",
+    "channel": "电话",
+    "stage": "索取信息",
+    "text": "医保补贴已到账，需要绑定银行卡领取。今天不处理，医保待遇将被暂停。请提供身份证、银行卡和验证码",
+    "purpose": "冒用医保、社保部门身份，以停用、补贴和异常为由套取信息",
+    "signals": [
+      "医保停用",
+      "补贴到账",
+      "账户异常",
+      "补缴费用",
+      "仿冒政务链接"
+    ],
+    "relatedCaseId": "CN-CASE-0069",
+    "source": "淮北市公安局",
+    "sourceUrl": "https://gaj.huaibei.gov.cn/jwzx/jfts/57931954.html",
+    "publishedAt": "2025-05-20"
+  },
+  {
+    "id": "SCRIPT-0170",
+    "category": "医保社保",
+    "channel": "电话",
+    "stage": "诱导转账",
+    "text": "医保补贴已到账，需要绑定银行卡领取。账户即将冻结，请马上操作。请转账解冻账户",
+    "purpose": "冒用医保、社保部门身份，以停用、补贴和异常为由套取信息",
+    "signals": [
+      "医保停用",
+      "补贴到账",
+      "账户异常",
+      "补缴费用",
+      "仿冒政务链接"
+    ],
+    "relatedCaseId": "CN-CASE-0069",
+    "source": "淮北市公安局",
+    "sourceUrl": "https://gaj.huaibei.gov.cn/jwzx/jfts/57931954.html",
+    "publishedAt": "2025-05-20"
+  },
+  {
+    "id": "SCRIPT-0171",
+    "category": "医保社保",
+    "channel": "电话",
+    "stage": "索取信息",
+    "text": "医保补贴已到账，需要绑定银行卡领取。逾期将影响全家报销。请点击链接填写个人信息",
+    "purpose": "冒用医保、社保部门身份，以停用、补贴和异常为由套取信息",
+    "signals": [
+      "医保停用",
+      "补贴到账",
+      "账户异常",
+      "补缴费用",
+      "仿冒政务链接"
+    ],
+    "relatedCaseId": "CN-CASE-0069",
+    "source": "淮北市公安局",
+    "sourceUrl": "https://gaj.huaibei.gov.cn/jwzx/jfts/57931954.html",
+    "publishedAt": "2025-05-20"
+  },
+  {
+    "id": "SCRIPT-0172",
+    "category": "医保社保",
+    "channel": "社交软件",
+    "stage": "索取信息",
+    "text": "您的社保账户异常，需要核验身份。今天不处理，医保待遇将被暂停。请提供身份证、银行卡和验证码",
+    "purpose": "冒用医保、社保部门身份，以停用、补贴和异常为由套取信息",
+    "signals": [
+      "医保停用",
+      "补贴到账",
+      "账户异常",
+      "补缴费用",
+      "仿冒政务链接"
+    ],
+    "relatedCaseId": "CN-CASE-0069",
+    "source": "淮北市公安局",
+    "sourceUrl": "https://gaj.huaibei.gov.cn/jwzx/jfts/57931954.html",
+    "publishedAt": "2025-05-20"
+  },
+  {
+    "id": "SCRIPT-0173",
+    "category": "医保社保",
+    "channel": "社交软件",
+    "stage": "诱导转账",
+    "text": "您的社保账户异常，需要核验身份。账户即将冻结，请马上操作。请转账解冻账户",
+    "purpose": "冒用医保、社保部门身份，以停用、补贴和异常为由套取信息",
+    "signals": [
+      "医保停用",
+      "补贴到账",
+      "账户异常",
+      "补缴费用",
+      "仿冒政务链接"
+    ],
+    "relatedCaseId": "CN-CASE-0069",
+    "source": "淮北市公安局",
+    "sourceUrl": "https://gaj.huaibei.gov.cn/jwzx/jfts/57931954.html",
+    "publishedAt": "2025-05-20"
+  },
+  {
+    "id": "SCRIPT-0174",
+    "category": "医保社保",
+    "channel": "社交软件",
+    "stage": "索取信息",
+    "text": "您的社保账户异常，需要核验身份。逾期将影响全家报销。请点击链接填写个人信息",
+    "purpose": "冒用医保、社保部门身份，以停用、补贴和异常为由套取信息",
+    "signals": [
+      "医保停用",
+      "补贴到账",
+      "账户异常",
+      "补缴费用",
+      "仿冒政务链接"
+    ],
+    "relatedCaseId": "CN-CASE-0069",
+    "source": "淮北市公安局",
+    "sourceUrl": "https://gaj.huaibei.gov.cn/jwzx/jfts/57931954.html",
+    "publishedAt": "2025-05-20"
+  },
+  {
+    "id": "SCRIPT-0175",
+    "category": "医保社保",
+    "channel": "网页",
+    "stage": "索取信息",
+    "text": "医保卡涉嫌套现，请配合调查。今天不处理，医保待遇将被暂停。请提供身份证、银行卡和验证码",
+    "purpose": "冒用医保、社保部门身份，以停用、补贴和异常为由套取信息",
+    "signals": [
+      "医保停用",
+      "补贴到账",
+      "账户异常",
+      "补缴费用",
+      "仿冒政务链接"
+    ],
+    "relatedCaseId": "CN-CASE-0069",
+    "source": "淮北市公安局",
+    "sourceUrl": "https://gaj.huaibei.gov.cn/jwzx/jfts/57931954.html",
+    "publishedAt": "2025-05-20"
+  },
+  {
+    "id": "SCRIPT-0176",
+    "category": "医保社保",
+    "channel": "网页",
+    "stage": "诱导转账",
+    "text": "医保卡涉嫌套现，请配合调查。账户即将冻结，请马上操作。请转账解冻账户",
+    "purpose": "冒用医保、社保部门身份，以停用、补贴和异常为由套取信息",
+    "signals": [
+      "医保停用",
+      "补贴到账",
+      "账户异常",
+      "补缴费用",
+      "仿冒政务链接"
+    ],
+    "relatedCaseId": "CN-CASE-0069",
+    "source": "淮北市公安局",
+    "sourceUrl": "https://gaj.huaibei.gov.cn/jwzx/jfts/57931954.html",
+    "publishedAt": "2025-05-20"
+  },
+  {
+    "id": "SCRIPT-0177",
+    "category": "医保社保",
+    "channel": "网页",
+    "stage": "索取信息",
+    "text": "医保卡涉嫌套现，请配合调查。逾期将影响全家报销。请点击链接填写个人信息",
+    "purpose": "冒用医保、社保部门身份，以停用、补贴和异常为由套取信息",
+    "signals": [
+      "医保停用",
+      "补贴到账",
+      "账户异常",
+      "补缴费用",
+      "仿冒政务链接"
+    ],
+    "relatedCaseId": "CN-CASE-0069",
+    "source": "淮北市公安局",
+    "sourceUrl": "https://gaj.huaibei.gov.cn/jwzx/jfts/57931954.html",
+    "publishedAt": "2025-05-20"
+  },
+  {
+    "id": "SCRIPT-0178",
+    "category": "医保社保",
+    "channel": "APP",
+    "stage": "索取信息",
+    "text": "政策调整，需补缴费用才能继续报销。今天不处理，医保待遇将被暂停。请提供身份证、银行卡和验证码",
+    "purpose": "冒用医保、社保部门身份，以停用、补贴和异常为由套取信息",
+    "signals": [
+      "医保停用",
+      "补贴到账",
+      "账户异常",
+      "补缴费用",
+      "仿冒政务链接"
+    ],
+    "relatedCaseId": "CN-CASE-0069",
+    "source": "淮北市公安局",
+    "sourceUrl": "https://gaj.huaibei.gov.cn/jwzx/jfts/57931954.html",
+    "publishedAt": "2025-05-20"
+  },
+  {
+    "id": "SCRIPT-0179",
+    "category": "医保社保",
+    "channel": "APP",
+    "stage": "诱导转账",
+    "text": "政策调整，需补缴费用才能继续报销。账户即将冻结，请马上操作。请转账解冻账户",
+    "purpose": "冒用医保、社保部门身份，以停用、补贴和异常为由套取信息",
+    "signals": [
+      "医保停用",
+      "补贴到账",
+      "账户异常",
+      "补缴费用",
+      "仿冒政务链接"
+    ],
+    "relatedCaseId": "CN-CASE-0069",
+    "source": "淮北市公安局",
+    "sourceUrl": "https://gaj.huaibei.gov.cn/jwzx/jfts/57931954.html",
+    "publishedAt": "2025-05-20"
+  },
+  {
+    "id": "SCRIPT-0180",
+    "category": "医保社保",
+    "channel": "APP",
+    "stage": "索取信息",
+    "text": "政策调整，需补缴费用才能继续报销。逾期将影响全家报销。请点击链接填写个人信息",
+    "purpose": "冒用医保、社保部门身份，以停用、补贴和异常为由套取信息",
+    "signals": [
+      "医保停用",
+      "补贴到账",
+      "账户异常",
+      "补缴费用",
+      "仿冒政务链接"
+    ],
+    "relatedCaseId": "CN-CASE-0069",
+    "source": "淮北市公安局",
+    "sourceUrl": "https://gaj.huaibei.gov.cn/jwzx/jfts/57931954.html",
+    "publishedAt": "2025-05-20"
+  },
+  {
+    "id": "SCRIPT-0181",
+    "category": "养老诈骗",
+    "channel": "短信",
+    "stage": "建立信任",
+    "text": "这个养老项目政府支持，投资后每月返利。名额有限，今天交钱才能锁定。请先交预付费或会员费",
+    "purpose": "以养老项目、以房养老、保健品和预付费服务诱导老年人投入资金",
+    "signals": [
+      "政府支持",
+      "高额返利",
+      "以房养老",
+      "免费礼品",
+      "保健品治病"
+    ],
+    "relatedCaseId": "CN-CASE-0135",
+    "source": "最高人民法院",
+    "sourceUrl": "https://www.court.gov.cn/zixun/xiangqing/482861.html",
+    "publishedAt": "2025-12-01"
+  },
+  {
+    "id": "SCRIPT-0182",
+    "category": "养老诈骗",
+    "channel": "短信",
+    "stage": "诱导操作",
+    "text": "这个养老项目政府支持，投资后每月返利。活动只对老年人开放，错过不再有。请签合同并把房产抵押给我们",
+    "purpose": "以养老项目、以房养老、保健品和预付费服务诱导老年人投入资金",
+    "signals": [
+      "政府支持",
+      "高额返利",
+      "以房养老",
+      "免费礼品",
+      "保健品治病"
+    ],
+    "relatedCaseId": "CN-CASE-0135",
+    "source": "最高人民法院",
+    "sourceUrl": "https://www.court.gov.cn/zixun/xiangqing/482861.html",
+    "publishedAt": "2025-12-01"
+  },
+  {
+    "id": "SCRIPT-0183",
+    "category": "养老诈骗",
+    "channel": "短信",
+    "stage": "建立信任",
+    "text": "这个养老项目政府支持，投资后每月返利。不买就没法享受后续养老服务。请购买这个保健套餐",
+    "purpose": "以养老项目、以房养老、保健品和预付费服务诱导老年人投入资金",
+    "signals": [
+      "政府支持",
+      "高额返利",
+      "以房养老",
+      "免费礼品",
+      "保健品治病"
+    ],
+    "relatedCaseId": "CN-CASE-0135",
+    "source": "最高人民法院",
+    "sourceUrl": "https://www.court.gov.cn/zixun/xiangqing/482861.html",
+    "publishedAt": "2025-12-01"
+  },
+  {
+    "id": "SCRIPT-0184",
+    "category": "养老诈骗",
+    "channel": "电话",
+    "stage": "建立信任",
+    "text": "以房养老，不用出钱就能领养老金。名额有限，今天交钱才能锁定。请先交预付费或会员费",
+    "purpose": "以养老项目、以房养老、保健品和预付费服务诱导老年人投入资金",
+    "signals": [
+      "政府支持",
+      "高额返利",
+      "以房养老",
+      "免费礼品",
+      "保健品治病"
+    ],
+    "relatedCaseId": "CN-CASE-0135",
+    "source": "最高人民法院",
+    "sourceUrl": "https://www.court.gov.cn/zixun/xiangqing/482861.html",
+    "publishedAt": "2025-12-01"
+  },
+  {
+    "id": "SCRIPT-0185",
+    "category": "养老诈骗",
+    "channel": "电话",
+    "stage": "诱导操作",
+    "text": "以房养老，不用出钱就能领养老金。活动只对老年人开放，错过不再有。请签合同并把房产抵押给我们",
+    "purpose": "以养老项目、以房养老、保健品和预付费服务诱导老年人投入资金",
+    "signals": [
+      "政府支持",
+      "高额返利",
+      "以房养老",
+      "免费礼品",
+      "保健品治病"
+    ],
+    "relatedCaseId": "CN-CASE-0135",
+    "source": "最高人民法院",
+    "sourceUrl": "https://www.court.gov.cn/zixun/xiangqing/482861.html",
+    "publishedAt": "2025-12-01"
+  },
+  {
+    "id": "SCRIPT-0186",
+    "category": "养老诈骗",
+    "channel": "电话",
+    "stage": "建立信任",
+    "text": "以房养老，不用出钱就能领养老金。不买就没法享受后续养老服务。请购买这个保健套餐",
+    "purpose": "以养老项目、以房养老、保健品和预付费服务诱导老年人投入资金",
+    "signals": [
+      "政府支持",
+      "高额返利",
+      "以房养老",
+      "免费礼品",
+      "保健品治病"
+    ],
+    "relatedCaseId": "CN-CASE-0135",
+    "source": "最高人民法院",
+    "sourceUrl": "https://www.court.gov.cn/zixun/xiangqing/482861.html",
+    "publishedAt": "2025-12-01"
+  },
+  {
+    "id": "SCRIPT-0187",
+    "category": "养老诈骗",
+    "channel": "社交软件",
+    "stage": "建立信任",
+    "text": "我们是养老院，预交床位费可享高额折扣。名额有限，今天交钱才能锁定。请先交预付费或会员费",
+    "purpose": "以养老项目、以房养老、保健品和预付费服务诱导老年人投入资金",
+    "signals": [
+      "政府支持",
+      "高额返利",
+      "以房养老",
+      "免费礼品",
+      "保健品治病"
+    ],
+    "relatedCaseId": "CN-CASE-0135",
+    "source": "最高人民法院",
+    "sourceUrl": "https://www.court.gov.cn/zixun/xiangqing/482861.html",
+    "publishedAt": "2025-12-01"
+  },
+  {
+    "id": "SCRIPT-0188",
+    "category": "养老诈骗",
+    "channel": "社交软件",
+    "stage": "诱导操作",
+    "text": "我们是养老院，预交床位费可享高额折扣。活动只对老年人开放，错过不再有。请签合同并把房产抵押给我们",
+    "purpose": "以养老项目、以房养老、保健品和预付费服务诱导老年人投入资金",
+    "signals": [
+      "政府支持",
+      "高额返利",
+      "以房养老",
+      "免费礼品",
+      "保健品治病"
+    ],
+    "relatedCaseId": "CN-CASE-0135",
+    "source": "最高人民法院",
+    "sourceUrl": "https://www.court.gov.cn/zixun/xiangqing/482861.html",
+    "publishedAt": "2025-12-01"
+  },
+  {
+    "id": "SCRIPT-0189",
+    "category": "养老诈骗",
+    "channel": "社交软件",
+    "stage": "建立信任",
+    "text": "我们是养老院，预交床位费可享高额折扣。不买就没法享受后续养老服务。请购买这个保健套餐",
+    "purpose": "以养老项目、以房养老、保健品和预付费服务诱导老年人投入资金",
+    "signals": [
+      "政府支持",
+      "高额返利",
+      "以房养老",
+      "免费礼品",
+      "保健品治病"
+    ],
+    "relatedCaseId": "CN-CASE-0135",
+    "source": "最高人民法院",
+    "sourceUrl": "https://www.court.gov.cn/zixun/xiangqing/482861.html",
+    "publishedAt": "2025-12-01"
+  },
+  {
+    "id": "SCRIPT-0190",
+    "category": "养老诈骗",
+    "channel": "网页",
+    "stage": "建立信任",
+    "text": "免费体检、免费旅游，来了还有礼品。名额有限，今天交钱才能锁定。请先交预付费或会员费",
+    "purpose": "以养老项目、以房养老、保健品和预付费服务诱导老年人投入资金",
+    "signals": [
+      "政府支持",
+      "高额返利",
+      "以房养老",
+      "免费礼品",
+      "保健品治病"
+    ],
+    "relatedCaseId": "CN-CASE-0135",
+    "source": "最高人民法院",
+    "sourceUrl": "https://www.court.gov.cn/zixun/xiangqing/482861.html",
+    "publishedAt": "2025-12-01"
+  },
+  {
+    "id": "SCRIPT-0191",
+    "category": "养老诈骗",
+    "channel": "网页",
+    "stage": "诱导操作",
+    "text": "免费体检、免费旅游，来了还有礼品。活动只对老年人开放，错过不再有。请签合同并把房产抵押给我们",
+    "purpose": "以养老项目、以房养老、保健品和预付费服务诱导老年人投入资金",
+    "signals": [
+      "政府支持",
+      "高额返利",
+      "以房养老",
+      "免费礼品",
+      "保健品治病"
+    ],
+    "relatedCaseId": "CN-CASE-0135",
+    "source": "最高人民法院",
+    "sourceUrl": "https://www.court.gov.cn/zixun/xiangqing/482861.html",
+    "publishedAt": "2025-12-01"
+  },
+  {
+    "id": "SCRIPT-0192",
+    "category": "养老诈骗",
+    "channel": "网页",
+    "stage": "建立信任",
+    "text": "免费体检、免费旅游，来了还有礼品。不买就没法享受后续养老服务。请购买这个保健套餐",
+    "purpose": "以养老项目、以房养老、保健品和预付费服务诱导老年人投入资金",
+    "signals": [
+      "政府支持",
+      "高额返利",
+      "以房养老",
+      "免费礼品",
+      "保健品治病"
+    ],
+    "relatedCaseId": "CN-CASE-0135",
+    "source": "最高人民法院",
+    "sourceUrl": "https://www.court.gov.cn/zixun/xiangqing/482861.html",
+    "publishedAt": "2025-12-01"
+  },
+  {
+    "id": "SCRIPT-0193",
+    "category": "养老诈骗",
+    "channel": "APP",
+    "stage": "建立信任",
+    "text": "专家推荐保健品，能治很多慢性病。名额有限，今天交钱才能锁定。请先交预付费或会员费",
+    "purpose": "以养老项目、以房养老、保健品和预付费服务诱导老年人投入资金",
+    "signals": [
+      "政府支持",
+      "高额返利",
+      "以房养老",
+      "免费礼品",
+      "保健品治病"
+    ],
+    "relatedCaseId": "CN-CASE-0135",
+    "source": "最高人民法院",
+    "sourceUrl": "https://www.court.gov.cn/zixun/xiangqing/482861.html",
+    "publishedAt": "2025-12-01"
+  },
+  {
+    "id": "SCRIPT-0194",
+    "category": "养老诈骗",
+    "channel": "APP",
+    "stage": "诱导操作",
+    "text": "专家推荐保健品，能治很多慢性病。活动只对老年人开放，错过不再有。请签合同并把房产抵押给我们",
+    "purpose": "以养老项目、以房养老、保健品和预付费服务诱导老年人投入资金",
+    "signals": [
+      "政府支持",
+      "高额返利",
+      "以房养老",
+      "免费礼品",
+      "保健品治病"
+    ],
+    "relatedCaseId": "CN-CASE-0135",
+    "source": "最高人民法院",
+    "sourceUrl": "https://www.court.gov.cn/zixun/xiangqing/482861.html",
+    "publishedAt": "2025-12-01"
+  },
+  {
+    "id": "SCRIPT-0195",
+    "category": "养老诈骗",
+    "channel": "APP",
+    "stage": "建立信任",
+    "text": "专家推荐保健品，能治很多慢性病。不买就没法享受后续养老服务。请购买这个保健套餐",
+    "purpose": "以养老项目、以房养老、保健品和预付费服务诱导老年人投入资金",
+    "signals": [
+      "政府支持",
+      "高额返利",
+      "以房养老",
+      "免费礼品",
+      "保健品治病"
+    ],
+    "relatedCaseId": "CN-CASE-0135",
+    "source": "最高人民法院",
+    "sourceUrl": "https://www.court.gov.cn/zixun/xiangqing/482861.html",
+    "publishedAt": "2025-12-01"
+  },
+  {
+    "id": "SCRIPT-0196",
+    "category": "KYC/账户核验",
+    "channel": "短信",
+    "stage": "索取信息",
+    "text": "您的账户需要完成KYC认证，否则会被冻结。认证通道将在今晚关闭。请提供身份证正反面和人脸视频",
+    "purpose": "以账户认证、身份更新和资金安全为名套取身份证、人脸和银行卡信息",
+    "signals": [
+      "KYC认证",
+      "账户冻结",
+      "人脸核验",
+      "重新实名",
+      "陌生认证链接"
+    ],
+    "relatedCaseId": "CN-CASE-0016",
+    "source": "中国青年网",
+    "sourceUrl": "https://news.youth.cn/fzlm/202605/t20260528_16684058.htm",
+    "publishedAt": "2026-05-28"
+  },
+  {
+    "id": "SCRIPT-0197",
+    "category": "KYC/账户核验",
+    "channel": "短信",
+    "stage": "索取信息",
+    "text": "您的账户需要完成KYC认证，否则会被冻结。不认证就无法提现。请点击链接填写银行卡和验证码",
+    "purpose": "以账户认证、身份更新和资金安全为名套取身份证、人脸和银行卡信息",
+    "signals": [
+      "KYC认证",
+      "账户冻结",
+      "人脸核验",
+      "重新实名",
+      "陌生认证链接"
+    ],
+    "relatedCaseId": "CN-CASE-0016",
+    "source": "中国青年网",
+    "sourceUrl": "https://news.youth.cn/fzlm/202605/t20260528_16684058.htm",
+    "publishedAt": "2026-05-28"
+  },
+  {
+    "id": "SCRIPT-0198",
+    "category": "KYC/账户核验",
+    "channel": "短信",
+    "stage": "诱导转账",
+    "text": "您的账户需要完成KYC认证，否则会被冻结。账户异常可能影响您的信用记录。请转账验证账户归属",
+    "purpose": "以账户认证、身份更新和资金安全为名套取身份证、人脸和银行卡信息",
+    "signals": [
+      "KYC认证",
+      "账户冻结",
+      "人脸核验",
+      "重新实名",
+      "陌生认证链接"
+    ],
+    "relatedCaseId": "CN-CASE-0016",
+    "source": "中国青年网",
+    "sourceUrl": "https://news.youth.cn/fzlm/202605/t20260528_16684058.htm",
+    "publishedAt": "2026-05-28"
+  },
+  {
+    "id": "SCRIPT-0199",
+    "category": "KYC/账户核验",
+    "channel": "电话",
+    "stage": "索取信息",
+    "text": "平台系统升级，请重新提交身份信息。认证通道将在今晚关闭。请提供身份证正反面和人脸视频",
+    "purpose": "以账户认证、身份更新和资金安全为名套取身份证、人脸和银行卡信息",
+    "signals": [
+      "KYC认证",
+      "账户冻结",
+      "人脸核验",
+      "重新实名",
+      "陌生认证链接"
+    ],
+    "relatedCaseId": "CN-CASE-0016",
+    "source": "中国青年网",
+    "sourceUrl": "https://news.youth.cn/fzlm/202605/t20260528_16684058.htm",
+    "publishedAt": "2026-05-28"
+  },
+  {
+    "id": "SCRIPT-0200",
+    "category": "KYC/账户核验",
+    "channel": "电话",
+    "stage": "索取信息",
+    "text": "平台系统升级，请重新提交身份信息。不认证就无法提现。请点击链接填写银行卡和验证码",
+    "purpose": "以账户认证、身份更新和资金安全为名套取身份证、人脸和银行卡信息",
+    "signals": [
+      "KYC认证",
+      "账户冻结",
+      "人脸核验",
+      "重新实名",
+      "陌生认证链接"
+    ],
+    "relatedCaseId": "CN-CASE-0016",
+    "source": "中国青年网",
+    "sourceUrl": "https://news.youth.cn/fzlm/202605/t20260528_16684058.htm",
+    "publishedAt": "2026-05-28"
+  },
+  {
+    "id": "SCRIPT-0201",
+    "category": "KYC/账户核验",
+    "channel": "电话",
+    "stage": "诱导转账",
+    "text": "平台系统升级，请重新提交身份信息。账户异常可能影响您的信用记录。请转账验证账户归属",
+    "purpose": "以账户认证、身份更新和资金安全为名套取身份证、人脸和银行卡信息",
+    "signals": [
+      "KYC认证",
+      "账户冻结",
+      "人脸核验",
+      "重新实名",
+      "陌生认证链接"
+    ],
+    "relatedCaseId": "CN-CASE-0016",
+    "source": "中国青年网",
+    "sourceUrl": "https://news.youth.cn/fzlm/202605/t20260528_16684058.htm",
+    "publishedAt": "2026-05-28"
+  },
+  {
+    "id": "SCRIPT-0202",
+    "category": "KYC/账户核验",
+    "channel": "社交软件",
+    "stage": "索取信息",
+    "text": "您的实名认证过期，请立即更新。认证通道将在今晚关闭。请提供身份证正反面和人脸视频",
+    "purpose": "以账户认证、身份更新和资金安全为名套取身份证、人脸和银行卡信息",
+    "signals": [
+      "KYC认证",
+      "账户冻结",
+      "人脸核验",
+      "重新实名",
+      "陌生认证链接"
+    ],
+    "relatedCaseId": "CN-CASE-0016",
+    "source": "中国青年网",
+    "sourceUrl": "https://news.youth.cn/fzlm/202605/t20260528_16684058.htm",
+    "publishedAt": "2026-05-28"
+  },
+  {
+    "id": "SCRIPT-0203",
+    "category": "KYC/账户核验",
+    "channel": "社交软件",
+    "stage": "索取信息",
+    "text": "您的实名认证过期，请立即更新。不认证就无法提现。请点击链接填写银行卡和验证码",
+    "purpose": "以账户认证、身份更新和资金安全为名套取身份证、人脸和银行卡信息",
+    "signals": [
+      "KYC认证",
+      "账户冻结",
+      "人脸核验",
+      "重新实名",
+      "陌生认证链接"
+    ],
+    "relatedCaseId": "CN-CASE-0016",
+    "source": "中国青年网",
+    "sourceUrl": "https://news.youth.cn/fzlm/202605/t20260528_16684058.htm",
+    "publishedAt": "2026-05-28"
+  },
+  {
+    "id": "SCRIPT-0204",
+    "category": "KYC/账户核验",
+    "channel": "社交软件",
+    "stage": "诱导转账",
+    "text": "您的实名认证过期，请立即更新。账户异常可能影响您的信用记录。请转账验证账户归属",
+    "purpose": "以账户认证、身份更新和资金安全为名套取身份证、人脸和银行卡信息",
+    "signals": [
+      "KYC认证",
+      "账户冻结",
+      "人脸核验",
+      "重新实名",
+      "陌生认证链接"
+    ],
+    "relatedCaseId": "CN-CASE-0016",
+    "source": "中国青年网",
+    "sourceUrl": "https://news.youth.cn/fzlm/202605/t20260528_16684058.htm",
+    "publishedAt": "2026-05-28"
+  },
+  {
+    "id": "SCRIPT-0205",
+    "category": "KYC/账户核验",
+    "channel": "网页",
+    "stage": "索取信息",
+    "text": "为保障资金安全，请完成人脸核验。认证通道将在今晚关闭。请提供身份证正反面和人脸视频",
+    "purpose": "以账户认证、身份更新和资金安全为名套取身份证、人脸和银行卡信息",
+    "signals": [
+      "KYC认证",
+      "账户冻结",
+      "人脸核验",
+      "重新实名",
+      "陌生认证链接"
+    ],
+    "relatedCaseId": "CN-CASE-0016",
+    "source": "中国青年网",
+    "sourceUrl": "https://news.youth.cn/fzlm/202605/t20260528_16684058.htm",
+    "publishedAt": "2026-05-28"
+  },
+  {
+    "id": "SCRIPT-0206",
+    "category": "KYC/账户核验",
+    "channel": "网页",
+    "stage": "索取信息",
+    "text": "为保障资金安全，请完成人脸核验。不认证就无法提现。请点击链接填写银行卡和验证码",
+    "purpose": "以账户认证、身份更新和资金安全为名套取身份证、人脸和银行卡信息",
+    "signals": [
+      "KYC认证",
+      "账户冻结",
+      "人脸核验",
+      "重新实名",
+      "陌生认证链接"
+    ],
+    "relatedCaseId": "CN-CASE-0016",
+    "source": "中国青年网",
+    "sourceUrl": "https://news.youth.cn/fzlm/202605/t20260528_16684058.htm",
+    "publishedAt": "2026-05-28"
+  },
+  {
+    "id": "SCRIPT-0207",
+    "category": "KYC/账户核验",
+    "channel": "网页",
+    "stage": "诱导转账",
+    "text": "为保障资金安全，请完成人脸核验。账户异常可能影响您的信用记录。请转账验证账户归属",
+    "purpose": "以账户认证、身份更新和资金安全为名套取身份证、人脸和银行卡信息",
+    "signals": [
+      "KYC认证",
+      "账户冻结",
+      "人脸核验",
+      "重新实名",
+      "陌生认证链接"
+    ],
+    "relatedCaseId": "CN-CASE-0016",
+    "source": "中国青年网",
+    "sourceUrl": "https://news.youth.cn/fzlm/202605/t20260528_16684058.htm",
+    "publishedAt": "2026-05-28"
+  },
+  {
+    "id": "SCRIPT-0208",
+    "category": "KYC/账户核验",
+    "channel": "APP",
+    "stage": "索取信息",
+    "text": "请添加客服，我们会指导您完成认证。认证通道将在今晚关闭。请提供身份证正反面和人脸视频",
+    "purpose": "以账户认证、身份更新和资金安全为名套取身份证、人脸和银行卡信息",
+    "signals": [
+      "KYC认证",
+      "账户冻结",
+      "人脸核验",
+      "重新实名",
+      "陌生认证链接"
+    ],
+    "relatedCaseId": "CN-CASE-0016",
+    "source": "中国青年网",
+    "sourceUrl": "https://news.youth.cn/fzlm/202605/t20260528_16684058.htm",
+    "publishedAt": "2026-05-28"
+  },
+  {
+    "id": "SCRIPT-0209",
+    "category": "KYC/账户核验",
+    "channel": "APP",
+    "stage": "索取信息",
+    "text": "请添加客服，我们会指导您完成认证。不认证就无法提现。请点击链接填写银行卡和验证码",
+    "purpose": "以账户认证、身份更新和资金安全为名套取身份证、人脸和银行卡信息",
+    "signals": [
+      "KYC认证",
+      "账户冻结",
+      "人脸核验",
+      "重新实名",
+      "陌生认证链接"
+    ],
+    "relatedCaseId": "CN-CASE-0016",
+    "source": "中国青年网",
+    "sourceUrl": "https://news.youth.cn/fzlm/202605/t20260528_16684058.htm",
+    "publishedAt": "2026-05-28"
+  },
+  {
+    "id": "SCRIPT-0210",
+    "category": "KYC/账户核验",
+    "channel": "APP",
+    "stage": "诱导转账",
+    "text": "请添加客服，我们会指导您完成认证。账户异常可能影响您的信用记录。请转账验证账户归属",
+    "purpose": "以账户认证、身份更新和资金安全为名套取身份证、人脸和银行卡信息",
+    "signals": [
+      "KYC认证",
+      "账户冻结",
+      "人脸核验",
+      "重新实名",
+      "陌生认证链接"
+    ],
+    "relatedCaseId": "CN-CASE-0016",
+    "source": "中国青年网",
+    "sourceUrl": "https://news.youth.cn/fzlm/202605/t20260528_16684058.htm",
+    "publishedAt": "2026-05-28"
+  },
+  {
+    "id": "SCRIPT-0211",
+    "category": "网络游戏交易",
+    "channel": "短信",
+    "stage": "诱导转账",
+    "text": "高价收购游戏账号，先加QQ详聊。账号再不处理就会被永久封禁。请先支付保证金或解冻费",
+    "purpose": "以高价收号、免费皮肤、解冻费和代练保证金为由实施交易诈骗",
+    "signals": [
+      "高价收号",
+      "免费皮肤",
+      "账号冻结",
+      "私下交易",
+      "先交保证金"
+    ],
+    "relatedCaseId": "CN-CASE-0074",
+    "source": "公安部刑侦局（光明网转载）",
+    "sourceUrl": "https://m.gmw.cn/2025-07/29/content_1304096705.htm",
+    "publishedAt": "2025-07-29"
+  },
+  {
+    "id": "SCRIPT-0212",
+    "category": "网络游戏交易",
+    "channel": "短信",
+    "stage": "索取信息",
+    "text": "高价收购游戏账号，先加QQ详聊。皮肤名额只剩最后一个。请提供账号密码和验证码",
+    "purpose": "以高价收号、免费皮肤、解冻费和代练保证金为由实施交易诈骗",
+    "signals": [
+      "高价收号",
+      "免费皮肤",
+      "账号冻结",
+      "私下交易",
+      "先交保证金"
+    ],
+    "relatedCaseId": "CN-CASE-0074",
+    "source": "公安部刑侦局（光明网转载）",
+    "sourceUrl": "https://m.gmw.cn/2025-07/29/content_1304096705.htm",
+    "publishedAt": "2025-07-29"
+  },
+  {
+    "id": "SCRIPT-0213",
+    "category": "网络游戏交易",
+    "channel": "短信",
+    "stage": "诱导操作",
+    "text": "高价收购游戏账号，先加QQ详聊。买家已经付款，你不配合就违约。请扫码进入交易平台",
+    "purpose": "以高价收号、免费皮肤、解冻费和代练保证金为由实施交易诈骗",
+    "signals": [
+      "高价收号",
+      "免费皮肤",
+      "账号冻结",
+      "私下交易",
+      "先交保证金"
+    ],
+    "relatedCaseId": "CN-CASE-0074",
+    "source": "公安部刑侦局（光明网转载）",
+    "sourceUrl": "https://m.gmw.cn/2025-07/29/content_1304096705.htm",
+    "publishedAt": "2025-07-29"
+  },
+  {
+    "id": "SCRIPT-0214",
+    "category": "网络游戏交易",
+    "channel": "电话",
+    "stage": "诱导转账",
+    "text": "免费送皮肤，只要完成一个简单任务。账号再不处理就会被永久封禁。请先支付保证金或解冻费",
+    "purpose": "以高价收号、免费皮肤、解冻费和代练保证金为由实施交易诈骗",
+    "signals": [
+      "高价收号",
+      "免费皮肤",
+      "账号冻结",
+      "私下交易",
+      "先交保证金"
+    ],
+    "relatedCaseId": "CN-CASE-0074",
+    "source": "公安部刑侦局（光明网转载）",
+    "sourceUrl": "https://m.gmw.cn/2025-07/29/content_1304096705.htm",
+    "publishedAt": "2025-07-29"
+  },
+  {
+    "id": "SCRIPT-0215",
+    "category": "网络游戏交易",
+    "channel": "电话",
+    "stage": "索取信息",
+    "text": "免费送皮肤，只要完成一个简单任务。皮肤名额只剩最后一个。请提供账号密码和验证码",
+    "purpose": "以高价收号、免费皮肤、解冻费和代练保证金为由实施交易诈骗",
+    "signals": [
+      "高价收号",
+      "免费皮肤",
+      "账号冻结",
+      "私下交易",
+      "先交保证金"
+    ],
+    "relatedCaseId": "CN-CASE-0074",
+    "source": "公安部刑侦局（光明网转载）",
+    "sourceUrl": "https://m.gmw.cn/2025-07/29/content_1304096705.htm",
+    "publishedAt": "2025-07-29"
+  },
+  {
+    "id": "SCRIPT-0216",
+    "category": "网络游戏交易",
+    "channel": "电话",
+    "stage": "诱导操作",
+    "text": "免费送皮肤，只要完成一个简单任务。买家已经付款，你不配合就违约。请扫码进入交易平台",
+    "purpose": "以高价收号、免费皮肤、解冻费和代练保证金为由实施交易诈骗",
+    "signals": [
+      "高价收号",
+      "免费皮肤",
+      "账号冻结",
+      "私下交易",
+      "先交保证金"
+    ],
+    "relatedCaseId": "CN-CASE-0074",
+    "source": "公安部刑侦局（光明网转载）",
+    "sourceUrl": "https://m.gmw.cn/2025-07/29/content_1304096705.htm",
+    "publishedAt": "2025-07-29"
+  },
+  {
+    "id": "SCRIPT-0217",
+    "category": "网络游戏交易",
+    "channel": "社交软件",
+    "stage": "诱导转账",
+    "text": "你的账号被冻结，需要缴纳解冻费。账号再不处理就会被永久封禁。请先支付保证金或解冻费",
+    "purpose": "以高价收号、免费皮肤、解冻费和代练保证金为由实施交易诈骗",
+    "signals": [
+      "高价收号",
+      "免费皮肤",
+      "账号冻结",
+      "私下交易",
+      "先交保证金"
+    ],
+    "relatedCaseId": "CN-CASE-0074",
+    "source": "公安部刑侦局（光明网转载）",
+    "sourceUrl": "https://m.gmw.cn/2025-07/29/content_1304096705.htm",
+    "publishedAt": "2025-07-29"
+  },
+  {
+    "id": "SCRIPT-0218",
+    "category": "网络游戏交易",
+    "channel": "社交软件",
+    "stage": "索取信息",
+    "text": "你的账号被冻结，需要缴纳解冻费。皮肤名额只剩最后一个。请提供账号密码和验证码",
+    "purpose": "以高价收号、免费皮肤、解冻费和代练保证金为由实施交易诈骗",
+    "signals": [
+      "高价收号",
+      "免费皮肤",
+      "账号冻结",
+      "私下交易",
+      "先交保证金"
+    ],
+    "relatedCaseId": "CN-CASE-0074",
+    "source": "公安部刑侦局（光明网转载）",
+    "sourceUrl": "https://m.gmw.cn/2025-07/29/content_1304096705.htm",
+    "publishedAt": "2025-07-29"
+  },
+  {
+    "id": "SCRIPT-0219",
+    "category": "网络游戏交易",
+    "channel": "社交软件",
+    "stage": "诱导操作",
+    "text": "你的账号被冻结，需要缴纳解冻费。买家已经付款，你不配合就违约。请扫码进入交易平台",
+    "purpose": "以高价收号、免费皮肤、解冻费和代练保证金为由实施交易诈骗",
+    "signals": [
+      "高价收号",
+      "免费皮肤",
+      "账号冻结",
+      "私下交易",
+      "先交保证金"
+    ],
+    "relatedCaseId": "CN-CASE-0074",
+    "source": "公安部刑侦局（光明网转载）",
+    "sourceUrl": "https://m.gmw.cn/2025-07/29/content_1304096705.htm",
+    "publishedAt": "2025-07-29"
+  },
+  {
+    "id": "SCRIPT-0220",
+    "category": "网络游戏交易",
+    "channel": "网页",
+    "stage": "诱导转账",
+    "text": "我们是官方交易平台，安全有保障。账号再不处理就会被永久封禁。请先支付保证金或解冻费",
+    "purpose": "以高价收号、免费皮肤、解冻费和代练保证金为由实施交易诈骗",
+    "signals": [
+      "高价收号",
+      "免费皮肤",
+      "账号冻结",
+      "私下交易",
+      "先交保证金"
+    ],
+    "relatedCaseId": "CN-CASE-0074",
+    "source": "公安部刑侦局（光明网转载）",
+    "sourceUrl": "https://m.gmw.cn/2025-07/29/content_1304096705.htm",
+    "publishedAt": "2025-07-29"
+  },
+  {
+    "id": "SCRIPT-0221",
+    "category": "网络游戏交易",
+    "channel": "网页",
+    "stage": "索取信息",
+    "text": "我们是官方交易平台，安全有保障。皮肤名额只剩最后一个。请提供账号密码和验证码",
+    "purpose": "以高价收号、免费皮肤、解冻费和代练保证金为由实施交易诈骗",
+    "signals": [
+      "高价收号",
+      "免费皮肤",
+      "账号冻结",
+      "私下交易",
+      "先交保证金"
+    ],
+    "relatedCaseId": "CN-CASE-0074",
+    "source": "公安部刑侦局（光明网转载）",
+    "sourceUrl": "https://m.gmw.cn/2025-07/29/content_1304096705.htm",
+    "publishedAt": "2025-07-29"
+  },
+  {
+    "id": "SCRIPT-0222",
+    "category": "网络游戏交易",
+    "channel": "网页",
+    "stage": "诱导操作",
+    "text": "我们是官方交易平台，安全有保障。买家已经付款，你不配合就违约。请扫码进入交易平台",
+    "purpose": "以高价收号、免费皮肤、解冻费和代练保证金为由实施交易诈骗",
+    "signals": [
+      "高价收号",
+      "免费皮肤",
+      "账号冻结",
+      "私下交易",
+      "先交保证金"
+    ],
+    "relatedCaseId": "CN-CASE-0074",
+    "source": "公安部刑侦局（光明网转载）",
+    "sourceUrl": "https://m.gmw.cn/2025-07/29/content_1304096705.htm",
+    "publishedAt": "2025-07-29"
+  },
+  {
+    "id": "SCRIPT-0223",
+    "category": "网络游戏交易",
+    "channel": "APP",
+    "stage": "诱导转账",
+    "text": "代练先交保证金，完成后退还。账号再不处理就会被永久封禁。请先支付保证金或解冻费",
+    "purpose": "以高价收号、免费皮肤、解冻费和代练保证金为由实施交易诈骗",
+    "signals": [
+      "高价收号",
+      "免费皮肤",
+      "账号冻结",
+      "私下交易",
+      "先交保证金"
+    ],
+    "relatedCaseId": "CN-CASE-0074",
+    "source": "公安部刑侦局（光明网转载）",
+    "sourceUrl": "https://m.gmw.cn/2025-07/29/content_1304096705.htm",
+    "publishedAt": "2025-07-29"
+  },
+  {
+    "id": "SCRIPT-0224",
+    "category": "网络游戏交易",
+    "channel": "APP",
+    "stage": "索取信息",
+    "text": "代练先交保证金，完成后退还。皮肤名额只剩最后一个。请提供账号密码和验证码",
+    "purpose": "以高价收号、免费皮肤、解冻费和代练保证金为由实施交易诈骗",
+    "signals": [
+      "高价收号",
+      "免费皮肤",
+      "账号冻结",
+      "私下交易",
+      "先交保证金"
+    ],
+    "relatedCaseId": "CN-CASE-0074",
+    "source": "公安部刑侦局（光明网转载）",
+    "sourceUrl": "https://m.gmw.cn/2025-07/29/content_1304096705.htm",
+    "publishedAt": "2025-07-29"
+  },
+  {
+    "id": "SCRIPT-0225",
+    "category": "网络游戏交易",
+    "channel": "APP",
+    "stage": "诱导操作",
+    "text": "代练先交保证金，完成后退还。买家已经付款，你不配合就违约。请扫码进入交易平台",
+    "purpose": "以高价收号、免费皮肤、解冻费和代练保证金为由实施交易诈骗",
+    "signals": [
+      "高价收号",
+      "免费皮肤",
+      "账号冻结",
+      "私下交易",
+      "先交保证金"
+    ],
+    "relatedCaseId": "CN-CASE-0074",
+    "source": "公安部刑侦局（光明网转载）",
+    "sourceUrl": "https://m.gmw.cn/2025-07/29/content_1304096705.htm",
+    "publishedAt": "2025-07-29"
+  },
+  {
+    "id": "SCRIPT-0226",
+    "category": "ETC",
+    "channel": "短信",
+    "stage": "索取信息",
+    "text": "您的ETC即将到期，请点击链接续约。今晚不续约，明天无法上高速。请点击链接填写银行卡和验证码",
+    "purpose": "冒用ETC发行方，以续约、异常扣费和退款为由诱导填写银行卡",
+    "signals": [
+      "ETC失效",
+      "异常扣费",
+      "续约链接",
+      "账户冻结",
+      "银行卡验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0077",
+    "source": "光明网",
+    "sourceUrl": "https://m.gmw.cn/toutiao/2025-02/06/content_1303963828.htm",
+    "publishedAt": "2025-02-06"
+  },
+  {
+    "id": "SCRIPT-0227",
+    "category": "ETC",
+    "channel": "短信",
+    "stage": "诱导转账",
+    "text": "您的ETC即将到期，请点击链接续约。账户冻结将影响正常通行。请转账解冻账户",
+    "purpose": "冒用ETC发行方，以续约、异常扣费和退款为由诱导填写银行卡",
+    "signals": [
+      "ETC失效",
+      "异常扣费",
+      "续约链接",
+      "账户冻结",
+      "银行卡验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0077",
+    "source": "光明网",
+    "sourceUrl": "https://m.gmw.cn/toutiao/2025-02/06/content_1303963828.htm",
+    "publishedAt": "2025-02-06"
+  },
+  {
+    "id": "SCRIPT-0228",
+    "category": "ETC",
+    "channel": "短信",
+    "stage": "索取信息",
+    "text": "您的ETC即将到期，请点击链接续约。退款名额只保留一小时。请提供身份证和行驶证信息",
+    "purpose": "冒用ETC发行方，以续约、异常扣费和退款为由诱导填写银行卡",
+    "signals": [
+      "ETC失效",
+      "异常扣费",
+      "续约链接",
+      "账户冻结",
+      "银行卡验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0077",
+    "source": "光明网",
+    "sourceUrl": "https://m.gmw.cn/toutiao/2025-02/06/content_1303963828.htm",
+    "publishedAt": "2025-02-06"
+  },
+  {
+    "id": "SCRIPT-0229",
+    "category": "ETC",
+    "channel": "电话",
+    "stage": "索取信息",
+    "text": "ETC异常扣费，请办理退款。今晚不续约，明天无法上高速。请点击链接填写银行卡和验证码",
+    "purpose": "冒用ETC发行方，以续约、异常扣费和退款为由诱导填写银行卡",
+    "signals": [
+      "ETC失效",
+      "异常扣费",
+      "续约链接",
+      "账户冻结",
+      "银行卡验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0077",
+    "source": "光明网",
+    "sourceUrl": "https://m.gmw.cn/toutiao/2025-02/06/content_1303963828.htm",
+    "publishedAt": "2025-02-06"
+  },
+  {
+    "id": "SCRIPT-0230",
+    "category": "ETC",
+    "channel": "电话",
+    "stage": "诱导转账",
+    "text": "ETC异常扣费，请办理退款。账户冻结将影响正常通行。请转账解冻账户",
+    "purpose": "冒用ETC发行方，以续约、异常扣费和退款为由诱导填写银行卡",
+    "signals": [
+      "ETC失效",
+      "异常扣费",
+      "续约链接",
+      "账户冻结",
+      "银行卡验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0077",
+    "source": "光明网",
+    "sourceUrl": "https://m.gmw.cn/toutiao/2025-02/06/content_1303963828.htm",
+    "publishedAt": "2025-02-06"
+  },
+  {
+    "id": "SCRIPT-0231",
+    "category": "ETC",
+    "channel": "电话",
+    "stage": "索取信息",
+    "text": "ETC异常扣费，请办理退款。退款名额只保留一小时。请提供身份证和行驶证信息",
+    "purpose": "冒用ETC发行方，以续约、异常扣费和退款为由诱导填写银行卡",
+    "signals": [
+      "ETC失效",
+      "异常扣费",
+      "续约链接",
+      "账户冻结",
+      "银行卡验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0077",
+    "source": "光明网",
+    "sourceUrl": "https://m.gmw.cn/toutiao/2025-02/06/content_1303963828.htm",
+    "publishedAt": "2025-02-06"
+  },
+  {
+    "id": "SCRIPT-0232",
+    "category": "ETC",
+    "channel": "社交软件",
+    "stage": "索取信息",
+    "text": "您的ETC账户被冻结，需要立即解冻。今晚不续约，明天无法上高速。请点击链接填写银行卡和验证码",
+    "purpose": "冒用ETC发行方，以续约、异常扣费和退款为由诱导填写银行卡",
+    "signals": [
+      "ETC失效",
+      "异常扣费",
+      "续约链接",
+      "账户冻结",
+      "银行卡验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0077",
+    "source": "光明网",
+    "sourceUrl": "https://m.gmw.cn/toutiao/2025-02/06/content_1303963828.htm",
+    "publishedAt": "2025-02-06"
+  },
+  {
+    "id": "SCRIPT-0233",
+    "category": "ETC",
+    "channel": "社交软件",
+    "stage": "诱导转账",
+    "text": "您的ETC账户被冻结，需要立即解冻。账户冻结将影响正常通行。请转账解冻账户",
+    "purpose": "冒用ETC发行方，以续约、异常扣费和退款为由诱导填写银行卡",
+    "signals": [
+      "ETC失效",
+      "异常扣费",
+      "续约链接",
+      "账户冻结",
+      "银行卡验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0077",
+    "source": "光明网",
+    "sourceUrl": "https://m.gmw.cn/toutiao/2025-02/06/content_1303963828.htm",
+    "publishedAt": "2025-02-06"
+  },
+  {
+    "id": "SCRIPT-0234",
+    "category": "ETC",
+    "channel": "社交软件",
+    "stage": "索取信息",
+    "text": "您的ETC账户被冻结，需要立即解冻。退款名额只保留一小时。请提供身份证和行驶证信息",
+    "purpose": "冒用ETC发行方，以续约、异常扣费和退款为由诱导填写银行卡",
+    "signals": [
+      "ETC失效",
+      "异常扣费",
+      "续约链接",
+      "账户冻结",
+      "银行卡验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0077",
+    "source": "光明网",
+    "sourceUrl": "https://m.gmw.cn/toutiao/2025-02/06/content_1303963828.htm",
+    "publishedAt": "2025-02-06"
+  },
+  {
+    "id": "SCRIPT-0235",
+    "category": "ETC",
+    "channel": "网页",
+    "stage": "索取信息",
+    "text": "系统升级，请重新绑定银行卡。今晚不续约，明天无法上高速。请点击链接填写银行卡和验证码",
+    "purpose": "冒用ETC发行方，以续约、异常扣费和退款为由诱导填写银行卡",
+    "signals": [
+      "ETC失效",
+      "异常扣费",
+      "续约链接",
+      "账户冻结",
+      "银行卡验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0077",
+    "source": "光明网",
+    "sourceUrl": "https://m.gmw.cn/toutiao/2025-02/06/content_1303963828.htm",
+    "publishedAt": "2025-02-06"
+  },
+  {
+    "id": "SCRIPT-0236",
+    "category": "ETC",
+    "channel": "网页",
+    "stage": "诱导转账",
+    "text": "系统升级，请重新绑定银行卡。账户冻结将影响正常通行。请转账解冻账户",
+    "purpose": "冒用ETC发行方，以续约、异常扣费和退款为由诱导填写银行卡",
+    "signals": [
+      "ETC失效",
+      "异常扣费",
+      "续约链接",
+      "账户冻结",
+      "银行卡验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0077",
+    "source": "光明网",
+    "sourceUrl": "https://m.gmw.cn/toutiao/2025-02/06/content_1303963828.htm",
+    "publishedAt": "2025-02-06"
+  },
+  {
+    "id": "SCRIPT-0237",
+    "category": "ETC",
+    "channel": "网页",
+    "stage": "索取信息",
+    "text": "系统升级，请重新绑定银行卡。退款名额只保留一小时。请提供身份证和行驶证信息",
+    "purpose": "冒用ETC发行方，以续约、异常扣费和退款为由诱导填写银行卡",
+    "signals": [
+      "ETC失效",
+      "异常扣费",
+      "续约链接",
+      "账户冻结",
+      "银行卡验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0077",
+    "source": "光明网",
+    "sourceUrl": "https://m.gmw.cn/toutiao/2025-02/06/content_1303963828.htm",
+    "publishedAt": "2025-02-06"
+  },
+  {
+    "id": "SCRIPT-0238",
+    "category": "ETC",
+    "channel": "APP",
+    "stage": "索取信息",
+    "text": "通行费多扣了，我们给您返还。今晚不续约，明天无法上高速。请点击链接填写银行卡和验证码",
+    "purpose": "冒用ETC发行方，以续约、异常扣费和退款为由诱导填写银行卡",
+    "signals": [
+      "ETC失效",
+      "异常扣费",
+      "续约链接",
+      "账户冻结",
+      "银行卡验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0077",
+    "source": "光明网",
+    "sourceUrl": "https://m.gmw.cn/toutiao/2025-02/06/content_1303963828.htm",
+    "publishedAt": "2025-02-06"
+  },
+  {
+    "id": "SCRIPT-0239",
+    "category": "ETC",
+    "channel": "APP",
+    "stage": "诱导转账",
+    "text": "通行费多扣了，我们给您返还。账户冻结将影响正常通行。请转账解冻账户",
+    "purpose": "冒用ETC发行方，以续约、异常扣费和退款为由诱导填写银行卡",
+    "signals": [
+      "ETC失效",
+      "异常扣费",
+      "续约链接",
+      "账户冻结",
+      "银行卡验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0077",
+    "source": "光明网",
+    "sourceUrl": "https://m.gmw.cn/toutiao/2025-02/06/content_1303963828.htm",
+    "publishedAt": "2025-02-06"
+  },
+  {
+    "id": "SCRIPT-0240",
+    "category": "ETC",
+    "channel": "APP",
+    "stage": "索取信息",
+    "text": "通行费多扣了，我们给您返还。退款名额只保留一小时。请提供身份证和行驶证信息",
+    "purpose": "冒用ETC发行方，以续约、异常扣费和退款为由诱导填写银行卡",
+    "signals": [
+      "ETC失效",
+      "异常扣费",
+      "续约链接",
+      "账户冻结",
+      "银行卡验证码"
+    ],
+    "relatedCaseId": "CN-CASE-0077",
+    "source": "光明网",
+    "sourceUrl": "https://m.gmw.cn/toutiao/2025-02/06/content_1303963828.htm",
+    "publishedAt": "2025-02-06"
+  },
+  {
+    "id": "SCRIPT-0241",
+    "category": "虚拟货币",
+    "channel": "短信",
+    "stage": "建立信任",
+    "text": "老师带单炒币，稳赚不赔。名额马上满了，今天必须入金。请向指定钱包地址转入USDT",
+    "purpose": "以炒币带单、内部漏洞和矿机托管为名诱导充值或交出钱包权限",
+    "signals": [
+      "USDT充值",
+      "稳赚不赔",
+      "内部漏洞",
+      "钱包地址",
+      "补税提现"
+    ],
+    "relatedCaseId": "CN-CASE-0082",
+    "source": "广州市公安局",
+    "sourceUrl": "https://gaj.gz.gov.cn/zzzq/jwzx/content/post_10736182.html",
+    "publishedAt": "2026-03-21"
+  },
+  {
+    "id": "SCRIPT-0242",
+    "category": "虚拟货币",
+    "channel": "短信",
+    "stage": "诱导转账",
+    "text": "老师带单炒币，稳赚不赔。行情窗口只有十分钟。请下载交易所APP并充值",
+    "purpose": "以炒币带单、内部漏洞和矿机托管为名诱导充值或交出钱包权限",
+    "signals": [
+      "USDT充值",
+      "稳赚不赔",
+      "内部漏洞",
+      "钱包地址",
+      "补税提现"
+    ],
+    "relatedCaseId": "CN-CASE-0082",
+    "source": "广州市公安局",
+    "sourceUrl": "https://gaj.gz.gov.cn/zzzq/jwzx/content/post_10736182.html",
+    "publishedAt": "2026-03-21"
+  },
+  {
+    "id": "SCRIPT-0243",
+    "category": "虚拟货币",
+    "channel": "短信",
+    "stage": "索取信息",
+    "text": "老师带单炒币，稳赚不赔。账户盈利了，但需要补税才能提现。请提供钱包私钥或助记词",
+    "purpose": "以炒币带单、内部漏洞和矿机托管为名诱导充值或交出钱包权限",
+    "signals": [
+      "USDT充值",
+      "稳赚不赔",
+      "内部漏洞",
+      "钱包地址",
+      "补税提现"
+    ],
+    "relatedCaseId": "CN-CASE-0082",
+    "source": "广州市公安局",
+    "sourceUrl": "https://gaj.gz.gov.cn/zzzq/jwzx/content/post_10736182.html",
+    "publishedAt": "2026-03-21"
+  },
+  {
+    "id": "SCRIPT-0244",
+    "category": "虚拟货币",
+    "channel": "电话",
+    "stage": "建立信任",
+    "text": "平台有内部漏洞，可以提前知道涨跌。名额马上满了，今天必须入金。请向指定钱包地址转入USDT",
+    "purpose": "以炒币带单、内部漏洞和矿机托管为名诱导充值或交出钱包权限",
+    "signals": [
+      "USDT充值",
+      "稳赚不赔",
+      "内部漏洞",
+      "钱包地址",
+      "补税提现"
+    ],
+    "relatedCaseId": "CN-CASE-0082",
+    "source": "广州市公安局",
+    "sourceUrl": "https://gaj.gz.gov.cn/zzzq/jwzx/content/post_10736182.html",
+    "publishedAt": "2026-03-21"
+  },
+  {
+    "id": "SCRIPT-0245",
+    "category": "虚拟货币",
+    "channel": "电话",
+    "stage": "诱导转账",
+    "text": "平台有内部漏洞，可以提前知道涨跌。行情窗口只有十分钟。请下载交易所APP并充值",
+    "purpose": "以炒币带单、内部漏洞和矿机托管为名诱导充值或交出钱包权限",
+    "signals": [
+      "USDT充值",
+      "稳赚不赔",
+      "内部漏洞",
+      "钱包地址",
+      "补税提现"
+    ],
+    "relatedCaseId": "CN-CASE-0082",
+    "source": "广州市公安局",
+    "sourceUrl": "https://gaj.gz.gov.cn/zzzq/jwzx/content/post_10736182.html",
+    "publishedAt": "2026-03-21"
+  },
+  {
+    "id": "SCRIPT-0246",
+    "category": "虚拟货币",
+    "channel": "电话",
+    "stage": "索取信息",
+    "text": "平台有内部漏洞，可以提前知道涨跌。账户盈利了，但需要补税才能提现。请提供钱包私钥或助记词",
+    "purpose": "以炒币带单、内部漏洞和矿机托管为名诱导充值或交出钱包权限",
+    "signals": [
+      "USDT充值",
+      "稳赚不赔",
+      "内部漏洞",
+      "钱包地址",
+      "补税提现"
+    ],
+    "relatedCaseId": "CN-CASE-0082",
+    "source": "广州市公安局",
+    "sourceUrl": "https://gaj.gz.gov.cn/zzzq/jwzx/content/post_10736182.html",
+    "publishedAt": "2026-03-21"
+  },
+  {
+    "id": "SCRIPT-0247",
+    "category": "虚拟货币",
+    "channel": "社交软件",
+    "stage": "建立信任",
+    "text": "只投USDT，收益每天结算。名额马上满了，今天必须入金。请向指定钱包地址转入USDT",
+    "purpose": "以炒币带单、内部漏洞和矿机托管为名诱导充值或交出钱包权限",
+    "signals": [
+      "USDT充值",
+      "稳赚不赔",
+      "内部漏洞",
+      "钱包地址",
+      "补税提现"
+    ],
+    "relatedCaseId": "CN-CASE-0082",
+    "source": "广州市公安局",
+    "sourceUrl": "https://gaj.gz.gov.cn/zzzq/jwzx/content/post_10736182.html",
+    "publishedAt": "2026-03-21"
+  },
+  {
+    "id": "SCRIPT-0248",
+    "category": "虚拟货币",
+    "channel": "社交软件",
+    "stage": "诱导转账",
+    "text": "只投USDT，收益每天结算。行情窗口只有十分钟。请下载交易所APP并充值",
+    "purpose": "以炒币带单、内部漏洞和矿机托管为名诱导充值或交出钱包权限",
+    "signals": [
+      "USDT充值",
+      "稳赚不赔",
+      "内部漏洞",
+      "钱包地址",
+      "补税提现"
+    ],
+    "relatedCaseId": "CN-CASE-0082",
+    "source": "广州市公安局",
+    "sourceUrl": "https://gaj.gz.gov.cn/zzzq/jwzx/content/post_10736182.html",
+    "publishedAt": "2026-03-21"
+  },
+  {
+    "id": "SCRIPT-0249",
+    "category": "虚拟货币",
+    "channel": "社交软件",
+    "stage": "索取信息",
+    "text": "只投USDT，收益每天结算。账户盈利了，但需要补税才能提现。请提供钱包私钥或助记词",
+    "purpose": "以炒币带单、内部漏洞和矿机托管为名诱导充值或交出钱包权限",
+    "signals": [
+      "USDT充值",
+      "稳赚不赔",
+      "内部漏洞",
+      "钱包地址",
+      "补税提现"
+    ],
+    "relatedCaseId": "CN-CASE-0082",
+    "source": "广州市公安局",
+    "sourceUrl": "https://gaj.gz.gov.cn/zzzq/jwzx/content/post_10736182.html",
+    "publishedAt": "2026-03-21"
+  },
+  {
+    "id": "SCRIPT-0250",
+    "category": "虚拟货币",
+    "channel": "网页",
+    "stage": "建立信任",
+    "text": "元宇宙项目马上上线，早期投资翻倍。名额马上满了，今天必须入金。请向指定钱包地址转入USDT",
+    "purpose": "以炒币带单、内部漏洞和矿机托管为名诱导充值或交出钱包权限",
+    "signals": [
+      "USDT充值",
+      "稳赚不赔",
+      "内部漏洞",
+      "钱包地址",
+      "补税提现"
+    ],
+    "relatedCaseId": "CN-CASE-0082",
+    "source": "广州市公安局",
+    "sourceUrl": "https://gaj.gz.gov.cn/zzzq/jwzx/content/post_10736182.html",
+    "publishedAt": "2026-03-21"
+  },
+  {
+    "id": "SCRIPT-0251",
+    "category": "虚拟货币",
+    "channel": "网页",
+    "stage": "诱导转账",
+    "text": "元宇宙项目马上上线，早期投资翻倍。行情窗口只有十分钟。请下载交易所APP并充值",
+    "purpose": "以炒币带单、内部漏洞和矿机托管为名诱导充值或交出钱包权限",
+    "signals": [
+      "USDT充值",
+      "稳赚不赔",
+      "内部漏洞",
+      "钱包地址",
+      "补税提现"
+    ],
+    "relatedCaseId": "CN-CASE-0082",
+    "source": "广州市公安局",
+    "sourceUrl": "https://gaj.gz.gov.cn/zzzq/jwzx/content/post_10736182.html",
+    "publishedAt": "2026-03-21"
+  },
+  {
+    "id": "SCRIPT-0252",
+    "category": "虚拟货币",
+    "channel": "网页",
+    "stage": "索取信息",
+    "text": "元宇宙项目马上上线，早期投资翻倍。账户盈利了，但需要补税才能提现。请提供钱包私钥或助记词",
+    "purpose": "以炒币带单、内部漏洞和矿机托管为名诱导充值或交出钱包权限",
+    "signals": [
+      "USDT充值",
+      "稳赚不赔",
+      "内部漏洞",
+      "钱包地址",
+      "补税提现"
+    ],
+    "relatedCaseId": "CN-CASE-0082",
+    "source": "广州市公安局",
+    "sourceUrl": "https://gaj.gz.gov.cn/zzzq/jwzx/content/post_10736182.html",
+    "publishedAt": "2026-03-21"
+  },
+  {
+    "id": "SCRIPT-0253",
+    "category": "虚拟货币",
+    "channel": "APP",
+    "stage": "建立信任",
+    "text": "矿机托管，日结收益，随时提现。名额马上满了，今天必须入金。请向指定钱包地址转入USDT",
+    "purpose": "以炒币带单、内部漏洞和矿机托管为名诱导充值或交出钱包权限",
+    "signals": [
+      "USDT充值",
+      "稳赚不赔",
+      "内部漏洞",
+      "钱包地址",
+      "补税提现"
+    ],
+    "relatedCaseId": "CN-CASE-0082",
+    "source": "广州市公安局",
+    "sourceUrl": "https://gaj.gz.gov.cn/zzzq/jwzx/content/post_10736182.html",
+    "publishedAt": "2026-03-21"
+  },
+  {
+    "id": "SCRIPT-0254",
+    "category": "虚拟货币",
+    "channel": "APP",
+    "stage": "诱导转账",
+    "text": "矿机托管，日结收益，随时提现。行情窗口只有十分钟。请下载交易所APP并充值",
+    "purpose": "以炒币带单、内部漏洞和矿机托管为名诱导充值或交出钱包权限",
+    "signals": [
+      "USDT充值",
+      "稳赚不赔",
+      "内部漏洞",
+      "钱包地址",
+      "补税提现"
+    ],
+    "relatedCaseId": "CN-CASE-0082",
+    "source": "广州市公安局",
+    "sourceUrl": "https://gaj.gz.gov.cn/zzzq/jwzx/content/post_10736182.html",
+    "publishedAt": "2026-03-21"
+  },
+  {
+    "id": "SCRIPT-0255",
+    "category": "虚拟货币",
+    "channel": "APP",
+    "stage": "索取信息",
+    "text": "矿机托管，日结收益，随时提现。账户盈利了，但需要补税才能提现。请提供钱包私钥或助记词",
+    "purpose": "以炒币带单、内部漏洞和矿机托管为名诱导充值或交出钱包权限",
+    "signals": [
+      "USDT充值",
+      "稳赚不赔",
+      "内部漏洞",
+      "钱包地址",
+      "补税提现"
+    ],
+    "relatedCaseId": "CN-CASE-0082",
+    "source": "广州市公安局",
+    "sourceUrl": "https://gaj.gz.gov.cn/zzzq/jwzx/content/post_10736182.html",
+    "publishedAt": "2026-03-21"
+  },
+  {
+    "id": "SCRIPT-0256",
+    "category": "AI换脸",
+    "channel": "短信",
+    "stage": "建立信任",
+    "text": "我是你儿子，手机坏了，用朋友号联系你。事情很急，拖了会出大事。请把钱转到这个账户",
+    "purpose": "利用AI换脸或拟声冒充亲友、领导，以紧急用钱为由要求转账",
+    "signals": [
+      "视频画面异常",
+      "声音急促",
+      "新号码",
+      "要求保密",
+      "紧急转账"
+    ],
+    "relatedCaseId": "CN-CASE-0013",
+    "source": "人民法院报",
+    "sourceUrl": "https://xzxffy.shanxify.gov.cn/article/detail/2025/11/id/9091051.shtml",
+    "publishedAt": "2025-11-28"
+  },
+  {
+    "id": "SCRIPT-0257",
+    "category": "AI换脸",
+    "channel": "短信",
+    "stage": "建立信任",
+    "text": "我是你儿子，手机坏了，用朋友号联系你。不要告诉别人，先帮我垫上。请先帮我付一下款",
+    "purpose": "利用AI换脸或拟声冒充亲友、领导，以紧急用钱为由要求转账",
+    "signals": [
+      "视频画面异常",
+      "声音急促",
+      "新号码",
+      "要求保密",
+      "紧急转账"
+    ],
+    "relatedCaseId": "CN-CASE-0013",
+    "source": "人民法院报",
+    "sourceUrl": "https://xzxffy.shanxify.gov.cn/article/detail/2025/11/id/9091051.shtml",
+    "publishedAt": "2025-11-28"
+  },
+  {
+    "id": "SCRIPT-0258",
+    "category": "AI换脸",
+    "channel": "短信",
+    "stage": "索取信息",
+    "text": "我是你儿子，手机坏了，用朋友号联系你。视频都看到了，还怀疑什么。请提供验证码确认身份",
+    "purpose": "利用AI换脸或拟声冒充亲友、领导，以紧急用钱为由要求转账",
+    "signals": [
+      "视频画面异常",
+      "声音急促",
+      "新号码",
+      "要求保密",
+      "紧急转账"
+    ],
+    "relatedCaseId": "CN-CASE-0013",
+    "source": "人民法院报",
+    "sourceUrl": "https://xzxffy.shanxify.gov.cn/article/detail/2025/11/id/9091051.shtml",
+    "publishedAt": "2025-11-28"
+  },
+  {
+    "id": "SCRIPT-0259",
+    "category": "AI换脸",
+    "channel": "电话",
+    "stage": "建立信任",
+    "text": "我是你领导，刚换了号码，有急事找你。事情很急，拖了会出大事。请把钱转到这个账户",
+    "purpose": "利用AI换脸或拟声冒充亲友、领导，以紧急用钱为由要求转账",
+    "signals": [
+      "视频画面异常",
+      "声音急促",
+      "新号码",
+      "要求保密",
+      "紧急转账"
+    ],
+    "relatedCaseId": "CN-CASE-0013",
+    "source": "人民法院报",
+    "sourceUrl": "https://xzxffy.shanxify.gov.cn/article/detail/2025/11/id/9091051.shtml",
+    "publishedAt": "2025-11-28"
+  },
+  {
+    "id": "SCRIPT-0260",
+    "category": "AI换脸",
+    "channel": "电话",
+    "stage": "建立信任",
+    "text": "我是你领导，刚换了号码，有急事找你。不要告诉别人，先帮我垫上。请先帮我付一下款",
+    "purpose": "利用AI换脸或拟声冒充亲友、领导，以紧急用钱为由要求转账",
+    "signals": [
+      "视频画面异常",
+      "声音急促",
+      "新号码",
+      "要求保密",
+      "紧急转账"
+    ],
+    "relatedCaseId": "CN-CASE-0013",
+    "source": "人民法院报",
+    "sourceUrl": "https://xzxffy.shanxify.gov.cn/article/detail/2025/11/id/9091051.shtml",
+    "publishedAt": "2025-11-28"
+  },
+  {
+    "id": "SCRIPT-0261",
+    "category": "AI换脸",
+    "channel": "电话",
+    "stage": "索取信息",
+    "text": "我是你领导，刚换了号码，有急事找你。视频都看到了，还怀疑什么。请提供验证码确认身份",
+    "purpose": "利用AI换脸或拟声冒充亲友、领导，以紧急用钱为由要求转账",
+    "signals": [
+      "视频画面异常",
+      "声音急促",
+      "新号码",
+      "要求保密",
+      "紧急转账"
+    ],
+    "relatedCaseId": "CN-CASE-0013",
+    "source": "人民法院报",
+    "sourceUrl": "https://xzxffy.shanxify.gov.cn/article/detail/2025/11/id/9091051.shtml",
+    "publishedAt": "2025-11-28"
+  },
+  {
+    "id": "SCRIPT-0262",
+    "category": "AI换脸",
+    "channel": "社交软件",
+    "stage": "建立信任",
+    "text": "视频里就是我，你还不相信吗。事情很急，拖了会出大事。请把钱转到这个账户",
+    "purpose": "利用AI换脸或拟声冒充亲友、领导，以紧急用钱为由要求转账",
+    "signals": [
+      "视频画面异常",
+      "声音急促",
+      "新号码",
+      "要求保密",
+      "紧急转账"
+    ],
+    "relatedCaseId": "CN-CASE-0013",
+    "source": "人民法院报",
+    "sourceUrl": "https://xzxffy.shanxify.gov.cn/article/detail/2025/11/id/9091051.shtml",
+    "publishedAt": "2025-11-28"
+  },
+  {
+    "id": "SCRIPT-0263",
+    "category": "AI换脸",
+    "channel": "社交软件",
+    "stage": "建立信任",
+    "text": "视频里就是我，你还不相信吗。不要告诉别人，先帮我垫上。请先帮我付一下款",
+    "purpose": "利用AI换脸或拟声冒充亲友、领导，以紧急用钱为由要求转账",
+    "signals": [
+      "视频画面异常",
+      "声音急促",
+      "新号码",
+      "要求保密",
+      "紧急转账"
+    ],
+    "relatedCaseId": "CN-CASE-0013",
+    "source": "人民法院报",
+    "sourceUrl": "https://xzxffy.shanxify.gov.cn/article/detail/2025/11/id/9091051.shtml",
+    "publishedAt": "2025-11-28"
+  },
+  {
+    "id": "SCRIPT-0264",
+    "category": "AI换脸",
+    "channel": "社交软件",
+    "stage": "索取信息",
+    "text": "视频里就是我，你还不相信吗。视频都看到了，还怀疑什么。请提供验证码确认身份",
+    "purpose": "利用AI换脸或拟声冒充亲友、领导，以紧急用钱为由要求转账",
+    "signals": [
+      "视频画面异常",
+      "声音急促",
+      "新号码",
+      "要求保密",
+      "紧急转账"
+    ],
+    "relatedCaseId": "CN-CASE-0013",
+    "source": "人民法院报",
+    "sourceUrl": "https://xzxffy.shanxify.gov.cn/article/detail/2025/11/id/9091051.shtml",
+    "publishedAt": "2025-11-28"
+  },
+  {
+    "id": "SCRIPT-0265",
+    "category": "AI换脸",
+    "channel": "网页",
+    "stage": "建立信任",
+    "text": "我这边出了事故，急需一笔钱。事情很急，拖了会出大事。请把钱转到这个账户",
+    "purpose": "利用AI换脸或拟声冒充亲友、领导，以紧急用钱为由要求转账",
+    "signals": [
+      "视频画面异常",
+      "声音急促",
+      "新号码",
+      "要求保密",
+      "紧急转账"
+    ],
+    "relatedCaseId": "CN-CASE-0013",
+    "source": "人民法院报",
+    "sourceUrl": "https://xzxffy.shanxify.gov.cn/article/detail/2025/11/id/9091051.shtml",
+    "publishedAt": "2025-11-28"
+  },
+  {
+    "id": "SCRIPT-0266",
+    "category": "AI换脸",
+    "channel": "网页",
+    "stage": "建立信任",
+    "text": "我这边出了事故，急需一笔钱。不要告诉别人，先帮我垫上。请先帮我付一下款",
+    "purpose": "利用AI换脸或拟声冒充亲友、领导，以紧急用钱为由要求转账",
+    "signals": [
+      "视频画面异常",
+      "声音急促",
+      "新号码",
+      "要求保密",
+      "紧急转账"
+    ],
+    "relatedCaseId": "CN-CASE-0013",
+    "source": "人民法院报",
+    "sourceUrl": "https://xzxffy.shanxify.gov.cn/article/detail/2025/11/id/9091051.shtml",
+    "publishedAt": "2025-11-28"
+  },
+  {
+    "id": "SCRIPT-0267",
+    "category": "AI换脸",
+    "channel": "网页",
+    "stage": "索取信息",
+    "text": "我这边出了事故，急需一笔钱。视频都看到了，还怀疑什么。请提供验证码确认身份",
+    "purpose": "利用AI换脸或拟声冒充亲友、领导，以紧急用钱为由要求转账",
+    "signals": [
+      "视频画面异常",
+      "声音急促",
+      "新号码",
+      "要求保密",
+      "紧急转账"
+    ],
+    "relatedCaseId": "CN-CASE-0013",
+    "source": "人民法院报",
+    "sourceUrl": "https://xzxffy.shanxify.gov.cn/article/detail/2025/11/id/9091051.shtml",
+    "publishedAt": "2025-11-28"
+  },
+  {
+    "id": "SCRIPT-0268",
+    "category": "AI换脸",
+    "channel": "APP",
+    "stage": "建立信任",
+    "text": "先别打电话，我现在不方便说话。事情很急，拖了会出大事。请把钱转到这个账户",
+    "purpose": "利用AI换脸或拟声冒充亲友、领导，以紧急用钱为由要求转账",
+    "signals": [
+      "视频画面异常",
+      "声音急促",
+      "新号码",
+      "要求保密",
+      "紧急转账"
+    ],
+    "relatedCaseId": "CN-CASE-0013",
+    "source": "人民法院报",
+    "sourceUrl": "https://xzxffy.shanxify.gov.cn/article/detail/2025/11/id/9091051.shtml",
+    "publishedAt": "2025-11-28"
+  },
+  {
+    "id": "SCRIPT-0269",
+    "category": "AI换脸",
+    "channel": "APP",
+    "stage": "建立信任",
+    "text": "先别打电话，我现在不方便说话。不要告诉别人，先帮我垫上。请先帮我付一下款",
+    "purpose": "利用AI换脸或拟声冒充亲友、领导，以紧急用钱为由要求转账",
+    "signals": [
+      "视频画面异常",
+      "声音急促",
+      "新号码",
+      "要求保密",
+      "紧急转账"
+    ],
+    "relatedCaseId": "CN-CASE-0013",
+    "source": "人民法院报",
+    "sourceUrl": "https://xzxffy.shanxify.gov.cn/article/detail/2025/11/id/9091051.shtml",
+    "publishedAt": "2025-11-28"
+  },
+  {
+    "id": "SCRIPT-0270",
+    "category": "AI换脸",
+    "channel": "APP",
+    "stage": "索取信息",
+    "text": "先别打电话，我现在不方便说话。视频都看到了，还怀疑什么。请提供验证码确认身份",
+    "purpose": "利用AI换脸或拟声冒充亲友、领导，以紧急用钱为由要求转账",
+    "signals": [
+      "视频画面异常",
+      "声音急促",
+      "新号码",
+      "要求保密",
+      "紧急转账"
+    ],
+    "relatedCaseId": "CN-CASE-0013",
+    "source": "人民法院报",
+    "sourceUrl": "https://xzxffy.shanxify.gov.cn/article/detail/2025/11/id/9091051.shtml",
+    "publishedAt": "2025-11-28"
+  },
+  {
+    "id": "SCRIPT-0271",
+    "category": "退费",
+    "channel": "短信",
+    "stage": "诱导转账",
+    "text": "培训机构倒闭了，现在统一办理退费。今天不办理，后续不再受理。请先缴纳手续费或保证金",
+    "purpose": "冒用培训机构或平台，以课程退费、机构清退和验资为由实施诈骗",
+    "signals": [
+      "主动退费",
+      "扫码进群",
+      "下载退款APP",
+      "验资充值",
+      "先交手续费"
+    ],
+    "relatedCaseId": "CN-CASE-0064",
+    "source": "人民网湖南频道",
+    "sourceUrl": "http://hn.people.com.cn/n2/2025/0826/c406630-41333223.html",
+    "publishedAt": "2025-08-26"
+  },
+  {
+    "id": "SCRIPT-0272",
+    "category": "退费",
+    "channel": "短信",
+    "stage": "诱导转账",
+    "text": "培训机构倒闭了，现在统一办理退费。群马上解散，请尽快操作。请下载APP并充值做任务",
+    "purpose": "冒用培训机构或平台，以课程退费、机构清退和验资为由实施诈骗",
+    "signals": [
+      "主动退费",
+      "扫码进群",
+      "下载退款APP",
+      "验资充值",
+      "先交手续费"
+    ],
+    "relatedCaseId": "CN-CASE-0064",
+    "source": "人民网湖南频道",
+    "sourceUrl": "http://hn.people.com.cn/n2/2025/0826/c406630-41333223.html",
+    "publishedAt": "2025-08-26"
+  },
+  {
+    "id": "SCRIPT-0273",
+    "category": "退费",
+    "channel": "短信",
+    "stage": "索取信息",
+    "text": "培训机构倒闭了，现在统一办理退费。验资不完成，退款无法到账。请提供银行卡和验证码",
+    "purpose": "冒用培训机构或平台，以课程退费、机构清退和验资为由实施诈骗",
+    "signals": [
+      "主动退费",
+      "扫码进群",
+      "下载退款APP",
+      "验资充值",
+      "先交手续费"
+    ],
+    "relatedCaseId": "CN-CASE-0064",
+    "source": "人民网湖南频道",
+    "sourceUrl": "http://hn.people.com.cn/n2/2025/0826/c406630-41333223.html",
+    "publishedAt": "2025-08-26"
+  },
+  {
+    "id": "SCRIPT-0274",
+    "category": "退费",
+    "channel": "电话",
+    "stage": "诱导转账",
+    "text": "您的课程可以全额退款，请扫码进群。今天不办理，后续不再受理。请先缴纳手续费或保证金",
+    "purpose": "冒用培训机构或平台，以课程退费、机构清退和验资为由实施诈骗",
+    "signals": [
+      "主动退费",
+      "扫码进群",
+      "下载退款APP",
+      "验资充值",
+      "先交手续费"
+    ],
+    "relatedCaseId": "CN-CASE-0064",
+    "source": "人民网湖南频道",
+    "sourceUrl": "http://hn.people.com.cn/n2/2025/0826/c406630-41333223.html",
+    "publishedAt": "2025-08-26"
+  },
+  {
+    "id": "SCRIPT-0275",
+    "category": "退费",
+    "channel": "电话",
+    "stage": "诱导转账",
+    "text": "您的课程可以全额退款，请扫码进群。群马上解散，请尽快操作。请下载APP并充值做任务",
+    "purpose": "冒用培训机构或平台，以课程退费、机构清退和验资为由实施诈骗",
+    "signals": [
+      "主动退费",
+      "扫码进群",
+      "下载退款APP",
+      "验资充值",
+      "先交手续费"
+    ],
+    "relatedCaseId": "CN-CASE-0064",
+    "source": "人民网湖南频道",
+    "sourceUrl": "http://hn.people.com.cn/n2/2025/0826/c406630-41333223.html",
+    "publishedAt": "2025-08-26"
+  },
+  {
+    "id": "SCRIPT-0276",
+    "category": "退费",
+    "channel": "电话",
+    "stage": "索取信息",
+    "text": "您的课程可以全额退款，请扫码进群。验资不完成，退款无法到账。请提供银行卡和验证码",
+    "purpose": "冒用培训机构或平台，以课程退费、机构清退和验资为由实施诈骗",
+    "signals": [
+      "主动退费",
+      "扫码进群",
+      "下载退款APP",
+      "验资充值",
+      "先交手续费"
+    ],
+    "relatedCaseId": "CN-CASE-0064",
+    "source": "人民网湖南频道",
+    "sourceUrl": "http://hn.people.com.cn/n2/2025/0826/c406630-41333223.html",
+    "publishedAt": "2025-08-26"
+  },
+  {
+    "id": "SCRIPT-0277",
+    "category": "退费",
+    "channel": "社交软件",
+    "stage": "诱导转账",
+    "text": "退费需要先完成验资。今天不办理，后续不再受理。请先缴纳手续费或保证金",
+    "purpose": "冒用培训机构或平台，以课程退费、机构清退和验资为由实施诈骗",
+    "signals": [
+      "主动退费",
+      "扫码进群",
+      "下载退款APP",
+      "验资充值",
+      "先交手续费"
+    ],
+    "relatedCaseId": "CN-CASE-0064",
+    "source": "人民网湖南频道",
+    "sourceUrl": "http://hn.people.com.cn/n2/2025/0826/c406630-41333223.html",
+    "publishedAt": "2025-08-26"
+  },
+  {
+    "id": "SCRIPT-0278",
+    "category": "退费",
+    "channel": "社交软件",
+    "stage": "诱导转账",
+    "text": "退费需要先完成验资。群马上解散，请尽快操作。请下载APP并充值做任务",
+    "purpose": "冒用培训机构或平台，以课程退费、机构清退和验资为由实施诈骗",
+    "signals": [
+      "主动退费",
+      "扫码进群",
+      "下载退款APP",
+      "验资充值",
+      "先交手续费"
+    ],
+    "relatedCaseId": "CN-CASE-0064",
+    "source": "人民网湖南频道",
+    "sourceUrl": "http://hn.people.com.cn/n2/2025/0826/c406630-41333223.html",
+    "publishedAt": "2025-08-26"
+  },
+  {
+    "id": "SCRIPT-0279",
+    "category": "退费",
+    "channel": "社交软件",
+    "stage": "索取信息",
+    "text": "退费需要先完成验资。验资不完成，退款无法到账。请提供银行卡和验证码",
+    "purpose": "冒用培训机构或平台，以课程退费、机构清退和验资为由实施诈骗",
+    "signals": [
+      "主动退费",
+      "扫码进群",
+      "下载退款APP",
+      "验资充值",
+      "先交手续费"
+    ],
+    "relatedCaseId": "CN-CASE-0064",
+    "source": "人民网湖南频道",
+    "sourceUrl": "http://hn.people.com.cn/n2/2025/0826/c406630-41333223.html",
+    "publishedAt": "2025-08-26"
+  },
+  {
+    "id": "SCRIPT-0280",
+    "category": "退费",
+    "channel": "网页",
+    "stage": "诱导转账",
+    "text": "请下载退款APP，客服会指导您。今天不办理，后续不再受理。请先缴纳手续费或保证金",
+    "purpose": "冒用培训机构或平台，以课程退费、机构清退和验资为由实施诈骗",
+    "signals": [
+      "主动退费",
+      "扫码进群",
+      "下载退款APP",
+      "验资充值",
+      "先交手续费"
+    ],
+    "relatedCaseId": "CN-CASE-0064",
+    "source": "人民网湖南频道",
+    "sourceUrl": "http://hn.people.com.cn/n2/2025/0826/c406630-41333223.html",
+    "publishedAt": "2025-08-26"
+  },
+  {
+    "id": "SCRIPT-0281",
+    "category": "退费",
+    "channel": "网页",
+    "stage": "诱导转账",
+    "text": "请下载退款APP，客服会指导您。群马上解散，请尽快操作。请下载APP并充值做任务",
+    "purpose": "冒用培训机构或平台，以课程退费、机构清退和验资为由实施诈骗",
+    "signals": [
+      "主动退费",
+      "扫码进群",
+      "下载退款APP",
+      "验资充值",
+      "先交手续费"
+    ],
+    "relatedCaseId": "CN-CASE-0064",
+    "source": "人民网湖南频道",
+    "sourceUrl": "http://hn.people.com.cn/n2/2025/0826/c406630-41333223.html",
+    "publishedAt": "2025-08-26"
+  },
+  {
+    "id": "SCRIPT-0282",
+    "category": "退费",
+    "channel": "网页",
+    "stage": "索取信息",
+    "text": "请下载退款APP，客服会指导您。验资不完成，退款无法到账。请提供银行卡和验证码",
+    "purpose": "冒用培训机构或平台，以课程退费、机构清退和验资为由实施诈骗",
+    "signals": [
+      "主动退费",
+      "扫码进群",
+      "下载退款APP",
+      "验资充值",
+      "先交手续费"
+    ],
+    "relatedCaseId": "CN-CASE-0064",
+    "source": "人民网湖南频道",
+    "sourceUrl": "http://hn.people.com.cn/n2/2025/0826/c406630-41333223.html",
+    "publishedAt": "2025-08-26"
+  },
+  {
+    "id": "SCRIPT-0283",
+    "category": "退费",
+    "channel": "APP",
+    "stage": "诱导转账",
+    "text": "名额有限，先到先退。今天不办理，后续不再受理。请先缴纳手续费或保证金",
+    "purpose": "冒用培训机构或平台，以课程退费、机构清退和验资为由实施诈骗",
+    "signals": [
+      "主动退费",
+      "扫码进群",
+      "下载退款APP",
+      "验资充值",
+      "先交手续费"
+    ],
+    "relatedCaseId": "CN-CASE-0064",
+    "source": "人民网湖南频道",
+    "sourceUrl": "http://hn.people.com.cn/n2/2025/0826/c406630-41333223.html",
+    "publishedAt": "2025-08-26"
+  },
+  {
+    "id": "SCRIPT-0284",
+    "category": "退费",
+    "channel": "APP",
+    "stage": "诱导转账",
+    "text": "名额有限，先到先退。群马上解散，请尽快操作。请下载APP并充值做任务",
+    "purpose": "冒用培训机构或平台，以课程退费、机构清退和验资为由实施诈骗",
+    "signals": [
+      "主动退费",
+      "扫码进群",
+      "下载退款APP",
+      "验资充值",
+      "先交手续费"
+    ],
+    "relatedCaseId": "CN-CASE-0064",
+    "source": "人民网湖南频道",
+    "sourceUrl": "http://hn.people.com.cn/n2/2025/0826/c406630-41333223.html",
+    "publishedAt": "2025-08-26"
+  },
+  {
+    "id": "SCRIPT-0285",
+    "category": "退费",
+    "channel": "APP",
+    "stage": "索取信息",
+    "text": "名额有限，先到先退。验资不完成，退款无法到账。请提供银行卡和验证码",
+    "purpose": "冒用培训机构或平台，以课程退费、机构清退和验资为由实施诈骗",
+    "signals": [
+      "主动退费",
+      "扫码进群",
+      "下载退款APP",
+      "验资充值",
+      "先交手续费"
+    ],
+    "relatedCaseId": "CN-CASE-0064",
+    "source": "人民网湖南频道",
+    "sourceUrl": "http://hn.people.com.cn/n2/2025/0826/c406630-41333223.html",
+    "publishedAt": "2025-08-26"
+  },
+  {
+    "id": "SCRIPT-0286",
+    "category": "求职培训",
+    "channel": "短信",
+    "stage": "诱导转账",
+    "text": "我们提供高薪岗位，入职前需要参加培训。名额只剩两个，今天不交就没了。请先支付培训费、服装费或报名费",
+    "purpose": "以高薪岗位、内部推荐和入职培训为名收取费用或办理培训贷",
+    "signals": [
+      "高薪岗位",
+      "内部推荐",
+      "培训费",
+      "服装费",
+      "培训贷"
+    ],
+    "relatedCaseId": "CN-CASE-0104",
+    "source": "最高人民检察院",
+    "sourceUrl": "https://www.spp.gov.cn/spp/xwfbh/wsfbt/202106/t20210623_522065.shtml",
+    "publishedAt": "2021-06-23"
+  },
+  {
+    "id": "SCRIPT-0287",
+    "category": "求职培训",
+    "channel": "短信",
+    "stage": "诱导操作",
+    "text": "我们提供高薪岗位，入职前需要参加培训。不参加培训就无法入职。请签署培训贷合同",
+    "purpose": "以高薪岗位、内部推荐和入职培训为名收取费用或办理培训贷",
+    "signals": [
+      "高薪岗位",
+      "内部推荐",
+      "培训费",
+      "服装费",
+      "培训贷"
+    ],
+    "relatedCaseId": "CN-CASE-0104",
+    "source": "最高人民检察院",
+    "sourceUrl": "https://www.spp.gov.cn/spp/xwfbh/wsfbt/202106/t20210623_522065.shtml",
+    "publishedAt": "2021-06-23"
+  },
+  {
+    "id": "SCRIPT-0288",
+    "category": "求职培训",
+    "channel": "短信",
+    "stage": "建立信任",
+    "text": "我们提供高薪岗位，入职前需要参加培训。贷款今天不办，名额就作废。请把费用转到指定账户",
+    "purpose": "以高薪岗位、内部推荐和入职培训为名收取费用或办理培训贷",
+    "signals": [
+      "高薪岗位",
+      "内部推荐",
+      "培训费",
+      "服装费",
+      "培训贷"
+    ],
+    "relatedCaseId": "CN-CASE-0104",
+    "source": "最高人民检察院",
+    "sourceUrl": "https://www.spp.gov.cn/spp/xwfbh/wsfbt/202106/t20210623_522065.shtml",
+    "publishedAt": "2021-06-23"
+  },
+  {
+    "id": "SCRIPT-0289",
+    "category": "求职培训",
+    "channel": "电话",
+    "stage": "诱导转账",
+    "text": "先交培训费，考核通过后安排工作。名额只剩两个，今天不交就没了。请先支付培训费、服装费或报名费",
+    "purpose": "以高薪岗位、内部推荐和入职培训为名收取费用或办理培训贷",
+    "signals": [
+      "高薪岗位",
+      "内部推荐",
+      "培训费",
+      "服装费",
+      "培训贷"
+    ],
+    "relatedCaseId": "CN-CASE-0104",
+    "source": "最高人民检察院",
+    "sourceUrl": "https://www.spp.gov.cn/spp/xwfbh/wsfbt/202106/t20210623_522065.shtml",
+    "publishedAt": "2021-06-23"
+  },
+  {
+    "id": "SCRIPT-0290",
+    "category": "求职培训",
+    "channel": "电话",
+    "stage": "诱导操作",
+    "text": "先交培训费，考核通过后安排工作。不参加培训就无法入职。请签署培训贷合同",
+    "purpose": "以高薪岗位、内部推荐和入职培训为名收取费用或办理培训贷",
+    "signals": [
+      "高薪岗位",
+      "内部推荐",
+      "培训费",
+      "服装费",
+      "培训贷"
+    ],
+    "relatedCaseId": "CN-CASE-0104",
+    "source": "最高人民检察院",
+    "sourceUrl": "https://www.spp.gov.cn/spp/xwfbh/wsfbt/202106/t20210623_522065.shtml",
+    "publishedAt": "2021-06-23"
+  },
+  {
+    "id": "SCRIPT-0291",
+    "category": "求职培训",
+    "channel": "电话",
+    "stage": "建立信任",
+    "text": "先交培训费，考核通过后安排工作。贷款今天不办，名额就作废。请把费用转到指定账户",
+    "purpose": "以高薪岗位、内部推荐和入职培训为名收取费用或办理培训贷",
+    "signals": [
+      "高薪岗位",
+      "内部推荐",
+      "培训费",
+      "服装费",
+      "培训贷"
+    ],
+    "relatedCaseId": "CN-CASE-0104",
+    "source": "最高人民检察院",
+    "sourceUrl": "https://www.spp.gov.cn/spp/xwfbh/wsfbt/202106/t20210623_522065.shtml",
+    "publishedAt": "2021-06-23"
+  },
+  {
+    "id": "SCRIPT-0292",
+    "category": "求职培训",
+    "channel": "社交软件",
+    "stage": "诱导转账",
+    "text": "这是内部推荐名额，交钱就能上岗。名额只剩两个，今天不交就没了。请先支付培训费、服装费或报名费",
+    "purpose": "以高薪岗位、内部推荐和入职培训为名收取费用或办理培训贷",
+    "signals": [
+      "高薪岗位",
+      "内部推荐",
+      "培训费",
+      "服装费",
+      "培训贷"
+    ],
+    "relatedCaseId": "CN-CASE-0104",
+    "source": "最高人民检察院",
+    "sourceUrl": "https://www.spp.gov.cn/spp/xwfbh/wsfbt/202106/t20210623_522065.shtml",
+    "publishedAt": "2021-06-23"
+  },
+  {
+    "id": "SCRIPT-0293",
+    "category": "求职培训",
+    "channel": "社交软件",
+    "stage": "诱导操作",
+    "text": "这是内部推荐名额，交钱就能上岗。不参加培训就无法入职。请签署培训贷合同",
+    "purpose": "以高薪岗位、内部推荐和入职培训为名收取费用或办理培训贷",
+    "signals": [
+      "高薪岗位",
+      "内部推荐",
+      "培训费",
+      "服装费",
+      "培训贷"
+    ],
+    "relatedCaseId": "CN-CASE-0104",
+    "source": "最高人民检察院",
+    "sourceUrl": "https://www.spp.gov.cn/spp/xwfbh/wsfbt/202106/t20210623_522065.shtml",
+    "publishedAt": "2021-06-23"
+  },
+  {
+    "id": "SCRIPT-0294",
+    "category": "求职培训",
+    "channel": "社交软件",
+    "stage": "建立信任",
+    "text": "这是内部推荐名额，交钱就能上岗。贷款今天不办，名额就作废。请把费用转到指定账户",
+    "purpose": "以高薪岗位、内部推荐和入职培训为名收取费用或办理培训贷",
+    "signals": [
+      "高薪岗位",
+      "内部推荐",
+      "培训费",
+      "服装费",
+      "培训贷"
+    ],
+    "relatedCaseId": "CN-CASE-0104",
+    "source": "最高人民检察院",
+    "sourceUrl": "https://www.spp.gov.cn/spp/xwfbh/wsfbt/202106/t20210623_522065.shtml",
+    "publishedAt": "2021-06-23"
+  },
+  {
+    "id": "SCRIPT-0295",
+    "category": "求职培训",
+    "channel": "网页",
+    "stage": "诱导转账",
+    "text": "兼职日结，先交服装费和报名费。名额只剩两个，今天不交就没了。请先支付培训费、服装费或报名费",
+    "purpose": "以高薪岗位、内部推荐和入职培训为名收取费用或办理培训贷",
+    "signals": [
+      "高薪岗位",
+      "内部推荐",
+      "培训费",
+      "服装费",
+      "培训贷"
+    ],
+    "relatedCaseId": "CN-CASE-0104",
+    "source": "最高人民检察院",
+    "sourceUrl": "https://www.spp.gov.cn/spp/xwfbh/wsfbt/202106/t20210623_522065.shtml",
+    "publishedAt": "2021-06-23"
+  },
+  {
+    "id": "SCRIPT-0296",
+    "category": "求职培训",
+    "channel": "网页",
+    "stage": "诱导操作",
+    "text": "兼职日结，先交服装费和报名费。不参加培训就无法入职。请签署培训贷合同",
+    "purpose": "以高薪岗位、内部推荐和入职培训为名收取费用或办理培训贷",
+    "signals": [
+      "高薪岗位",
+      "内部推荐",
+      "培训费",
+      "服装费",
+      "培训贷"
+    ],
+    "relatedCaseId": "CN-CASE-0104",
+    "source": "最高人民检察院",
+    "sourceUrl": "https://www.spp.gov.cn/spp/xwfbh/wsfbt/202106/t20210623_522065.shtml",
+    "publishedAt": "2021-06-23"
+  },
+  {
+    "id": "SCRIPT-0297",
+    "category": "求职培训",
+    "channel": "网页",
+    "stage": "建立信任",
+    "text": "兼职日结，先交服装费和报名费。贷款今天不办，名额就作废。请把费用转到指定账户",
+    "purpose": "以高薪岗位、内部推荐和入职培训为名收取费用或办理培训贷",
+    "signals": [
+      "高薪岗位",
+      "内部推荐",
+      "培训费",
+      "服装费",
+      "培训贷"
+    ],
+    "relatedCaseId": "CN-CASE-0104",
+    "source": "最高人民检察院",
+    "sourceUrl": "https://www.spp.gov.cn/spp/xwfbh/wsfbt/202106/t20210623_522065.shtml",
+    "publishedAt": "2021-06-23"
+  },
+  {
+    "id": "SCRIPT-0298",
+    "category": "求职培训",
+    "channel": "APP",
+    "stage": "诱导转账",
+    "text": "培训期间可以贷款，工作后慢慢还。名额只剩两个，今天不交就没了。请先支付培训费、服装费或报名费",
+    "purpose": "以高薪岗位、内部推荐和入职培训为名收取费用或办理培训贷",
+    "signals": [
+      "高薪岗位",
+      "内部推荐",
+      "培训费",
+      "服装费",
+      "培训贷"
+    ],
+    "relatedCaseId": "CN-CASE-0104",
+    "source": "最高人民检察院",
+    "sourceUrl": "https://www.spp.gov.cn/spp/xwfbh/wsfbt/202106/t20210623_522065.shtml",
+    "publishedAt": "2021-06-23"
+  },
+  {
+    "id": "SCRIPT-0299",
+    "category": "求职培训",
+    "channel": "APP",
+    "stage": "诱导操作",
+    "text": "培训期间可以贷款，工作后慢慢还。不参加培训就无法入职。请签署培训贷合同",
+    "purpose": "以高薪岗位、内部推荐和入职培训为名收取费用或办理培训贷",
+    "signals": [
+      "高薪岗位",
+      "内部推荐",
+      "培训费",
+      "服装费",
+      "培训贷"
+    ],
+    "relatedCaseId": "CN-CASE-0104",
+    "source": "最高人民检察院",
+    "sourceUrl": "https://www.spp.gov.cn/spp/xwfbh/wsfbt/202106/t20210623_522065.shtml",
+    "publishedAt": "2021-06-23"
+  },
+  {
+    "id": "SCRIPT-0300",
+    "category": "求职培训",
+    "channel": "APP",
+    "stage": "建立信任",
+    "text": "培训期间可以贷款，工作后慢慢还。贷款今天不办，名额就作废。请把费用转到指定账户",
+    "purpose": "以高薪岗位、内部推荐和入职培训为名收取费用或办理培训贷",
+    "signals": [
+      "高薪岗位",
+      "内部推荐",
+      "培训费",
+      "服装费",
+      "培训贷"
+    ],
+    "relatedCaseId": "CN-CASE-0104",
+    "source": "最高人民检察院",
+    "sourceUrl": "https://www.spp.gov.cn/spp/xwfbh/wsfbt/202106/t20210623_522065.shtml",
+    "publishedAt": "2021-06-23"
+  }
+]

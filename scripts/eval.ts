@@ -13,6 +13,8 @@
  */
 import fs from "node:fs";
 import path from "node:path";
+import dotenv from "dotenv";
+dotenv.config({ path: path.join(__dirname, "../.env.local") });
 import { createEmbedding } from "../src/lib/rag/embedding";
 import { vectorSearchCases } from "../src/lib/db/cases";
 import { rerank } from "../src/lib/rag/rerank";
@@ -181,12 +183,16 @@ function block(title: string, rows: Row[]): string[] {
   console.log("");
   const hard = await runSet(HARD, "HARD");
 
+  const llmRerankNote = process.env.DEEPSEEK_API_KEY?.trim()
+    ? "LLM 重排已启用（DEEPSEEK_API_KEY 已配置）"
+    : "LLM 重排未启用（未配置 DEEPSEEK_API_KEY）";
+
   const report = [
     "# 检索质量自测报告",
     "",
     `- 生成时间：${new Date().toISOString()}`,
     "- 检索参数：top-K = 5，embedding = BAAI/bge-m3（1024 维），相似度 = 余弦",
-    "- 重排策略：向量相似度 × 0.7 + 关键词要素重合 × 0.3（LLM 重排在本机无 DEEPSEEK_API_KEY，未启用）",
+    `- 重排策略：向量相似度 × 0.7 + 关键词要素重合 × 0.3（${llmRerankNote}）`,
     "",
     ...block("EASY 完整话术集", easy),
     ...block("HARD 短查询/歧义集", hard),
