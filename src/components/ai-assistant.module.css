@@ -429,7 +429,7 @@
 }
 
 .assistantMessage .messageBody > p {
-  transform: translateX(-28px);
+  transform: translateX(-48px);
   font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: 13px;
   line-height: 1.7;
