@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
-import { createSupabaseClient } from "@/lib/db/supabase";
-
-const supabase = createSupabaseClient();
+import { createSupabaseClient, isSupabaseConfigured } from "@/lib/db/supabase";
+import fallbackCases from "@/lib/data/cases-fallback.json";
 
 interface Row {
   id: string;
@@ -19,18 +18,59 @@ interface Row {
   script_text: string | null;
 }
 
+interface FallbackCase {
+  id: string;
+  title: string;
+  category: string;
+  riskLabel: string;
+  content: string;
+  source: string;
+  sourceUrl: string | null;
+  sourceTitle: string | null;
+  publishedAt: string | null;
+  sourceKind: string | null;
+  riskFeatures: string[];
+  prevention: string | null;
+  scriptText: string | null;
+}
+
 /**
- * 契约③：GET /api/cases?category=&q= -> { items: CaseItem[]; total: number }
+ * 契约③：GET /api/cases?category=&q=&page=&pageSize=
  *
- * 第四周为案例库页补充的能力（均为向后兼容的可选参数）：
- *   page      页码，默认 1；超出范围时自动收敛到最后一页
- *   pageSize  每页条数，默认 20，上限 1000（知识库页需要一次取全量）
+ * 数据源优先级：
+ *  1. Supabase（配好环境变量时）
+ *  2. 仓库内置快照 src/lib/data/cases-fallback.json（未配置或连接失败时）
  *
- * 注意：
- *  - 数据库列是 risk_label，契约里是 riskLabel，必须映射，否则 C 取到 undefined
- *  - 先查总数再按范围取数：PostgREST 在 range 起点超过总数时返回 416，
- *    直接拿它当错误会让"越界页码"变成 500
+ * 内置快照的意义：别人克隆仓库后不配 .env.local 也能打开知识库页，
+ * 否则接口直接抛错，页面上一个球都渲染不出来。
  */
+const FALLBACK = fallbackCases as FallbackCase[];
+
+function localResponse(category: string | null, q: string | null, page: number, pageSize: number) {
+  const keyword = (q ?? "").trim().toLowerCase();
+  const filtered = FALLBACK.filter((item) => {
+    if (category && item.category !== category) return false;
+    if (!keyword) return true;
+    return `${item.title} ${item.content} ${item.category} ${item.scriptText ?? ""}`
+      .toLowerCase()
+      .includes(keyword);
+  });
+
+  const total = filtered.length;
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
+  const safePage = Math.min(Math.max(1, page), totalPages);
+  const from = (safePage - 1) * pageSize;
+
+  return NextResponse.json({
+    items: filtered.slice(from, from + pageSize),
+    total,
+    page: safePage,
+    pageSize,
+    totalPages,
+    source: "fallback-snapshot",
+  });
+}
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const category = searchParams.get("category");
@@ -40,64 +80,58 @@ export async function GET(request: Request) {
   const pageSizeRaw = Number(searchParams.get("pageSize") ?? 20) || 20;
   const pageSize = Math.min(1000, Math.max(1, pageSizeRaw));
 
-  // 1) 先取总数（head 请求，不传输数据行）
-  let countQuery = supabase
-    .from("cases")
-    .select("id", { count: "exact", head: true });
-  if (category) countQuery = countQuery.eq("category", category);
-  if (q) countQuery = countQuery.or(`title.ilike.%${q}%,content.ilike.%${q}%`);
-
-  const { count, error: countErr } = await countQuery;
-  if (countErr) {
-    return NextResponse.json({ error: countErr.message }, { status: 500 });
+  if (!isSupabaseConfigured()) {
+    return localResponse(category, q, page, pageSize);
   }
 
-  const total = count ?? 0;
-  const totalPages = Math.max(1, Math.ceil(total / pageSize));
-  const safePage = Math.min(page, totalPages);
-  const from = (safePage - 1) * pageSize;
-  const to = from + pageSize - 1;
+  try {
+    const supabase = createSupabaseClient();
 
-  // 2) 按夹取后的范围取当前页
-  let query = supabase
-    .from("cases")
-    .select("id,title,category,risk_label,content,source,source_url,source_title,published_at,source_kind,risk_features,prevention,script_text");
-  if (category) query = query.eq("category", category);
-  if (q) query = query.or(`title.ilike.%${q}%,content.ilike.%${q}%`);
+    let countQuery = supabase.from("cases").select("id", { count: "exact", head: true });
+    if (category) countQuery = countQuery.eq("category", category);
+    if (q) countQuery = countQuery.or(`title.ilike.%${q}%,content.ilike.%${q}%`);
 
-  // 按创建时间倒序，id 兜底保证分页稳定
-  query = query
-    .order("created_at", { ascending: false })
-    .order("id", { ascending: true })
-    .range(from, to);
+    const { count, error: countErr } = await countQuery;
+    if (countErr) throw new Error(countErr.message);
 
-  const { data, error } = await query;
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    const total = count ?? 0;
+    const totalPages = Math.max(1, Math.ceil(total / pageSize));
+    const safePage = Math.min(page, totalPages);
+    const from = (safePage - 1) * pageSize;
+    const to = from + pageSize - 1;
+
+    let query = supabase
+      .from("cases")
+      .select(
+        "id,title,category,risk_label,content,source,source_url,source_title,published_at,source_kind,risk_features,prevention,script_text"
+      );
+    if (category) query = query.eq("category", category);
+    if (q) query = query.or(`title.ilike.%${q}%,content.ilike.%${q}%`);
+
+    query = query.order("created_at", { ascending: false }).order("id", { ascending: true }).range(from, to);
+
+    const { data, error } = await query;
+    if (error) throw new Error(error.message);
+
+    const items = ((data ?? []) as Row[]).map((r) => ({
+      id: r.id,
+      title: r.title,
+      category: r.category,
+      riskLabel: r.risk_label,
+      content: r.content,
+      source: r.source ?? "",
+      sourceUrl: r.source_url,
+      sourceTitle: r.source_title,
+      publishedAt: r.published_at,
+      sourceKind: r.source_kind,
+      riskFeatures: r.risk_features ?? [],
+      prevention: r.prevention,
+      scriptText: r.script_text,
+    }));
+
+    return NextResponse.json({ items, total, page: safePage, pageSize, totalPages, source: "supabase" });
+  } catch {
+    // 数据库不可用时退回内置快照，保证页面可用
+    return localResponse(category, q, page, pageSize);
   }
-
-  const items = ((data ?? []) as Row[]).map((r) => ({
-    id: r.id,
-    title: r.title,
-    category: r.category,
-    riskLabel: r.risk_label,
-    content: r.content,
-    source: r.source ?? "",
-    // 以下为《修改建议》要求规范的字段（来源可追溯 + 防范建议）
-    sourceUrl: r.source_url,
-    sourceTitle: r.source_title,
-    publishedAt: r.published_at,
-    sourceKind: r.source_kind,
-    riskFeatures: r.risk_features ?? [],
-    prevention: r.prevention,
-    scriptText: r.script_text,
-  }));
-
-  return NextResponse.json({
-    items,
-    total,
-    page: safePage,
-    pageSize,
-    totalPages,
-  });
 }
