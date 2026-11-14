@@ -423,13 +423,16 @@
   line-height: 1.7;
 }
 
+.assistantMessage {
+  transform: translateX(-100px);
+}
+
 .assistantMessage .messageBody {
   flex: 1;
   padding-top: 2px;
 }
 
 .assistantMessage .messageBody > p {
-  transform: translateX(-48px);
   font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: 13px;
   line-height: 1.7;
@@ -753,7 +756,17 @@
   50% { opacity: 1; transform: translateY(-3px); }
 }
 
+@media (max-width: 1200px) {
+  .assistantMessage {
+    transform: translateX(-64px);
+  }
+}
+
 @media (max-width: 980px) {
+  .assistantMessage {
+    transform: translateX(-32px);
+  }
+
   .shell {
     grid-template-columns: 190px minmax(0, 1fr);
     width: calc(100% - 36px);
@@ -766,6 +779,10 @@
 }
 
 @media (max-width: 720px) {
+  .assistantMessage {
+    transform: none;
+  }
+
   .shell {
     display: block;
     width: calc(100% - 28px);
