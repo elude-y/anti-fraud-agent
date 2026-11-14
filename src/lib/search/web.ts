@@ -126,16 +126,25 @@ async function searchBing(query: string, limit: number): Promise<WebSearchResult
   }
 }
 
-/** 联网搜索：DeepSeek > 博查 > Tavily > Bing（免费兜底）；全部失败则返回空 */
+/** 联网搜索：DeepSeek > 博查 > Tavily > Bing（免费兜底）；某家返回空/失败则继续走下一家 */
 export async function searchWeb(query: string, limit = 5): Promise<WebSearchResult[]> {
   const deepseekKey = process.env.DEEPSEEK_API_KEY?.trim();
-  if (deepseekKey) return searchDeepSeek(query, deepseekKey, limit);
+  if (deepseekKey) {
+    const results = await searchDeepSeek(query, deepseekKey, limit);
+    if (results.length > 0) return results;
+  }
 
   const bochaKey = process.env.BOCHA_API_KEY?.trim();
-  if (bochaKey) return searchBocha(query, bochaKey, limit);
+  if (bochaKey) {
+    const results = await searchBocha(query, bochaKey, limit);
+    if (results.length > 0) return results;
+  }
 
   const tavilyKey = process.env.TAVILY_API_KEY?.trim();
-  if (tavilyKey) return searchTavily(query, tavilyKey, limit);
+  if (tavilyKey) {
+    const results = await searchTavily(query, tavilyKey, limit);
+    if (results.length > 0) return results;
+  }
 
   return searchBing(query, limit);
 }

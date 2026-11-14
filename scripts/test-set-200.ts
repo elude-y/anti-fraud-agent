@@ -1,5 +1,6 @@
-// scripts/test-set-200.ts —— 200 条评测测试集
+// scripts/test-set-200.ts —— 205 条评测测试集
 // 分布：60 典型诈骗短信 + 40 可疑链接/仿冒网站 + 60 正常样本 + 40 难判断（谐音/拆字/隐藏关键词）
+//      + 5 回归样本（白名单可信网址 + 异常话术，验证"网址可信≠消息安全"）
 // 标签只做二分类口径：诈骗/高危/可疑 = 风险；安全 = 正常
 import type { RiskLevel } from "../src/lib/contracts";
 
@@ -239,4 +240,12 @@ export const TEST_SET_200: TestSample[] = [
   { input: "贷款秒到账，无需抵·押", label: "诈骗" },
   { input: "恭喜您获得红包，点☆击☆领☆取", label: "诈骗" },
   { input: "社保补贴已到账，点.击.认.领", label: "诈骗" },
+
+  // ───────────────────── E. 回归：正常网址 + 异常话术（矛盾证据）─────────────────────
+  // 白名单可信网址 + 诱导转账/索取验证码内容 → 不能因网址可信就判"安全"
+  { input: "请点击 https://www.gov.cn 领取补贴，填写银行卡号和验证码", label: "诈骗" },
+  { input: "【工商银行】账户异常，点击 https://www.icbc.com.cn 验证并转账", label: "诈骗" },
+  { input: "点击 https://www.12306.cn 办理退票，需先缴纳保证金", label: "诈骗" },
+  { input: "您中奖了，访问 https://www.cctv.com 领奖，先交手续费", label: "诈骗" },
+  { input: "https://www.gov.cn 提示：ETC已停用，请点击认证续期", label: "诈骗" },
 ];

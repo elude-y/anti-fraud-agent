@@ -5,7 +5,7 @@ import { computeConfidence } from "@/lib/agent/confidence";
 import { normalize } from "@/lib/agent/normalize";
 import { computeRuleScore } from "@/lib/agent/rules";
 import { decidePath } from "@/lib/agent/stateMachine";
-import { isTrustedDomainSafe, maxRisk } from "@/lib/agent/synthesize";
+import { finalizeVerdict } from "@/lib/agent/synthesize";
 import { synthesizeWithLLM } from "@/lib/agent/llm-synthesis";
 import type {
   AnalysisStage,
@@ -141,18 +141,14 @@ function buildResult(input: {
   sandbox: SandboxEnvelope | null;
   trustedMatch: Awaited<ReturnType<typeof rag_search>>["matches"][number] | null;
   confidenceScore: number;
+  ruleScore: number;
 }) {
-  const { normalized, mode, sandbox, trustedMatch, confidenceScore } = input;
+  const { normalized, mode, sandbox, trustedMatch, confidenceScore, ruleScore } = input;
   const sandboxLevel = sandbox ? asRiskLevel(sandbox.result.verdict) : null;
-  // RAG 命中安全案例不产生定论（与 deriveVerdict 一致，交给沙箱/待核验）
+  // RAG 命中安全案例不产生定论（与 deriveVerdict 一致）
   const ragLevel = trustedMatch && trustedMatch.riskLabel !== "安全" ? trustedMatch.riskLabel : null;
-  // 综合判定：白名单可信域名 → 权威安全；否则取沙箱与 RAG 中风险更高的一方；
-  // 无任何有效证据时标「待核验」
-  const verdict: RiskLevel = isTrustedDomainSafe(sandbox?.result ?? null)
-    ? "安全"
-    : (sandboxLevel || ragLevel)
-      ? maxRisk(sandboxLevel ?? "安全", ragLevel ?? "安全")
-      : "待核验";
+  // 统一判定：白名单"安全"只是「网址可信」证据，不覆盖内容风险；无证据标「待核验」
+  const verdict: RiskLevel = finalizeVerdict(sandboxLevel, ragLevel, ruleScore, "待核验");
 
   const suggestion = verdict === "安全"
     ? "当前未发现明确恶意行为。建议仍通过官方 App、官网或客服电话独立核验后再操作。"
@@ -168,7 +164,12 @@ function buildResult(input: {
   const category = inputCategory(normalized.raw);
   const categoryContext = category ? `输入涉及${category}，` : "";
   const matchContext = `${categoryContext}${trustedMatch ? `命中“${trustedMatch.category}”相似案例，` : ""}`;
-  const conflict = Boolean(trustedMatch && sandboxLevel && trustedMatch.riskLabel !== sandboxLevel);
+  const sandboxSafe = sandboxLevel === "安全";
+  const contentRisk = Boolean(ragLevel || ruleScore >= 0.3);
+  const conflict = Boolean(
+    (trustedMatch && sandboxLevel && trustedMatch.riskLabel !== sandboxLevel)
+    || (sandboxSafe && contentRisk && verdict !== "安全")
+  );
   const insufficientEvidence = !sandbox && !trustedMatch && normalized.riskKeywords.length === 0 && confidenceScore < 0.55;
 
   let summary: string;
@@ -192,7 +193,11 @@ function buildResult(input: {
 
   // 证据冲突 / 证据不足时，明确告知用户，而不是含糊带过
   if (conflict) {
-    summary = `检测结果存在冲突：案例检索指向“${trustedMatch?.riskLabel}”，行为检测指向“${sandboxLevel}”，已按更严格标准判定为“${verdict}”。`;
+    const parts: string[] = [];
+    if (sandboxLevel) parts.push(`网址/行为检测指向“${sandboxLevel}”`);
+    if (trustedMatch) parts.push(`案例检索指向“${trustedMatch.riskLabel}”`);
+    if (ruleScore >= 0.3) parts.push("消息内容命中高风险话术");
+    summary = `检测结果存在冲突：${parts.join("，")}。网址可信不代表消息安全，已按更严格标准判定为“${verdict}”。`;
   } else if (insufficientEvidence && (verdict === "可疑" || verdict === "待核验")) {
     summary = "现有证据不足，无法确认风险等级，暂判定为“待核验”。建议通过官方渠道（如 96110 反诈专线）进一步核实。";
   }
@@ -388,7 +393,7 @@ export async function POST(request: Request) {
 
         await emitStage("synthesis", "active");
         const confidenceScore = finalConfidenceScore(confidence.score, sandbox, trustedMatch);
-        const analyzed = buildResult({ normalized, mode, sandbox, trustedMatch, confidenceScore });
+        const analyzed = buildResult({ normalized, mode, sandbox, trustedMatch, confidenceScore, ruleScore });
         const fallbackDescription = analyzed.conflict
           ? `可信案例给出“${trustedMatch?.riskLabel}”，${normalized.urls.length ? "沙箱行为" : "短信文本规则"}证据指向“${analyzed.sandboxLevel}”，综合判定为“${analyzed.verdict}”。`
           : sandbox

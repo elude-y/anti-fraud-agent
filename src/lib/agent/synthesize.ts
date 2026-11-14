@@ -14,11 +14,24 @@ export function maxRisk(...levels: Array<RiskLevel | null | undefined>): RiskLev
     .reduce((current, level) => (RISK_RANK[level] > RISK_RANK[current] ? level : current), "安全" as RiskLevel);
 }
 
-/** 白名单可信域名 → 权威"安全"，不被 RAG 覆盖 */
-export function isTrustedDomainSafe(sandbox: SandboxResult | null): boolean {
-  if (!sandbox || sandbox.verdict !== "安全") return false;
-  const raw = sandbox.raw as { template?: string } | undefined;
-  return raw?.template === "trusted-domain";
+/**
+ * 最终风险判定（唯一封装，网站接口与评测脚本共用）。
+ *
+ * 关键原则：白名单"安全"只是「网址可信」这一条安全证据，不能覆盖消息内容的
+ * 高风险话术 / RAG 风险标签。取「沙箱 + RAG + 规则」三者的最高风险，
+ * 因此"可信网址 + 诱导转账话术"会判为风险，而不是被白名单压成"安全"。
+ *
+ * 无任何证据时返回 fallback（生产接口用"待核验"，评测二分类用"安全"）。
+ */
+export function finalizeVerdict(
+  sandboxVerdict: RiskLevel | null,
+  ragVerdict: RiskLevel | null,
+  ruleScore: number,
+  fallback: RiskLevel,
+): RiskLevel {
+  const ruleVerdict: RiskLevel | null = ruleScore >= 0.5 ? "高危" : ruleScore >= 0.3 ? "可疑" : null;
+  if (!sandboxVerdict && !ragVerdict && !ruleVerdict) return fallback;
+  return maxRisk(sandboxVerdict, ragVerdict, ruleVerdict);
 }
 
 export function deriveVerdict(
@@ -26,24 +39,15 @@ export function deriveVerdict(
   matches: Array<{ riskLabel: RiskLevel; similarity: number }>,
   sandbox: SandboxResult | null,
 ): RiskLevel {
-  // 1) 白名单可信域名：权威安全，不被 RAG 覆盖
-  if (isTrustedDomainSafe(sandbox)) return "安全";
-
   const sandboxVerdict: RiskLevel | null = sandbox ? (sandbox.verdict as RiskLevel) : null;
-  // 2) RAG 只在相似度足够高且为"风险标签"时采信；RAG 命中安全案例不产生定论（交给规则信号）
+  // RAG 只在相似度足够高且为"风险标签"时采信；RAG 命中安全案例不产生定论
   const ragVerdict = matches.length > 0
     && matches[0].similarity >= MIN_RAG_SIMILARITY
     && matches[0].riskLabel !== "安全"
     ? matches[0].riskLabel
     : null;
 
-  // 3) 统一判定：取沙箱与 RAG 中风险更高的一方
-  if (sandboxVerdict || ragVerdict) {
-    return maxRisk(sandboxVerdict, ragVerdict);
-  }
-  // 4) 无沙箱无高置信 RAG：只认规则信号（向量相似度对正常文本有 0.3~0.6 虚高，不再用于兜底）
-  const hasSignal = confidence.signals.rule >= 0.3;
-  return hasSignal ? '可疑' : '安全';
+  return finalizeVerdict(sandboxVerdict, ragVerdict, confidence.signals.rule, "安全");
 }
 
 export function deriveSuggestion(verdict: RiskLevel): string {
