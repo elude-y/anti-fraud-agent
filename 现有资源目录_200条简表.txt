@@ -1,0 +1,200 @@
+001|PhishTank 已验证在线钓鱼网址|<https://www.phishtank.org/developer_info.php>
+002|OpenPhish 钓鱼网址订阅|<https://www.openphish.com/phishing_feeds.html>
+003|URLhaus 恶意载荷网址|<https://urlhaus.abuse.ch/api/>
+004|ThreatFox IOC|<https://threatfox.abuse.ch/api/>
+005|CERT Polska 危险域名列表|<https://cert.pl/en/posts/2020/03/ostrzezenia_phishing/>
+006|JPCERT/CC Phishing URL 数据|<https://github.com/JPCERTCC/phishurl-list>
+007|Phishing.Database|<https://github.com/Phishing-Database/Phishing.Database>
+008|PhishStats|<https://phishstats.info/>
+009|Exerra/blacklist|<https://github.com/Exerra/blacklist>
+010|phishindex-blocklist/README.md at main · PhishIndex/phishindex-blocklist · GitHub|<https://github.com/PhishIndex/phishindex-blocklist/blob/main/README.md>
+011|gorkemgun/sgb-blocklist|<https://github.com/gorkemgun/sgb-blocklist>
+012|phishdestroy/destroylist|<https://github.com/phishdestroy/destroylist>
+013|Phishing Domains Feed - Free TXT, JSON, CSV - phishunt.io|<https://phishunt.io/feed/>
+014|Investor Alert List|<https://www.mas.gov.sg/investor-alert-list>
+015|FCA Warning List of unauthorised firms|<https://www.fca.org.uk/consumers/warning-list-unauthorised-firms>
+016|Investment scam alerts|<https://www.asic.gov.au/regulatory-resources/scams/investment-scam-alerts>
+017|Download the blocklist ｜ Phishing Army|<https://phishing.army/downloads/>
+018|dns-blocklists/README.md at main · hagezi/dns-blocklists · GitHub|<https://github.com/hagezi/dns-blocklists/blob/main/README.md?plain=1>
+019|Tranco 域名榜单|<https://tranco-list.eu/>
+020|Cloudflare Radar 域名排名|<https://radar.cloudflare.com/domains>
+021|Chrome UX Report|<https://developer.chrome.com/docs/crux/bigquery>
+022|Majestic Million|<https://majestic.com/reports/majestic-million>
+023|Cisco Umbrella Top 1M|<https://umbrella.cisco.com/blog/cisco-umbrella-1-million>
+024|HTTP Archive|<https://httparchive.org/faq>
+025|Common Crawl URL Index|<https://index.commoncrawl.org/>
+026|美国 .gov 域名公开数据|<https://get.gov/domains/>
+027|GSA 政府机构域名|<https://github.com/GSA/govt-urls>
+028|澳大利亚 gov.au 注册管理|<https://www.domainname.gov.au/>
+029|中国政府网部门及地方链接|<https://www.gov.cn/home/2023-03/29/content_5748953.htm>
+030|IANA 保留示例域名|<https://www.iana.org/help/example-domains>
+031|OpenINTEL: Active DNS Measurement Project|<https://www.openintel.nl/data/forward-dns/top-lists/>
+032|List of .gov.uk domain names - GOV.UK|<https://www.gov.uk/government/publications/list-of-gov-uk-domain-names>
+033|Domains - GOV.UK Services List|<https://govuk-services-list.x-govuk.org/domains>
+034|Government of Canada domains and URLs - Canada.ca|<https://design.canada.ca/specifications/mandatory-elements/domains-urls>
+035|Government domain names ｜ NZ Digital government|<https://www.digital.govt.nz/standards-and-guidance/technology-and-architecture/domain-names>
+036|PhiUSIIL Phishing URL|<https://archive.ics.uci.edu/dataset/967/phiusiil+phishing+url+dataset>
+037|UCI Phishing Websites|<https://archive.ics.uci.edu/dataset/327/phishing+websites>
+038|UCI Website Phishing|<https://archive.ics.uci.edu/dataset/379/website+phishing>
+039|PhreshPhish|<https://arxiv.org/abs/2507.10854>
+040|urlscan 网站扫描档案|<https://docs.urlscan.io/pages/source-scans>
+041|PhishVN: A Time-Stamped Vietnamese URL Phishing Dataset with Impersonation-Scenario Labels and Confidence Tiers|<https://zenodo.org/records/22849019>
+042|Phishing and Legitimate Websites Dataset|<https://zenodo.org/records/23477065>
+043|Phising URLs|<https://zenodo.org/records/22054210>
+044|Phishing Detection Across Email, URL, and SMS: Reproducible Machine Learning Experiments|<https://zenodo.org/records/23645130>
+045|EdgePhish-5G Dataset: Phishing URL Detection with 5G Slice Annotation|<https://zenodo.org/records/19371661>
+046|A Dataset of Information (DNS, IP, WHOIS/RDAP, TLS, GeoIP) for a Large Corpus of Benign, Phishing, and Malware Domain Names 2024|<https://zenodo.org/records/14332167>
+047|Phishing and Benign Domain Dataset (DNS, IP, WHOIS/RDAP, TLS, GeoIP)|<https://zenodo.org/records/8364668>
+048|CompPhish|<https://data.mendeley.com/datasets/fmbs4kp9wz/4>
+049|URL-Phish: A Feature-Engineered Dataset for Phishing Detection|<https://data.mendeley.com/datasets/65z9twcx3r/2>
+050|Phishing URL dataset|<https://data.mendeley.com/datasets/3jddhy2f6s/1>
+051|StealthPhisher|<https://data.mendeley.com/datasets/m2479kmybx/1>
+052|PhishBD_2026|<https://data.mendeley.com/datasets/8d6zsfwc7z/2>
+053|PhiLegit-100K|<https://data.mendeley.com/datasets/726pyz4j53/1>
+054|instax-dutta/PhishTrap|<https://github.com/instax-dutta/PhishTrap>
+055|ipanalytics/DNS-Threat-Intelligence-dataset|<https://github.com/ipanalytics/DNS-Threat-Intelligence-dataset>
+056|ESDAUNG/PhishDataset|<https://github.com/ESDAUNG/PhishDataset>
+057|README.md · husseinnashed/phishing-url at main|<https://huggingface.co/datasets/husseinnashed/phishing-url/blob/main/README.md>
+058|pirocheto/phishing-url|<https://huggingface.co/datasets/pirocheto/phishing-url>
+059|Olaroti/phishing-dataset|<https://huggingface.co/datasets/Olaroti/phishing-dataset>
+060|Phishing Website Dataset|<https://zenodo.org/records/8041387>
+061|Dataset for paper Spotting the Hook: Leveraging Domain Data for Advanced Phishing Detection|<https://zenodo.org/records/12518090>
+062|Phishing website dataset|<https://zenodo.org/records/4922598>
+063|7 Days Later: Analyzing Phishing-Site Lifespan After Detected|<https://zenodo.org/records/14885725>
+064|PhishVN content study: page-content fusion and paraphrase-evasion data|<https://zenodo.org/records/23634300>
+065|What's in Phishers: A Longitudinal Study of Security Configurations in Phishing Websites and Kits|<https://zenodo.org/records/14880589>
+066|Fujiaoji/PhishingEval|<https://github.com/Fujiaoji/PhishingEval>
+067|Multimodal-Phishing-Benchmarks/README.md at main · almakhamreh/Multimodal-Phishing-Benchmarks · GitHub|<https://github.com/almakhamreh/Multimodal-Phishing-Benchmarks/blob/main/README.md>
+068|lindsey98/Phishpedia|<https://github.com/lindsey98/Phishpedia>
+069|VLBrandPhish/README.md at main · dmsj607050/VLBrandPhish · GitHub|<https://github.com/dmsj607050/VLBrandPhish/blob/main/README.md>
+070|lindsey98/PhishIntention|<https://github.com/lindsey98/PhishIntention>
+071|UCI SMS Spam Collection|<https://archive.ics.uci.edu/dataset/228/sms+spam+collection>
+072|UCI Spambase|<https://archive.ics.uci.edu/dataset/94/spambase>
+073|Enron Email Dataset|<https://www.cs.cmu.edu/~enron/>
+074|Apache SpamAssassin Public Corpus|<https://spamassassin.apache.org/old/publiccorpus/>
+075|TREC Spam Track|<https://plg.uwaterloo.ca/~gvcormac/spam/>
+076|Phishing-Email-Detection-Dataset|<https://zenodo.org/records/17314806>
+077|sidzzz07/scamshield-dataset|<https://huggingface.co/datasets/sidzzz07/scamshield-dataset>
+078|Gwen1220/sift-sms-dataset|<https://huggingface.co/datasets/Gwen1220/sift-sms-dataset>
+079|haxrits/adaption-sms-fraud-classification|<https://huggingface.co/datasets/haxrits/adaption-sms-fraud-classification>
+080|bolewara/hinglish-scam-text-dataset · Hugging Face|<https://huggingface.co/bolewara/hinglish-scam-text-dataset>
+081|MOZNLP/MOZ-Smishing|<https://huggingface.co/datasets/MOZNLP/MOZ-Smishing>
+082|difraud/difraud|<https://huggingface.co/datasets/difraud/difraud>
+083|Scam and Non-Scam Call Conversation Dataset|<https://www.kaggle.com/dsv/11606256>
+084|Financial scams detection dataset|<https://data.mendeley.com/datasets/znsk27yk3h/2>
+085|Arabic Scam and Legitimate Call Conversation Dataset (ASLC-448)|<https://data.mendeley.com/datasets/p384bgyzz3/1>
+086|Fake Job Posting Detection|<https://www.kaggle.com/competitions/fake-job-posting/data>
+087|Ling-Spam Dataset|<https://www.kaggle.com/mandygu/lingspam-dataset/activity>
+088|Real / Fake Job Posting Prediction|<https://www.kaggle.com/shivamb/real-or-fake-fake-jobposting-prediction/tasks>
+089|cybersectony/PhishingEmailDetectionv2.0|<https://huggingface.co/datasets/cybersectony/PhishingEmailDetectionv2.0>
+090|README.md · LHRS-UM-FERI/MENTHOS-dataset-spam at main|<https://huggingface.co/datasets/LHRS-UM-FERI/MENTHOS-dataset-spam/blob/main/README.md>
+091|fadzero02/phishing-email-dataset at main|<https://huggingface.co/datasets/fadzero02/phishing-email-dataset/tree/main>
+092|zefang-liu/phishing-email-dataset at main|<https://huggingface.co/datasets/zefang-liu/phishing-email-dataset/tree/main>
+093|it4lia/PhishingEmailCuratedDatasets_Cleaned|<https://huggingface.co/datasets/it4lia/PhishingEmailCuratedDatasets_Cleaned>
+094|Knowledge_Extraction_from_Phishing_Communications|<https://data.mendeley.com/datasets/dbb83x5nzy/1>
+095|A Tri-Class Multilingual Phishing Email Dataset for Low-Resource Languages Evaluation|<https://data.mendeley.com/datasets/6yv6nhk92n/1>
+096|Scam Conversation Corpus|<https://zenodo.org/records/15212527>
+097|Generalized Deception Dataset|<https://zenodo.org/records/8371762>
+098|Arabic Fraudulent Online Advertisements Dataset|<https://zenodo.org/records/13895876>
+099|SMS Fraud Classification dataset for Chichewa|<https://zenodo.org/records/14607454>
+100|ahlamcod/ImmunoDefender_Data|<https://github.com/ahlamcod/ImmunoDefender_Data>
+101|最高检发布检察机关依法惩治电信网络诈骗及其关联犯罪典型案例|<https://www.spp.gov.cn/xwfbh/wsfbt/202311/t20231130_635188.shtml>
+102|依法惩治跨境电信网络诈骗及其关联犯罪典型案例|<https://www.spp.gov.cn/spp/xwfbh/wsfbh/202407/t20240726_661524.shtml>
+103|检察机关“依法惩治网络犯罪 助力网络空间综合治理”典型案例|<https://www.spp.gov.cn/xwfbh/wsfbh/202402/t20240223_644505.shtml>
+104|最高检教育部联合印发相关典型案例 共同筑牢防范电信网络诈骗校园防线|<https://www.spp.gov.cn/spp/xwfbh/wsfbt/202106/t20210623_522065.shtml>
+105|北京：“全链条打击”电信网络诈骗犯罪|<https://www.spp.gov.cn/spp/xsdfvjdjcx/202205/t20220525_566913.shtml>
+106|北京：通报打击治理电信网络诈骗犯罪情况|<https://www.spp.gov.cn/spp/dfjcdt/202410/t20241011_668344.shtml>
+107|剑指电信网络诈骗｜网络情感类诈骗“居高不下”|<https://www.spp.gov.cn/spp/zdgz/202106/t20210618_521741.shtml>
+108|人民法院依法惩治电信网络诈骗等侵犯财产犯罪典型案例|<https://www.court.gov.cn/zixun/xiangqing/490051.html>
+109|人民法院重点打击六类养老诈骗犯罪典型案例|<https://www.court.gov.cn/zixun/xiangqing/369771.html>
+110|电信网络诈骗犯罪典型案例|<https://www.court.gov.cn/zixun/xiangqing/200671.html>
+111|依法惩治跨境电信网络诈骗及其关联犯罪典型案例|<https://www.court.gov.cn/zixun/xiangqing/439351.html>
+112|最高人民法院发布依法惩治涉民生领域诈骗犯罪典型案例|<https://www.court.gov.cn/zixun/xiangqing/482861.html>
+113|人民法院依法惩治电信网络诈骗犯罪及其关联犯罪典型案例|<https://www.court.gov.cn/zixun/xiangqing/371131.html>
+114|最高人民法院2016年3月4日发布电信网络诈骗犯罪典型案例|<https://www.court.gov.cn/zixun/xiangqing/17152.html>
+115|人民法院依法惩治金融犯罪典型案例|<https://www.court.gov.cn/zixun/xiangqing/372731.html>
+116|从校门到“牢门”，他们经历了什么？ ——四起跨境电信网络诈骗案带来的警示|<https://www.court.gov.cn/zixun/xiangqing/406902.html>
+117|国家网信办曝光一批电信网络诈骗典型案例_中央网络安全和信息化委员会办公室|<https://www.cac.gov.cn/2022-04/14/c_1651546285887220.htm>
+118|平安五溪·冬春攻势丨电信网络诈骗典型案例（一）——刷单返利类电信网络诈骗_鹤城区人民政府|<https://www.hechengqu.gov.cn/hechengqu/c115817/202601/766a6caeca0943cc9f7dc05744eb1696.shtml>
+119|公安部公布十大高发电信网络诈骗类型|<https://www.tlf.gov.cn/tlfs/c106653/202406/e204c4f7d902454ea20e9754b4a6dee3.shtml>
+120|郑州警方通报10起电信网络诈骗典型案例 - 郑州市公安局|<https://zzga.zhengzhou.gov.cn/rdhy/8521642.jhtml>
+121|〖警方提示〗公安部公布五类高发电信网络诈骗案件--湖北省公安厅|<https://gat.hubei.gov.cn/bmdt/ztzl/2021n/lh2021xd/202205/t20220511_4124030.shtml>
+122|警惕以快递丢失理赔为由实施电信诈骗预警 - 张家港市公安局|<https://www.zjg.gov.cn/zjgszwz/yjxx/202204/c29e08d9b2c742ebad073723695cce4b.shtml>
+123|包裹刚到快递站，民警就已赶来了，2.8万元被骗铂金“完璧归赵”_信息公开_广州市黄埔区人民政府门户网站|<https://www.hp.gov.cn/gzjg/qzfgwhgzbm/qgafj/xxgk/content/post_10813900.html>
+124|渌口公安破获一起冒充快递客服搞电诈案件--湖南长安网|<https://www.hnzf.gov.cn/content/646049/90/15900750.html>
+125|警惕关于“双十二”前后以快递退款为由的诈骗预警 - 张家港市公安局|<https://www.zjg.gov.cn/zjgszwz/yjxx/202212/5c47033eaf1d4bea87ad8f1f5907a0a6.shtml>
+126|广州市中级人民法院广州法院发布典型案例|<https://www.gzcourt.gov.cn/yqfkdt/ck597/2023/09/18180645222.html>
+127|冒充快递实施诈骗|<https://jtgl.beijing.gov.cn/jgj/lszt/659722/10897626/10897902/index.html>
+128|公安_全民反诈 百日宣传｜“客服”主动来电退款？小心是诈骗陷阱！|<https://www.huadu.gov.cn/zmhd/zsk/ga/content/post_10570403.html>
+129|四个典型案例揭露高发诈骗手法-宣城市公安局|<https://gaj.xuancheng.gov.cn/News/show/1703148.html>
+130|江门电信网络诈骗一周警情通报_数据发布_江门市公安局|<https://www.jiangmen.gov.cn/bmpd/jmsgaj/zwgk/sjfb/content/post_2409179.html>
+131|江门市电信网络诈骗一周警情通报_数据发布_江门市公安局|<https://www.jiangmen.gov.cn/bmpd/jmsgaj/zwgk/sjfb/content/post_2413976.html>
+132|国家反诈中心公布:十大高发诈骗类型 - 市公安局|<https://www.huaihua.gov.cn/gaj/c110050/202102/6976e772069f4ebcba5c1ead27140dce.shtml>
+133|识破套路，了解五种常见的电诈手法和案例_ 识骗技巧_ 福建省公安厅|<https://gat.fujian.gov.cn/ztzl/fjjffpzxrx/spjq/202409/t20240925_6528818.htm>
+134|武汉市公安局 · t20240704_2424595.html|<https://gaj.wuhan.gov.cn/ztzl_12/djzldxwlxxwffz/202407/t20240704_2424595.html>
+135|（一）冒充公检法类诈骗|<https://cs.mfa.gov.cn/zggmzhw/lsbh/lbsc_660514/202406/P020240627326323765614.pdf>
+136|美国司法部通报恋爱诈骗涉案加密货币追缴|<https://www.justice.gov/usao-ma/pr/united-states-attorneys-office-files-civil-forfeiture-action-recover-cryptocurrency-1>
+137|美国司法部通报追回投资诈骗款 700 万美元|<https://www.justice.gov/usao-edva/pr/united-states-uses-civil-asset-forfeiture-recover-7m-investment-fraud-proceeds>
+138|美国司法部通报加密货币投资诈骗资产没收申请|<https://www.justice.gov/usao-wdmo/pr/united-states-files-forfeiture-action-against-12-million-involved-cryptocurrency>
+139|美国司法部通报追缴约 340 万美元涉案加密货币|<https://www.justice.gov/usao-ma/pr/united-states-attorneys-office-files-civil-forfeiture-action-recover-34-million>
+140|美国司法部通报投资诈骗洗钱指控|<https://www.justice.gov/opa/pr/two-key-members-chinese-money-laundering-network-charged-laundering-43-million-investment>
+141|美国司法部通报加密货币诈骗查扣行动|<https://www.justice.gov/usao-dc/pr/investigations-cryptocurrency-scams-result-seizure-more-25-million>
+142|美国司法部通报教育投资项目受害者补偿|<https://www.justice.gov/opa/pr/us-department-justice-announces-compensation-process-victims-chinese-liberal-education>
+143|美国司法部通报加密货币投资骗局受害者资产追回|<https://www.justice.gov/usao-edva/pr/united-states-uses-civil-asset-forfeiture-recover-nearly-17m-victims-cryptocurrency>
+144|美国司法部通报 Goliath Ventures 电信欺诈与洗钱指控|<https://www.justice.gov/usao-mdfl/pr/goliath-ventures-ceo-arrested-wire-fraud-and-money-laundering>
+145|美国司法部反诈骗中心专项行动通报|<https://www.justice.gov/usao-dc/pr/scam-center-strike-force-expands-reach-target-global-crime-syndicates-charges-scammers>
+146|美国司法部通报 OmegaPro 外汇与加密资产投资骗局指控|<https://www.justice.gov/opa/pr/omegapro-founder-and-promoter-charged-running-global-650m-foreign-exchange-and-crypto>
+147|Criminals targeting victims of previous scams promising financial recovery ｜ ACCC|<https://www.accc.gov.au/media-release/criminals-targeting-victims-of-previous-scams-promising-financial-recovery>
+148|Customers warned to watch out for scams following Optus data breach ｜ ACCC|<https://www.accc.gov.au/media-release/customers-warned-to-watch-out-for-scams-following-optus-data-breach>
+149|Bank impersonation scams robbing Australians of their life savings ｜ ACCC|<https://www.accc.gov.au/media-release/bank-impersonation-scams-robbing-australians-of-their-life-savings>
+150|Payment redirection scams cost Australian businesses $14 million ｜ ACCC|<https://www.accc.gov.au/media-release/payment-redirection-scams-cost-australian-businesses-14-million>
+151|Computer takeover scams on the rise ｜ ACCC|<https://www.accc.gov.au/media-release/computer-takeover-scams-on-the-rise>
+152|Malicious Cyber Actors Gain Access to Victim Accounts Through Consent Phishing|<https://www.ic3.gov/PSA/2026/PSA260901>
+153|Cyber Criminals Redirecting Users to Fraudulent Websites with Malicious Traffic Distribution Systems|<https://www.ic3.gov/PSA/2026/PSA260618>
+154|Scammers Impersonating Law Enforcement and Government Officials in Fraud Schemes|<https://www.ic3.gov/PSA/2026/PSA260917>
+155|Kali365 Phishing-as-a-Service Kit Hijacks Microsoft 365 Access Tokens|<https://www.ic3.gov/PSA/2026/PSA260521>
+156|Cyber Criminals Target Victims Using Social Engineering Techniques|<https://www.ic3.gov/PSA/2024/PSA240411>
+157|Threat Actors Spoofing the FBI IC3 Website for Possible Malicious Activity|<https://www.ic3.gov/PSA/2025/PSA250919>
+158|Russian Intelligence Services Continue to Target Commercial Messaging Applications|<https://www.ic3.gov/PSA/2026/PSA260626>
+159|Senior U.S. Officials Continue to be Impersonated in Malicious Messaging Campaign|<https://www.ic3.gov/PSA/2025/PSA251219>
+160|Troth Solutions|<https://www.ftc.gov/legal-library/browse/cases-proceedings/172-3018-x170034-troth-solutions>
+161|Repair All PC|<https://www.ftc.gov/legal-library/browse/cases-proceedings/162-3137-x170032-repair-all-pc>
+162|Ecom Genie|<https://search.ftc.gov/legal-library/browse/cases-proceedings/ecom-genie>
+163|Click4Support, LLC|<https://search.ftc.gov/legal-library/browse/cases-proceedings/152-3172-x160004-click4support-llc>
+164|Operation Stop Scam Calls|<https://www.ftc.gov/system/files/ftc_gov/pdf/OSSC-ACTION-LIST-07-18-2023.pdf>
+165|Two Entities Charged in $130 Million Fraud Scheme That Used False SEC Filings to Boost Investor Confidence|<https://www.sec.gov/newsroom/press-releases/2026-110-two-entities-charged-130-million-fraud-scheme-used-false-sec-filings-boost-investor-confidence>
+166|SEC Charges Multiple Entities in Fraud Schemes Totaling at Least $15 Million That Used WhatsApp and Other Platforms to Lure Investors|<https://www.sec.gov/newsroom/press-releases/2026-95-sec-charges-multiple-entities-fraud-schemes-totaling-least-15-million-used-whatsapp-other-platforms>
+167|Looking to earn extra cash? Don’t lose money to a side hustle scam ｜ ACCC|<https://www.accc.gov.au/media-release/looking-to-earn-extra-cash-don%E2%80%99t-lose-money-to-a-side-hustle-scam>
+168|Romance baiting scams on the rise ｜ ACCC|<https://www.accc.gov.au/media-release/romance-baiting-scams-on-the-rise>
+169|Website Alert – Fraudulent website related to Bank of Singapore Limited|<https://www.hkma.gov.hk/eng/news-and-media/scam-alert/2024/03/20240326-3/>
+170|Scam alert: Scammers luring investors onto fake crypto-asset trading platforms|<https://www.asic.gov.au/about-asic/news-centre/news-items/scam-alert-scammers-luring-investors-onto-fake-crypto-asset-trading-platforms>
+171|IEEE-CIS Fraud Detection|<https://www.kaggle.com/c/ieee-fraud-detection/data>
+172|ULB Credit Card Fraud Detection|<https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud>
+173|PaySim|<https://www.kaggle.com/datasets/ealaxi/paysim1>
+174|CFPB Consumer Complaint Database|<https://www.consumerfinance.gov/data-research/consumer-complaints/>
+175|FTC Consumer Sentinel 数据与可视化|<https://www.ftc.gov/news-events/data-visualizations>
+176|FTC Data Show People Reported Losing $3.5 Billion to Imposter Scams in 2025|<https://www.ftc.gov/news-events/news/press-releases/2026/06/ftc-data-show-people-reported-losing-3-point-5-billion-imposter-scams-2025>
+177|Reported losses to scams on social media eight times higher than in 2020|<https://www.ftc.gov/news-events/data-visualizations/data-spotlight/2026/04/reported-losses-scams-social-media-eight-times-higher-2020>
+178|Consumer Sentinel Network Data Book 2024|<https://www.ftc.gov/reports/consumer-sentinel-network-data-book-2024>
+179|National Anti-Scam Centre - Job Scam Fusion Cell Final Report - May 2025|<https://www.accc.gov.au/system/files/nasc-job-scam-fusion-cell-final-report-2025.pdf>
+180|NASC Targeting Scams Report - March 2025|<https://www.accc.gov.au/system/files/targeting-scams-report-2024.pdf>
+181|National Anti-Scam Centre ｜ Investment scam fusion cell|<https://www.accc.gov.au/system/files/NASC-Investment-scam-fusion-cell-final-report-2024.pdf>
+182|ACCC Targeting Scams 2022|<https://www.accc.gov.au/system/files/Targeting%20scams%202022.pdf>
+183|2023 ELDER FRAUD REPORT|<https://www.ic3.gov/AnnualReport/Reports/2023_IC3ElderFraudReport.pdf>
+184|Transaction Fraud Detection|<https://www.kaggle.com/competitions/transaction-fraud-detection/data>
+185|Detect Fraud in Card Transactions pfur|<https://www.kaggle.com/competitions/detect-fraud-in-card-transactions-pfur/data>
+186|CreditTransAct: A Profile-Driven Dataset for Scalable Credit Card Fraud Detection|<https://data.mendeley.com/datasets/y64bbnm2s3/1>
+187|Protecting Older Consumers 2024-2025 (A Report of the Federal Trade Commission)|<https://search.ftc.gov/system/files/ftc_gov/pdf/P144400-OlderAdultsReportDec2025.pdf>
+188|City of New York - DCWP Consumer Complaints|<https://catalog.data.gov/dataset/dcwp-consumer-complaints>
+189|Department of Justice - 21st Century Corporate Financial Fraud, United States, 2005-2010|<https://catalog.data.gov/dataset/21st-century-corporate-financial-fraud-united-states-2005-2010>
+190|2024 IC3 ANNUAL REPORT|<https://www.ic3.gov/AnnualReport/Reports/2024_IC3Report.pdf>
+191|Improving Accuracy in Fraud Detection in Public Companies Financial Reports Using Natural Language Processing|<https://zenodo.org/records/18872346>
+192|A Production-Collected Online Banking Fraud Detection Dataset from a Live Cloud-Based Deep Learning System|<https://zenodo.org/records/20359657>
+193|A Deployment-Derived Online Banking Fraud Detection Inference-Log Dataset from a Live Cloud-Based Deep Learning System|<https://zenodo.org/records/20777880>
+194|Fraudulent Transaction Prediction|<https://www.kaggle.com/c/upgrad-competition-02/data>
+195|最高检发布《检察机关打击治理电信网络诈骗及其关联犯罪工作情况（2023年）》|<https://www.spp.gov.cn/xwfbh/wsfbt/202311/t20231130_635181.shtml>
+196|SFinDSet for Systematic Detection of FinCrimes|<https://www.kaggle.com/dsv/11299085>
+197|Credit Card Transactions Fraud Detection Dataset|<https://www.kaggle.com/kartik2112/fraud-detection/metadata>
+198|Anti-Money Laundering in Bitcoin: Experimenting with Graph Convolutional Networks for Financial Forensics|<https://research.ibm.com/publications/anti-money-laundering-in-bitcoin-experimenting-with-graph-convolutional-networks-for-financial-forensics>
+199|Realistic Synthetic Financial Transactions for Anti-Money Laundering Models|<https://research.ibm.com/publications/realistic-synthetic-financial-transactions-for-anti-money-laundering-models>
+200|Identifying Money Laundering Subgraphs on the Blockchain|<https://research.ibm.com/publications/identifying-money-laundering-subgraphs-on-the-blockchain>

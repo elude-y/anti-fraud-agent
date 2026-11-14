@@ -8,7 +8,6 @@ import {
   DownloadSimple,
   Gauge,
   LinkSimple,
-  LockKey,
   Sparkle,
 } from "@phosphor-icons/react";
 import { DefaultChatTransport } from "ai";
@@ -319,7 +318,7 @@ export default function AnalysisWorkbench() {
           <div className={styles.panelHeader}>
             <div className={styles.panelIconTitle}>
               <span><Sparkle size={21} weight="fill" /></span>
-              <div><h2>提交研判对象</h2><p>可疑链接只发送到服务端沙箱，前端不会直接打开</p></div>
+              <h2>提交研判对象</h2>
             </div>
             <div className={styles.modeSwitch} role="tablist" aria-label="研判类型">
               <button className={mode === "link" ? styles.modeActive : ""} type="button" role="tab" aria-selected={mode === "link"} onClick={() => switchMode("link")}>
@@ -358,7 +357,6 @@ export default function AnalysisWorkbench() {
               ))}
             </div>
             <div className={styles.runRow}>
-              <span className={styles.privacyNote}><LockKey size={15} weight="fill" />敏感参数在展示前脱敏</span>
               <button className={styles.primaryButton} type="button" disabled={running} aria-busy={running} onClick={runAnalysis}>
                 {running
                   ? <><ArrowClockwise size={17} className={styles.spinning} />{activeTool || "研判进行中"}</>
@@ -372,7 +370,7 @@ export default function AnalysisWorkbench() {
           <div className={styles.panelHeader}>
             <div className={styles.panelIconTitle}>
               <span><Gauge size={21} /></span>
-              <div><h2>研判阶段</h2><p>服务端流式事件驱动进度</p></div>
+              <h2>研判阶段</h2>
             </div>
             <span className={styles.softBadge}>{completedStages}/6</span>
           </div>
@@ -385,7 +383,7 @@ export default function AnalysisWorkbench() {
           <div className={styles.panelHeader}>
             <div className={styles.panelIconTitle}>
               <span><Cube size={21} /></span>
-              <div><h2>证据链</h2><p>每个节点都对应可追溯的研判依据</p></div>
+              <h2>证据链</h2>
             </div>
             {evidence.length > 0 && (
               <button className={styles.textButton} type="button" onClick={resetAnalysis}>
@@ -400,7 +398,7 @@ export default function AnalysisWorkbench() {
           <div className={styles.panelHeader}>
             <div className={styles.panelIconTitle}>
               <span><Sparkle size={21} /></span>
-              <div><h2>研判结论</h2><p>风险等级、置信度与处置建议</p></div>
+              <h2>研判结论</h2>
             </div>
             {result && (
               <button className={styles.textButton} type="button" onClick={downloadReport}>

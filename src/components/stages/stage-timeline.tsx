@@ -12,12 +12,12 @@ import { motion, useReducedMotion } from "framer-motion";
 import styles from "./stage-timeline.module.css";
 
 const stages = [
-  { label: "输入规范化", detail: "提取链接、实体与风险词", icon: Fingerprint },
-  { label: "案例库检索", detail: "匹配相似反诈案例", icon: MagnifyingGlass },
-  { label: "置信度评估", detail: "融合相似度与覆盖度", icon: Gauge },
-  { label: "沙箱验证", detail: "检查页面行为与 IOC", icon: Cube },
-  { label: "综合研判", detail: "交叉验证多源证据", icon: Brain },
-  { label: "生成结论", detail: "输出等级与处置建议", icon: CheckCircle },
+  { label: "输入规范化", icon: Fingerprint },
+  { label: "案例库检索", icon: MagnifyingGlass },
+  { label: "置信度评估", icon: Gauge },
+  { label: "沙箱验证", icon: Cube },
+  { label: "综合研判", icon: Brain },
+  { label: "生成结论", icon: CheckCircle },
 ] as const;
 
 interface StageTimelineProps {
@@ -50,7 +50,6 @@ export default function StageTimeline({ activeStage, completedStages, skippedSta
             </span>
             <span className={styles.copy}>
               <strong>{stage.label}</strong>
-              <small>{skipped ? "高置信度快速路径无需沙箱" : stage.detail}</small>
             </span>
             <span className={styles.state}>{skipped ? "跳过" : done ? "完成" : active ? "处理中" : "等待"}</span>
           </motion.div>

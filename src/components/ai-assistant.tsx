@@ -1,17 +1,16 @@
 "use client";
 
+import Image from "next/image";
 import { useChat } from "@ai-sdk/react";
 import {
   ArrowUp,
   BookOpenText,
   CaretDown,
-  ChatCircleDots,
   Check,
   Copy,
   MagnifyingGlass,
   Plus,
   ShieldCheck,
-  Sparkle,
   Stop,
   Trash,
 } from "@phosphor-icons/react";
@@ -180,7 +179,7 @@ export default function AiAssistant() {
     <div className={styles.shell}>
       <aside className={styles.sidebar} aria-label="AI 助手功能说明">
         <div className={styles.sideBrand}>
-          <span><ChatCircleDots size={22} weight="duotone" /></span>
+          <span><Image className={styles.sideBrandImage} src="/ai-assistant-mascot.png" width={88} height={88} alt="" /></span>
           <div>
             <strong>AI 助手</strong>
             <small>反诈问答与风险咨询</small>
@@ -230,7 +229,7 @@ export default function AiAssistant() {
         <div className={styles.messages} aria-live="polite">
           {messages.length === 0 ? (
             <div className={styles.emptyState}>
-              <span className={styles.assistantMark}><Sparkle size={28} weight="fill" /></span>
+              <span className={styles.assistantMark}><Image className={styles.assistantMarkImage} src="/ai-assistant-mascot.png" width={136} height={136} alt="" /></span>
               <h1>有什么可以帮你分析的？</h1>
               <p>识别可疑短信、验证陌生链接、拆解诈骗话术；追问"已经填了信息怎么办"我会结合上文继续给处置建议。</p>
               <div className={styles.suggestions}>
@@ -249,7 +248,7 @@ export default function AiAssistant() {
                 const assistant = message.role === "assistant";
                 return (
                   <article className={`${styles.message} ${assistant ? styles.assistantMessage : styles.userMessage}`} key={message.id}>
-                    {assistant && <span className={styles.messageAvatar}><Sparkle size={17} weight="fill" /></span>}
+                    {assistant && <span className={styles.messageAvatar}><Image className={styles.messageAvatarImage} src="/ai-assistant-mascot.png" width={64} height={64} alt="" /></span>}
                     <div className={styles.messageBody}>
                       {assistant && <strong>SafeAgent</strong>}
                       <p>{text}</p>
@@ -269,7 +268,7 @@ export default function AiAssistant() {
               })}
               {status === "submitted" && (
                 <div className={`${styles.message} ${styles.assistantMessage}`}>
-                  <span className={styles.messageAvatar}><Sparkle size={17} weight="fill" /></span>
+                  <span className={styles.messageAvatar}><Image className={styles.messageAvatarImage} src="/ai-assistant-mascot.png" width={64} height={64} alt="" /></span>
                   <div className={styles.thinking} aria-label="正在思考"><i /><i /><i /></div>
                 </div>
               )}
