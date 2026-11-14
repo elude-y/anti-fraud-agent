@@ -4,6 +4,7 @@ import { useChat } from "@ai-sdk/react";
 import {
   ArrowUp,
   BookOpenText,
+  CaretDown,
   ChatCircleDots,
   Check,
   Copy,
@@ -12,19 +13,31 @@ import {
   ShieldCheck,
   Sparkle,
   Stop,
+  Trash,
 } from "@phosphor-icons/react";
 import { DefaultChatTransport } from "ai";
 import { useEffect, useRef, useState } from "react";
 import styles from "./ai-assistant.module.css";
 
 const transport = new DefaultChatTransport({ api: "/api/assistant" });
-const storageKey = "safeagent:assistant-messages";
+const storageKey = "safeagent:assistant-conversations";
+
+interface Conversation {
+  id: string;
+  title: string;
+  messages: unknown[];
+  updatedAt: number;
+}
 
 const suggestions = [
   "收到 ETC 停用短信让我点链接认证，是真的吗？",
   "陌生客服索要验证码，我该怎么办？",
   "我已经点了链接还填了手机号，现在怎么办？",
   "怎么判断一个网站是不是官方网站？",
+] as const;
+
+const EXPERT_OPTIONS = [
+  { id: "fraud-analyst", name: "反诈研判专家", hint: "识别类型·判风险·拆套路" },
 ] as const;
 
 function textFromParts(parts: Array<{ type: string; text?: string }>) {
@@ -34,10 +47,21 @@ function textFromParts(parts: Array<{ type: string; text?: string }>) {
     .join("\n");
 }
 
+function conversationTitle(messages: Array<{ role: string; parts: Array<{ type: string; text?: string }> }>) {
+  const firstUser = messages.find((m) => m.role === "user");
+  if (!firstUser) return "新对话";
+  const text = textFromParts(firstUser.parts).replace(/\s+/g, " ").trim();
+  return text ? text.slice(0, 18) : "新对话";
+}
+
 export default function AiAssistant() {
   const [input, setInput] = useState("");
   const [restored, setRestored] = useState(false);
   const [copiedId, setCopiedId] = useState("");
+  const [expert, setExpert] = useState<string | null>(null);
+  const [expertOpen, setExpertOpen] = useState(false);
+  const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [currentId, setCurrentId] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -55,10 +79,17 @@ export default function AiAssistant() {
 
   useEffect(() => {
     try {
-      const saved = JSON.parse(localStorage.getItem(storageKey) ?? "[]") as unknown;
-      if (Array.isArray(saved)) setMessages(saved);
+      const saved = JSON.parse(localStorage.getItem(storageKey) ?? "[]") as Conversation[];
+      if (Array.isArray(saved) && saved.length > 0) {
+        setConversations(saved);
+        setCurrentId(saved[0].id);
+        setMessages(saved[0].messages as never);
+      } else {
+        setCurrentId(crypto.randomUUID());
+      }
     } catch {
       localStorage.removeItem(storageKey);
+      setCurrentId(crypto.randomUUID());
     } finally {
       setRestored(true);
     }
@@ -66,8 +97,19 @@ export default function AiAssistant() {
 
   useEffect(() => {
     if (!restored) return;
-    localStorage.setItem(storageKey, JSON.stringify(messages.slice(-30)));
-  }, [messages, restored]);
+    localStorage.setItem(storageKey, JSON.stringify(conversations));
+  }, [conversations, restored]);
+
+  useEffect(() => {
+    if (!restored || !currentId) return;
+    const title = conversationTitle(messages);
+    setConversations((prev) => {
+      const conv: Conversation = { id: currentId, title, messages: messages.slice(-30), updatedAt: Date.now() };
+      const next = prev.filter((c) => c.id !== currentId);
+      next.unshift(conv);
+      return next;
+    });
+  }, [messages, restored, currentId]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: status === "streaming" ? "auto" : "smooth" });
@@ -84,7 +126,7 @@ export default function AiAssistant() {
     const question = value.trim();
     if (!question || busy) return;
     clearError();
-    void sendMessage({ text: question });
+    void sendMessage({ text: question }, { body: { expert } });
     setInput("");
   };
 
@@ -93,8 +135,35 @@ export default function AiAssistant() {
     clearError();
     setMessages([]);
     setInput("");
-    localStorage.removeItem(storageKey);
+    setCurrentId(crypto.randomUUID());
     window.setTimeout(() => textareaRef.current?.focus(), 0);
+  };
+
+  const switchConversation = (id: string) => {
+    if (id === currentId) return;
+    if (busy) void stop();
+    clearError();
+    const conv = conversations.find((c) => c.id === id);
+    if (!conv) return;
+    setCurrentId(id);
+    setMessages(conv.messages as never);
+    setInput("");
+  };
+
+  const deleteConversation = (id: string) => {
+    if (busy && id === currentId) void stop();
+    const rest = conversations.filter((c) => c.id !== id);
+    setConversations(rest);
+    if (id === currentId) {
+      if (rest.length > 0) {
+        setCurrentId(rest[0].id);
+        setMessages(rest[0].messages as never);
+      } else {
+        setCurrentId(crypto.randomUUID());
+        setMessages([]);
+      }
+      setInput("");
+    }
   };
 
   const copyMessage = async (id: string, text: string) => {
@@ -121,6 +190,21 @@ export default function AiAssistant() {
         <button className={styles.newChat} type="button" onClick={newConversation}>
           <Plus size={17} weight="bold" />新对话
         </button>
+
+        {conversations.length > 0 && (
+          <nav className={styles.conversationList} aria-label="历史对话">
+            {conversations.map((conv) => (
+              <div key={conv.id} className={conv.id === currentId ? `${styles.conversationItem} ${styles.conversationActive}` : styles.conversationItem}>
+                <button type="button" className={styles.conversationButton} onClick={() => switchConversation(conv.id)}>
+                  {conv.title || "新对话"}
+                </button>
+                <button type="button" className={styles.conversationDelete} onClick={() => deleteConversation(conv.id)} aria-label="删除对话">
+                  <Trash size={13} />
+                </button>
+              </div>
+            ))}
+          </nav>
+        )}
 
         <div className={styles.sideInfo}>
           <div><BookOpenText size={18} /><span><strong>案例库检索</strong><small>自动匹配真实反诈案例</small></span></div>
@@ -170,12 +254,16 @@ export default function AiAssistant() {
                       {assistant && <strong>SafeAgent</strong>}
                       <p>{text}</p>
                       {assistant && !busy && (
-                        <button className={styles.copyButton} type="button" onClick={() => void copyMessage(message.id, text)} aria-label="复制回答">
+                        <button className={styles.copyButton} type="button" onClick={() => void copyMessage(message.id, text)} aria-label="复制消息">
                           {copiedId === message.id ? <Check size={14} /> : <Copy size={14} />}
-                          {copiedId === message.id ? "已复制" : "复制"}
                         </button>
                       )}
                     </div>
+                    {!assistant && !busy && (
+                      <button className={styles.copyButton} type="button" onClick={() => void copyMessage(message.id, text)} aria-label="复制消息">
+                        {copiedId === message.id ? <Check size={14} /> : <Copy size={14} />}
+                      </button>
+                    )}
                   </article>
                 );
               })}
@@ -193,6 +281,40 @@ export default function AiAssistant() {
         <div className={styles.composerArea}>
           {error && <p className={styles.error} role="alert">回答暂时没有生成，请稍后再试。</p>}
           <div className={styles.composer}>
+            <div className={styles.expertPicker}>
+              <button
+                className={styles.expertTrigger}
+                type="button"
+                onClick={() => setExpertOpen((v) => !v)}
+                aria-haspopup="listbox"
+                aria-expanded={expertOpen}
+              >
+                {expert ? (
+                  <><ShieldCheck size={14} weight="fill" />{EXPERT_OPTIONS.find((e) => e.id === expert)?.name}</>
+                ) : (
+                  <span className={styles.expertPlaceholder}>选择专家</span>
+                )}
+                <CaretDown size={12} />
+              </button>
+              {expertOpen && (
+                <ul className={styles.expertMenu} role="listbox">
+                  <li>
+                    <button type="button" className={expert === null ? styles.expertActive : ""} onClick={() => { setExpert(null); setExpertOpen(false); }}>
+                      不使用专家
+                    </button>
+                  </li>
+                  {EXPERT_OPTIONS.map((opt) => (
+                    <li key={opt.id}>
+                      <button type="button" className={expert === opt.id ? styles.expertActive : ""} onClick={() => { setExpert(opt.id); setExpertOpen(false); }}>
+                        <span className={styles.expertName}>{opt.name}</span>
+                        <span className={styles.expertHint}>{opt.hint}</span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+            <div className={styles.composerRow}>
             <textarea
               ref={textareaRef}
               value={input}
@@ -217,6 +339,7 @@ export default function AiAssistant() {
                 <ArrowUp size={19} weight="bold" />
               </button>
             )}
+            </div>
           </div>
           <p className={styles.composerHint}>Enter 发送，Shift + Enter 换行 · 请勿输入银行卡号、验证码等敏感信息</p>
         </div>

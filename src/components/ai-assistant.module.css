@@ -80,6 +80,54 @@
   transform: translateY(-1px);
 }
 
+.conversationList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 40vh;
+  overflow-y: auto;
+  margin-top: 8px;
+}
+
+.conversationItem {
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  transition: background 0.15s;
+}
+
+.conversationItem:hover { background: rgba(47, 110, 233, 0.06); }
+.conversationActive { background: rgba(47, 110, 233, 0.1); }
+
+.conversationButton {
+  flex: 1;
+  min-width: 0;
+  padding: 7px 9px;
+  border: 0;
+  background: transparent;
+  color: #2f4059;
+  font-size: 11px;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.conversationDelete {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  border: 0;
+  background: transparent;
+  color: #93a4ba;
+  cursor: pointer;
+}
+
+.conversationItem:hover .conversationDelete { display: inline-flex; }
+.conversationDelete:hover { color: #e84e5e; }
+
 .sideInfo {
   display: grid;
   gap: 8px;
@@ -307,7 +355,7 @@
 
 .messageBody > p {
   margin: 0;
-  color: #37475f;
+  color: #111;
   font-size: 12px;
   line-height: 1.85;
   white-space: pre-wrap;
@@ -316,19 +364,27 @@
 
 .userMessage {
   justify-content: flex-end;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.userMessage > .copyButton {
+  margin-top: 0;
+  margin-right: 4px;
 }
 
 .userMessage .messageBody {
   max-width: min(72%, 650px);
   padding: 12px 15px;
-  color: #fff;
+  color: #16325c;
   border-radius: 16px 16px 4px 16px;
-  background: #326ce5;
-  box-shadow: 0 8px 20px rgba(50, 108, 229, 0.15);
+  background: #cfe4ff;
+  box-shadow: 0 8px 20px rgba(90, 140, 220, 0.18);
 }
 
 .userMessage .messageBody > p {
-  color: #fff;
+  color: #16325c;
   line-height: 1.7;
 }
 
@@ -337,13 +393,22 @@
   padding-top: 2px;
 }
 
+.assistantMessage .messageBody > p {
+  font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  font-size: 13px;
+  line-height: 1.7;
+  color: #111;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 .copyButton {
   display: inline-flex;
   align-items: center;
   gap: 5px;
   margin-top: 10px;
   padding: 4px 5px;
-  color: #8995a7;
+  color: #111;
   font: inherit;
   font-size: 8px;
   cursor: pointer;
@@ -352,7 +417,7 @@
 }
 
 .copyButton:hover {
-  color: #2f6ee9;
+  color: #000;
 }
 
 .thinking {
@@ -380,17 +445,92 @@
 
 .composer {
   display: flex;
+  flex-direction: column;
+  align-items: stretch;
   width: min(850px, 100%);
   min-height: 58px;
   margin: 0 auto;
-  align-items: flex-end;
-  gap: 10px;
+  gap: 8px;
   padding: 9px 9px 9px 16px;
   border: 1px solid rgba(92, 125, 178, 0.21);
   border-radius: 18px;
   background: #fff;
   box-shadow: 0 11px 32px rgba(58, 88, 136, 0.1);
 }
+
+.composerRow {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  width: 100%;
+}
+
+.expertPicker {
+  position: relative;
+  align-self: flex-start;
+}
+
+.expertTrigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 9px;
+  border: 1px dashed rgba(92, 125, 178, 0.35);
+  border-radius: 8px;
+  background: rgba(47, 110, 233, 0.04);
+  color: #2f4059;
+  font-size: 11px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.expertTrigger:hover {
+  border-color: rgba(47, 110, 233, 0.5);
+  background: rgba(47, 110, 233, 0.08);
+}
+
+.expertPlaceholder {
+  color: #93a4ba;
+}
+
+.expertMenu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 20;
+  min-width: 210px;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  border: 1px solid rgba(92, 125, 178, 0.2);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 12px 32px rgba(58, 88, 136, 0.16);
+}
+
+.expertMenu li + li { margin-top: 2px; }
+
+.expertMenu button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #2f4059;
+  font-size: 11px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.expertMenu button:hover { background: rgba(47, 110, 233, 0.06); }
+.expertMenu .expertActive { background: rgba(47, 110, 233, 0.1); color: #2f6ee9; }
+
+.expertName { font-weight: 600; }
+.expertHint { color: #93a4ba; font-size: 10px; }
 
 .composer:focus-within {
   border-color: rgba(47, 110, 233, 0.45);
