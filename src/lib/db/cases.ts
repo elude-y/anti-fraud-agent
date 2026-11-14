@@ -12,6 +12,7 @@ export type CaseItem = {
 /** 获取cases列表，支持分类、关键词搜索，用于契约接口 */
 export async function getCasesList(category?: string, q?: string, page = 1) {
   const supabase = createSupabaseClient();
+  if (!supabase) throw new Error("未配置 Supabase");
   const pageSize = 10;
   let query = supabase.from("cases").select("*", { count: "exact" });
   if(category) query = query.eq("category", category);
@@ -43,6 +44,7 @@ export type VectorSearchRow = {
  */
 export async function vectorSearchCases(queryVector: number[], topK:number =5): Promise<VectorSearchRow[]> {
   const supabase = createSupabaseClient();
+  if (!supabase) return [];
   const { data, error } = await supabase.rpc("match_cases", {
     query_embedding: queryVector,
     match_count: topK,

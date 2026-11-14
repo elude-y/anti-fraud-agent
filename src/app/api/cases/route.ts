@@ -48,6 +48,7 @@ export async function GET(request: Request) {
 
   try {
     const supabase = createSupabaseClient();
+    if (!supabase) return localResponse(category, q, page, pageSize);
     let countQuery = supabase.from("cases").select("id", { count: "exact", head: true });
     if (category && category !== "全部") countQuery = countQuery.eq("category", category);
     if (q) countQuery = countQuery.or(`title.ilike.%${q}%,content.ilike.%${q}%`);

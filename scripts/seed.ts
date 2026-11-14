@@ -1,10 +1,10 @@
 // 放在seed.ts第一行！！
 import dotenv from "dotenv";
 dotenv.config({ path: ".env.local" });
-import { createSupabaseClient } from "../src/lib/db/supabase";
+import { requireSupabaseClient } from "../src/lib/db/supabase";
 
 // 生成supabase客户端实例
-const supabase = createSupabaseClient();
+const supabase = requireSupabaseClient();
 
 interface CaseItem {
   title: string;

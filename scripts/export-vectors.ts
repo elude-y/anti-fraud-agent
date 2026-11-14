@@ -9,9 +9,9 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { createSupabaseClient } from "../src/lib/db/supabase";
+import { requireSupabaseClient } from "../src/lib/db/supabase";
 
-const supabase = createSupabaseClient();
+const supabase = requireSupabaseClient();
 
 interface Row {
   id: string;

@@ -18,6 +18,7 @@ export async function vectorSearchPatterns(
 ): Promise<PatternRow[]> {
   // 懒加载：只在真正调用时才创建客户端，避免缺少环境变量时导入即抛错
   const supabase = createSupabaseClient();
+  if (!supabase) return [];
   const { data, error } = await supabase.rpc("match_patterns", {
     query_embedding: queryVector,
     match_count: topK,

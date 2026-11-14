@@ -10,7 +10,7 @@
  *  - 幂等：patterns 按 pattern 文本去重，iocs 按 value 去重
  */
 import { createClient } from "@supabase/supabase-js";
-import { createSupabaseClient } from "../src/lib/db/supabase";
+import { requireSupabaseClient } from "../src/lib/db/supabase";
 import { createEmbedding } from "../src/lib/rag/embedding";
 
 // cases/patterns/iocs 三张表都启用了 RLS，anon key 只能读不能写。
@@ -20,7 +20,7 @@ const supabase = serviceKey
   ? createClient(process.env.NEXT_PUBLIC_SUPABASE_URL as string, serviceKey, {
       auth: { persistSession: false, autoRefreshToken: false },
     })
-  : createSupabaseClient();
+  : requireSupabaseClient();
 
 if (!serviceKey) {
   console.warn("⚠️ 未找到 SUPABASE_SERVICE_ROLE_KEY，将用 anon key 尝试写入（很可能被 RLS 拒绝）");

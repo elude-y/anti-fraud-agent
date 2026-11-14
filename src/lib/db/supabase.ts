@@ -9,7 +9,15 @@ export function createSupabaseClient() {
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   if (!supabaseUrl || !supabaseAnonKey) {
-    throw new Error("未配置 Supabase，使用本地案例库兜底");
+    // 不抛错：构建期/未配置时返回 null，由调用方兜底，避免导入即失败
+    return null;
   }
   return createClient(supabaseUrl, supabaseAnonKey);
+}
+
+/** 脚本/必须联网的场景用：未配置直接抛错，避免拿到 null 继续往下跑 */
+export function requireSupabaseClient() {
+  const client = createSupabaseClient();
+  if (!client) throw new Error("未配置 Supabase，请检查 .env.local");
+  return client;
 }

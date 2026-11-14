@@ -6,11 +6,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 // 指向项目根目录下 .env.local
 dotenv.config({ path: path.join(__dirname, "../.env.local") });
-import { createSupabaseClient } from "../src/lib/db/supabase";
+import { requireSupabaseClient } from "../src/lib/db/supabase";
 import { createEmbedding } from "../src/lib/rag/embedding";
 
 async function main() {
-  const supabase = createSupabaseClient();
+  const supabase = requireSupabaseClient();
   console.log("读取还未生成向量的案例...");
   // 取出embedding为空的记录
   const { data: cases, error } = await supabase
