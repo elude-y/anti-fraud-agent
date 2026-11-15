@@ -91,6 +91,7 @@ export type SandboxSource =
 export type ProviderState = 'used' | 'not-configured' | 'skipped' | 'failed';
 
 export interface SandboxEnvelope {
+  observedVerdict?: RiskLevel;
   source: SandboxSource;
   latencyMs: number;
   result: SandboxResult;
@@ -195,6 +196,9 @@ export interface AnalysisStreamResult extends VerdictResult {
   sandbox: SandboxResult | null;
   sandboxMeta: Omit<SandboxEnvelope, 'result'> | null;
   summary: string;
+  acceptedMatch?: RagMatch | null;
+  decision?: { action: string; planner: "llm" | "rule"; reason: string; previousVerdict?: RiskLevel };
+  followUp?: string;
 }
 
 export type SafeAgentUIMessage = UIMessage<

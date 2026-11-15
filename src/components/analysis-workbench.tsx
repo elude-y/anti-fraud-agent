@@ -14,6 +14,7 @@ import { DefaultChatTransport } from "ai";
 import { useEffect, useRef, useState } from "react";
 import EvidenceChain from "@/components/evidence-chain/evidence-chain";
 import ResultCard from "@/components/result-card/result-card";
+import ScreenshotInput from "@/components/screenshot-input";
 import StageTimeline from "@/components/stages/stage-timeline";
 import { loadStoredAnalysis, saveStoredAnalysis } from "@/lib/analysis-store";
 import type {
@@ -62,10 +63,12 @@ const samples = {
 };
 
 function sourceLabel(source: NonNullable<AnalysisStreamResult["sandboxMeta"]>["source"] | null) {
-  if (!source) return "RAG 快速路径";
+  if (!source) return "文本研判";
   if (source === "tier0") return "Tier0 离线模板";
   if (source === "urlscan") return "urlscan.io";
   if (source === "urlscan+virustotal") return "urlscan.io + VirusTotal";
+  if (source === "lightweight") return "轻量动态检查";
+  if (source === "lightweight+virustotal") return "轻量动态检查 + VirusTotal";
   return "VirusTotal + Tier0";
 }
 
@@ -85,7 +88,7 @@ function buildReportText(result: AnalysisStreamResult, evidence: EvidenceNode[])
   lines.push(`- 生成时间：${new Date().toLocaleString("zh-CN")}`);
   lines.push(`- 检测内容：${result.input}`);
   lines.push(`- 检测类型：${result.mode === "link" ? "链接" : "短信"}`);
-  lines.push(`- 研判路径：${result.path === "fast" ? "快速路径（RAG 高置信度）" : "沙箱深度验证"}`);
+  lines.push(`- 研判路径：${result.path === "fast" ? "文本与案例研判" : "链接验证"}`);
   lines.push("");
   lines.push("## 结论");
   lines.push(`- 风险等级：${result.verdict}`);
@@ -94,6 +97,9 @@ function buildReportText(result: AnalysisStreamResult, evidence: EvidenceNode[])
   lines.push("");
   lines.push("## 研判摘要");
   lines.push(result.summary);
+  if (result.decision) lines.push(result.decision.reason);
+  if (result.decision?.previousVerdict) lines.push("模型复核前 " + result.decision.previousVerdict + " → " + result.verdict);
+  if (result.followUp) lines.push(result.followUp);
   lines.push("");
   lines.push("## 证据链");
   evidence.forEach((node, index) => {
@@ -112,6 +118,7 @@ function buildReportText(result: AnalysisStreamResult, evidence: EvidenceNode[])
 export default function AnalysisWorkbench() {
   const [mode, setMode] = useState<Mode>("link");
   const [input, setInput] = useState("");
+  const inputRef = useRef<HTMLTextAreaElement>(null);
   const [activeStage, setActiveStage] = useState(-1);
   const [completedStages, setCompletedStages] = useState(0);
   const [skippedStages, setSkippedStages] = useState<number[]>([]);
@@ -269,7 +276,7 @@ export default function AnalysisWorkbench() {
           setEvidence(snapshot.result.evidenceChain);
           setResult(snapshot.result);
           setCompletedStages(6);
-          setSkippedStages(snapshot.result.path === "fast" ? [3] : []);
+          setSkippedStages(snapshot.result.path === "fast" && snapshot.result.decision?.action !== "reputation" ? [3] : []);
           setReplayLabel(`已载入 ${snapshot.result.verdict} 研判快照`);
           return;
         }
@@ -339,6 +346,7 @@ export default function AnalysisWorkbench() {
           <div className={styles.inputPanel}>
             <div className={styles.inputArea}>
               <textarea
+                ref={inputRef}
                 value={input}
                 maxLength={500}
                 aria-label={mode === "link" ? "输入可疑链接" : "输入可疑短信"}
@@ -353,6 +361,7 @@ export default function AnalysisWorkbench() {
               />
               <span className={styles.charCount}>{input.length}/500</span>
             </div>
+            {mode === "message" && <ScreenshotInput disabled={running} onText={(text) => { setInput(text); setError(""); }} />}
             {displayedError && <p className={styles.inputError} id="analysis-input-error" role="alert">{displayedError}</p>}
             {replayLabel && <p className={styles.replayNotice} role="status">{replayLabel}</p>}
             <div className={styles.sampleRow}>
@@ -400,7 +409,7 @@ export default function AnalysisWorkbench() {
           <EvidenceChain evidence={evidence} />
         </section>
 
-        <aside className={styles.panel}>
+        <aside className={styles.panel + " " + styles.analysisConclusion}>
           <div className={styles.panelHeader}>
             <div className={styles.panelIconTitle}>
               <span><Sparkle size={21} /></span>
@@ -413,6 +422,15 @@ export default function AnalysisWorkbench() {
             )}
           </div>
           <ResultCard result={result} />
+          {result?.followUp && (
+            <div className={styles.followUp}>
+              <p>{result.followUp}</p>
+              <button type="button" className={styles.textButton} disabled={running} onClick={() => {
+                setInput(result.input);
+                inputRef.current?.focus();
+              }}>补充内容后重新研判</button>
+            </div>
+          )}
         </aside>
       </div>
     </>

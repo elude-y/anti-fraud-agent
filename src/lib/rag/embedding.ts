@@ -1,3 +1,5 @@
+import { recordProviderRequest } from "@/lib/agent/provider-usage";
+
 export async function createEmbedding(text: string): Promise<number[]> {
   const baseUrl = process.env.EMBEDDING_BASE_URL;
   const apiKey = process.env.EMBEDDING_API_KEY;
@@ -7,6 +9,7 @@ export async function createEmbedding(text: string): Promise<number[]> {
     throw new Error("缺失Embedding环境变量，请检查.env.local");
   }
 
+  const recordUsage = recordProviderRequest("embedding");
   const res = await fetch(baseUrl, {
     method: "POST",
     headers: {
@@ -25,5 +28,6 @@ export async function createEmbedding(text: string): Promise<number[]> {
     throw new Error(`embedding接口调用失败: ${errText}`);
   }
   const json = await res.json();
+  recordUsage(json.usage);
   return json.data[0].embedding;
 }

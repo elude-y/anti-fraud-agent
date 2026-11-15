@@ -7,15 +7,13 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 
-dotenv.config({ path: path.join(process.cwd(), ".env.local") });
+dotenv.config({ path: path.join(process.cwd(), ".env.local"), quiet: true });
 
 import { rag_search } from "../lib/rag/retrieve";
 import { sandboxAnalyze } from "../lib/sandbox/analyze";
 import { checkIoc, isVirusTotalConfigured } from "../lib/sandbox/virustotal";
-import { normalize } from "../lib/agent/normalize";
-import { computeRuleScore } from "../lib/agent/rules";
-import { finalizeVerdict } from "../lib/agent/synthesize";
-import type { RiskLevel } from "../lib/contracts";
+import { analyzeRequest } from "../lib/agent/analyze-request";
+import type { AnalysisStreamResult, RagMatch, RagPatternMatch } from "../lib/contracts";
 
 const server = new McpServer({ name: "safeagent", version: "1.0.0" });
 
@@ -23,34 +21,30 @@ const server = new McpServer({ name: "safeagent", version: "1.0.0" });
 server.tool(
   "analyze",
   "研判一条短信或链接，返回风险等级、规则分、相似案例、话术模式与沙箱结论",
-  { text: z.string().describe("待研判的短信文本或链接") },
+  { text: z.string().trim().min(1).max(500).describe("待研判的短信文本或链接") },
   async ({ text }) => {
-    const normalized = await normalize(text);
-    const ruleScore = computeRuleScore(normalized);
-    const rag = await rag_search(text);
-
-    let sandboxVerdict: RiskLevel | null = null;
-    let sandboxMeta: Record<string, unknown> | null = null;
-    if (normalized.urls.length > 0) {
-      const env = await sandboxAnalyze(normalized.urls[0], text);
-      sandboxVerdict = env.result.verdict as RiskLevel;
-      sandboxMeta = { source: env.source, fallbackReasons: env.fallbackReasons };
+    const response = await analyzeRequest(new Request("http://localhost/api/analyze", {
+      method: "POST",
+      body: JSON.stringify({ input: text }),
+    }));
+    const events = (await response.text()).split("\n")
+      .filter((line) => line.startsWith("data: {")).map((line) => JSON.parse(line.slice(6)));
+    const result: AnalysisStreamResult | undefined = events.find((event) => event.type === "data-result")?.data;
+    if (!result) {
+      return { isError: true, content: [{ type: "text" as const, text: "研判未完成，请稍后重试。" }] };
     }
-
-    const top = rag.matches[0];
-    const ragVerdict = top && top.similarity >= 0.6 && top.riskLabel !== "安全" ? top.riskLabel : null;
-    const fallback: RiskLevel = normalized.urls.length === 0 ? "安全" : "待核验";
-    const verdict = finalizeVerdict(sandboxVerdict, ragVerdict, ruleScore, fallback);
-
+    const rag = result.evidenceChain.find((node) => node.type === "rag")?.payload as
+      { matches?: RagMatch[]; patterns?: RagPatternMatch[] } | undefined;
+    const confidence = result.evidenceChain.find((node) => node.type === "confidence")?.payload as
+      { ruleScore?: number } | undefined;
+    const { verdict, input, summary, suggestion, decision, followUp, sandboxMeta } = result;
     return {
       content: [{
         type: "text" as const,
         text: JSON.stringify({
-          verdict,
-          ruleScore,
-          input: text,
-          cases: rag.matches.slice(0, 3).map((m) => ({ title: m.title, category: m.category, riskLabel: m.riskLabel, similarity: m.similarity })),
-          patterns: (rag.patterns ?? []).slice(0, 3).map((p) => ({ pattern: p.pattern, category: p.category })),
+          verdict, input, summary, suggestion, decision, followUp, ruleScore: confidence?.ruleScore,
+          cases: (rag?.matches ?? []).slice(0, 3).map(({ title, category, riskLabel, similarity }) => ({ title, category, riskLabel, similarity })),
+          patterns: (rag?.patterns ?? []).slice(0, 3).map(({ pattern, category }) => ({ pattern, category })),
           sandbox: sandboxMeta,
         }, null, 2),
       }],
@@ -117,4 +111,7 @@ server.tool(
 );
 
 const transport = new StdioServerTransport();
-await server.connect(transport);
+void server.connect(transport).catch((error: unknown) => {
+  console.error(error);
+  process.exitCode = 1;
+});

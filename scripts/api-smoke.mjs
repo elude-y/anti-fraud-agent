@@ -128,6 +128,14 @@ checks.messageOnly = pii.sandbox === null || (
   && pii.sandbox.raw?.template === "message-only"
 );
 
+const notice = await analyze("反诈提醒：不要向陌生人提供银行卡号和验证码，不要转账到所谓安全账户。", "message");
+checks.preventionNotice = notice.verdict === "安全" && notice.path === "fast" && notice.acceptedMatch === null;
+const campusWarning = await analyze("校园安全课：请勿告知陌生人短信验证码。", "message");
+checks.campusWarning = campusWarning.verdict === "安全";
+
+const unknown = await analyze("https://neutral-review.test/", "link");
+checks.unverifiedEvidence = unknown.verdict === "待核验" && unknown.summary.includes("未实际观测") && Boolean(unknown.followUp);
+
 const cases = await json("/api/cases");
 checks.cases = cases.payload.total > 0 && cases.payload.items.length > 0;
 

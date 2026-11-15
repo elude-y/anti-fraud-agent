@@ -39,16 +39,21 @@ npm run dev
 | `EMBEDDING_BASE_URL` | 兼容 OpenAI Embeddings 协议的服务地址 |
 | `EMBEDDING_API_KEY` | Embedding 服务密钥 |
 | `EMBEDDING_MODEL` | Embedding 模型名称 |
-| `DEEPSEEK_API_KEY` | 保留的模型密钥，不影响 Tier0 演示主链路 |
+| `DEEPSEEK_API_KEY` | 启用模型规划、检索重排和助手问答 |
 
 演示域名、保留域名、回环地址和私有 IP 不会提交给外部沙箱。
+
+截图研判入口在「智能研判 → 短信」。本机 OCR 支持中英文，图片在浏览器内处理，启动开发服务或构建时自动准备同源 OCR 资源。视觉模型是增强选项。在 .env.local 配置 VISION_BASE_URL、VISION_API_KEY、VISION_MODEL，使用接受多模态 Chat Completions 的兼容服务。VISION_BASE_URL 填 API 基地址（例如服务的 /v1），应用会追加 /chat/completions。选择截图、点击识别、核对并编辑转录内容后，即可进入现有研判流程。图片不写入本机历史记录。
 
 ## 验证命令
 
 ```bash
 npm run lint
 npm run build
+npm run eval:ablation
 ```
+
+消融脚本直接调用网页研判使用的同一服务函数，对比规则、规则加 RAG、完整工作流。报告写到 .safeagent-eval/ablation.json，分别记录原合成样本和新增回归样本，并报告待核验比例和风险召回率。旧的 scripts/ablation-results.json 是改造前的历史快照。快速回归用 npm run eval:ablation -- --regression。可用 npm run eval:ablation -- --dataset 已脱敏留出集.json 加载独立评测数据，格式为由 input 和 label 组成的 JSON 数组。请保留留出集来源，并优先使用保留域名或经允许的测试链接。报告记录请求数、供应商返回的 token、延迟、待核验、误报和漏报。通过 --rates 单价.json 可估算成本。费率 JSON 包含 currency 和 providers，其中 chat、embedding、virustotal、urlscan 可分别设置 perRequest、perMillionInputTokens、perMillionOutputTokens。缺少费率或用量的服务会列入未核算项。
 
 浏览器冒烟测试需要先启动产品服务：
 

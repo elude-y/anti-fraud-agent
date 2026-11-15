@@ -11,7 +11,10 @@
     "test:api": "node scripts/api-smoke.mjs",
     "test:ui": "node scripts/ui-smoke.mjs",
     "embed": "tsx -r dotenv/config scripts/embed.ts",
-    "mcp": "tsx src/mcp/server.ts"
+    "mcp": "tsx src/mcp/server.ts",
+    "eval:ablation": "tsx scripts/ablation.ts",
+    "predev": "node scripts/prepare-ocr.mjs",
+    "prebuild": "node scripts/prepare-ocr.mjs"
   },
   "dependencies": {
     "@ai-sdk/openai": "^4.0.89",
@@ -19,11 +22,14 @@
     "@modelcontextprotocol/sdk": "^1.32.2",
     "@phosphor-icons/react": "^2.1.10",
     "@supabase/supabase-js": "^2.117.3",
+    "@tesseract.js-data/chi_sim": "1.0.0",
+    "@tesseract.js-data/eng": "1.0.0",
     "ai": "^7.0.133",
     "framer-motion": "^11.18.2",
     "next": "^16.4.6",
     "react": "19.3.0",
     "react-dom": "19.3.0",
+    "tesseract.js": "7.0.0",
     "three": "0.187.0",
     "zod": "^4.6.5"
   },

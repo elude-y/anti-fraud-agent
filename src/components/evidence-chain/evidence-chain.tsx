@@ -125,6 +125,8 @@ export default function EvidenceChain({ evidence }: EvidenceChainProps) {
         const Icon = riskIcon(node);
         const view = payloadView(node);
         const sandboxPayload = isSandboxPayload(node.payload) ? node.payload : null;
+        const template = sandboxPayload?.sandboxMeta.source === "tier0"
+          || sandboxPayload?.sandboxMeta.source === "virustotal+tier0";
         const riskSignals = sandboxPayload ? buildRiskSignals(sandboxPayload.sandbox) : [];
         const attackChain = sandboxPayload ? buildAttackChain(sandboxPayload.sandbox) : [];
         const detectedSignalCount = riskSignals.filter((signal) => signal.active).length;
@@ -160,6 +162,7 @@ export default function EvidenceChain({ evidence }: EvidenceChainProps) {
 
               {sandboxPayload && (
                 <div className={styles.sandboxDetail}>
+                  {template && <p className={styles.muted}>以下页面行为、表单和跳转为模板示例。在线信誉查询状态见数据来源。</p>}
                   <section
                     className={`${styles.riskOverview} ${toneClasses[sandboxDangerous ? "critical" : "safe"]}`}
                     aria-label="沙箱风险信号总览"
@@ -173,12 +176,12 @@ export default function EvidenceChain({ evidence }: EvidenceChainProps) {
                       <div>
                         <span>WHY THIS SCORE</span>
                         <strong>
-                          {sandboxDangerous
+                          {template ? `模板包含 ${detectedSignalCount} 类示例信号` : sandboxDangerous
                             ? `检测到 ${detectedSignalCount} 类高风险信号`
                             : "未检测到高风险页面行为"}
                         </strong>
                       </div>
-                      <em>沙箱结论：{sandboxPayload.sandbox.verdict}</em>
+                      <em>{template ? "模板结论" : "沙箱结论"}：{sandboxPayload.sandbox.verdict}</em>
                     </div>
 
                     <div className={styles.riskSignalGrid}>

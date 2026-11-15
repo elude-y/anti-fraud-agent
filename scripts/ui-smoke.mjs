@@ -171,10 +171,10 @@ try {
 
   const checks = {
     verdict: state.text.includes("研判结论：诈骗") || state.text.includes("研判结论：高危"),
-    evidence: state.text.includes("沙箱行为证据已回传"),
+    evidence: state.text.includes("离线模板与域名线索"),
     fallback: state.text.includes("Tier0 离线"),
     history: state.saved > 0,
-    riskVisualization: state.text.includes("检测到 4 类高风险信号")
+    riskVisualization: state.text.includes("模板包含 4 类示例信号")
       && state.text.includes("攻击链推演")
       && state.text.includes("为什么判为危险"),
     snapshot: !state.text.includes("TIER0 模拟快照")
@@ -199,10 +199,10 @@ try {
     for (let attempt = 0; attempt < 25; attempt += 1) {
       await delay(200);
       const replayText = await evaluate(client, "document.body?.innerText ?? ''");
-      if (replayText.includes("已载入") && replayText.includes("研判快照") && replayText.includes("沙箱行为证据已回传")) break;
+      if (replayText.includes("已载入") && replayText.includes("研判快照") && replayText.includes("离线模板与域名线索")) break;
     }
     const replayText = await evaluate(client, "document.body?.innerText ?? ''");
-    checks.replay = replayText.includes("已载入") && replayText.includes("研判快照") && replayText.includes("沙箱行为证据已回传");
+    checks.replay = replayText.includes("已载入") && replayText.includes("研判快照") && replayText.includes("离线模板与域名线索");
   } else {
     checks.replay = false;
   }
@@ -262,10 +262,10 @@ try {
   for (let attempt = 0; attempt < 50; attempt += 1) {
     await delay(300);
     mobileText = await evaluate(client, "document.body?.innerText ?? ''");
-    if (mobileText.includes("研判结论：诈骗") && mobileText.includes("沙箱行为证据已回传")) break;
+    if (mobileText.includes("研判结论：诈骗") && mobileText.includes("离线模板与域名线索")) break;
   }
   checks.mobileResult = mobileText.includes("研判结论：诈骗")
-    && mobileText.includes("沙箱行为证据已回传");
+    && mobileText.includes("离线模板与域名线索");
   if (!checks.mobileResult) throw new Error("移动端未完成研判结果渲染");
 
   const mobileLayout = await evaluate(client, `({
@@ -301,12 +301,12 @@ try {
     fastText = await evaluate(client, "document.body?.innerText ?? ''");
     if (fastText.includes("研判结论：诈骗") && fastText.includes("无需调用")) break;
   }
-  checks.fastPathRendering = fastText.includes("高置信度快速路径无需沙箱")
+  checks.fastPathRendering = fastText.includes("综合研判依据")
     && fastText.includes("无需调用")
-    && !fastText.includes("沙箱行为证据已回传");
+    && !fastText.includes("离线模板与域名线索");
   if (!checks.fastPathRendering) throw new Error("快速路径未正确渲染跳过状态和无沙箱结论");
 
-  const noScreenshotInput = "明天下午三点开会，请准时参加。";
+  const noScreenshotInput = "https://neutral-review.test/";
   await client.send("Page.navigate", {
     url: `${baseUrl}/analyze?input=${encodeURIComponent(noScreenshotInput)}&autorun=1`,
   });
@@ -314,7 +314,7 @@ try {
   for (let attempt = 0; attempt < 50; attempt += 1) {
     await delay(300);
     noScreenshotText = await evaluate(client, "document.body?.innerText ?? ''");
-    if (noScreenshotText.includes("研判结论：可疑") && noScreenshotText.includes("沙箱行为证据已回传")) break;
+    if (noScreenshotText.includes("研判结论：待核验") && noScreenshotText.includes("离线模板与域名线索")) break;
   }
   const noScreenshotLayout = await evaluate(client, `(() => {
     const grid = document.querySelector('[class*="sandboxGrid"]');

@@ -1,3 +1,4 @@
+import { recordProviderRequest } from "@/lib/agent/provider-usage";
 import { isIP } from "node:net";
 import type { IocHit } from "@/lib/contracts";
 
@@ -74,6 +75,7 @@ export async function checkIoc(value: string, explicitType?: IocType): Promise<V
   if (!apiKey) throw new Error("VirusTotal API 未配置");
 
   const { type, normalized } = classify(value, explicitType);
+  recordProviderRequest("virustotal");
   const response = await fetch(endpointFor(type, normalized), {
     headers: {
       accept: "application/json",

@@ -135,17 +135,20 @@ export function buildRiskSignals(sandbox: SandboxResult): RiskSignalSummary[] {
 
 export function buildRiskReasons(result: AnalysisStreamResult): RiskReasonSummary[] {
   const sandbox = result.sandbox;
+  const template = result.sandboxMeta?.source === "tier0" || result.sandboxMeta?.source === "virustotal+tier0";
+  if (template) return [{ id: "rag", label: "研判依据", detail: result.summary, tone: "neutral" }];
   if (!sandbox) {
     const ragEvidence = result.evidenceChain.find((node) => node.type === "rag");
     const payload = ragEvidence?.payload;
-    const topMatch = payload && typeof payload === "object" && "matches" in payload
+    const legacyMatch = payload && typeof payload === "object" && "matches" in payload
       && Array.isArray(payload.matches) ? payload.matches[0] as { category?: string; similarity?: number } | undefined : undefined;
+    const topMatch = result.acceptedMatch === undefined ? legacyMatch : result.acceptedMatch;
     return [{
       id: "rag",
       label: topMatch?.category ? `相似案例：${topMatch.category}` : "案例与规则综合判断",
       detail: topMatch?.similarity !== undefined
-        ? `案例相似度 ${(topMatch.similarity * 100).toFixed(0)}%；本次使用快速路径，未进行页面行为检查。`
-        : "本次使用快速路径，未进行页面行为检查。",
+        ? `案例相似度 ${(topMatch.similarity * 100).toFixed(0)}%；本次未进行页面行为检查。`
+        : result.summary,
       tone: result.verdict === "安全" ? "safe" : "medium",
     }];
   }

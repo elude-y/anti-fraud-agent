@@ -166,6 +166,7 @@ export async function sandboxAnalyze(
 
   return {
     source,
+    observedVerdict: vtLookups.length && vtRisk(vtLookups) !== "安全" ? vtRisk(vtLookups) : undefined,
     latencyMs: Date.now() - startedAt,
     result,
     providers,

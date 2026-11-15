@@ -1,201 +1,179 @@
-// scripts/ablation.ts —— 三组对比消融实验：仅规则 / 规则+RAG / 完整AI
-// 运行：npx tsx scripts/ablation.ts
-// 指标：准确率、漏报（诈骗判安全）、误报（安全判风险）、沙箱调用率、平均耗时
-// 说明：离线（未配 Supabase）时 URL 样本相似度恒为 0，配好 Supabase + embedding 后重跑，
-//       才能得到「沙箱调用率 ~15%、准确率接近全量」的真实数据。
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { z } from "zod";
+import { withProviderUsage, type ProviderUsage } from "../src/lib/agent/provider-usage";
+import { config } from "dotenv";
+import { analyzeRequest, type AnalysisVariant } from "../src/lib/agent/analyze-request";
+import type { AnalysisStreamResult } from "../src/lib/contracts";
+import { TEST_SET_200, type TestSample } from "./test-set-200";
 
-import { normalize } from "../src/lib/agent/normalize";
-import { computeRuleScore } from "../src/lib/agent/rules";
-import { rag_search } from "../src/lib/rag/retrieve";
-import { computeConfidence } from "../src/lib/agent/confidence";
-import { decidePath } from "../src/lib/agent/stateMachine";
-import { sandboxAnalyze } from "../src/lib/sandbox/analyze";
-import { deriveVerdict } from "../src/lib/agent/synthesize";
-import type { RiskLevel, SandboxResult } from "../src/lib/contracts";
-import { TEST_SET_200 } from "./test-set-200";
-import { writeFileSync } from "node:fs";
-import dotenv from "dotenv";
-dotenv.config({ path: ".env.local" });
+config({ path: ".env.local" });
 
-type Mode = "rule-only" | "rule-rag" | "full";
+const regression: TestSample[] = [
+  { input: "反诈提醒：不要向陌生人提供银行卡号和验证码，不要转账到所谓安全账户。", label: "安全" },
+  { input: "校园安全课：请勿告知陌生人短信验证码。", label: "安全" },
+  { input: "请勿将短信验证码告诉他人。", label: "安全" },
+  { input: "不要告诉别人验证码，但为了办理理赔，请把验证码发给我。", label: "诈骗" },
+  { input: "快递客服称包裹丢失，让我提供银行卡号和短信验证码领取理赔金", label: "诈骗" },
+  { input: "明天下午三点在学校图书馆门口见", label: "安全" },
+  { input: "贷款秒到账，无需抵·押", label: "可疑" },
+  { input: "https://neutral-review.test/", label: "待核验" },
+];
 
-const MODE_LABEL: Record<Mode, string> = {
-  "rule-only": "仅规则",
-  "rule-rag": "规则+RAG",
-  full: "完整AI",
-};
-
-// 仅规则：把规则分映射成风险等级（无 RAG、无沙箱、无 LLM）
-function ruleOnlyVerdict(ruleScore: number): RiskLevel {
-  if (ruleScore >= 0.5) return "高危";
-  if (ruleScore >= 0.3) return "可疑";
-  return "安全";
-}
-
-interface RunResult {
-  verdict: RiskLevel;
-  sandboxCalled: boolean;
-  latencyMs: number;
-}
-
-async function analyze(input: string, mode: Mode): Promise<RunResult> {
-  const startedAt = Date.now();
-  const normalized = await normalize(input);
-  const ruleScore = computeRuleScore(normalized);
-
-  // 仅规则：不检索、不沙箱
-  if (mode === "rule-only") {
-    return { verdict: ruleOnlyVerdict(ruleScore), sandboxCalled: false, latencyMs: Date.now() - startedAt };
-  }
-
-  const rag = await rag_search(normalized.raw);
-  const confidence = computeConfidence(rag.topSimilarity, rag.labelAgreement, rag.coverageScore, ruleScore);
-
-  let sandbox: SandboxResult | null = null;
-  let sandboxCalled = false;
-
-  if (mode === "full") {
-    // 完整AI：置信度调度 + 规则兜底，低置信度才进沙箱
-    const decision = await decidePath(confidence, normalized);
-    if (decision.path === "sandbox" && normalized.urls.length > 0) {
-      const env = await sandboxAnalyze(normalized.urls[0], normalized.raw);
-      sandbox = env.result;
-      sandboxCalled = true;
+async function analyze(sample: TestSample, variant: AnalysisVariant) {
+  const start = performance.now();
+  const usage = new Map<ProviderUsage["provider"], ProviderUsage>();
+  const response = await withProviderUsage(usage, () => analyzeRequest(new Request("http://localhost/api/analyze", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ input: sample.input, forceTier0: process.env.SAFEAGENT_EVAL_TIER0 === "1" }),
+  }), variant));
+  if (!response.ok) throw new Error("Analysis HTTP " + response.status);
+  const raw = await response.text();
+  for (const line of raw.split("\n")) {
+    if (!line.startsWith("data: {")) continue;
+    const event = JSON.parse(line.slice(6));
+    if (event.type === "data-result") {
+      return { result: event.data as AnalysisStreamResult, ms: performance.now() - start, usage: [...usage.values()] };
     }
   }
-  // rule-rag：规则 + RAG，不进沙箱
-
-  const verdict = deriveVerdict(confidence, rag.matches, sandbox);
-  return { verdict, sandboxCalled, latencyMs: Date.now() - startedAt };
+  throw new Error("Missing analysis result");
 }
 
-function isRisky(verdict: RiskLevel): boolean {
-  // 四档口径：只有明确的"诈骗/高危/可疑"算风险；"待核验"不算风险命中，单独跟踪
-  return verdict === "诈骗" || verdict === "高危" || verdict === "可疑";
-}
+const isRisk = (label: TestSample["label"]) => label !== "安全" && label !== "待核验";
+const ratio = (value: number, total: number) => total ? Number((value / total).toFixed(4)) : null;
 
-interface ModeStats {
-  correct: number;
-  falseNeg: number;
-  falsePos: number;
-  pending: number;
-  sandboxCalls: number;
-  totalLatency: number;
-  wrong: Array<{ input: string; label: RiskLevel; verdict: RiskLevel }>;
-}
+const nonnegativeRate = z.number().finite().nonnegative();
+const rateCard = z.object({
+  currency: z.string().min(1).max(10),
+  providers: z.partialRecord(z.enum(["chat", "embedding", "virustotal", "urlscan"]), z.object({
+    perRequest: nonnegativeRate.optional(),
+    perMillionInputTokens: nonnegativeRate.optional(),
+    perMillionOutputTokens: nonnegativeRate.optional(),
+  }).refine((rate) => rate.perRequest !== undefined || rate.perMillionInputTokens !== undefined
+    || rate.perMillionOutputTokens !== undefined)),
+});
 
-async function runMode(mode: Mode): Promise<ModeStats> {
-  const stats: ModeStats = { correct: 0, falseNeg: 0, falsePos: 0, pending: 0, sandboxCalls: 0, totalLatency: 0, wrong: [] };
-  for (const sample of TEST_SET_200) {
-    const r = await analyze(sample.input, mode);
-    stats.totalLatency += r.latencyMs;
-    if (r.sandboxCalled) stats.sandboxCalls++;
-    if (r.verdict === "待核验") {
-      stats.pending++;
+function estimateCost(usage: ProviderUsage[], rates?: z.infer<typeof rateCard>) {
+  if (!rates) return null;
+  let knownCost = 0;
+  const unknownProviders: string[] = [];
+  for (const entry of usage) {
+    const rate = rates.providers[entry.provider];
+    if (!rate || (entry.requests !== entry.metered &&
+      (rate.perMillionInputTokens !== undefined || rate.perMillionOutputTokens !== undefined))) {
+      unknownProviders.push(entry.provider);
       continue;
     }
-    const verdictRisky = isRisky(r.verdict);
-    const labelRisky = isRisky(sample.label);
-    if (verdictRisky === labelRisky) {
-      stats.correct++;
-    } else {
-      if (labelRisky && !verdictRisky) stats.falseNeg++;
-      if (!labelRisky && verdictRisky) stats.falsePos++;
-      stats.wrong.push({ input: sample.input, label: sample.label, verdict: r.verdict });
+    knownCost += entry.requests * (rate.perRequest ?? 0)
+      + entry.inputTokens * (rate.perMillionInputTokens ?? 0) / 1_000_000
+      + entry.outputTokens * (rate.perMillionOutputTokens ?? 0) / 1_000_000;
+  }
+  return { currency: rates.currency, knownCost: Number(knownCost.toFixed(8)), unknownProviders };
+}
+
+async function evaluate(samples: TestSample[], variant: AnalysisVariant, rates?: z.infer<typeof rateCard>) {
+  let tp = 0, fp = 0, tn = 0, fn = 0, pending = 0, expectedPending = 0, pendingRisk = 0, errors = 0;
+  const latency: number[] = [];
+  const sandboxSources: Record<string, number> = {};
+  const providers = new Map<ProviderUsage["provider"], ProviderUsage>();
+  const failures: Array<{ sample: number; expected: string; actual: string }> = [];
+  for (const [index, sample] of samples.entries()) {
+    try {
+      const { result, ms, usage } = await analyze(sample, variant);
+      for (const item of usage) {
+        const total = providers.get(item.provider) ?? { provider: item.provider, requests: 0, metered: 0, inputTokens: 0, outputTokens: 0 };
+        total.requests += item.requests;
+        total.metered += item.metered;
+        total.inputTokens += item.inputTokens;
+        total.outputTokens += item.outputTokens;
+        providers.set(item.provider, total);
+      }
+      latency.push(ms);
+      const source = result.sandboxMeta?.source ?? "none";
+      sandboxSources[source] = (sandboxSources[source] ?? 0) + 1;
+      if (result.verdict === "待核验") {
+        pending++;
+        if (sample.label === "待核验") expectedPending++;
+        if (isRisk(sample.label)) pendingRisk++;
+      } else if (sample.label !== "待核验") {
+        if (isRisk(result.verdict)) {
+          if (isRisk(sample.label)) tp++; else fp++;
+        } else if (isRisk(sample.label)) fn++; else tn++;
+      }
+      const matches = sample.label === "待核验"
+        ? result.verdict === sample.label
+        : result.verdict !== "待核验" && isRisk(result.verdict) === isRisk(sample.label);
+      if (!matches) failures.push({ sample: index + 1, expected: sample.label, actual: result.verdict });
+    } catch {
+      errors++;
+      failures.push({ sample: index + 1, expected: sample.label, actual: "error" });
     }
   }
-  return stats;
-}
-
-function printStats(mode: Mode, stats: ModeStats, n: number, riskyCount: number) {
-  const effective = Math.max(1, n - stats.pending);
-  const acc = ((stats.correct / effective) * 100).toFixed(1);
-  const sr = ((stats.sandboxCalls / n) * 100).toFixed(1);
-  const avg = (stats.totalLatency / n).toFixed(0);
-  const tp = riskyCount - stats.falseNeg;
-  const fp = stats.falsePos;
-  const fn = stats.falseNeg;
-  const precision = tp + fp > 0 ? tp / (tp + fp) : 0;
-  const recall = tp + fn > 0 ? tp / (tp + fn) : 0;
-  const f1 = precision + recall > 0 ? (2 * precision * recall) / (precision + recall) : 0;
-  console.log(`【${MODE_LABEL[mode]}】`);
-  console.log(`  准确率：${acc}%  (${stats.correct}/${effective})`);
-  console.log(`  Precision（精准率）：${(precision * 100).toFixed(1)}%`);
-  console.log(`  Recall（召回率）：${(recall * 100).toFixed(1)}%`);
-  console.log(`  F1：${(f1 * 100).toFixed(1)}%`);
-  console.log(`  漏报（诈骗判成安全）：${stats.falseNeg} 条`);
-  console.log(`  误报（安全判成风险）：${stats.falsePos} 条`);
-  console.log(`  待核验（不计入准确率）：${stats.pending} 条`);
-  console.log(`  沙箱调用率：${sr}%`);
-  console.log(`  平均耗时：${avg}ms`);
-  console.log("");
-}
-
-function computeMetrics(stats: ModeStats, n: number, riskyCount: number) {
-  const tp = riskyCount - stats.falseNeg;
-  const fp = stats.falsePos;
-  const fn = stats.falseNeg;
-  const precision = tp + fp > 0 ? tp / (tp + fp) : 0;
-  const recall = tp + fn > 0 ? tp / (tp + fn) : 0;
-  const f1 = precision + recall > 0 ? (2 * precision * recall) / (precision + recall) : 0;
+  latency.sort((a, b) => a - b);
+  const risky = samples.filter((s) => isRisk(s.label)).length;
   return {
-    accuracy: Number((stats.correct / n).toFixed(4)),
-    precision: Number(precision.toFixed(4)),
-    recall: Number(recall.toFixed(4)),
-    f1: Number(f1.toFixed(4)),
-    falseNeg: stats.falseNeg,
-    falsePos: stats.falsePos,
-    sandboxRate: Number((stats.sandboxCalls / n).toFixed(4)),
-    avgLatencyMs: Number((stats.totalLatency / n).toFixed(1)),
+    total: samples.length, tp, fp, tn, fn, pending, expectedPending, pendingRisk, errors,
+    accuracy: ratio(tp + tn + expectedPending, samples.length),
+    precision: ratio(tp, tp + fp),
+    recall: ratio(tp, risky),
+    coverage: ratio(samples.length - pending - errors, samples.length),
+    p50Ms: latency.length ? Math.round(latency[Math.ceil(latency.length * .5) - 1]) : null,
+    p95Ms: latency.length ? Math.round(latency[Math.ceil(latency.length * .95) - 1]) : null,
+    falsePositiveRate: ratio(fp, samples.filter((sample) => sample.label === "安全").length),
+    missedRiskRate: ratio(risky - tp, risky),
+    sandboxSources, providerUsage: [...providers.values()], estimatedCost: estimateCost([...providers.values()], rates), failures,
   };
 }
 
 async function main() {
-  const n = TEST_SET_200.length;
-  const riskyCount = TEST_SET_200.filter((s) => isRisky(s.label)).length;
-  const safeCount = TEST_SET_200.filter((s) => !isRisky(s.label)).length;
-  console.log(`\n消融实验：测试集 ${n} 条样本（${riskyCount} 风险 / ${safeCount} 安全）`);
-  console.log("对比维度：仅规则 / 规则+RAG / 完整AI\n");
-
-  const results: Record<Mode, ModeStats> = {} as Record<Mode, ModeStats>;
-  for (const mode of ["rule-only", "rule-rag", "full"] as Mode[]) {
-    results[mode] = await runMode(mode);
-    printStats(mode, results[mode], n, riskyCount);
-  }
-
-  // 完整AI 的误判明细（帮助定位难样本）
-  const full = results.full;
-  if (full.wrong.length) {
-    console.log(`完整AI 误判明细（共 ${full.wrong.length} 条）：`);
-    for (const w of full.wrong) {
-      console.log(`  [${w.label} → 判为 ${w.verdict}] ${w.input.slice(0, 48)}`);
+  const variants = ["rule-only", "rule-rag", "full"] as const;
+  const groups: Record<string, TestSample[]> = process.argv.includes("--regression")
+    ? { regression }
+    : { synthetic: TEST_SET_200, regression };
+  const datasetFlag = process.argv.indexOf("--dataset");
+  if (datasetFlag !== -1) {
+    const path = process.argv[datasetFlag + 1];
+    if (!path || path.startsWith("--")) throw new Error("请在 --dataset 后填写已脱敏 JSON 文件的路径。");
+    const schema = z.array(z.object({
+      input: z.string().trim().min(1).max(500),
+      label: z.enum(["安全", "待核验", "可疑", "高危", "诈骗"]),
+    })).min(1);
+    const holdout = schema.parse(JSON.parse(await readFile(path, "utf8")));
+    const known = new Set([...TEST_SET_200, ...regression].map((sample) => sample.input.replace(/\s+/g, "")));
+    for (const sample of holdout) {
+      const key = sample.input.replace(/\s+/g, "");
+      if (known.has(key)) throw new Error("独立评测集包含重复样本或已有调参样本。");
+      known.add(key);
     }
+    groups.holdout = holdout;
   }
-  console.log("\n结论：完整AI 通过置信度调度，用更低的沙箱调用率拿到更高准确率。\n");
-
-  // 保存原始实验结果（含数据口径说明）
-  const report = {
+  const ratesFlag = process.argv.indexOf("--rates");
+  const ratesPath = ratesFlag === -1 ? undefined : process.argv[ratesFlag + 1];
+  if (ratesFlag !== -1 && (!ratesPath || ratesPath.startsWith("--"))) throw new Error("请在 --rates 后填写服务单价文件路径。");
+  const rates = ratesPath ? rateCard.parse(JSON.parse(await readFile(ratesPath, "utf8"))) : undefined;
+  const localReport: Record<string, unknown> = {};
+  for (const [name, samples] of Object.entries(groups)) {
+    const results: Partial<Record<AnalysisVariant, Awaited<ReturnType<typeof evaluate>>>> = {};
+    for (const variant of variants) {
+      const metrics = await evaluate(samples, variant, rates);
+      results[variant] = metrics;
+      console.log(name, variant, "accuracy", metrics.accuracy, "recall", metrics.recall, "pending", metrics.pending, "errors", metrics.errors);
+    }
+    localReport[name] = results;
+  }
+  await mkdir(".safeagent-eval", { recursive: true });
+  await writeFile(".safeagent-eval/ablation.json", JSON.stringify({
     generatedAt: new Date().toISOString(),
-    dataset: {
-      source: "自建评测集（人工构造）",
-      note: "本测试集为人工构造的评测样本，用于消融对比，不代表真实线上流量。真实在线识别效果需单独统计并明确标注。",
-      composition: "60 典型诈骗短信 + 40 可疑链接/仿冒网站 + 60 正常样本 + 40 难判断（谐音/拆字/隐藏关键词）",
-      total: n,
-      risky: riskyCount,
-      safe: safeCount,
-    },
-    results: {
-      "rule-only": computeMetrics(results["rule-only"], n, riskyCount),
-      "rule-rag": computeMetrics(results["rule-rag"], n, riskyCount),
-      full: computeMetrics(results.full, n, riskyCount),
-    },
-    wrongCasesFull: full.wrong.map((w) => ({ label: w.label, verdict: w.verdict, input: w.input })),
-  };
-  writeFileSync("scripts/ablation-results.json", JSON.stringify(report, null, 2), "utf-8");
-  console.log("已保存实验结果到 scripts/ablation-results.json\n");
+    forceTier0: process.env.SAFEAGENT_EVAL_TIER0 === "1",
+    embeddingConfigured: Boolean(process.env.EMBEDDING_API_KEY),
+    llmConfigured: Boolean(process.env.DEEPSEEK_API_KEY),
+    datasetNote: "合成、回归与外部留出数据分别报告，由提交者注明外部样本来源。风险召回率分母包含待核验及错误的风险样本。",
+    costNote: "providerUsage 记录请求次数和供应商返回的 token。estimatedCost 按显式传入的费率估算，未提供费率则为空。",
+    results: localReport,
+  }, null, 2));
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
 });

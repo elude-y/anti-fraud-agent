@@ -1,3 +1,4 @@
+import { recordProviderRequest } from "@/lib/agent/provider-usage";
 import type { RagSearchResult, RagMatch } from "@/lib/contracts";
 import { keywordScore, hasSpecificElements } from "./signals";
 
@@ -46,11 +47,12 @@ async function llmRerank(query: string, matches: RagMatch[]): Promise<number[] |
     .join("\n");
 
   try {
+    const recordUsage = recordProviderRequest("chat");
     const res = await fetch(`${baseURL}/chat/completions`, {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
       body: JSON.stringify({
-        model: "deepseek-chat",
+        model: process.env.DEEPSEEK_CHAT_MODEL ?? "deepseek-chat",
         temperature: 0,
         messages: [
           {
@@ -67,8 +69,10 @@ async function llmRerank(query: string, matches: RagMatch[]): Promise<number[] |
 
     if (!res.ok) return null;
     const json = (await res.json()) as {
+      usage?: { prompt_tokens?: number; completion_tokens?: number };
       choices?: { message?: { content?: string } }[];
     };
+    recordUsage(json.usage);
     const text = json.choices?.[0]?.message?.content ?? "";
     const m = text.match(/\[[\d,\s]+\]/);
     if (!m) return null;

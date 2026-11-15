@@ -1,3 +1,4 @@
+import { recordProviderRequest } from "@/lib/agent/provider-usage";
 import type { SandboxResult } from "@/lib/contracts";
 import { redactUrlForDisplay } from "./url-utils";
 
@@ -114,6 +115,7 @@ export async function analyzeWithUrlscan(url: URL): Promise<UrlscanAnalysis> {
     ? process.env.URLSCAN_VISIBILITY
     : "unlisted";
 
+  recordProviderRequest("urlscan");
   const submissionResponse = await fetch("https://urlscan.io/api/v1/scan/", {
     method: "POST",
     headers: {
@@ -142,6 +144,7 @@ export async function analyzeWithUrlscan(url: URL): Promise<UrlscanAnalysis> {
   let pollDelay = 1_000; // 立即查一次，之后指数退避，避免首轮空等 10s
 
   while (Date.now() - startedAt < maxWaitMs) {
+    recordProviderRequest("urlscan");
     const resultResponse = await fetch(`https://urlscan.io/api/v1/result/${submission.uuid}/`, {
       headers: { accept: "application/json", "api-key": apiKey, "user-agent": "SafeAgent/1.0 anti-fraud-analysis" },
       cache: "no-store",
@@ -161,6 +164,7 @@ export async function analyzeWithUrlscan(url: URL): Promise<UrlscanAnalysis> {
 
   let domSignals = { formFields: [] as string[], jsBehaviors: [] as string[] };
   try {
+    recordProviderRequest("urlscan");
     const domResponse = await fetch(`https://urlscan.io/dom/${submission.uuid}/`, {
       headers: { "api-key": apiKey, "user-agent": "SafeAgent/1.0 anti-fraud-analysis" },
       cache: "no-store",

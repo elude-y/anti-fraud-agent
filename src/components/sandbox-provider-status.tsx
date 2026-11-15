@@ -35,7 +35,7 @@ export default function SandboxProviderStatus() {
   const onlineCount = Number(Boolean(providers?.urlscan)) + Number(Boolean(providers?.virustotal));
   const label = !providers
     ? failed ? "Tier0 已就绪" : "检测沙箱能力"
-    : onlineCount === 2 ? "在线双源已连接" : onlineCount === 1 ? "部分在线能力" : "Tier0 兜底已就绪";
+    : onlineCount === 2 ? "已配置两个在线来源" : onlineCount === 1 ? "部分在线能力" : "Tier0 兜底已就绪";
 
   return (
     <div className={styles.statusGroup} aria-live="polite">

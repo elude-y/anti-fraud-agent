@@ -13,6 +13,10 @@ const reservedSuffixes = [
   ".test",
 ];
 
+export function isReservedAnalysisHost(hostname: string) {
+  return reservedSuffixes.some((suffix) => hostname === suffix.slice(1) || hostname.endsWith(suffix));
+}
+
 function isPrivateIpv4(hostname: string) {
   const octets = hostname.split(".").map(Number);
   if (octets.length !== 4 || octets.some((item) => !Number.isInteger(item))) return false;
@@ -66,7 +70,7 @@ export async function getExternalAnalysisSkipReason(url: URL | null): Promise<st
 
   const hostname = url.hostname.toLowerCase();
   if (hostname === "localhost" || hostname.endsWith(".localhost")) return "本地域名不会提交给外部服务";
-  if (reservedSuffixes.some((suffix) => hostname === suffix.slice(1) || hostname.endsWith(suffix))) {
+  if (isReservedAnalysisHost(hostname)) {
     return "演示或保留域名不会提交给外部服务";
   }
 

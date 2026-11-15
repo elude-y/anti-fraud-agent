@@ -106,6 +106,12 @@ function modeInstruction(mode: string) {
 function sandboxContext(sandbox: SandboxEnvelope | null) {
   if (!sandbox) return "（本次输入未提供链接，未进行沙箱检测）";
   const r = sandbox.result;
+  if (sandbox.source === "tier0" || sandbox.source === "virustotal+tier0") {
+    const verified = r.verdict === "安全" && sandbox.source === "tier0"
+      ? "链接匹配可信域名名单。" : "未取得真实页面行为证据。";
+    return "页面字段和跳转仅为离线模板，不能作为观察事实。" + verified
+      + (sandbox.observedVerdict ? "VirusTotal 信誉信号：" + sandbox.observedVerdict + "。" : "");
+  }
   const lines = [
     `沙箱检测来源：${sandbox.source}`,
     `风险结论：${r.verdict}`,
@@ -183,7 +189,7 @@ ${evidence}`;
 function fallbackAnswer(question: string, rag: RagSearchResult, sandbox: SandboxEnvelope | null) {
   const top = rag.matches[0];
   const sandboxLine = sandbox
-    ? `沙箱检测结论：${sandbox.result.verdict}（${sandbox.source}）。`
+    ? sandboxContext(sandbox)
     : "";
   if (!top) {
     return `仅凭“${question.slice(0, 80)}”暂时无法确认风险，案例库也没有找到足够接近的记录。${sandboxLine}\n\n建议你先不要点击链接、不要转账，也不要提供验证码、银行卡号或身份证信息；请自行打开相关机构的官方 App 或手动输入官网地址核实。如果已经付款或泄露信息，请立即联系银行冻结交易并保留短信、链接和转账凭证。`;

@@ -115,7 +115,7 @@ export default function ResultCard({ result }: ResultCardProps) {
 
       <section className={styles.reasonSection} aria-label={`为什么判为${result.verdict}`}>
         <div className={styles.reasonHeader}>
-          <span>{dangerous ? "为什么判为危险" : "为什么判为安全"}</span>
+          <span>{result.verdict === "待核验" ? "还缺哪些证据" : dangerous ? "为什么判为危险" : "为什么判为安全"}</span>
           <strong>{reasons.length} 项依据</strong>
         </div>
         <div className={styles.reasonList}>
