@@ -240,7 +240,7 @@ export async function POST(request: Request) {
     const reason = firstIssue
       ? `${firstIssue.path.join(".") || "(root)"}: ${firstIssue.message}`
       : "未知原因";
-    console.warn(`[analyze] 请求校验失败 → ${reason}`, JSON.stringify(body).slice(0, 400));
+    console.warn(`[analyze] 请求校验失败 → ${reason}`);
     return NextResponse.json({ message: "请输入 1 至 500 字的链接或短信内容" }, { status: 400 });
   }
 
@@ -495,8 +495,8 @@ export async function POST(request: Request) {
         writer.write({ type: "text-end", id: "analysis-summary" });
         writer.write({ type: "finish", finishReason: "stop" });
       } catch (error) {
-        const errorText = error instanceof Error ? error.message : "研判流程暂时不可用";
-        writer.write({ type: "error", errorText });
+        console.warn(`[analyze] 研判流程失败: ${error instanceof Error ? error.message : String(error)}`);
+        writer.write({ type: "error", errorText: "研判流程暂时不可用，请稍后重试" });
         writer.write({ type: "finish", finishReason: "error" });
       }
     },
