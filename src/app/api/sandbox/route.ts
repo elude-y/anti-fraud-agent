@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { sandboxAnalyze, sandboxProviderStatus } from "@/lib/sandbox/analyze";
 
+export const runtime = "nodejs";
+
 const requestSchema = z.object({
   url: z.string().min(1),
   context: z.string().optional().default(""),

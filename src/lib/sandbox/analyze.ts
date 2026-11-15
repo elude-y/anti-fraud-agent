@@ -2,6 +2,7 @@ import type { IocHit, RiskLevel, SandboxEnvelope, SandboxResult } from "@/lib/co
 import { getTrustedDomain } from "@/lib/trusted-domains";
 import { analyzeWithTier0 } from "./tier0";
 import { captureLocalScreenshot, clearGeneratedScreenshots } from "./local-screenshot";
+import { buildRemoteScreenshot } from "./remote-screenshot";
 import { analyzeWithUrlscan, isUrlscanConfigured } from "./urlscan";
 import { analyzeWithLightweight, type LightweightAnalysis } from "./lightweight";
 import { extractHttpUrl, getExternalAnalysisSkipReason } from "./url-utils";
@@ -148,19 +149,31 @@ export async function sandboxAnalyze(
   else if (vtLookups.length) source = "virustotal+tier0";
 
   const localScreenshot = screenshotState.status === "fulfilled" ? screenshotState.value : null;
+  const upstreamScreenshot = base.screenshotUrl;
+  const remoteScreenshot = targetUrl && !localScreenshot && !upstreamScreenshot
+    ? buildRemoteScreenshot(targetUrl)
+    : null;
+  const screenshotUrl = localScreenshot ?? upstreamScreenshot ?? remoteScreenshot?.url;
+  const screenshotProvider = localScreenshot
+    ? "local-browser"
+    : upstreamScreenshot
+      ? "urlscan"
+      : remoteScreenshot?.provider;
+  const baseRaw = base.raw && typeof base.raw === "object" ? base.raw as Record<string, unknown> : {};
   const result: SandboxResult = {
     ...base,
-    screenshotUrl: localScreenshot ?? base.screenshotUrl,
+    screenshotUrl,
     iocHits: mergeIocHits(base.iocHits, vtHits),
     verdict: vtLookups.length ? maxSandboxRisk(base.verdict, vtRisk(vtLookups)) : base.verdict,
     raw: {
+      ...baseRaw,
       source,
       simulated: !urlscanResult && !lightweightResult,
       behavior: urlscanResult?.raw ?? lightweightResult?.raw ?? tier0.raw,
       virustotal: vtLookups.map((item) => item.raw),
       offlineFallback: !urlscanResult && !lightweightResult,
-      screenshotType: localScreenshot ? "captured" : undefined,
-      screenshotProvider: localScreenshot ? "local-browser" : undefined,
+      screenshotType: screenshotUrl ? "captured" : "not-captured",
+      ...(screenshotProvider ? { screenshotProvider } : {}),
     },
   };
 

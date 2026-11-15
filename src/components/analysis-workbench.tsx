@@ -369,7 +369,7 @@ export default function AnalysisWorkbench() {
               />
               <span className={styles.charCount}>{input.length}/500</span>
             </div>
-            <ScreenshotInput disabled={running} onText={(text) => { setInput(text); setError(""); setCaseSource(null); }} />
+            {mode === "message" && <ScreenshotInput disabled={running} onText={(text) => { setInput(text); setError(""); setCaseSource(null); }} />}
             {displayedError && <p className={styles.inputError} id="analysis-input-error" role="alert">{displayedError}</p>}
             {caseSource && (
               <div className={styles.caseSource} role="note">

@@ -10,7 +10,7 @@ SafeAgent 是面向可疑链接和诈骗短信的智能研判系统。当前版�
 - RAG 优先使用 Supabase 向量检索，缺少密钥或 Embedding 服务时自动回退到内置案例索引。
 - 未配置 API Key、断网或额度耗尽时，Tier0 仍可完成离线演示。
 - Tier0 行为在界面中明确标注为离线模板，不会与真实在线扫描混淆。
-- Tier0 不生成模拟截图；在线截图优先由本地 Chrome 无头浏览器完整捕获，失败时回退到 urlscan 真实截图，仍不可用则隐藏截图区域。
+- Tier0 不生成模拟截图；在线链接优先由本地 Chrome 无头浏览器完整捕获，未安装 Chrome 的远端部署会回退到 urlscan 或远端截图服务，仍不可用则隐藏截图区域。
 - 沙箱证据节点展示真实页面截图（可用时）、跳转链、表单字段、脚本行为、IOC、数据来源与降级原因。
 - 展示与分析快照会脱敏手机号、证件号、银行卡号、邮箱及 URL 敏感参数。
 - 历史记录保存完整分析快照，可从历史页载入并回放同一份证据链。
@@ -34,6 +34,8 @@ npm run dev
 | `URLSCAN_VISIBILITY` | 扫描可见性，默认 `unlisted` |
 | `URLSCAN_MAX_WAIT_MS` | 等待扫描结果的最长时间 |
 | `VIRUSTOTAL_API_KEY` | 启用 VirusTotal URL、域名与 IOC 查询 |
+| `SAFEAGENT_REMOTE_SCREENSHOT` | 无本机 Chrome 时启用远端页面截图兜底，默认开启；设为 `0` 可关闭 |
+| `SCREENSHOT_SERVICE_URL` | 可选的自定义截图图片地址模板，支持 `{url}`、`{encodedUrl}`、`{rawUrl}` |
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase 项目地址，启用在线案例库 |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase 匿名访问密钥 |
 | `EMBEDDING_BASE_URL` | 兼容 OpenAI Embeddings 协议的服务地址 |
@@ -43,7 +45,9 @@ npm run dev
 
 演示域名、保留域名、回环地址和私有 IP 不会提交给外部沙箱。
 
-截图研判入口在「智能研判 → 链接」和「智能研判 → 短信」。支持 32 MB 以内的 PNG 或 JPEG。浏览器先识别有效内容并跳过纯空白区域，再按内容分段；长图分成最多 6 段，每段压缩到 2 MB 以内。超长截图或超过 4800 万像素的图片请先裁切。识别后可滚动查看原图标注，超过 500 字可展开完整转录并选取需要研判的内容。图片不写入本机历史记录。
+链接沙盒的页面截图优先在本机 Chrome 中生成；部署环境没有 Chrome 时，默认通过 THUM.io 生成远端截图，也可用 `SCREENSHOT_SERVICE_URL` 接入自有截图服务。只对通过公网安全校验的 HTTP(S) 链接启用。
+
+截图研判入口在「智能研判 → 短信」。支持 32 MB 以内的 PNG 或 JPEG。浏览器先识别有效内容并跳过纯空白区域，再按内容分段；长图分成最多 6 段，每段压缩到 2 MB 以内。超长截图或超过 4800 万像素的图片请先裁切。识别后可滚动查看原图标注，超过 500 字可展开完整转录并选取需要研判的内容。图片不写入本机历史记录。
 
 本机 OCR 支持中英文，不需要服务密钥。使用视觉模型时，在 .env.local 配置 VISION_BASE_URL、VISION_API_KEY 和 VISION_MODEL，模型须支持通过 Chat Completions 接收图片。只有 VISION_BASE_URL 和 VISION_API_KEY 都为空时，才复用已配置的 DEEPSEEK_BASE_URL 与 DEEPSEEK_API_KEY。仍须显式设置支持图片的 VISION_MODEL。修改环境变量后重启应用。
 
