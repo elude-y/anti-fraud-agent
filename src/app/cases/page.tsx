@@ -469,10 +469,12 @@ export default function CasesPage() {
                                 <Link
                                   className={styles.primaryButton}
                                   href={`/analyze?input=${encodeURIComponent(
-                                  item.scriptText && !item.scriptText.includes("无话术")
-                                    ? item.scriptText
-                                    : item.content
-                                )}`}
+                                    item.scriptText && !item.scriptText.includes("无话术")
+                                      ? item.scriptText
+                                      : item.content
+                                  )}&title=${encodeURIComponent(item.title)}${
+                                    item.sourceUrl ? `&source=${encodeURIComponent(item.sourceUrl)}` : ""
+                                  }`}
                                 >
                                   使用此案例测试
                                   <ArrowRight size={15} />
