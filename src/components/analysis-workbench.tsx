@@ -121,6 +121,16 @@ export default function AnalysisWorkbench() {
   const [replayLabel, setReplayLabel] = useState("");
   const persistedRef = useRef(false);
 
+  // 从知识库页跳转过来时（/analyze?input=...），把案例内容预填到输入框
+  useEffect(() => {
+    const value = new URLSearchParams(window.location.search).get("input");
+    if (!value) return;
+    setInput(value);
+    setMode(value.includes("http") || value.includes("www.") ? "link" : "message");
+    // 处理完就清掉参数，避免刷新时覆盖用户自己的输入
+    window.history.replaceState(null, "", window.location.pathname);
+  }, []);
+
   function resetRunState() {
     setActiveStage(-1);
     setCompletedStages(0);
