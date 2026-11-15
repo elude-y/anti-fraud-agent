@@ -97,7 +97,7 @@ export default function ScreenshotInput({ onText, disabled }: {
         <span className={screenshot.icon}><FrameCorners size={21} weight="duotone" /></span>
         <div>
           <h3 id={titleId}>截图研判</h3>
-          <p id={hintId}>识别聊天截图或短信图片。空白区域会自动跳过，长截图按内容分段。</p>
+          <p id={hintId}>识别网址、聊天截图或短信图片。空白区域会自动跳过，长截图按内容分段。</p>
         </div>
       </div>
 
