@@ -130,22 +130,6 @@ export default function AnalysisWorkbench() {
   const persistedRef = useRef(false);
   const [caseSource, setCaseSource] = useState<{ url: string; title: string } | null>(null);
 
-  // 从知识库页跳转过来时，带上案例正文 + 来源链接 + 标题
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const value = params.get("input");
-    if (!value) return;
-    setInput(value);
-    setMode(value.includes("http") || value.includes("www.") ? "link" : "message");
-
-    const url = params.get("source");
-    const title = params.get("title");
-    if (url || title) setCaseSource({ url: url ?? "", title: title ?? "" });
-
-    // 处理完就清掉参数，避免刷新时覆盖用户自己的输入
-    window.history.replaceState(null, "", window.location.pathname);
-  }, []);
-
   function resetRunState() {
     setActiveStage(-1);
     setCompletedStages(0);
@@ -304,6 +288,12 @@ export default function AnalysisWorkbench() {
         const nextMode: Mode = query.match(/https?:\/\//i) ? "link" : "message";
         setInput(query);
         setMode(nextMode);
+        const source = params.get("source");
+        const title = params.get("title");
+        if (source || title) {
+          setCaseSource({ url: /^https?:\/\//i.test(source ?? "") ? source ?? "" : "", title: title ?? "" });
+          window.history.replaceState(null, "", window.location.pathname + window.location.hash);
+        }
         if (params.get("autorun") === "1") {
           void sendMessageRef.current({ text: query }, { body: { mode: nextMode } });
         }
@@ -338,6 +328,7 @@ export default function AnalysisWorkbench() {
   const switchMode = (nextMode: Mode) => {
     setMode(nextMode);
     setInput("");
+    setCaseSource(null);
     resetAnalysis();
   };
 
@@ -378,7 +369,7 @@ export default function AnalysisWorkbench() {
               />
               <span className={styles.charCount}>{input.length}/500</span>
             </div>
-            {mode === "message" && <ScreenshotInput disabled={running} onText={(text) => { setInput(text); setError(""); }} />}
+            {mode === "message" && <ScreenshotInput disabled={running} onText={(text) => { setInput(text); setError(""); setCaseSource(null); }} />}
             {displayedError && <p className={styles.inputError} id="analysis-input-error" role="alert">{displayedError}</p>}
             {caseSource && (
               <div className={styles.caseSource} role="note">

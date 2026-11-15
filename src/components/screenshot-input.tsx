@@ -1,152 +1,194 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { recognizeScreenshot } from "@/lib/screenshot-ocr";
+import { ArrowsClockwise, FrameCorners, ImageSquare, Scan, Sparkle, UploadSimple, X } from "@phosphor-icons/react";
+import { useEffect, useId, useRef, useState } from "react";
+import { isScreenshotMime, MAX_SCREENSHOT_BYTES, readScreenshot, type ScreenshotReading } from "@/lib/screenshot-image";
+import { createScreenshotRecognizer } from "@/lib/screenshot-ocr";
 import styles from "@/app/workspace.module.css";
+import screenshot from "./screenshot-input.module.css";
 
-interface ScreenshotClue {
-  label: string;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
+type Source = "local" | "vision";
+
+async function recognizeWithVision(image: Blob, signal: AbortSignal): Promise<ScreenshotReading> {
+  const response = await fetch("/api/analyze/screenshot", {
+    method: "POST",
+    headers: { "Content-Type": image.type },
+    body: image,
+    signal,
+  });
+  const data = await response.json().catch(() => null);
+  if (!response.ok) throw new Error(data?.message ?? (response.status === 413
+    ? "上传片段超出服务限制，请先裁切截图。"
+    : "视觉模型未能完成识别，可以改用本机 OCR。"));
+  if (typeof data?.text !== "string" || !Array.isArray(data.clues)) {
+    throw new Error("视觉模型返回格式异常，可以改用本机 OCR。");
+  }
+  return data;
 }
 
-/** 上传/识别前压缩：长边压到 1280px、转 JPEG 0.8，减少体积与识别耗时 */
-async function compressImage(file: File): Promise<File> {
-  try {
-    const bitmap = await createImageBitmap(file);
-    const maxSide = 1280;
-    const scale = Math.min(1, maxSide / Math.max(bitmap.width, bitmap.height));
-    if (scale >= 1 && file.size <= 512 * 1024) {
-      bitmap.close();
-      return file;
-    }
-    const width = Math.round(bitmap.width * scale);
-    const height = Math.round(bitmap.height * scale);
-    const canvas = document.createElement("canvas");
-    canvas.width = width;
-    canvas.height = height;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) {
-      bitmap.close();
-      return file;
-    }
-    ctx.drawImage(bitmap, 0, 0, width, height);
-    bitmap.close();
-    const blob = await new Promise<Blob>((resolve, reject) => {
-      canvas.toBlob((b) => (b ? resolve(b) : reject(new Error("compress failed"))), "image/jpeg", 0.8);
-    });
-    return new File([blob], file.name.replace(/\.(png|jpe?g)$/i, ".jpg"), { type: "image/jpeg" });
-  } catch {
-    return file;
-  }
+function sizeLabel(bytes: number) {
+  return bytes < 1024 * 1024 ? Math.max(1, Math.round(bytes / 1024)) + " KB"
+    : (bytes / (1024 * 1024)).toFixed(1) + " MB";
 }
 
 export default function ScreenshotInput({ onText, disabled }: {
   onText: (text: string) => void;
   disabled: boolean;
 }) {
-  const [file, setFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState("");
-  const [clues, setClues] = useState<ScreenshotClue[]>([]);
-  const [busy, setBusy] = useState(false);
+  const titleId = useId();
+  const hintId = useId();
+  const [selection, setSelection] = useState<{ file: File; preview: string } | null>(null);
+  const [reading, setReading] = useState<(ScreenshotReading & { source: Source }) | null>(null);
+  const [progress, setProgress] = useState<{ source: Source; index: number; total: number } | null>(null);
+  const [dragging, setDragging] = useState(false);
   const [error, setError] = useState("");
-  const [recognized, setRecognized] = useState<"local" | "vision" | null>(null);
-  const [truncated, setTruncated] = useState(false);
-
   const pending = useRef<AbortController | null>(null);
-  useEffect(() => () => pending.current?.abort(), []);
-  useEffect(() => () => { if (preview) URL.revokeObjectURL(preview); }, [preview]);
 
-  async function recognize(source: "local" | "vision") {
-    if (!file || busy) return;
+  useEffect(() => () => pending.current?.abort(), []);
+  useEffect(() => () => { if (selection) URL.revokeObjectURL(selection.preview); }, [selection]);
+
+  const locked = disabled || Boolean(progress);
+
+  function selectFile(file: File | undefined) {
+    if (!file || locked) return;
+    if (!isScreenshotMime(file.type) || file.size === 0 || file.size > MAX_SCREENSHOT_BYTES) {
+      setError("请选择 32 MB 以内的 PNG 或 JPEG 截图。");
+      return;
+    }
+    setSelection({ file, preview: URL.createObjectURL(file) });
+    setReading(null);
+    setError("");
+  }
+
+  async function recognize(source: Source) {
+    if (!selection || locked || pending.current) return;
     const controller = new AbortController();
     pending.current = controller;
-    setBusy(true);
+    setProgress({ source, index: 0, total: 0 });
     setError("");
-    setClues([]);
-    setRecognized(null);
-    setTruncated(false);
+    setReading(null);
+    let localReader: Awaited<ReturnType<typeof createScreenshotRecognizer>> | undefined;
     try {
-      const image = await compressImage(file);
-      if (source === "local") {
-        const result = await recognizeScreenshot(image, controller.signal);
-        if (controller.signal.aborted) return;
-        setClues(result.clues);
-        onText(result.text);
-        setTruncated(result.truncated);
-        setRecognized(source);
-        return;
+      const result = await readScreenshot(selection.file, controller.signal,
+        async (part) => {
+          if (source === "vision") return recognizeWithVision(part, controller.signal);
+          localReader ??= await createScreenshotRecognizer(controller.signal);
+          return localReader.read(part);
+        },
+        (index, total) => setProgress({ source, index, total }));
+      controller.signal.throwIfAborted();
+      if (!result.text && !result.clues.length) {
+        throw new Error("未识别到文字或线索。请裁切到聊天区域，或手动输入文字。");
       }
-      const response = await fetch("/api/analyze/screenshot", {
-        method: "POST",
-        headers: { "Content-Type": image.type },
-        body: image,
-        signal: controller.signal,
-      });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message ?? "截图识别失败");
-      if (controller.signal.aborted) return;
-      if (!data.text) {
-        setError("没有识别到文字，请换一张清晰截图或手动输入");
-        return;
-      }
-      setClues(data.clues);
-      onText(data.text);
-      setRecognized(source);
+      if (result.text) onText(result.text.slice(0, 500));
+      setReading({ ...result, source });
     } catch (caught) {
-      if (controller.signal.aborted) return;
-      setError(caught instanceof Error ? caught.message : "截图识别失败");
+      if (!controller.signal.aborted) setError(caught instanceof Error ? caught.message : "截图识别失败，请重试。");
     } finally {
-      if (!controller.signal.aborted) setBusy(false);
+      await localReader?.close().catch(() => undefined);
       pending.current = null;
+      if (!controller.signal.aborted) setProgress(null);
     }
   }
 
   return (
-    <div className={styles.screenshotControl}>
-      <label>
-        截图研判
-        <input type="file" accept="image/png,image/jpeg" disabled={busy || disabled} onChange={(event) => {
-          const selected = event.target.files?.[0] ?? null;
-          setClues([]);
-          setRecognized(null);
-          setTruncated(false);
-          const invalid = selected && (!["image/png", "image/jpeg"].includes(selected.type) || selected.size > 2 * 1024 * 1024);
-          setFile(invalid ? null : selected);
-          setPreview(!invalid && selected ? URL.createObjectURL(selected) : "");
-          setError(invalid ? "请选择 2 MB 以内的 PNG 或 JPEG。" : "");
-        }} />
+    <section className={screenshot.card} aria-labelledby={titleId}>
+      <div className={screenshot.header}>
+        <span className={screenshot.icon}><FrameCorners size={21} weight="duotone" /></span>
+        <div>
+          <h3 id={titleId}>截图研判</h3>
+          <p id={hintId}>识别聊天截图或短信图片。空白区域会自动跳过，长截图按内容分段。</p>
+        </div>
+      </div>
+
+      <label className={screenshot.dropzone} data-dragging={dragging} data-disabled={locked}
+        onDragOver={(event) => {
+          event.preventDefault();
+          event.dataTransfer.dropEffect = locked ? "none" : "copy";
+          if (!locked) setDragging(true);
+        }}
+        onDragLeave={(event) => {
+          if (!(event.relatedTarget instanceof Node) || !event.currentTarget.contains(event.relatedTarget)) setDragging(false);
+        }}
+        onDrop={(event) => {
+          event.preventDefault();
+          setDragging(false);
+          selectFile(event.dataTransfer.files[0]);
+        }}>
+        <input className={screenshot.fileInput} type="file" accept="image/png,image/jpeg" disabled={locked}
+          aria-describedby={hintId} onChange={(event) => {
+            selectFile(event.target.files?.[0]);
+            event.currentTarget.value = "";
+          }} />
+        <span className={screenshot.dropIcon}><UploadSimple size={19} weight="bold" /></span>
+        <span className={screenshot.dropText}>
+          <strong>{selection ? "更换截图" : "选择或拖入截图"}</strong>
+          <small>PNG / JPEG · 单张最大 32 MB</small>
+        </span>
       </label>
-      <p>本机识别在浏览器内处理图片。使用视觉模型前，请遮盖账号、验证码等敏感信息。</p>
-      {preview && file && (
-        <figure className={styles.screenshotPreview}>
-          {/* The browser displays a local object URL without sending it to an image optimizer. */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={preview} alt="待研判截图预览" />
-          {clues.map((clue, index) => (
-            <span className={styles.screenshotClue} key={index} aria-hidden="true" style={{
-              left: clue.x * 100 + "%", top: clue.y * 100 + "%",
-              width: clue.width * 100 + "%", height: clue.height * 100 + "%",
-            }}>{index + 1}</span>
-          ))}
-        </figure>
+
+      {selection && (
+        <>
+          <div className={screenshot.fileRow}>
+            <ImageSquare size={17} aria-hidden="true" />
+            <span className={screenshot.fileName} title={selection.file.name}>{selection.file.name}</span>
+            <span className={screenshot.fileSize}>{sizeLabel(selection.file.size)}</span>
+            <button type="button" className={screenshot.remove} disabled={locked} aria-label="移除截图"
+              onClick={() => { setSelection(null); setReading(null); setError(""); }}>
+              <X size={16} />
+            </button>
+          </div>
+          <div className={screenshot.previewScroll} tabIndex={0} role="region" aria-label="原图预览，可滚动查看">
+            <figure className={screenshot.preview}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={selection.preview} alt="待研判截图" />
+              {reading?.clues.map((clue, index) => (
+                <span className={screenshot.clue} key={index} aria-hidden="true" style={{
+                  left: clue.x * 100 + "%", top: clue.y * 100 + "%",
+                  width: clue.width * 100 + "%", height: clue.height * 100 + "%",
+                }}><span>{index + 1}</span></span>
+              ))}
+            </figure>
+          </div>
+          <div className={screenshot.actions}>
+            <button type="button" className={styles.secondaryButton} disabled={locked} onClick={() => void recognize("local")}>
+              <Scan size={17} />本机识别文字
+            </button>
+            <button type="button" className={styles.primaryButton} disabled={locked} onClick={() => void recognize("vision")}>
+              <Sparkle size={17} weight="fill" />使用视觉模型
+            </button>
+          </div>
+        </>
       )}
-      {file && (
-        <div className={styles.sampleRow}>
-          <button type="button" disabled={busy || disabled} onClick={() => void recognize("local")}>本机识别文字</button>
-          <button type="button" disabled={busy || disabled} onClick={() => void recognize("vision")}>使用视觉模型</button>
+
+      {!selection && (
+        <div className={screenshot.previewEmpty}>
+          <span><ImageSquare size={30} weight="duotone" /></span>
+          <strong>截图预览区</strong>
+          <small>上传后在这里查看原图、分段进度和风险标注</small>
         </div>
       )}
-      {busy && <p role="status">正在识别截图…</p>}
-      {recognized && <p role="status">
-        {recognized === "local" ? "已用本机 OCR 提取文字并标注关键词行。" : "已用视觉模型转录并标注可见线索。"}
-        {truncated && " 已填入前 500 字，请保留需要研判的段落。"}
-        {" 请核对输入框中的文字和链接，再启动研判。"}
+
+      <p className={screenshot.note}>本机识别时图片留在浏览器。使用视觉模型前，请遮盖敏感信息。</p>
+      {progress && <p role="status" className={screenshot.status}>
+        <ArrowsClockwise className={styles.spinning} size={17} />
+        {progress.total ? (progress.source === "local" ? "本机识别" : "视觉识别") + " " + progress.index + "/" + progress.total : "正在准备图片…"}
       </p>}
-      {clues.length > 0 && <ol>{clues.map((clue, index) => <li key={index}>{clue.label}</li>)}</ol>}
-      {error && <p role="alert">{error}</p>}
-    </div>
+      {error && <p role="alert" className={screenshot.error}>{error}</p>}
+      {reading && (
+        <div className={screenshot.reading}>
+          <p role="status">{reading.text ? "识别完成。请核对输入框中的文字和链接，再启动研判。" : "已标注可见线索。请手动填写需要研判的文字。"}
+            {reading.truncated && " 部分分段可能还有未转录的内容，请对照原图。"}
+          </p>
+          {reading.text.length > 500 && (
+            <details>
+              <summary>查看完整转录（输入框已填前 500 字）</summary>
+              <textarea aria-label="截图完整转录" className={screenshot.transcript} value={reading.text} readOnly rows={5} />
+            </details>
+          )}
+          {reading.clues.length > 0 && <ol>{reading.clues.map((clue, index) => <li key={index}>{clue.label}</li>)}</ol>}
+        </div>
+      )}
+    </section>
   );
 }

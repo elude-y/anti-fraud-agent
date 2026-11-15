@@ -43,7 +43,9 @@ npm run dev
 
 演示域名、保留域名、回环地址和私有 IP 不会提交给外部沙箱。
 
-截图研判入口在「智能研判 → 短信」。本机 OCR 支持中英文，图片在浏览器内处理，启动开发服务或构建时自动准备同源 OCR 资源。视觉模型是增强选项。在 .env.local 配置 VISION_BASE_URL、VISION_API_KEY、VISION_MODEL，使用接受多模态 Chat Completions 的兼容服务。VISION_BASE_URL 填 API 基地址（例如服务的 /v1），应用会追加 /chat/completions。选择截图、点击识别、核对并编辑转录内容后，即可进入现有研判流程。图片不写入本机历史记录。
+截图研判入口在「智能研判 → 短信」。支持 32 MB 以内的 PNG 或 JPEG。浏览器先识别有效内容并跳过纯空白区域，再按内容分段；长图分成最多 6 段，每段压缩到 2 MB 以内。超长截图或超过 4800 万像素的图片请先裁切。识别后可滚动查看原图标注，超过 500 字可展开完整转录并选取需要研判的内容。图片不写入本机历史记录。
+
+本机 OCR 支持中英文，不需要服务密钥。使用视觉模型时，在 .env.local 配置 VISION_BASE_URL、VISION_API_KEY 和 VISION_MODEL，模型须支持通过 Chat Completions 接收图片。只有 VISION_BASE_URL 和 VISION_API_KEY 都为空时，才复用已配置的 DEEPSEEK_BASE_URL 与 DEEPSEEK_API_KEY。仍须显式设置支持图片的 VISION_MODEL。修改环境变量后重启应用。
 
 ## 验证命令
 

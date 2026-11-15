@@ -153,7 +153,7 @@ export default function EvidenceChain({ evidence }: EvidenceChainProps) {
                 </div>
                 <time>{new Date(node.ts).toLocaleTimeString("zh-CN", { hour12: false })}</time>
               </div>
-              <p>{view.description}</p>
+              {!["input", "rag", "confidence"].includes(node.type) && <p>{view.description}</p>}
               {view.tags.length > 0 && (
                 <div className={styles.chips}>
                   {view.tags.map((tag, tagIndex) => <span key={`${tag}-${tagIndex}`}>{tag}</span>)}

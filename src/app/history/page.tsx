@@ -17,7 +17,8 @@ import type { HistoryRecord } from "@/lib/demo-data";
 import type { RiskLevel } from "@/lib/contracts";
 import styles from "@/app/workspace.module.css";
 
-const filters: Array<"全部" | RiskLevel> = ["全部", "诈骗", "高危", "可疑", "待核验", "安全"];
+const riskLevels: RiskLevel[] = ["诈骗", "高危", "可疑", "待核验", "安全"];
+const filters: Array<"全部" | RiskLevel> = ["全部", ...riskLevels];
 const PAGE_SIZE = 3;
 
 function badgeClass(level: RiskLevel) {
@@ -59,7 +60,7 @@ export default function HistoryPage() {
   const totalPages = Math.max(1, Math.ceil(visibleRecords.length / PAGE_SIZE));
   const safePage = Math.min(page, totalPages);
   const pagedRecords = visibleRecords.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
-  const distribution = filters.slice(1).map((level) => ({
+  const distribution = riskLevels.map((level) => ({
     level, count: records.filter((record) => record.verdict === level).length,
   }));
   const trend = useMemo(() => {
@@ -109,14 +110,19 @@ export default function HistoryPage() {
             </div>
           </section>
 
-          <section className={styles.panel}>
+          <section className={`${styles.panel} ${styles.localRiskPanel}`}>
             <div className={styles.panelHeader}>
               <div className={styles.panelIconTitle}><span><ChartBar size={21} /></span><h2>本机风险等级分布</h2></div>
+              <span className={styles.softBadge}>累计保存 {records.length} 条</span>
             </div>
-            <div className={styles.donutWrap}>
-              <p>累计保存 {records.length} 条</p>
-              <div className={styles.legend}>
-                {distribution.map(({ level, count }) => <div className={styles.legendItem} key={level}><span>{level}</span><strong>{count} 条</strong></div>)}
+            <div className={styles.localRiskWrap}>
+              <div className={styles.localRiskGrid}>
+                {distribution.map(({ level, count }) => (
+                  <div className={styles.localRiskItem} key={level}>
+                    <span className={`${styles.riskBadge} ${badgeClass(level)}`}>{level}</span>
+                    <strong>{count} 条</strong>
+                  </div>
+                ))}
               </div>
             </div>
           </section>
