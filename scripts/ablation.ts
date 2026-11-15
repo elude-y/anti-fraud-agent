@@ -70,24 +70,30 @@ async function analyze(input: string, mode: Mode): Promise<RunResult> {
 }
 
 function isRisky(verdict: RiskLevel): boolean {
-  return verdict !== "安全";
+  // 四档口径：只有明确的"诈骗/高危/可疑"算风险；"待核验"不算风险命中，单独跟踪
+  return verdict === "诈骗" || verdict === "高危" || verdict === "可疑";
 }
 
 interface ModeStats {
   correct: number;
   falseNeg: number;
   falsePos: number;
+  pending: number;
   sandboxCalls: number;
   totalLatency: number;
   wrong: Array<{ input: string; label: RiskLevel; verdict: RiskLevel }>;
 }
 
 async function runMode(mode: Mode): Promise<ModeStats> {
-  const stats: ModeStats = { correct: 0, falseNeg: 0, falsePos: 0, sandboxCalls: 0, totalLatency: 0, wrong: [] };
+  const stats: ModeStats = { correct: 0, falseNeg: 0, falsePos: 0, pending: 0, sandboxCalls: 0, totalLatency: 0, wrong: [] };
   for (const sample of TEST_SET_200) {
     const r = await analyze(sample.input, mode);
     stats.totalLatency += r.latencyMs;
     if (r.sandboxCalled) stats.sandboxCalls++;
+    if (r.verdict === "待核验") {
+      stats.pending++;
+      continue;
+    }
     const verdictRisky = isRisky(r.verdict);
     const labelRisky = isRisky(sample.label);
     if (verdictRisky === labelRisky) {
@@ -102,7 +108,8 @@ async function runMode(mode: Mode): Promise<ModeStats> {
 }
 
 function printStats(mode: Mode, stats: ModeStats, n: number, riskyCount: number) {
-  const acc = ((stats.correct / n) * 100).toFixed(1);
+  const effective = Math.max(1, n - stats.pending);
+  const acc = ((stats.correct / effective) * 100).toFixed(1);
   const sr = ((stats.sandboxCalls / n) * 100).toFixed(1);
   const avg = (stats.totalLatency / n).toFixed(0);
   const tp = riskyCount - stats.falseNeg;
@@ -112,12 +119,13 @@ function printStats(mode: Mode, stats: ModeStats, n: number, riskyCount: number)
   const recall = tp + fn > 0 ? tp / (tp + fn) : 0;
   const f1 = precision + recall > 0 ? (2 * precision * recall) / (precision + recall) : 0;
   console.log(`【${MODE_LABEL[mode]}】`);
-  console.log(`  准确率：${acc}%  (${stats.correct}/${n})`);
+  console.log(`  准确率：${acc}%  (${stats.correct}/${effective})`);
   console.log(`  Precision（精准率）：${(precision * 100).toFixed(1)}%`);
   console.log(`  Recall（召回率）：${(recall * 100).toFixed(1)}%`);
   console.log(`  F1：${(f1 * 100).toFixed(1)}%`);
   console.log(`  漏报（诈骗判成安全）：${stats.falseNeg} 条`);
   console.log(`  误报（安全判成风险）：${stats.falsePos} 条`);
+  console.log(`  待核验（不计入准确率）：${stats.pending} 条`);
   console.log(`  沙箱调用率：${sr}%`);
   console.log(`  平均耗时：${avg}ms`);
   console.log("");

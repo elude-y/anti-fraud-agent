@@ -284,10 +284,7 @@ export default function CasesPage() {
                       "--ball-size": `${ball.size}px`,
                     } as CSSProperties
                   }
-                  onPointerDown={(event) => {
-                    event.preventDefault();
-                    pickCategory(ball.category);
-                  }}
+                  onClick={() => pickCategory(ball.category)}
                   aria-label={`${ball.category}，${ball.count} 条案例`}
                   tabIndex={ballsOut ? 0 : -1}
                 >

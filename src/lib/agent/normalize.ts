@@ -11,7 +11,7 @@ export interface NormalizedInput {
   raw: string;
 }
 
-const URL_RE = /(https?:\/\/[^\s"'<>]+)/g;
+const URL_RE = /(https?:\/\/[^\s"'<>，。；;！!）)\]}]+)/g;
 
 // 常见短链域名（可扩充）
 const SHORT_DOMAINS = ['t.cn', 'dwz.cn', 'url.cn', 'bit.ly', 't.co', 'suo.im'];
@@ -42,19 +42,20 @@ export function isShortLink(url: string): boolean {
 
 // 解短链：跟随重定向拿最终地址（超时 3s，失败则原样返回）
 export async function resolveShortLink(url: string): Promise<string> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 3000);
   try {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 3000);
     const res = await fetch(url, {
       method: 'HEAD',
       redirect: 'manual',
       signal: controller.signal,
     });
-    clearTimeout(timer);
     const location = res.headers.get('location');
     return location ? new URL(location, url).toString() : url;
   } catch {
     return url;
+  } finally {
+    clearTimeout(timer);
   }
 }
 

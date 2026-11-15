@@ -105,7 +105,7 @@ export default function HistoryPage() {
             <span className={styles.softBadge}>{records.length} 条记录 · {highRiskCount} 条高风险</span>
           </div>
           <div className={styles.toolbar}>
-            <label className={styles.searchBox}><MagnifyingGlass size={17} /><input value={query} onChange={(event) => { setQuery(event.target.value); setPage(1); }} placeholder="搜索链接、短信、记录编号" /></label>
+            <label className={styles.searchBox}><MagnifyingGlass size={17} /><input value={query} onChange={(event) => { setQuery(event.target.value); setPage(1); }} placeholder="搜索链接、短信、记录编号" aria-label="搜索研判记录" /></label>
             <div className={styles.filters}><Funnel size={17} />{filters.map((item) => <button className={`${styles.filterButton} ${filter === item ? styles.filterActive : ""}`} type="button" key={item} onClick={() => { setFilter(item); setPage(1); }}>{item}</button>)}</div>
           </div>
 

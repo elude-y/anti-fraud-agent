@@ -175,12 +175,6 @@ export type AnalysisStage =
 
 export type AnalysisTool = 'rag_search' | 'sandbox_analyze' | 'check_ioc';
 
-export type StreamEvent =
-  | { type: 'stage'; stage: AnalysisStage }
-  | { type: 'tool'; tool: AnalysisTool; status: 'start' | 'done'; data?: unknown }
-  | { type: 'text'; delta: string }
-  | ({ type: 'result' } & VerdictResult);
-
 export interface StageStreamData {
   stage: AnalysisStage;
   status: 'active' | 'done' | 'skipped';

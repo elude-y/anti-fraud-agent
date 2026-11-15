@@ -178,7 +178,7 @@ export default function EvidenceChain({ evidence }: EvidenceChainProps) {
                             : "未检测到高风险页面行为"}
                         </strong>
                       </div>
-                      <em>{sandboxPayload.sandbox.verdict}</em>
+                      <em>沙箱结论：{sandboxPayload.sandbox.verdict}</em>
                     </div>
 
                     <div className={styles.riskSignalGrid}>

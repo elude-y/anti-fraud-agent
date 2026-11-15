@@ -21,6 +21,33 @@ import styles from "./ai-assistant.module.css";
 const transport = new DefaultChatTransport({ api: "/api/assistant" });
 const storageKey = "safeagent:assistant-conversations";
 
+function redactPii(value: string): string {
+  return value
+    .replace(/\b1[3-9]\d{9}\b/g, "[手机号已脱敏]")
+    .replace(/\b\d{17}[\dXx]\b/g, "[证件号已脱敏]")
+    .replace(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g, "[邮箱已脱敏]");
+}
+
+function sanitizeConversation(conv: Conversation): Conversation {
+  return {
+    ...conv,
+    messages: conv.messages.map((m) => {
+      const msg = m as { content?: unknown };
+      if (typeof msg.content === "string") return { ...msg, content: redactPii(msg.content) };
+      if (Array.isArray(msg.content)) {
+        return {
+          ...msg,
+          content: msg.content.map((part) => {
+            const p = part as { type?: string; text?: string };
+            return p.type === "text" && typeof p.text === "string" ? { ...p, text: redactPii(p.text) } : p;
+          }),
+        };
+      }
+      return msg;
+    }),
+  };
+}
+
 interface Conversation {
   id: string;
   title: string;
@@ -99,7 +126,8 @@ export default function AiAssistant() {
 
   useEffect(() => {
     if (!restored) return;
-    localStorage.setItem(storageKey, JSON.stringify(conversations));
+    const sanitized = conversations.map(sanitizeConversation);
+    localStorage.setItem(storageKey, JSON.stringify(sanitized));
   }, [conversations, restored]);
 
   useEffect(() => {

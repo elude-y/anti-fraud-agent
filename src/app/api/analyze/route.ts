@@ -21,6 +21,7 @@ import type {
 import { rag_search } from "@/lib/rag/retrieve";
 import { sandboxAnalyze } from "@/lib/sandbox/analyze";
 import { redactUrlForDisplay } from "@/lib/sandbox/url-utils";
+import { isVirusTotalConfigured } from "@/lib/sandbox/virustotal";
 
 const requestSchema = z.object({
   input: z.string().max(500).optional(),
@@ -119,7 +120,7 @@ function finalConfidenceScore(
 }
 
 function inputCategory(raw: string): "银行" | "ETC" | "快递" | null {
-  if (/工商银行|建设银行|农业银行|中国银行|招商银行|银行(?!卡)|工行|建行|农行|中行|招行|\bbank\b/i.test(raw)) return "银行";
+  if (/工商银行|建设银行|农业银行|中国银行|招商银行|银行|工行|建行|农行|中行|招行|\bbank\b/i.test(raw)) return "银行";
   if (/ETC|高速通行/i.test(raw)) return "ETC";
   if (/快递|包裹|物流|顺丰|中通|圆通|韵达|申通/i.test(raw)) return "快递";
   return null;
@@ -128,6 +129,8 @@ function inputCategory(raw: string): "银行" | "ETC" | "快递" | null {
 function relevantRagMatch(rag: Awaited<ReturnType<typeof rag_search>>, raw: string) {
   const top = rag.matches[0];
   if (!top || rag.topSimilarity < MIN_RAG_SIMILARITY || top.similarity < MIN_RAG_SIMILARITY) return null;
+  // 反向门控：输入含强风险信号时，不采信"安全"案例（防止银行钓鱼短信命中"官方提醒"安全案例）
+  if (top.riskLabel === "安全" && /银行卡|验证码|转账|冻结|解冻|点击链接|安全账户/.test(raw)) return null;
   const category = inputCategory(raw);
   if (category === "银行" && !/银行|KYC/i.test(top.category)) return null;
   if (category === "ETC" && !/ETC/i.test(top.category)) return null;
@@ -155,7 +158,9 @@ function buildResult(input: {
     : verdict === "待核验"
       ? "当前缺少可验证的证据，暂无法确认是否安全。请勿填写敏感信息，通过官方渠道核实后再操作。"
       : verdict === "可疑"
-        ? "证据尚不足以确认恶意。请勿填写敏感信息，通过官方渠道核实链接来源后再决定是否访问。"
+        ? normalized.urls.length
+          ? "证据尚不足以确认恶意。请勿填写敏感信息，通过官方渠道核实链接来源后再决定是否访问。"
+          : "证据尚不足以确认恶意，但消息内容存在可疑特征。请勿转账、提供银行卡或验证码，先向官方渠道核实消息来源。"
         : "请立即停止访问或继续沟通，不要填写银行卡、密码或验证码；保留截图和原始消息，并通过官方渠道报警或核实。";
 
   const riskyIocCount = sandbox?.result.iocHits.filter(
@@ -351,7 +356,7 @@ export async function POST(request: Request) {
           await emitTool("sandbox_analyze", "start", {
             url: normalized.urls[0] ? redactUrlForDisplay(normalized.urls[0]) : null,
           });
-          if (normalized.urls[0]) await emitTool("check_ioc", "start", { target: redactUrlForDisplay(normalized.urls[0]) });
+          if (normalized.urls[0] && isVirusTotalConfigured()) await emitTool("check_ioc", "start", { target: redactUrlForDisplay(normalized.urls[0]) });
           sandbox = await sandboxAnalyze(normalized.urls[0] ?? input, input, {
             forceTier0: parsed.data.forceTier0,
           });
@@ -360,7 +365,7 @@ export async function POST(request: Request) {
             providers: sandbox.providers,
             fallbackReasons: sandbox.fallbackReasons,
           });
-          if (normalized.urls[0]) {
+          if (normalized.urls[0] && isVirusTotalConfigured()) {
             await emitTool("check_ioc", "done", {
               virusTotal: sandbox.providers.virustotal,
               iocHits: sandbox.result.iocHits,
