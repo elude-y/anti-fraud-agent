@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-15T12:44:13.659Z",
+  "generatedAt": "2026-11-15T13:02:24.047Z",
   "dataset": {
     "source": "自建评测集（人工构造）",
     "note": "本测试集为人工构造的评测样本，用于消融对比，不代表真实线上流量。真实在线识别效果需单独统计并明确标注。",
@@ -10,56 +10,41 @@
   },
   "results": {
     "rule-only": {
-      "accuracy": 0.8,
-      "precision": 0.9906,
-      "recall": 0.7241,
-      "f1": 0.8367,
-      "falseNeg": 40,
-      "falsePos": 1,
+      "accuracy": 0.8244,
+      "precision": 1,
+      "recall": 0.7517,
+      "f1": 0.8583,
+      "falseNeg": 36,
+      "falsePos": 0,
       "sandboxRate": 0,
       "avgLatencyMs": 0
     },
     "rule-rag": {
-      "accuracy": 0.8585,
-      "precision": 0.9915,
-      "recall": 0.8069,
-      "f1": 0.8897,
-      "falseNeg": 28,
-      "falsePos": 1,
+      "accuracy": 0.8829,
+      "precision": 1,
+      "recall": 0.8345,
+      "f1": 0.9098,
+      "falseNeg": 24,
+      "falsePos": 0,
       "sandboxRate": 0,
-      "avgLatencyMs": 1984.6
+      "avgLatencyMs": 1895.3
     },
     "full": {
-      "accuracy": 0.9805,
-      "precision": 0.993,
-      "recall": 0.9793,
-      "f1": 0.9861,
-      "falseNeg": 3,
-      "falsePos": 1,
+      "accuracy": 0.9951,
+      "precision": 1,
+      "recall": 0.9931,
+      "f1": 0.9965,
+      "falseNeg": 1,
+      "falsePos": 0,
       "sandboxRate": 0.3463,
-      "avgLatencyMs": 2217.5
+      "avgLatencyMs": 2164.9
     }
   },
   "wrongCasesFull": [
     {
       "label": "诈骗",
       "verdict": "安全",
-      "input": "最近在交友软件认识的朋友推荐了一个稳赚的投资平台"
-    },
-    {
-      "label": "诈骗",
-      "verdict": "安全",
-      "input": "公安提示：你的银行账户涉案，请配合远程核查"
-    },
-    {
-      "label": "安全",
-      "verdict": "高危",
-      "input": "您的银行卡到账3000元"
-    },
-    {
-      "label": "诈骗",
-      "verdict": "安全",
-      "input": "社保补贴已到账，点.击.认.领"
+      "input": "贷款秒到账，无需抵·押"
     }
   ]
 }

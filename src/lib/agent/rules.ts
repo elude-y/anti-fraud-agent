@@ -14,8 +14,10 @@ export function computeRuleScore(input: NormalizedInput): number {
   if (input.resolvedUrls.length > 0) score += 0.3;                  // 命中短链
   if (input.urls.length > 0) score += 0.1;                          // 含链接
 
-  // 到账/入账/收款通知本身是正常短信；除非同时含转账/索要/认证等动作，否则降权
-  if (/到账|入账|收款|余额变动/.test(text) && !/转账|填写|点击|验证码|冻结|解冻|扣款|逾期|认证|核实|链接|领取|认领/.test(text)) {
+  // 到账/入账/收款通知本身是正常短信；但若命中其它风险词（贷款/理财/投资/验证码等）则不是普通到账通知，不降权
+  const isArrivalNotice = /到账|入账|收款|余额变动/.test(text);
+  const hasOtherRisk = [...STRONG_RISK, ...MEDIUM_RISK].some((k) => k !== "银行卡" && k !== "身份证" && text.includes(k));
+  if (isArrivalNotice && !hasOtherRisk) {
     score = Math.max(0, score - 0.5);
   }
 
