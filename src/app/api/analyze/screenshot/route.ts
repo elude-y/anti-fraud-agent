@@ -19,10 +19,13 @@ export async function POST(request: Request) {
   if (Number(request.headers.get("content-length")) > maxImageBytes) {
     return Response.json({ message: "截图需小于 2 MB。" }, { status: 413 });
   }
-  const apiKey = process.env.VISION_API_KEY?.trim();
-  const base = process.env.VISION_BASE_URL?.trim().replace(/\/$/, "");
-  const model = process.env.VISION_MODEL?.trim();
-  if (!apiKey || !base || !model) {
+  // 视觉模型复用硅基流动（与 embedding 同账号/key）：未单独配 VISION_* 时回退到 EMBEDDING_*
+  const apiKey = process.env.VISION_API_KEY?.trim() || process.env.EMBEDDING_API_KEY?.trim();
+  const visionBase = process.env.VISION_BASE_URL?.trim()
+    || process.env.EMBEDDING_BASE_URL?.trim().replace(/\/embeddings\/?$/, "");
+  const base = visionBase?.replace(/\/$/, "") ?? "";
+  const model = process.env.VISION_MODEL?.trim() || "Qwen/Qwen2.5-VL-7B-Instruct";
+  if (!apiKey || !base) {
     return Response.json({ message: "截图识别暂不可用。你可以手动粘贴截图中的文字继续研判。" }, { status: 503 });
   }
   if (!request.body) return Response.json({ message: "未收到截图。" }, { status: 400 });
