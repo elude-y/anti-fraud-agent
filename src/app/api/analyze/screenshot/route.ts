@@ -3,7 +3,7 @@ import { z } from "zod";
 const maxImageBytes = 2 * 1024 * 1024;
 const coordinate = z.number().min(0).max(1);
 const visionResult = z.object({
-  text: z.string().trim().min(1).max(500),
+  text: z.string().trim().max(500),
   clues: z.array(z.object({
     label: z.string().trim().min(1).max(80),
     x: coordinate, y: coordinate, width: coordinate, height: coordinate,

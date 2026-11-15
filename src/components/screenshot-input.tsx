@@ -12,6 +12,37 @@ interface ScreenshotClue {
   height: number;
 }
 
+/** 上传/识别前压缩：长边压到 1280px、转 JPEG 0.8，减少体积与识别耗时 */
+async function compressImage(file: File): Promise<File> {
+  try {
+    const bitmap = await createImageBitmap(file);
+    const maxSide = 1280;
+    const scale = Math.min(1, maxSide / Math.max(bitmap.width, bitmap.height));
+    if (scale >= 1 && file.size <= 512 * 1024) {
+      bitmap.close();
+      return file;
+    }
+    const width = Math.round(bitmap.width * scale);
+    const height = Math.round(bitmap.height * scale);
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) {
+      bitmap.close();
+      return file;
+    }
+    ctx.drawImage(bitmap, 0, 0, width, height);
+    bitmap.close();
+    const blob = await new Promise<Blob>((resolve, reject) => {
+      canvas.toBlob((b) => (b ? resolve(b) : reject(new Error("compress failed"))), "image/jpeg", 0.8);
+    });
+    return new File([blob], file.name.replace(/\.(png|jpe?g)$/i, ".jpg"), { type: "image/jpeg" });
+  } catch {
+    return file;
+  }
+}
+
 export default function ScreenshotInput({ onText, disabled }: {
   onText: (text: string) => void;
   disabled: boolean;
@@ -38,8 +69,9 @@ export default function ScreenshotInput({ onText, disabled }: {
     setRecognized(null);
     setTruncated(false);
     try {
+      const image = await compressImage(file);
       if (source === "local") {
-        const result = await recognizeScreenshot(file, controller.signal);
+        const result = await recognizeScreenshot(image, controller.signal);
         if (controller.signal.aborted) return;
         setClues(result.clues);
         onText(result.text);
@@ -49,13 +81,17 @@ export default function ScreenshotInput({ onText, disabled }: {
       }
       const response = await fetch("/api/analyze/screenshot", {
         method: "POST",
-        headers: { "Content-Type": file.type },
-        body: file,
+        headers: { "Content-Type": image.type },
+        body: image,
         signal: controller.signal,
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.message ?? "截图识别失败");
       if (controller.signal.aborted) return;
+      if (!data.text) {
+        setError("没有识别到文字，请换一张清晰截图或手动输入");
+        return;
+      }
       setClues(data.clues);
       onText(data.text);
       setRecognized(source);
