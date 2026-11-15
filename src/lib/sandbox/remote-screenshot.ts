@@ -16,8 +16,22 @@ function applyTemplate(template: string, target: URL) {
 
 /**
  * Build a browser-loadable screenshot URL for deployments that do not ship Chrome.
- * The image is requested lazily by the evidence panel, so it does not block analysis.
+ * The service can be warmed during analysis so the evidence panel does not block on a cold capture.
  */
+export function prefetchRemoteScreenshot(target: URL) {
+  if (process.env.SAFEAGENT_REMOTE_SCREENSHOT === "0") return;
+  if (process.env.SCREENSHOT_SERVICE_URL?.trim()) return;
+  if (target.protocol !== "http:" && target.protocol !== "https:") return;
+
+  const captureTarget = new URL(target.toString());
+  captureTarget.hash = "";
+  const url = `https://image.thum.io/get/prefetch/allowJPG/width/800/crop/1800/${captureTarget.toString()}`;
+  void fetch(url, {
+    cache: "no-store",
+    signal: AbortSignal.timeout(2500),
+  }).catch(() => undefined);
+}
+
 export function buildRemoteScreenshot(target: URL): RemoteScreenshot | null {
   if (process.env.SAFEAGENT_REMOTE_SCREENSHOT === "0") return null;
   if (target.protocol !== "http:" && target.protocol !== "https:") return null;
@@ -34,7 +48,7 @@ export function buildRemoteScreenshot(target: URL): RemoteScreenshot | null {
   const captureTarget = new URL(target.toString());
   captureTarget.hash = "";
   return {
-    url: `https://image.thum.io/get/width/1440/crop/5000/${captureTarget.toString()}`,
+    url: `https://image.thum.io/get/allowJPG/width/800/crop/1800/${captureTarget.toString()}`,
     provider: "thum-io",
   };
 }

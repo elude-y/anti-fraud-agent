@@ -52,6 +52,11 @@ function chromeExecutable() {
   return chromeCandidates.find(existsSync) ?? null;
 }
 
+export function hasLocalScreenshotBrowser() {
+  if (process.env.SAFEAGENT_LOCAL_SCREENSHOT === "0") return false;
+  return Boolean(chromeExecutable());
+}
+
 function isPng(buffer: Buffer) {
   return buffer.length > 1024
     && buffer[0] === 0x89

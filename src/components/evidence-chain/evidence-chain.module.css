@@ -370,15 +370,7 @@
   grid-template-columns: 1fr;
 }
 
-.screenshotProbe {
-  position: fixed;
-  top: -9999px;
-  left: -9999px;
-  width: 1px;
-  height: 1px;
-  opacity: 0;
-  pointer-events: none;
-}
+
 .shotPanel,
 .redirectPanel,
 .signalGrid section {
@@ -403,11 +395,16 @@
   position: relative;
   display: block;
   width: 100%;
-  height: auto;
-  min-height: 0;
+  min-height: 180px;
   overflow: hidden;
   border-radius: 9px;
   background: #f7f9fc;
+  aspect-ratio: 4 / 3;
+}
+
+.shotFrameReady {
+  min-height: 0;
+  aspect-ratio: auto;
 }
 
 .shotFrame img {
@@ -416,6 +413,47 @@
   height: auto;
   object-fit: contain;
   object-position: top center;
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.shotFrameReady img {
+  opacity: 1;
+}
+
+.shotLoading {
+  cursor: progress;
+}
+
+.shotSkeleton {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, #eef3fa 8%, #f8fbff 18%, #eef3fa 33%);
+  background-size: 200% 100%;
+  animation: screenshotShimmer 1.4s linear infinite;
+}
+
+.shotLoadingLabel {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  z-index: 1;
+  padding: 5px 8px;
+  color: #5b6f8e;
+  font-size: 9px;
+  font-weight: 760;
+  white-space: nowrap;
+  border: 1px solid rgba(104, 137, 190, 0.13);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.86);
+  transform: translateX(-50%);
+  backdrop-filter: blur(6px);
+}
+
+@keyframes screenshotShimmer {
+  to {
+    background-position: -200% 0;
+  }
 }
 
 .shotButton {
@@ -813,3 +851,9 @@
 
 
 
+
+@media (prefers-reduced-motion: reduce) {
+  .shotSkeleton {
+    animation: none;
+  }
+}

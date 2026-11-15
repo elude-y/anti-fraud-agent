@@ -1,8 +1,8 @@
 import type { IocHit, RiskLevel, SandboxEnvelope, SandboxResult } from "@/lib/contracts";
 import { getTrustedDomain } from "@/lib/trusted-domains";
 import { analyzeWithTier0 } from "./tier0";
-import { captureLocalScreenshot, clearGeneratedScreenshots } from "./local-screenshot";
-import { buildRemoteScreenshot } from "./remote-screenshot";
+import { captureLocalScreenshot, clearGeneratedScreenshots, hasLocalScreenshotBrowser } from "./local-screenshot";
+import { buildRemoteScreenshot, prefetchRemoteScreenshot } from "./remote-screenshot";
 import { analyzeWithUrlscan, isUrlscanConfigured } from "./urlscan";
 import { analyzeWithLightweight, type LightweightAnalysis } from "./lightweight";
 import { extractHttpUrl, getExternalAnalysisSkipReason } from "./url-utils";
@@ -89,6 +89,9 @@ export async function sandboxAnalyze(
       fallbackReasons,
     };
   }
+
+  // 本机无 Chrome 时，提前让远端截图服务开始生成，避免等研判结束后才排队。
+  if (!hasLocalScreenshotBrowser()) prefetchRemoteScreenshot(targetUrl);
 
   // ① 轻量动态检查（Agent 直接 fetch，几秒）
   let lightweight: LightweightAnalysis | null = null;

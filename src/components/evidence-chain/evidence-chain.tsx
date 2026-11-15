@@ -224,38 +224,27 @@ export default function EvidenceChain({ evidence }: EvidenceChainProps) {
                     </div>
                   </section>
 
-                  <div className={`${styles.sandboxGrid} ${!screenshotReady ? styles.sandboxGridWithoutScreenshot : ""}`}>
-                    {screenshotUrl && !screenshotReady && !screenshotFailed && (
-                      // Probe the image off-layout so failed remote screenshots never leave an empty panel.
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        className={styles.screenshotProbe}
-                        src={screenshotUrl}
-                        alt=""
-                        aria-hidden="true"
-                        loading="eager"
-                        referrerPolicy="no-referrer"
-                        onLoad={() => setReadyScreenshots((current) => new Set(current).add(screenshotUrl))}
-                        onError={() => setFailedScreenshots((current) => new Set(current).add(screenshotUrl))}
-                      />
-                    )}
-                    {screenshotUrl && screenshotReady && (
+                  <div className={`${styles.sandboxGrid} ${!screenshotUrl || screenshotFailed ? styles.sandboxGridWithoutScreenshot : ""}`}>
+                    {screenshotUrl && !screenshotFailed && (
                       <section className={styles.shotPanel}>
                         <div className={styles.detailTitle}><ImageSquare size={16} />页面截图</div>
                         <button
-                          className={`${styles.shotFrame} ${styles.shotButton}`}
+                          className={`${styles.shotFrame} ${styles.shotButton} ${screenshotReady ? styles.shotFrameReady : styles.shotLoading}`}
                           type="button"
-                          aria-label="查看清晰页面截图"
+                          aria-label={screenshotReady ? "查看清晰页面截图" : "页面截图生成中"}
+                          disabled={!screenshotReady}
                           onClick={() => setPreviewUrl(screenshotUrl)}
                         >
+                          {!screenshotReady && <span className={styles.shotSkeleton} aria-hidden="true" />}
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={screenshotUrl}
                             alt={simulatedScreenshot
                               ? "Tier0 模板模拟页面快照"
                               : "沙箱页面截图"}
-                            loading="lazy"
+                            loading="eager"
                             referrerPolicy="no-referrer"
+                            onLoad={() => setReadyScreenshots((current) => new Set(current).add(screenshotUrl))}
                             onError={() => {
                               setReadyScreenshots((current) => {
                                 const next = new Set(current);
@@ -265,12 +254,13 @@ export default function EvidenceChain({ evidence }: EvidenceChainProps) {
                               setFailedScreenshots((current) => new Set(current).add(screenshotUrl));
                             }}
                           />
-                          <span className={styles.zoomHint}><ArrowsOut size={13} />查看大图</span>
+                          {screenshotReady && <span className={styles.zoomHint}><ArrowsOut size={13} />查看大图</span>}
+                          {!screenshotReady && <span className={styles.shotLoadingLabel}>页面截图生成中</span>}
                         </button>
 
                         <dl className={styles.metaList}>
                           <div><dt>数据来源</dt><dd>{sandboxPayload.sandboxMeta.source}</dd></div>
-                          <div><dt>响应耗时</dt><dd>{sandboxPayload.sandboxMeta.latencyMs} ms</dd></div>
+                          <div><dt>研判耗时</dt><dd>{sandboxPayload.sandboxMeta.latencyMs} ms</dd></div>
                           <div><dt>最终地址</dt><dd>{sandboxPayload.sandbox.finalUrl}</dd></div>
                         </dl>
                       </section>
@@ -288,10 +278,10 @@ export default function EvidenceChain({ evidence }: EvidenceChainProps) {
                           ))}
                         </ol>
                       ) : <p className={styles.muted}>未捕获跳转，输入中也没有可访问链接。</p>}
-                      {!screenshotReady && (
+                      {(!screenshotUrl || screenshotFailed) && (
                         <dl className={`${styles.metaList} ${styles.redirectMeta}`}>
                           <div><dt>数据来源</dt><dd>{sandboxPayload.sandboxMeta.source}</dd></div>
-                          <div><dt>响应耗时</dt><dd>{sandboxPayload.sandboxMeta.latencyMs} ms</dd></div>
+                          <div><dt>研判耗时</dt><dd>{sandboxPayload.sandboxMeta.latencyMs} ms</dd></div>
                           <div><dt>最终地址</dt><dd>{sandboxPayload.sandbox.finalUrl}</dd></div>
                         </dl>
                       )}
