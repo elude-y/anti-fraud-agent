@@ -3,7 +3,7 @@ import type { NormalizedInput } from './normalize';
 import { normalizeText } from '../rag/signals';
 
 const STRONG_RISK = ['银行卡', '身份证', '验证码', '冻结', '解冻', '扣款', '逾期', '保证金', '安全账户', '盗刷', '检察院', '涉嫌', '涉案', '远程核查', '远程操控'];
-const MEDIUM_RISK = ['理赔', '退款', '中奖', '过期', '贷款', '刷单', '兼职', '点击链接', '领取', '兑换', '理财', '投资', '稳赚', '补贴', '社保', '认领'];
+const MEDIUM_RISK = ['理赔', '退款', '中奖', '过期', '贷款', '刷单', '兼职', '点击链接', '领取', '兑换', '理财', '投资', '稳赚', '补贴', '社保', '认领', '培训费', '服装费', '报名费', '高薪', '入职培训'];
 
 export function computeRuleScore(input: NormalizedInput): number {
   // 先做谐音/拆字归一化，让「身 份 证」「点☆击☆领☆取」「理才」也能命中规则词
