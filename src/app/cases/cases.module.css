@@ -64,8 +64,8 @@
 }
 
 .stageOpen {
-  /* 左栏保底 340px，避免搜索框和球被挤没 */
-  grid-template-columns: minmax(340px, 1fr) minmax(min(460px, 55%), 0.9fr);
+  /* 面板用固定窄宽度，左栏只被压缩一点，球的位置几乎不动 */
+  grid-template-columns: minmax(0, 1fr) minmax(380px, 440px);
 }
 
 .leftCol {
