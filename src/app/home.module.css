@@ -9,7 +9,7 @@
   color: var(--ink);
   /* 首页沿用无盾浅蓝波浪背景，内容层保持原样。 */
   background-color: #e8f1ff;
-  background-image: url("/home-wave-background.png");
+  background-image: url("/home-wave-background.webp");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;

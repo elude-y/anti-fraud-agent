@@ -1,7 +1,7 @@
 import { createHash, randomUUID } from "node:crypto";
 import { spawn } from "node:child_process";
 import { existsSync } from "node:fs";
-import { mkdir, readFile, readdir, rm, unlink, writeFile } from "node:fs/promises";
+import { mkdir, readFile, readdir, rm, stat, unlink, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { getExternalAnalysisSkipReason } from "./url-utils";
@@ -26,11 +26,21 @@ export async function clearGeneratedScreenshots() {
 }
 
 async function clearPreviousScreenshots(directory: string) {
+  // TTL 清理：只删超过 1 小时的旧截图，避免并发请求互相删掉对方的截图
   try {
     const entries = await readdir(directory);
+    const now = Date.now();
     await Promise.all(entries
       .filter((entry) => entry.endsWith(".png"))
-      .map((entry) => unlink(path.join(directory, entry)).catch(() => undefined)));
+      .map(async (entry) => {
+        const filePath = path.join(directory, entry);
+        try {
+          const info = await stat(filePath);
+          if (now - info.mtimeMs > 60 * 60 * 1000) await unlink(filePath).catch(() => undefined);
+        } catch {
+          // 单个文件失败不影响其它清理
+        }
+      }));
   } catch {
     // Directory may not exist yet.
   }

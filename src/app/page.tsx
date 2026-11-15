@@ -1,11 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { ArrowRight, BookOpenText, FrameCorners, LinkSimple, ShieldCheck } from "@phosphor-icons/react";
 import { useRef, type PointerEvent } from "react";
 import headerStyles from "@/components/app-header.module.css";
-import GlassSphere from "./glass-sphere";
 import styles from "./welcome.module.css";
+
+// three.js 体积较大（约 134KB），按需懒加载，避免进首屏主包
+const GlassSphere = dynamic(() => import("./glass-sphere"), { ssr: false, loading: () => null });
 
 function tilt(stage: HTMLDivElement, x: number, y: number) {
   stage.style.setProperty("--tilt-x", `${y * -26}deg`);
