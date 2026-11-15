@@ -128,6 +128,23 @@ export default function AnalysisWorkbench() {
   const [error, setError] = useState("");
   const [replayLabel, setReplayLabel] = useState("");
   const persistedRef = useRef(false);
+  const [caseSource, setCaseSource] = useState<{ url: string; title: string } | null>(null);
+
+  // 从知识库页跳转过来时，带上案例正文 + 来源链接 + 标题
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const value = params.get("input");
+    if (!value) return;
+    setInput(value);
+    setMode(value.includes("http") || value.includes("www.") ? "link" : "message");
+
+    const url = params.get("source");
+    const title = params.get("title");
+    if (url || title) setCaseSource({ url: url ?? "", title: title ?? "" });
+
+    // 处理完就清掉参数，避免刷新时覆盖用户自己的输入
+    window.history.replaceState(null, "", window.location.pathname);
+  }, []);
 
   function resetRunState() {
     setActiveStage(-1);
@@ -363,6 +380,17 @@ export default function AnalysisWorkbench() {
             </div>
             {mode === "message" && <ScreenshotInput disabled={running} onText={(text) => { setInput(text); setError(""); }} />}
             {displayedError && <p className={styles.inputError} id="analysis-input-error" role="alert">{displayedError}</p>}
+            {caseSource && (
+              <div className={styles.caseSource} role="note">
+                <span className={styles.caseSourceLabel}>来自案例</span>
+                <span className={styles.caseSourceTitle}>{caseSource.title}</span>
+                {caseSource.url && (
+                  <a className={styles.caseSourceLink} href={caseSource.url} target="_blank" rel="noopener">
+                    查看原文
+                  </a>
+                )}
+              </div>
+            )}
             {replayLabel && <p className={styles.replayNotice} role="status">{replayLabel}</p>}
             <div className={styles.sampleRow}>
               {samples[mode].map((sample, index) => (

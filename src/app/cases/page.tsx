@@ -59,18 +59,74 @@ const BALL_COLORS: Record<string, string> = {
 
 const FALLBACK_COLORS = ["#d9a05b", "#8fbf7a", "#c98bb0", "#7fa9d9", "#d9c05b", "#a58ad6"];
 
-// 18 个类型时用满这张站位表
-const SLOTS = [
-  { x: 11, y: 15 }, { x: 26, y: 8 }, { x: 42, y: 14 }, { x: 58, y: 7 },
-  { x: 74, y: 13 }, { x: 89, y: 24 }, { x: 6, y: 38 }, { x: 21, y: 46 },
-  { x: 37, y: 34 }, { x: 53, y: 44 }, { x: 69, y: 36 }, { x: 85, y: 48 },
-  { x: 13, y: 64 }, { x: 30, y: 72 }, { x: 47, y: 62 }, { x: 64, y: 74 },
-  { x: 80, y: 66 }, { x: 92, y: 80 }, { x: 38, y: 88 },
-];
-
 const SPARSE_SLOTS = [
   { x: 24, y: 20 }, { x: 62, y: 12 }, { x: 44, y: 46 }, { x: 20, y: 66 }, { x: 74, y: 62 },
 ];
+
+/**
+ * 随机撒点，但保证任意两球不重叠。
+ * 用固定种子的伪随机数，保证每次渲染位置一致（不会跳动）。
+ * 约束用「切比雪夫距离」：横向或纵向至少有一个方向拉开足够间距。
+ */
+function scatterPositions(count: number): Array<{ x: number; y: number }> {
+  let seed = 20261114;
+  const rand = () => {
+    seed = (seed * 1664525 + 1013904223) % 4294967296;
+    return seed / 4294967296;
+  };
+
+  const MIN_DX = 0.15; // 横向最小间距（占球池宽度比例）
+  const MIN_DY = 0.24; // 纵向最小间距（占球池高度比例）
+
+  const placed: Array<{ x: number; y: number }> = [];
+
+  for (let i = 0; i < count; i++) {
+    let best = { x: 0.5, y: 0.5 };
+    let bestScore = -1;
+
+    for (let attempt = 0; attempt < 400; attempt++) {
+      const cand = { x: 0.05 + rand() * 0.9, y: 0.06 + rand() * 0.86 };
+
+      let score = Number.POSITIVE_INFINITY;
+      for (const p of placed) {
+        const dx = Math.abs(cand.x - p.x) / MIN_DX;
+        const dy = Math.abs(cand.y - p.y) / MIN_DY;
+        score = Math.min(score, Math.max(dx, dy));
+      }
+      if (score === Number.POSITIVE_INFINITY) score = 9;
+      if (score > bestScore) {
+        bestScore = score;
+        best = cand;
+      }
+      if (score >= 1) break; // 已满足最小间距，直接采用
+    }
+
+    placed.push(best);
+  }
+
+  return placed.map((p) => ({ x: p.x * 100, y: p.y * 100 }));
+}
+
+/**
+ * 送去智能研判的文本：优先用话术原文，过长则只保留开头，并去掉案例改写时追加的说明段。
+ * 研判输入框上限 500 字，这里控制在约 160 字，保留关键话术即可。
+ */
+function buildAnalysisText(item: ApiCase): string {
+  const raw =
+    item.scriptText && !item.scriptText.includes("无话术") ? item.scriptText : item.content ?? "";
+  let text = raw
+    .split("从同类案件看")[0]
+    .split("这类案件的共同特征")[0]
+    .split("。同类案件中")[0]
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/[。；;，,]$/, "");
+
+  if (text.length > 160) {
+    text = `${text.slice(0, 160)}…`;
+  }
+  return text;
+}
 
 const MIN_CASES = 4;
 
@@ -131,16 +187,20 @@ export default function CasesPage() {
       .filter(([, list]) => list.length >= MIN_CASES)
       .sort((a, b) => b[1].length - a[1].length);
 
-    // 球少的时候用更分散的站位和更大的体积，避免挤在顶部
+    // 球少的时候用更分散的站位和更大的体积
     const sparse = entries.length <= 5;
-    const slots = sparse ? SPARSE_SLOTS : SLOTS;
     const size = sparse ? 104 : 80;
+
+    // 随机撒点 + 最小间距约束：看起来错落，但任意两球不会重叠
+    const positions = scatterPositions(entries.length);
 
     return entries.map(([group, list], index) => ({
       category: group,
       count: list.length,
       color: BALL_COLORS[group] ?? FALLBACK_COLORS[index % FALLBACK_COLORS.length],
-      slot: slots[index % slots.length],
+      slot: sparse
+        ? SPARSE_SLOTS[index % SPARSE_SLOTS.length]
+        : positions[index] ?? { x: 50, y: 50 },
       size,
     }));
   }, [cases]);
@@ -410,7 +470,7 @@ export default function CasesPage() {
                               <div className={styles.actions}>
                                 <Link
                                   className={styles.primaryButton}
-                                  href={`/analyze?input=${encodeURIComponent(item.scriptText ?? item.content)}`}
+                                  href={`/analyze?input=${encodeURIComponent(buildAnalysisText(item))}&title=${encodeURIComponent(item.title)}${item.sourceUrl ? `&source=${encodeURIComponent(item.sourceUrl)}` : ""}`}
                                 >
                                   使用此案例测试
                                   <ArrowRight size={15} />
