@@ -294,7 +294,7 @@ export async function POST(request: Request) {
         }
       }
 
-      // 联网搜索：优先 DeepSeek，返回空/失败则降级博查 → Tavily → Bing
+      // 联网搜索：仅 DeepSeek 官方搜索接口
       const web = await searchWeb(question);
 
       const apiKey = process.env.DEEPSEEK_API_KEY?.trim();
