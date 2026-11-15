@@ -223,7 +223,7 @@ export default function CasesPage() {
 
   function pickCategory(category: string) {
     if (!ballsOut) return;
-    setActive((current) => (current === category ? null : category));
+    setActive(category); // 点一次必定展开，再次点同一个球不再收起（收起用木箱或返回球池）
     setSelectedId(null);
     setQuery(""); // 选类型时退出搜索，避免停留在搜索结果上
   }
@@ -321,7 +321,10 @@ export default function CasesPage() {
                       "--ball-size": `${ball.size}px`,
                     } as CSSProperties
                   }
-                  onClick={() => pickCategory(ball.category)}
+                  onPointerDown={(event) => {
+                    event.preventDefault();
+                    pickCategory(ball.category);
+                  }}
                   aria-label={`${ball.category}，${ball.count} 条案例`}
                   tabIndex={ballsOut ? 0 : -1}
                 >

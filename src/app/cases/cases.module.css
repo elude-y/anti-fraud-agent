@@ -326,6 +326,7 @@
     inset 7px 8px 14px rgba(255, 255, 255, 0.45),
     0 12px 20px rgba(96, 122, 158, 0.22);
   cursor: pointer;
+  touch-action: manipulation;
   transform: translate(-50%, -50%) scale(1);
   opacity: 1;
   transition:
@@ -352,6 +353,13 @@
   pointer-events: none;
 }
 
+/* 扩大命中区域：比视觉球体大一圈，避免点在边缘点不中 */
+.ball::after {
+  position: absolute;
+  inset: -10px;
+  border-radius: 50%;
+  content: "";
+}
 .ball:hover,
 .ball:focus-visible {
   z-index: 40;
