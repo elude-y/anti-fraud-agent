@@ -98,6 +98,7 @@ export default function CasesPage() {
   const riseTimer = useRef<number | null>(null);
   const [copied, setCopied] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -160,6 +161,14 @@ export default function CasesPage() {
     );
   }, [active, cases, query, searching]);
 
+  // 窄屏时面板会排到球池下方，选中类型后自动滚过去，避免"点了没反应"
+  useEffect(() => {
+    if (!active) return;
+    if (typeof window === "undefined") return;
+    if (window.innerWidth <= 1080) {
+      panelRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [active]);
   // 选中案例后列表回到顶部，保证「展开的那条 + 下一条」同时可见
   useEffect(() => {
     if (selectedId && scrollRef.current) scrollRef.current.scrollTop = 0;
@@ -316,9 +325,7 @@ export default function CasesPage() {
                   aria-label={`${ball.category}，${ball.count} 条案例`}
                   tabIndex={ballsOut ? 0 : -1}
                 >
-                  <span className={styles.ballTip}>
-                    {ball.category} <span className={styles.ballCount}>{ball.count}</span>
-                  </span>
+                  <span className={styles.ballLabel}>{ball.category}</span>
                 </button>
               ))}
 
@@ -332,7 +339,7 @@ export default function CasesPage() {
             </div>
           </div>
 
-          <aside className={styles.poolPanel}>
+          <aside className={styles.poolPanel} ref={panelRef}>
             <div
               className={`${styles.pool} ${panelOpen ? styles.poolOn : ""}`}
               style={{ "--pool-color": poolColor } as CSSProperties}
