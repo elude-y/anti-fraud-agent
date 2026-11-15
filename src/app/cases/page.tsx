@@ -136,7 +136,7 @@ export default function CasesPage() {
     // 球少的时候用更分散的站位和更大的体积，避免挤在顶部
     const sparse = entries.length <= 5;
     const slots = sparse ? SPARSE_SLOTS : SLOTS;
-    const size = sparse ? 96 : 62;
+    const size = sparse ? 104 : 80;
 
     return entries.map(([group, list], index) => ({
       category: group,
