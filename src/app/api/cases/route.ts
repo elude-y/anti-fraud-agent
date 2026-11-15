@@ -46,6 +46,11 @@ interface FallbackCase {
  */
 const FALLBACK = fallbackCases as FallbackCase[];
 
+/** 转义 PostgREST or() 语法字符与 ilike 通配符，避免 q 注入或通配符误匹配 */
+function escapeLikeValue(value: string) {
+  return value.replace(/[\\%_,()]/g, (ch) => `\\${ch}`);
+}
+
 function localResponse(category: string | null, q: string | null, page: number, pageSize: number) {
   const keyword = (q ?? "").trim().toLowerCase();
   const filtered = FALLBACK.filter((item) => {
@@ -90,7 +95,10 @@ export async function GET(request: Request) {
 
     let countQuery = supabase.from("cases").select("id", { count: "exact", head: true });
     if (category) countQuery = countQuery.eq("category", category);
-    if (q) countQuery = countQuery.or(`title.ilike.%${q}%,content.ilike.%${q}%`);
+    if (q) {
+      const escaped = escapeLikeValue(q);
+      countQuery = countQuery.or(`title.ilike.%${escaped}%,content.ilike.%${escaped}%`);
+    }
 
     const { count, error: countErr } = await countQuery;
     if (countErr) throw new Error(countErr.message);
@@ -107,7 +115,10 @@ export async function GET(request: Request) {
         "id,title,category,risk_label,content,source,source_url,source_title,published_at,source_kind,risk_features,prevention,script_text"
       );
     if (category) query = query.eq("category", category);
-    if (q) query = query.or(`title.ilike.%${q}%,content.ilike.%${q}%`);
+    if (q) {
+      const escaped = escapeLikeValue(q);
+      query = query.or(`title.ilike.%${escaped}%,content.ilike.%${escaped}%`);
+    }
 
     query = query.order("created_at", { ascending: false }).order("id", { ascending: true }).range(from, to);
 

@@ -169,14 +169,14 @@ export default function CasesPage() {
 
   useEffect(() => {
     if (ballsOut || panelOpen) {
-      setIdleLayout(false);
       wasOut.current = ballsOut;
-      return;
+      const frame = requestAnimationFrame(() => setIdleLayout(false));
+      return () => cancelAnimationFrame(frame);
     }
     // 初次加载不需要等待
     if (!wasOut.current) {
-      setIdleLayout(true);
-      return;
+      const frame = requestAnimationFrame(() => setIdleLayout(true));
+      return () => cancelAnimationFrame(frame);
     }
     wasOut.current = false;
     const timer = setTimeout(() => setIdleLayout(true), 680);

@@ -147,8 +147,8 @@ function buildResult(input: {
   const sandboxLevel = sandbox ? asRiskLevel(sandbox.result.verdict) : null;
   // RAG 命中安全案例不产生定论（与 deriveVerdict 一致）
   const ragLevel = trustedMatch && trustedMatch.riskLabel !== "安全" ? trustedMatch.riskLabel : null;
-  // 统一判定：白名单"安全"只是「网址可信」证据，不覆盖内容风险；无证据标「待核验」
-  const verdict: RiskLevel = finalizeVerdict(sandboxLevel, ragLevel, ruleScore, "待核验");
+  // 统一判定：白名单"安全"只是「网址可信」证据，不覆盖内容风险；无证据时按有无链接兜底
+  const verdict: RiskLevel = finalizeVerdict(sandboxLevel, ragLevel, ruleScore, normalized.urls.length === 0 ? "安全" : "待核验");
 
   const suggestion = verdict === "安全"
     ? "当前未发现明确恶意行为。建议仍通过官方 App、官网或客服电话独立核验后再操作。"
@@ -345,7 +345,8 @@ export async function POST(request: Request) {
 
         let sandbox: SandboxEnvelope | null = null;
         let sandboxNode: EvidenceNode | null = null;
-        if (path === "sandbox") {
+        // 纯文本（无 URL）不进沙箱：沙箱只能对链接做动态验证，无链接时由 RAG + 规则定论
+        if (path === "sandbox" && normalized.urls.length > 0) {
           await emitStage("sandbox", "active");
           await emitTool("sandbox_analyze", "start", {
             url: normalized.urls[0] ? redactUrlForDisplay(normalized.urls[0]) : null,

@@ -4,16 +4,35 @@
 用法：python scripts/reembed_cases.py
 """
 import json
+import os
+import re
 import sys
 import time
 import urllib.request
 
 BASE_URL = "https://api.siliconflow.cn/v1/embeddings"
-API_KEY = "REDACTED_SK_KEY"
 MODEL = "BAAI/bge-m3"
 
 SRC = "src/lib/data/cases-fallback.json"
 DST = "src/lib/rag/data/cases-vectors.json"
+
+
+def _load_api_key() -> str:
+    """优先读环境变量，其次读项目根目录 .env.local 的 EMBEDDING_API_KEY（不落库明文）"""
+    key = os.environ.get("EMBEDDING_API_KEY", "").strip()
+    if key:
+        return key
+    env_path = os.path.join(os.path.dirname(__file__), "..", ".env.local")
+    if os.path.exists(env_path):
+        with open(env_path, encoding="utf-8") as f:
+            for line in f:
+                m = re.match(r"^\s*EMBEDDING_API_KEY\s*=\s*(.+?)\s*$", line)
+                if m:
+                    return m.group(1).strip()
+    raise SystemExit("未找到 EMBEDDING_API_KEY（请设置环境变量或 .env.local）")
+
+
+API_KEY = _load_api_key()
 
 
 def embed(text: str):

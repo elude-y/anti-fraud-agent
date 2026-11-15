@@ -77,21 +77,24 @@ export default function AiAssistant() {
   const busy = status === "submitted" || status === "streaming";
 
   useEffect(() => {
-    try {
-      const saved = JSON.parse(localStorage.getItem(storageKey) ?? "[]") as Conversation[];
-      if (Array.isArray(saved) && saved.length > 0) {
-        setConversations(saved);
-        setCurrentId(saved[0].id);
-        setMessages(saved[0].messages as never);
-      } else {
+    const frame = requestAnimationFrame(() => {
+      try {
+        const saved = JSON.parse(localStorage.getItem(storageKey) ?? "[]") as Conversation[];
+        if (Array.isArray(saved) && saved.length > 0) {
+          setConversations(saved);
+          setCurrentId(saved[0].id);
+          setMessages(saved[0].messages as never);
+        } else {
+          setCurrentId(crypto.randomUUID());
+        }
+      } catch {
+        localStorage.removeItem(storageKey);
         setCurrentId(crypto.randomUUID());
+      } finally {
+        setRestored(true);
       }
-    } catch {
-      localStorage.removeItem(storageKey);
-      setCurrentId(crypto.randomUUID());
-    } finally {
-      setRestored(true);
-    }
+    });
+    return () => cancelAnimationFrame(frame);
   }, [setMessages]);
 
   useEffect(() => {
@@ -102,12 +105,15 @@ export default function AiAssistant() {
   useEffect(() => {
     if (!restored || !currentId) return;
     const title = conversationTitle(messages);
-    setConversations((prev) => {
-      const conv: Conversation = { id: currentId, title, messages: messages.slice(-30), updatedAt: Date.now() };
-      const next = prev.filter((c) => c.id !== currentId);
-      next.unshift(conv);
-      return next;
+    const frame = requestAnimationFrame(() => {
+      setConversations((prev) => {
+        const conv: Conversation = { id: currentId, title, messages: messages.slice(-30), updatedAt: Date.now() };
+        const next = prev.filter((c) => c.id !== currentId);
+        next.unshift(conv);
+        return next;
+      });
     });
+    return () => cancelAnimationFrame(frame);
   }, [messages, restored, currentId]);
 
   useEffect(() => {
@@ -231,7 +237,7 @@ export default function AiAssistant() {
             <div className={styles.emptyState}>
               <span className={styles.assistantMark}><Image className={styles.assistantMarkImage} src="/ai-assistant-mascot.png" width={136} height={136} alt="" /></span>
               <h1>有什么可以帮你分析的？</h1>
-              <p>识别可疑短信、验证陌生链接、拆解诈骗话术；追问"已经填了信息怎么办"我会结合上文继续给处置建议。</p>
+              <p>识别可疑短信、验证陌生链接、拆解诈骗话术；追问&ldquo;已经填了信息怎么办&rdquo;我会结合上文继续给处置建议。</p>
               <div className={styles.suggestions}>
                 {suggestions.map((suggestion) => (
                   <button type="button" key={suggestion} onClick={() => submit(suggestion)}>

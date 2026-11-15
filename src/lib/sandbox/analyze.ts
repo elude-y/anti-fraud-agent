@@ -57,7 +57,7 @@ export async function sandboxAnalyze(
   await clearGeneratedScreenshots();
   const tier0 = analyzeWithTier0(urlInput, context);
   const targetUrl = extractHttpUrl(urlInput) ?? extractHttpUrl(context);
-  const skipReason = options.forceTier0 ? "已强制使用 Tier0 离线模式" : getExternalAnalysisSkipReason(targetUrl);
+  const skipReason = options.forceTier0 ? "已强制使用 Tier0 离线模式" : await getExternalAnalysisSkipReason(targetUrl);
   const fallbackReasons: string[] = skipReason ? [skipReason] : [];
   const providers: SandboxEnvelope["providers"] = {
     urlscan: isUrlscanConfigured() ? "skipped" : "not-configured",
@@ -155,6 +155,7 @@ export async function sandboxAnalyze(
     verdict: vtLookups.length ? maxSandboxRisk(base.verdict, vtRisk(vtLookups)) : base.verdict,
     raw: {
       source,
+      simulated: !urlscanResult && !lightweightResult,
       behavior: urlscanResult?.raw ?? lightweightResult?.raw ?? tier0.raw,
       virustotal: vtLookups.map((item) => item.raw),
       offlineFallback: !urlscanResult && !lightweightResult,

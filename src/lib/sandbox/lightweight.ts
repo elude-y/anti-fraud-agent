@@ -81,7 +81,7 @@ export async function analyzeWithLightweight(url: URL): Promise<LightweightAnaly
         if (!location) break;
         const next = new URL(location, current);
         // SSRF 防护：每次重定向都重新检查目标，阻止跳转到 localhost/内网/云元数据
-        const redirectSkip = getExternalAnalysisSkipReason(next);
+        const redirectSkip = await getExternalAnalysisSkipReason(next);
         if (redirectSkip) {
           redirectChain.push({ url: redactUrlForDisplay(next.toString()), status: 0 });
           break;

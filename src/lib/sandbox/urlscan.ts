@@ -139,8 +139,8 @@ export async function analyzeWithUrlscan(url: URL): Promise<UrlscanAnalysis> {
   const maxWaitMs = Math.max(8_000, Math.min(Number(process.env.URLSCAN_MAX_WAIT_MS ?? 24_000), 45_000));
   const startedAt = Date.now();
   let payload: UrlscanResultPayload | null = null;
+  let pollDelay = 1_000; // 立即查一次，之后指数退避，避免首轮空等 10s
 
-  await delay(Math.min(10_000, maxWaitMs));
   while (Date.now() - startedAt < maxWaitMs) {
     const resultResponse = await fetch(`https://urlscan.io/api/v1/result/${submission.uuid}/`, {
       headers: { accept: "application/json", "api-key": apiKey, "user-agent": "SafeAgent/1.0 anti-fraud-analysis" },
@@ -153,7 +153,8 @@ export async function analyzeWithUrlscan(url: URL): Promise<UrlscanAnalysis> {
       break;
     }
     if (resultResponse.status !== 404) throw new Error(`urlscan.io 获取结果失败 (${resultResponse.status})`);
-    await delay(2_000);
+    await delay(pollDelay);
+    pollDelay = Math.min(pollDelay * 2, 8_000);
   }
 
   if (!payload) throw new Error("urlscan.io 在等待时间内未返回结果");

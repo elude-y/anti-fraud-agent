@@ -101,7 +101,7 @@ async function runMode(mode: Mode): Promise<ModeStats> {
   return stats;
 }
 
-function printStats(mode: Mode, stats: ModeStats, n: number, riskyCount: number, safeCount: number) {
+function printStats(mode: Mode, stats: ModeStats, n: number, riskyCount: number) {
   const acc = ((stats.correct / n) * 100).toFixed(1);
   const sr = ((stats.sandboxCalls / n) * 100).toFixed(1);
   const avg = (stats.totalLatency / n).toFixed(0);
@@ -152,7 +152,7 @@ async function main() {
   const results: Record<Mode, ModeStats> = {} as Record<Mode, ModeStats>;
   for (const mode of ["rule-only", "rule-rag", "full"] as Mode[]) {
     results[mode] = await runMode(mode);
-    printStats(mode, results[mode], n, riskyCount, safeCount);
+    printStats(mode, results[mode], n, riskyCount);
   }
 
   // 完整AI 的误判明细（帮助定位难样本）

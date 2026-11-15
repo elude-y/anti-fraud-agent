@@ -1,4 +1,5 @@
 import { isIP } from "node:net";
+import { lookup } from "node:dns/promises";
 
 const reservedSuffixes = [
   ".example",
@@ -34,6 +35,18 @@ function isPrivateIpv6(hostname: string) {
     || normalized.startsWith("fe80:");
 }
 
+/** 判断解析出的地址是否私网/回环（含 IPv4 映射的 IPv6） */
+function isPrivateAddress(addr: string) {
+  const raw = addr.replace(/^\[|\]$/g, "").toLowerCase();
+  // IPv4-mapped IPv6 形如 ::ffff:127.0.0.1
+  const mapped = raw.match(/::ffff:(\d+\.\d+\.\d+\.\d+)$/);
+  if (mapped) return isPrivateIpv4(mapped[1]);
+  const version = isIP(raw);
+  if (version === 4) return isPrivateIpv4(raw);
+  if (version === 6) return isPrivateIpv6(raw);
+  return false;
+}
+
 export function extractHttpUrl(input: string) {
   const candidate = input.match(/https?:\/\/[^\s，。；;！!）)\]}]+/i)?.[0]
     ?? (/^[\w.-]+\.[a-z]{2,}(?:\/\S*)?$/i.test(input.trim()) ? `https://${input.trim()}` : "");
@@ -48,7 +61,7 @@ export function extractHttpUrl(input: string) {
   }
 }
 
-export function getExternalAnalysisSkipReason(url: URL | null) {
+export async function getExternalAnalysisSkipReason(url: URL | null): Promise<string | null> {
   if (!url) return "输入中没有可提交的 HTTP(S) 链接";
 
   const hostname = url.hostname.toLowerCase();
@@ -61,6 +74,16 @@ export function getExternalAnalysisSkipReason(url: URL | null) {
   if (ipVersion === 4 && isPrivateIpv4(hostname)) return "私有 IPv4 地址不会提交给外部服务";
   if (ipVersion === 6 && isPrivateIpv6(hostname)) return "私有 IPv6 地址不会提交给外部服务";
   if (!hostname.includes(".") && ipVersion === 0) return "单标签内网域名不会提交给外部服务";
+
+  // 关键：DNS 解析后逐个判私网，防止 nip.io / localtest.me 等公共域名解析到回环/内网绕过
+  try {
+    const resolved = await lookup(hostname, { all: true });
+    if (resolved.some((item) => isPrivateAddress(item.address))) {
+      return "解析到私有/回环地址的域名不会提交给外部服务";
+    }
+  } catch {
+    return "域名无法解析，不会提交给外部服务";
+  }
 
   return null;
 }

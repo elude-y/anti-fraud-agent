@@ -17,6 +17,7 @@ export async function createEmbedding(text: string): Promise<number[]> {
       model: model,
       input: text,
     }),
+    signal: AbortSignal.timeout(10_000),
   });
 
   if (!res.ok) {

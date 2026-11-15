@@ -117,7 +117,7 @@ export default function HistoryPage() {
                 <span className={`${styles.riskBadge} ${badgeClass(record.verdict)}`}>{record.verdict}</span>
                 <span className={record.kind === "真实" ? styles.liveBadge : styles.softBadge}>{record.kind ?? "测试"}</span>
                 <span className={styles.numeric}>{(record.confidence * 100).toFixed(0)}% · {record.evidenceCount} 节点</span>
-                <Link className={styles.textButton} href={`/analyze?input=${encodeURIComponent(record.input)}`}><ArrowCounterClockwise size={15} />回放</Link>
+                <Link className={styles.textButton} href={`/analyze?replay=${record.id}`}><ArrowCounterClockwise size={15} />回放</Link>
               </article>
             ))}
             {visibleRecords.length === 0 && <div className={styles.emptyState}><div><span className={styles.emptyStateIcon}><MagnifyingGlass size={33} /></span><h3>没有匹配记录</h3><p>调整关键词或风险筛选条件后再试。</p></div></div>}
