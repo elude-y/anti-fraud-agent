@@ -66,7 +66,6 @@ export default function ResultCard({ result }: ResultCardProps) {
         <div>
           <span className={styles.emptyIcon}><ShieldCheck size={34} weight="duotone" /></span>
           <h3>尚未形成结论</h3>
-          <p>系统完成六个研判阶段后，将在这里给出风险等级、置信度、数据来源与处置建议。</p>
         </div>
       </div>
     );
@@ -109,7 +108,6 @@ export default function ResultCard({ result }: ResultCardProps) {
           {dangerous ? <WarningCircle size={34} weight="fill" /> : <CheckCircle size={34} weight="fill" />}
         </span>
         <div>
-          <span className={styles.eyebrow}>FINAL VERDICT</span>
           <h3>{result.verdict}</h3>
           <p>{result.summary}</p>
         </div>

@@ -34,13 +34,6 @@
   line-height: 1.65;
 }
 
-.eyebrow {
-  color: #8c9bb0;
-  font-size: 8px;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-}
-
 .riskMark {
   display: grid;
   width: 68px;
@@ -280,14 +273,6 @@
 .empty h3 {
   margin: 0;
   font-size: 17px;
-}
-
-.empty p {
-  max-width: 330px;
-  margin: 8px auto 0;
-  color: #8794a8;
-  font-size: 11px;
-  line-height: 1.7;
 }
 
 @media (max-width: 520px) {

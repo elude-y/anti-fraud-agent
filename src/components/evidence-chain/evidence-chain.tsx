@@ -114,7 +114,6 @@ export default function EvidenceChain({ evidence }: EvidenceChainProps) {
         <div>
           <span className={styles.emptyIcon}><Fingerprint size={34} weight="duotone" /></span>
           <h3>等待生成证据链</h3>
-          <p>提交链接或短信后，规范化、案例检索、置信度、沙箱行为与最终结论将依次出现。</p>
         </div>
       </div>
     );
@@ -205,7 +204,6 @@ export default function EvidenceChain({ evidence }: EvidenceChainProps) {
                   <section className={styles.attackBlock} aria-label="风险攻击链">
                     <div className={styles.attackHeading}>
                       <span><WarningCircle size={16} weight="fill" />攻击链推演</span>
-                      <small>从诱导入口到敏感信息外发</small>
                     </div>
                     <div className={styles.attackFlow}>
                       {attackChain.map((stage, stageIndex) => (

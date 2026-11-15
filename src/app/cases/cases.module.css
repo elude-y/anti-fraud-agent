@@ -1,0 +1,828 @@
+/* ────────────────────────────────────────────────────────────
+   反诈知识库 · 球池场景
+   木箱（全部）→ 弹出彩色 3D 小球（类型）→ 水洼 + 案例手风琴
+   ──────────────────────────────────────────────────────────── */
+
+.page {
+  min-height: 100dvh;
+  /* 偏蓝底：与站点其他页面同一色系 */
+  background:
+    radial-gradient(130% 90% at 50% -10%, #f5f9ff 0%, #e9f2fd 46%, #e2edfb 100%);
+}
+
+.wrap {
+  width: min(1400px, calc(100% - 72px));
+  margin: 0 auto;
+  padding: 36px 0 64px;
+}
+
+.heading {
+  margin-bottom: 18px;
+}
+
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #6d7fa3;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.heading h1 {
+  margin: 10px 0 8px;
+  color: #2b3a4d;
+  font-size: clamp(28px, 3vw, 38px);
+  font-weight: 760;
+  letter-spacing: -0.02em;
+}
+
+.heading p {
+  max-width: 760px;
+  margin: 0;
+  color: #6b7f96;
+  font-size: 13.5px;
+  line-height: 1.75;
+}
+
+/* ── 舞台 ── */
+.stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 0fr;
+  min-height: 660px;
+  max-height: 90vh;
+  border-radius: 24px;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 80% at 50% 0%, #fbfdff 0%, #eef5fe 42%, #e5effb 100%);
+  box-shadow:
+    inset 0 0 70px rgba(150, 178, 214, 0.26),
+    0 18px 48px rgba(120, 150, 190, 0.14);
+  transition: grid-template-columns 520ms cubic-bezier(0.22, 0.68, 0.28, 1);
+}
+
+.stageOpen {
+  /* 左栏保底 340px，避免搜索框和球被挤没 */
+  grid-template-columns: minmax(340px, 1fr) minmax(min(460px, 55%), 0.9fr);
+}
+
+.leftCol {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 18px 0 0;
+}
+
+/* 搜索框：短一点，放在木箱上方 */
+.searchWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 16px;
+}
+
+.searchBox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: min(320px, 100%);
+  padding: 8px 12px;
+  border: 1px solid rgba(120, 150, 190, 0.3);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 6px 16px rgba(120, 150, 190, 0.1);
+}
+
+.searchBox svg {
+  flex: none;
+  color: #7f93b0;
+}
+
+.searchBox input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: #2b3a4d;
+  font-size: 13px;
+  outline: none;
+}
+
+.searchClear {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(120, 150, 190, 0.18);
+  color: #5d7a9e;
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.searchClear:hover {
+  background: rgba(120, 150, 190, 0.32);
+}
+.searchBox input::placeholder {
+  color: #9aabc2;
+}
+
+/* 球收在箱子里的状态：箱子居中放大，球池不占位 */
+.stageIdle {
+  min-height: min(620px, 70vh);
+}
+
+.stageIdle .leftCol {
+  justify-content: center;
+  padding-bottom: 24px;
+}
+
+.stageIdle .box {
+  width: 300px;
+  height: 176px;
+}
+
+.stageIdle .box::before {
+  top: 22px;
+  left: 22px;
+  right: 22px;
+}
+
+/* 搜索框与木箱之间留出空隙 */
+.stageIdle .boxArea {
+  padding-top: 34px;
+}
+
+/* 球飞回动画结束后才收掉球池占位（idle 布局由组件延迟 680ms 触发） */
+.stageIdle .ballField {
+  display: none;
+}
+
+.stageIdle .boxLabel {
+  bottom: 26px;
+  font-size: 15px;
+}
+/* 搜索范围切换（选中类型后出现） */
+.scopeToggle {
+  display: inline-flex;
+  gap: 2px;
+  margin: 8px auto 0;
+  padding: 2px;
+  border: 1px solid rgba(120, 150, 190, 0.28);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.scopeItem {
+  padding: 4px 10px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #7f93b0;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 150ms ease, color 150ms ease;
+}
+
+.scopeItem:hover {
+  color: #5d7a9e;
+}
+
+.scopeOn {
+  background: rgba(120, 150, 190, 0.22);
+  color: #3f6ea8;
+}
+/* 木箱 */
+.boxArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 18px;
+}
+
+.box {
+  position: relative;
+  width: 186px;
+  height: 108px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px 8px 12px 12px;
+  background: linear-gradient(180deg, #d8b184 0%, #c99a68 18%, #b88253 58%, #a3703f 100%);
+  box-shadow:
+    inset 0 2px 0 rgba(255, 240, 220, 0.55),
+    inset 0 -8px 14px rgba(90, 58, 26, 0.35),
+    0 14px 26px rgba(96, 122, 158, 0.24);
+  cursor: pointer;
+  transition: transform 200ms ease, box-shadow 200ms ease, width 320ms ease, height 320ms ease;
+}
+
+.box::before {
+  position: absolute;
+  top: 13px;
+  left: 13px;
+  right: 13px;
+  height: 46%;
+  border-radius: 6px;
+  content: "";
+  background: linear-gradient(180deg, #3a2415 0%, #57331c 60%, #6b4224 100%);
+  box-shadow: inset 0 10px 16px rgba(0, 0, 0, 0.55);
+}
+
+.box::after {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  content: "";
+  background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.06) 0 2px, transparent 2px 9px);
+  pointer-events: none;
+}
+
+.box:hover {
+  transform: translateY(-2px);
+}
+
+.boxOpen {
+  box-shadow:
+    inset 0 2px 0 rgba(255, 240, 220, 0.6),
+    inset 0 -8px 14px rgba(90, 58, 26, 0.35),
+    0 0 0 3px rgba(120, 150, 190, 0.35),
+    0 18px 30px rgba(96, 122, 158, 0.3);
+}
+
+/* 展开时：箱子先缩小上移，落位后球再弹出 */
+.boxRising {
+  animation: boxRise 360ms cubic-bezier(0.25, 0.8, 0.35, 1);
+}
+
+@keyframes boxRise {
+  0% {
+    transform: translateY(84px) scale(1.12);
+  }
+  60% {
+    transform: translateY(6px) scale(0.98);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+/* 「全部」写在木箱正面，随箱子一起移动 */
+.boxLabel {
+  position: absolute;
+  right: 0;
+  bottom: 14px;
+  left: 0;
+  color: #fff6e8;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(84, 54, 26, 0.55);
+  pointer-events: none;
+}
+
+/* 箱子下方的操作提示 */
+.boxHint {
+  margin-top: 14px;
+  color: #8fa3bd;
+  font-size: 12.5px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* ── 球池 ── */
+.ballField {
+  position: relative;
+  flex: 1;
+  min-height: 420px;
+  margin-top: 34px;
+  z-index: 4;
+}
+
+.ball {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  display: grid;
+  place-items: center;
+  width: var(--ball-size, 58px);
+  height: var(--ball-size, 58px);
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 33% 27%, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.25) 22%, transparent 46%),
+    radial-gradient(circle at 68% 76%, rgba(0, 0, 0, 0.24) 0%, transparent 58%),
+    radial-gradient(circle at 50% 50%, var(--ball-color) 0%, var(--ball-color) 58%, rgba(0, 0, 0, 0.16) 100%);
+  box-shadow:
+    inset -6px -9px 16px rgba(0, 0, 0, 0.22),
+    inset 7px 8px 14px rgba(255, 255, 255, 0.45),
+    0 12px 20px rgba(96, 122, 158, 0.22);
+  cursor: pointer;
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  transition:
+    left 620ms cubic-bezier(0.34, 1.42, 0.64, 1),
+    top 620ms cubic-bezier(0.34, 1.42, 0.64, 1),
+    opacity 260ms ease,
+    transform 260ms ease,
+    box-shadow 260ms ease;
+  transition-delay:
+    calc(var(--i) * 26ms),
+    calc(var(--i) * 26ms),
+    calc(var(--i) * 26ms),
+    0ms,
+    0ms;
+  will-change: left, top, transform;
+}
+
+/* 收在箱子里：位置回到箱口，缩小透明 */
+.ballIn {
+  left: 50%;
+  top: -96px;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.14);
+  pointer-events: none;
+}
+
+.ball:hover,
+.ball:focus-visible {
+  z-index: 40;
+  transform: translate(-50%, -50%) scale(1.9);
+  box-shadow:
+    inset -8px -12px 22px rgba(0, 0, 0, 0.2),
+    inset 9px 10px 18px rgba(255, 255, 255, 0.5),
+    0 22px 34px rgba(88, 112, 146, 0.3);
+  outline: none;
+}
+
+.ballOn {
+  z-index: 30;
+  box-shadow:
+    inset -6px -9px 16px rgba(0, 0, 0, 0.2),
+    inset 7px 8px 14px rgba(255, 255, 255, 0.5),
+    0 0 0 3px rgba(255, 255, 255, 0.9),
+    0 18px 28px rgba(88, 112, 146, 0.28);
+}
+
+.ballTip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(43, 58, 77, 0.92);
+  color: #f4f8ff;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 4px) scale(0.52);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.ball:hover .ballTip,
+.ball:focus-visible .ballTip {
+  opacity: 1;
+  transform: translate(-50%, 0) scale(0.52);
+}
+
+.ballCount {
+  color: rgba(244, 248, 255, 0.68);
+  font-weight: 500;
+}
+
+.hint {
+  position: absolute;
+  top: 46%;
+  left: 50%;
+  color: #8fa3bd;
+  font-size: 13px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+/* ── 水洼 + 右侧面板 ── */
+.poolPanel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 16px 18px 18px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 320ms ease;
+}
+
+.stageOpen .poolPanel {
+  opacity: 1;
+  pointer-events: auto;
+  transition-delay: 140ms;
+}
+
+.pool {
+  position: absolute;
+  inset: -16% -20% -26% -16%;
+  z-index: 0;
+  border-radius: 46% 54% 38% 62% / 52% 44% 56% 48%;
+  background: radial-gradient(closest-side, var(--pool-color, #9ab) 0%, var(--pool-color, #9ab) 38%, transparent 78%);
+  opacity: 0;
+  filter: blur(14px);
+  transform: scale(0.25);
+  transition: transform 620ms cubic-bezier(0.22, 0.8, 0.28, 1), opacity 420ms ease;
+  pointer-events: none;
+}
+
+.poolOn {
+  opacity: 0.34;
+  transform: scale(1);
+}
+
+.panelInner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+  min-height: 0;
+}
+
+.panelHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex: none;
+}
+
+.panelMeta {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.panelClose {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 1px solid rgba(120, 150, 190, 0.35);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  color: #5d7a9e;
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.panelClose:hover {
+  background: #fff;
+  border-color: rgba(120, 150, 190, 0.6);
+}
+
+.panelHead h2 {
+  margin: 0;
+  color: #2b3a4d;
+  font-size: 18px;
+  font-weight: 760;
+}
+
+.panelHead span {
+  color: #7f93b0;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 案例列表：纵向排列，超出滚动 */
+/* 固定视口高度 = 约 6 张折叠卡片（每张约 78px + 8px 间距）；
+   展开一条后，展开卡片占满视口，下一条从底部露出，其余滚动查看 */
+.panelScroll {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  gap: 8px;
+  height: min(536px, 58vh);
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(120, 150, 190, 0.45) transparent;
+}
+
+/* 展开一条案例时加高视口，让「展开的那条 + 下一条」同时可见 */
+.panelScrollOpen {
+  height: min(672px, 72vh);
+}
+.panelScroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.panelScroll::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(120, 150, 190, 0.4);
+}
+
+.caseCard {
+  flex: none;
+  border: 1px solid rgba(120, 150, 190, 0.24);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.86);
+  overflow: hidden;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.caseCardOpen {
+  border-color: rgba(120, 150, 190, 0.5);
+  box-shadow: 0 10px 24px rgba(120, 150, 190, 0.16);
+}
+
+.caseHead {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.caseHead:hover {
+  background: rgba(233, 242, 253, 0.6);
+}
+
+.caseTitle {
+  color: #2b3a4d;
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.5;
+}
+
+.caseMeta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #7f93b0;
+  font-size: 11px;
+}
+
+.chip {
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(120, 150, 190, 0.16);
+  color: #5d7a9e;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.caseBody {
+  padding: 2px 14px 14px;
+  border-top: 1px dashed rgba(120, 150, 190, 0.3);
+}
+
+.detailSection {
+  margin-top: 12px;
+}
+
+.detailSection h4 {
+  margin: 0 0 6px;
+  color: #5d7a9e;
+  font-size: 11px;
+  font-weight: 760;
+  letter-spacing: 0.08em;
+}
+
+.detailSection p {
+  margin: 0;
+  color: #43546b;
+  font-size: 13px;
+  line-height: 1.78;
+}
+
+.signalList {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.signalList li {
+  display: flex;
+  gap: 7px;
+  color: #43546b;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.signalList li::before {
+  flex: none;
+  width: 5px;
+  height: 5px;
+  margin-top: 8px;
+  border-radius: 50%;
+  background: #7f9dc4;
+  content: "";
+}
+
+/* 来源块 */
+.sourceBlock {
+  margin-top: 14px;
+  padding: 10px 12px;
+  border: 1px solid rgba(120, 150, 190, 0.26);
+  border-radius: 10px;
+  background: rgba(240, 246, 254, 0.8);
+}
+
+.sourceTitle {
+  color: #43546b;
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1.6;
+}
+
+.sourceMeta {
+  margin-top: 2px;
+  color: #7f93b0;
+  font-size: 11px;
+}
+
+.sourceActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.sourceLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px;
+  border: 1px solid rgba(120, 150, 190, 0.45);
+  border-radius: 8px;
+  color: #3f6ea8;
+  font-size: 12px;
+  font-weight: 650;
+  text-decoration: none;
+  transition: background 150ms ease;
+}
+
+.sourceLink:hover {
+  background: rgba(120, 150, 190, 0.14);
+}
+
+.copyButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px;
+  border: 1px solid rgba(120, 150, 190, 0.35);
+  border-radius: 8px;
+  background: #fff;
+  color: #5d7a9e;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.copyButton:hover {
+  background: rgba(120, 150, 190, 0.1);
+}
+
+/* 兜底：直接给出可复制的完整地址 */
+.sourceUrl {
+  display: block;
+  margin-top: 8px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #6b7f96;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10.5px;
+  line-height: 1.5;
+  word-break: break-all;
+  user-select: all;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+  flex: none;
+}
+
+.primaryButton,
+.ghostButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 12.5px;
+  font-weight: 650;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 150ms ease, box-shadow 150ms ease, background 150ms ease;
+}
+
+.primaryButton {
+  border: 1px solid #3f6ea8;
+  background: linear-gradient(180deg, #4f81bd, #3f6ea8);
+  color: #fff;
+  box-shadow: 0 6px 14px rgba(63, 110, 168, 0.28);
+}
+
+.primaryButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 9px 18px rgba(63, 110, 168, 0.34);
+}
+
+.ghostButton {
+  border: 1px solid rgba(120, 150, 190, 0.4);
+  background: rgba(255, 255, 255, 0.9);
+  color: #5d7a9e;
+}
+
+.ghostButton:hover {
+  background: #fff;
+}
+
+.empty {
+  display: grid;
+  place-items: center;
+  gap: 10px;
+  height: 100%;
+  min-height: 280px;
+  color: #8fa3bd;
+  font-size: 13px;
+  text-align: center;
+}
+
+.notice {
+  margin: 8px;
+  padding: 12px;
+  border: 1px dashed rgba(120, 150, 190, 0.45);
+  border-radius: 10px;
+  color: #7f93b0;
+  font-size: 13px;
+}
+
+/* ── 响应式 ── */
+@media (max-width: 1080px) {
+  .stage,
+  .stageOpen {
+    grid-template-columns: 1fr;
+    max-height: none;
+  }
+
+  .ballField {
+    min-height: 460px;
+  }
+
+  .poolPanel {
+    padding: 0 14px 16px;
+  }
+
+  .panelScroll {
+    max-height: 60vh;
+  }
+}
+
+@media (max-width: 640px) {
+  .wrap {
+    width: calc(100% - 28px);
+  }
+
+  .ballField {
+    min-height: 520px;
+  }
+
+  .searchBox {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ball,
+  .pool,
+  .stage {
+    transition-duration: 1ms;
+    transition-delay: 0ms;
+  }
+}

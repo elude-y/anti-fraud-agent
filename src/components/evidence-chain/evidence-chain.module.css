@@ -705,14 +705,6 @@
   font-size: 17px;
 }
 
-.empty p {
-  max-width: 360px;
-  margin: 8px auto 0;
-  color: #8794a8;
-  font-size: 11px;
-  line-height: 1.7;
-}
-
 @media (max-width: 600px) {
   .previewOverlay {
     padding: 10px;
