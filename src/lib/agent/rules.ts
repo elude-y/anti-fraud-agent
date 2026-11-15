@@ -2,8 +2,8 @@
 import type { NormalizedInput } from './normalize';
 import { normalizeText } from '../rag/signals';
 
-const STRONG_RISK = ['银行卡', '身份证', '验证码', '冻结', '解冻', '扣款', '逾期', '保证金', '安全账户', '盗刷', '检察院', '涉嫌'];
-const MEDIUM_RISK = ['理赔', '退款', '中奖', '过期', '贷款', '刷单', '兼职', '点击链接', '领取', '兑换', '理财'];
+const STRONG_RISK = ['银行卡', '身份证', '验证码', '冻结', '解冻', '扣款', '逾期', '保证金', '安全账户', '盗刷', '检察院', '涉嫌', '涉案', '远程核查', '远程操控'];
+const MEDIUM_RISK = ['理赔', '退款', '中奖', '过期', '贷款', '刷单', '兼职', '点击链接', '领取', '兑换', '理财', '投资', '稳赚', '补贴', '社保', '认领'];
 
 export function computeRuleScore(input: NormalizedInput): number {
   // 先做谐音/拆字归一化，让「身 份 证」「点☆击☆领☆取」「理才」也能命中规则词
@@ -13,5 +13,11 @@ export function computeRuleScore(input: NormalizedInput): number {
   if (MEDIUM_RISK.some((k) => text.includes(k))) score += 0.3; // 常见诈骗话术
   if (input.resolvedUrls.length > 0) score += 0.3;                  // 命中短链
   if (input.urls.length > 0) score += 0.1;                          // 含链接
+
+  // 到账/入账/收款通知本身是正常短信；除非同时含转账/索要/认证等动作，否则降权
+  if (/到账|入账|收款|余额变动/.test(text) && !/转账|填写|点击|验证码|冻结|解冻|扣款|逾期|认证|核实|链接|领取|认领/.test(text)) {
+    score = Math.max(0, score - 0.5);
+  }
+
   return Math.min(1, score);
 }

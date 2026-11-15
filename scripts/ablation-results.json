@@ -1,50 +1,65 @@
 {
-  "generatedAt": "2026-11-13T04:26:09.099Z",
+  "generatedAt": "2026-11-15T12:44:13.659Z",
   "dataset": {
     "source": "自建评测集（人工构造）",
     "note": "本测试集为人工构造的评测样本，用于消融对比，不代表真实线上流量。真实在线识别效果需单独统计并明确标注。",
     "composition": "60 典型诈骗短信 + 40 可疑链接/仿冒网站 + 60 正常样本 + 40 难判断（谐音/拆字/隐藏关键词）",
-    "total": 200,
-    "risky": 140,
+    "total": 205,
+    "risky": 145,
     "safe": 60
   },
   "results": {
     "rule-only": {
-      "accuracy": 0.805,
-      "precision": 0.9903,
-      "recall": 0.7286,
-      "f1": 0.8395,
-      "falseNeg": 38,
+      "accuracy": 0.8,
+      "precision": 0.9906,
+      "recall": 0.7241,
+      "f1": 0.8367,
+      "falseNeg": 40,
       "falsePos": 1,
       "sandboxRate": 0,
       "avgLatencyMs": 0
     },
     "rule-rag": {
-      "accuracy": 0.865,
-      "precision": 0.9913,
-      "recall": 0.8143,
-      "f1": 0.8941,
-      "falseNeg": 26,
+      "accuracy": 0.8585,
+      "precision": 0.9915,
+      "recall": 0.8069,
+      "f1": 0.8897,
+      "falseNeg": 28,
       "falsePos": 1,
       "sandboxRate": 0,
-      "avgLatencyMs": 1034.8
+      "avgLatencyMs": 1984.6
     },
     "full": {
-      "accuracy": 0.995,
-      "precision": 0.9929,
-      "recall": 1,
-      "f1": 0.9964,
-      "falseNeg": 0,
+      "accuracy": 0.9805,
+      "precision": 0.993,
+      "recall": 0.9793,
+      "f1": 0.9861,
+      "falseNeg": 3,
       "falsePos": 1,
-      "sandboxRate": 0.345,
-      "avgLatencyMs": 1322.5
+      "sandboxRate": 0.3463,
+      "avgLatencyMs": 2217.5
     }
   },
   "wrongCasesFull": [
     {
+      "label": "诈骗",
+      "verdict": "安全",
+      "input": "最近在交友软件认识的朋友推荐了一个稳赚的投资平台"
+    },
+    {
+      "label": "诈骗",
+      "verdict": "安全",
+      "input": "公安提示：你的银行账户涉案，请配合远程核查"
+    },
+    {
       "label": "安全",
-      "verdict": "可疑",
+      "verdict": "高危",
       "input": "您的银行卡到账3000元"
+    },
+    {
+      "label": "诈骗",
+      "verdict": "安全",
+      "input": "社保补贴已到账，点.击.认.领"
     }
   ]
 }
