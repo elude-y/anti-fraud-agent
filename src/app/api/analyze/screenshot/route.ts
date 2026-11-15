@@ -19,12 +19,11 @@ export async function POST(request: Request) {
   if (Number(request.headers.get("content-length")) > maxImageBytes) {
     return Response.json({ message: "截图需小于 2 MB。" }, { status: 413 });
   }
-  // 视觉模型复用硅基流动（与 embedding 同账号/key）：未单独配 VISION_* 时回退到 EMBEDDING_*
-  const apiKey = process.env.VISION_API_KEY?.trim() || process.env.EMBEDDING_API_KEY?.trim();
-  const visionBase = process.env.VISION_BASE_URL?.trim()
-    || process.env.EMBEDDING_BASE_URL?.trim().replace(/\/embeddings\/?$/, "");
+  // 视觉模型复用 DeepSeek（与 LLM 同 key）：未单独配 VISION_* 时回退到 DEEPSEEK_*
+  const apiKey = process.env.VISION_API_KEY?.trim() || process.env.DEEPSEEK_API_KEY?.trim();
+  const visionBase = process.env.VISION_BASE_URL?.trim() || process.env.DEEPSEEK_BASE_URL?.trim();
   const base = visionBase?.replace(/\/$/, "") ?? "";
-  const model = process.env.VISION_MODEL?.trim() || "Qwen/Qwen2.5-VL-7B-Instruct";
+  const model = process.env.VISION_MODEL?.trim() || process.env.DEEPSEEK_CHAT_MODEL?.trim() || "deepseek-chat";
   if (!apiKey || !base) {
     return Response.json({ message: "截图识别暂不可用。你可以手动粘贴截图中的文字继续研判。" }, { status: 503 });
   }
@@ -66,14 +65,19 @@ export async function POST(request: Request) {
         ],
       }),
     });
-    if (!response.ok) throw new Error("Vision provider unavailable");
+    if (!response.ok) {
+      const errText = await response.text().catch(() => "");
+      console.error(`[screenshot] 视觉模型上游错误 ${response.status}: ${errText.slice(0, 400)}`);
+      throw new Error(`Vision provider ${response.status}`);
+    }
     const data = await response.json();
     const content = data.choices?.[0]?.message?.content;
     if (typeof content !== "string") throw new Error("Missing vision output");
     const parsed = visionResult.safeParse(JSON.parse(content.trim().replace(/^```(?:json)?\s*|\s*```$/g, "")));
     if (!parsed.success) throw new Error("Invalid vision output");
     return Response.json(parsed.data, { headers: { "Cache-Control": "no-store" } });
-  } catch {
+  } catch (caught) {
+    console.error("[screenshot] 视觉识别失败:", caught instanceof Error ? caught.message : caught);
     return Response.json({ message: "截图识别失败。请换一张清晰截图，或手动粘贴文字。" }, { status: 502 });
   } finally {
     reader.releaseLock();
