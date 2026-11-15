@@ -17,7 +17,7 @@ function asRiskLevel(value: string): RiskLevel {
   return value === "安全" || value === "待核验" || value === "可疑" || value === "高危" || value === "诈骗" ? value : "待核验";
 }
 
-function maxRisk(...levels: string[]) {
+function maxSandboxRisk(...levels: string[]) {
   return levels.map(asRiskLevel).reduce((current, level) => riskRank[level] > riskRank[current] ? level : current, "安全" as RiskLevel);
 }
 
@@ -152,7 +152,7 @@ export async function sandboxAnalyze(
     ...base,
     screenshotUrl: localScreenshot ?? base.screenshotUrl,
     iocHits: mergeIocHits(base.iocHits, vtHits),
-    verdict: vtLookups.length ? maxRisk(base.verdict, vtRisk(vtLookups)) : base.verdict,
+    verdict: vtLookups.length ? maxSandboxRisk(base.verdict, vtRisk(vtLookups)) : base.verdict,
     raw: {
       source,
       behavior: urlscanResult?.raw ?? lightweightResult?.raw ?? tier0.raw,

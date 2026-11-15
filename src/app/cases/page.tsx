@@ -9,7 +9,6 @@ import {
   CaretUp,
   Copy,
   Check,
-  MagnifyingGlass,
   ShieldWarning,
 } from "@phosphor-icons/react";
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
@@ -90,7 +89,6 @@ export default function CasesPage() {
   const [ballsOut, setBallsOut] = useState(false);
   const [active, setActive] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [query, setQuery] = useState("");
   /** 球收进箱子的布局：等球飞回动画（约 620ms）结束后再切换，避免坐标跳变 */
   const [idleLayout, setIdleLayout] = useState(true);
   const wasOut = useRef(false);
@@ -98,6 +96,7 @@ export default function CasesPage() {
   const riseTimer = useRef<number | null>(null);
   const [copied, setCopied] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -135,7 +134,7 @@ export default function CasesPage() {
     // 球少的时候用更分散的站位和更大的体积，避免挤在顶部
     const sparse = entries.length <= 5;
     const slots = sparse ? SPARSE_SLOTS : SLOTS;
-    const size = sparse ? 96 : 62;
+    const size = sparse ? 104 : 80;
 
     return entries.map(([group, list], index) => ({
       category: group,
@@ -146,20 +145,20 @@ export default function CasesPage() {
     }));
   }, [cases]);
 
-  const searching = query.trim().length > 0;
-  /** 有关键词就全库搜；否则按当前选中的类型筛选 */
-  const panelOpen = Boolean(active) || searching; // 搜索不受「球是否弹出」限制
+  const panelOpen = Boolean(active);
 
   const activeList = useMemo(() => {
-    const keyword = query.trim().toLowerCase();
-    const inCategory = active ? cases.filter((item) => item.category === active) : [];
-    const base = searching ? cases : inCategory;
-    if (!keyword) return base;
-    return base.filter((item) =>
-      `${item.title} ${item.content} ${item.category} ${item.scriptText ?? ""}`.toLowerCase().includes(keyword)
-    );
-  }, [active, cases, query, searching]);
+    return active ? cases.filter((item) => item.category === active) : [];
+  }, [active, cases]);
 
+  // 窄屏时面板会排到球池下方，选中类型后自动滚过去，避免"点了没反应"
+  useEffect(() => {
+    if (!active) return;
+    if (typeof window === "undefined") return;
+    if (window.innerWidth <= 1080) {
+      panelRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [active]);
   // 选中案例后列表回到顶部，保证「展开的那条 + 下一条」同时可见
   useEffect(() => {
     if (selectedId && scrollRef.current) scrollRef.current.scrollTop = 0;
@@ -169,24 +168,19 @@ export default function CasesPage() {
   }, []);
 
   useEffect(() => {
-    let frame = 0;
-    let timer = 0;
-
     if (ballsOut || panelOpen) {
+      setIdleLayout(false);
       wasOut.current = ballsOut;
-      frame = window.requestAnimationFrame(() => setIdleLayout(false));
-    } else if (!wasOut.current) {
-      // 初次加载不需要等待
-      frame = window.requestAnimationFrame(() => setIdleLayout(true));
-    } else {
-      wasOut.current = false;
-      timer = window.setTimeout(() => setIdleLayout(true), 680);
+      return;
     }
-
-    return () => {
-      if (frame) window.cancelAnimationFrame(frame);
-      if (timer) window.clearTimeout(timer);
-    };
+    // 初次加载不需要等待
+    if (!wasOut.current) {
+      setIdleLayout(true);
+      return;
+    }
+    wasOut.current = false;
+    const timer = setTimeout(() => setIdleLayout(true), 680);
+    return () => clearTimeout(timer);
   }, [ballsOut, panelOpen]);
   /** 选中案例后把它移到列表首位，其余顺序不变（便于“点开的那条 + 下一条”同时可见） */
   const displayList = useMemo(() => {
@@ -219,16 +213,14 @@ export default function CasesPage() {
 
   function pickCategory(category: string) {
     if (!ballsOut) return;
-    setActive((current) => (current === category ? null : category));
+    setActive(category); // 点一次必定展开，再次点同一个球不再收起（收起用木箱或返回球池）
     setSelectedId(null);
-    setQuery(""); // 选类型时退出搜索，避免停留在搜索结果上
   }
 
   /** 返回球池：收起水洼与详情，但球留在场上（收纳回箱子只由木箱控制） */
   function exitAll() {
     setSelectedId(null);
     setActive(null);
-    setQuery(""); // 返回球池时必须同时退出搜索，否则面板会因 panelOpen 继续开着
   }
 
   async function copyLink(url: string) {
@@ -251,6 +243,7 @@ export default function CasesPage() {
             ANTI-FRAUD KNOWLEDGE BASE
           </span>
           <h1>反诈案例知识库</h1>
+          
         </header>
 
         <div
@@ -259,31 +252,6 @@ export default function CasesPage() {
           }`}
         >
           <div className={styles.leftCol}>
-            <div className={styles.searchWrap}>
-              <label className={styles.searchBox}>
-                <MagnifyingGlass size={16} />
-                <input
-                  value={query}
-                  onChange={(event) => setQuery(event.target.value)}
-                  onKeyDown={(event) => {
-                    if (event.key === "Escape") setQuery("");
-                  }}
-                  placeholder="搜索标题、话术或类型"
-                  aria-label="搜索案例标题、话术或类型"
-                />
-                {query && (
-                  <button
-                    type="button"
-                    className={styles.searchClear}
-                    onClick={() => setQuery("")}
-                    aria-label="清空搜索"
-                    title="清空搜索"
-                  >
-                    ×
-                  </button>
-                )}
-              </label>
-            </div>
             <div className={styles.boxArea}>
               <button
                 type="button"
@@ -316,13 +284,14 @@ export default function CasesPage() {
                       "--ball-size": `${ball.size}px`,
                     } as CSSProperties
                   }
-                  onClick={() => pickCategory(ball.category)}
+                  onPointerDown={(event) => {
+                    event.preventDefault();
+                    pickCategory(ball.category);
+                  }}
                   aria-label={`${ball.category}，${ball.count} 条案例`}
                   tabIndex={ballsOut ? 0 : -1}
                 >
-                  <span className={styles.ballTip}>
-                    {ball.category} <span className={styles.ballCount}>{ball.count}</span>
-                  </span>
+                  <span className={styles.ballLabel}>{ball.category}</span>
                 </button>
               ))}
 
@@ -336,7 +305,7 @@ export default function CasesPage() {
             </div>
           </div>
 
-          <aside className={styles.poolPanel}>
+          <aside className={styles.poolPanel} ref={panelRef}>
             <div
               className={`${styles.pool} ${panelOpen ? styles.poolOn : ""}`}
               style={{ "--pool-color": poolColor } as CSSProperties}
@@ -345,16 +314,13 @@ export default function CasesPage() {
               {panelOpen ? (
                 <>
                   <div className={styles.panelHead}>
-                    <h2>{searching ? "搜索结果" : active}</h2>
+                    <h2>{active}</h2>
                     <span className={styles.panelMeta}>
                       {activeList.length} 条案例
                       <button
                         type="button"
                         className={styles.panelClose}
-                        onClick={() => {
-                          setQuery("");
-                          exitAll();
-                        }}
+                        onClick={exitAll}
                         aria-label="关闭面板"
                         title="关闭"
                       >
@@ -364,10 +330,6 @@ export default function CasesPage() {
                   </div>
 
                   <div className={`${styles.panelScroll} ${selectedId ? styles.panelScrollOpen : ""}`} ref={scrollRef}>
-                    {activeList.length === 0 && (
-                      <div className={styles.notice}>没有匹配「{query}」的案例，换个关键词试试</div>
-                    )}
-
                     {displayList.map((item) => {
                       const open = selectedId === item.id;
                       return (

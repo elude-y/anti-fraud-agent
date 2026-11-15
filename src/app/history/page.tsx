@@ -6,13 +6,9 @@ import {
   ArrowLeft,
   ArrowRight,
   ChartBar,
-  Clock,
   ClockCounterClockwise,
-  Database,
   Funnel,
-  Lightning,
   MagnifyingGlass,
-  ShieldCheck,
   TrendUp,
 } from "@phosphor-icons/react";
 import { useEffect, useMemo, useState } from "react";
@@ -73,13 +69,6 @@ export default function HistoryPage() {
           </div>
           <div className={styles.headingMeta}><span className={styles.softBadge}>本机记录 · 真实评测</span></div>
         </header>
-
-        <section className={styles.statsGrid} aria-label="数据洞察核心指标">
-          <article className={styles.statCard}><span className={styles.statIcon}><Database size={25} weight="duotone" /></span><div><strong>200</strong><small>评测样本量（真实）</small></div></article>
-          <article className={styles.statCard}><span className={styles.statIcon}><ShieldCheck size={25} weight="duotone" /></span><div><strong>见消融</strong><small>识别准确率（实测）</small></div></article>
-          <article className={styles.statCard}><span className={styles.statIcon}><Lightning size={25} weight="duotone" /></span><div><strong>见消融</strong><small>平均耗时（实测）</small></div></article>
-          <article className={styles.statCard}><span className={styles.statIcon}><Clock size={25} weight="duotone" /></span><div><strong>99.94%</strong><small>演示链路可用率</small></div></article>
-        </section>
 
         <div className={styles.dashboardGrid}>
           <section className={styles.panel}>

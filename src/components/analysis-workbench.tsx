@@ -21,6 +21,8 @@ import type {
   AnalysisStreamResult,
   EvidenceNode,
   SafeAgentUIMessage,
+  StageStreamData,
+  ToolStreamData,
 } from "@/lib/contracts";
 import type { HistoryRecord } from "@/lib/demo-data";
 import styles from "@/app/workspace.module.css";
@@ -196,13 +198,14 @@ export default function AnalysisWorkbench() {
     transport,
     onData: (part) => {
       if (part.type === "data-stage") {
-        const index = stageIndexes[part.data.stage];
+        const data = part.data as StageStreamData;
+        const index = stageIndexes[data.stage];
         if (typeof index !== "number") return;
 
-        if (part.data.status === "active") {
+        if (data.status === "active") {
           setActiveStage(index);
         } else {
-          if (part.data.status === "skipped") {
+          if (data.status === "skipped") {
             setSkippedStages((current) => current.includes(index) ? current : [...current, index]);
           }
           setCompletedStages((current) => Math.max(current, index + 1));
@@ -212,25 +215,28 @@ export default function AnalysisWorkbench() {
       }
 
       if (part.type === "data-tool") {
-        const label = runningLabels[part.data.tool] ?? "研判中";
-        setActiveTool((current) => part.data.status === "start"
+        const data = part.data as ToolStreamData;
+        const label = runningLabels[data.tool] ?? "研判中";
+        setActiveTool((current) => data.status === "start"
           ? label
           : current === label ? "" : current);
         return;
       }
 
       if (part.type === "data-evidence") {
-        setEvidence((current) => current.some((node) => node.id === part.data.id) ? current : [...current, part.data]);
+        const node = part.data as EvidenceNode;
+        setEvidence((current) => current.some((n) => n.id === node.id) ? current : [...current, node]);
         return;
       }
 
       if (part.type === "data-result") {
-        setResult(part.data);
-        setEvidence(part.data.evidenceChain);
+        const result = part.data as AnalysisStreamResult;
+        setResult(result);
+        setEvidence(result.evidenceChain);
         setCompletedStages(6);
         setActiveStage(-1);
         setActiveTool("");
-        persistResult(part.data);
+        persistResult(result);
       }
     },
     onError: (caught) => {
