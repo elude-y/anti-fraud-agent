@@ -64,6 +64,50 @@ const SPARSE_SLOTS = [
   { x: 24, y: 20 }, { x: 62, y: 12 }, { x: 44, y: 46 }, { x: 20, y: 66 }, { x: 74, y: 62 },
 ];
 
+/**
+ * 随机撒点，但保证任意两球不重叠。
+ * 用固定种子的伪随机数，保证每次渲染位置一致（不会跳动）。
+ * 约束用「切比雪夫距离」：横向或纵向至少有一个方向拉开足够间距。
+ */
+function scatterPositions(count: number): Array<{ x: number; y: number }> {
+  let seed = 20261114;
+  const rand = () => {
+    seed = (seed * 1664525 + 1013904223) % 4294967296;
+    return seed / 4294967296;
+  };
+
+  const MIN_DX = 0.15; // 横向最小间距（占球池宽度比例）
+  const MIN_DY = 0.24; // 纵向最小间距（占球池高度比例）
+
+  const placed: Array<{ x: number; y: number }> = [];
+
+  for (let i = 0; i < count; i++) {
+    let best = { x: 0.5, y: 0.5 };
+    let bestScore = -1;
+
+    for (let attempt = 0; attempt < 400; attempt++) {
+      const cand = { x: 0.05 + rand() * 0.9, y: 0.06 + rand() * 0.86 };
+
+      let score = Number.POSITIVE_INFINITY;
+      for (const p of placed) {
+        const dx = Math.abs(cand.x - p.x) / MIN_DX;
+        const dy = Math.abs(cand.y - p.y) / MIN_DY;
+        score = Math.min(score, Math.max(dx, dy));
+      }
+      if (score === Number.POSITIVE_INFINITY) score = 9;
+      if (score > bestScore) {
+        bestScore = score;
+        best = cand;
+      }
+      if (score >= 1) break; // 已满足最小间距，直接采用
+    }
+
+    placed.push(best);
+  }
+
+  return placed.map((p) => ({ x: p.x * 100, y: p.y * 100 }));
+}
+
 const MIN_CASES = 4;
 
 function formatDate(value?: string | null) {
@@ -128,37 +172,18 @@ export default function CasesPage() {
     const sparse = entries.length <= 5;
     const size = sparse ? 104 : 80;
 
-    // 网格排布：同一行/列内均分，保证任意两球之间留出间距，不会重叠
-    const COLS = 5;
-    const ROWS = Math.max(1, Math.ceil(entries.length / COLS));
+    // 随机撒点 + 最小间距约束：看起来错落，但任意两球不会重叠
+    const positions = scatterPositions(entries.length);
 
-    return entries.map(([group, list], index) => {
-      const color = BALL_COLORS[group] ?? FALLBACK_COLORS[index % FALLBACK_COLORS.length];
-      if (sparse) {
-        return {
-          category: group,
-          count: list.length,
-          color,
-          slot: SPARSE_SLOTS[index % SPARSE_SLOTS.length],
-          size,
-        };
-      }
-      const col = index % COLS;
-      const row = Math.floor(index / COLS);
-      // 轻微错位避免过于整齐，幅度小于单元格一半，不会造成重叠
-      const jitterX = ((index * 7) % 5) - 2;
-      const jitterY = ((index * 11) % 5) - 2;
-      return {
-        category: group,
-        count: list.length,
-        color,
-        slot: {
-          x: ((col + 0.5) * 100) / COLS + jitterX * 1.2,
-          y: ((row + 0.5) * 100) / ROWS + jitterY * 1.2,
-        },
-        size,
-      };
-    });
+    return entries.map(([group, list], index) => ({
+      category: group,
+      count: list.length,
+      color: BALL_COLORS[group] ?? FALLBACK_COLORS[index % FALLBACK_COLORS.length],
+      slot: sparse
+        ? SPARSE_SLOTS[index % SPARSE_SLOTS.length]
+        : positions[index] ?? { x: 50, y: 50 },
+      size,
+    }));
   }, [cases]);
 
   const searching = query.trim().length > 0;
