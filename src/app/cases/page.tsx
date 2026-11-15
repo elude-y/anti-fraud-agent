@@ -60,15 +60,6 @@ const BALL_COLORS: Record<string, string> = {
 
 const FALLBACK_COLORS = ["#d9a05b", "#8fbf7a", "#c98bb0", "#7fa9d9", "#d9c05b", "#a58ad6"];
 
-// 18 个类型时用满这张站位表
-const SLOTS = [
-  { x: 11, y: 15 }, { x: 26, y: 8 }, { x: 42, y: 14 }, { x: 58, y: 7 },
-  { x: 74, y: 13 }, { x: 89, y: 24 }, { x: 6, y: 38 }, { x: 21, y: 46 },
-  { x: 37, y: 34 }, { x: 53, y: 44 }, { x: 69, y: 36 }, { x: 85, y: 48 },
-  { x: 13, y: 64 }, { x: 30, y: 72 }, { x: 47, y: 62 }, { x: 64, y: 74 },
-  { x: 80, y: 66 }, { x: 92, y: 80 }, { x: 38, y: 88 },
-];
-
 const SPARSE_SLOTS = [
   { x: 24, y: 20 }, { x: 62, y: 12 }, { x: 44, y: 46 }, { x: 20, y: 66 }, { x: 74, y: 62 },
 ];
@@ -133,18 +124,41 @@ export default function CasesPage() {
       .filter(([, list]) => list.length >= MIN_CASES)
       .sort((a, b) => b[1].length - a[1].length);
 
-    // 球少的时候用更分散的站位和更大的体积，避免挤在顶部
+    // 球少的时候用更分散的站位和更大的体积
     const sparse = entries.length <= 5;
-    const slots = sparse ? SPARSE_SLOTS : SLOTS;
     const size = sparse ? 104 : 80;
 
-    return entries.map(([group, list], index) => ({
-      category: group,
-      count: list.length,
-      color: BALL_COLORS[group] ?? FALLBACK_COLORS[index % FALLBACK_COLORS.length],
-      slot: slots[index % slots.length],
-      size,
-    }));
+    // 网格排布：同一行/列内均分，保证任意两球之间留出间距，不会重叠
+    const COLS = 5;
+    const ROWS = Math.max(1, Math.ceil(entries.length / COLS));
+
+    return entries.map(([group, list], index) => {
+      const color = BALL_COLORS[group] ?? FALLBACK_COLORS[index % FALLBACK_COLORS.length];
+      if (sparse) {
+        return {
+          category: group,
+          count: list.length,
+          color,
+          slot: SPARSE_SLOTS[index % SPARSE_SLOTS.length],
+          size,
+        };
+      }
+      const col = index % COLS;
+      const row = Math.floor(index / COLS);
+      // 轻微错位避免过于整齐，幅度小于单元格一半，不会造成重叠
+      const jitterX = ((index * 7) % 5) - 2;
+      const jitterY = ((index * 11) % 5) - 2;
+      return {
+        category: group,
+        count: list.length,
+        color,
+        slot: {
+          x: ((col + 0.5) * 100) / COLS + jitterX * 1.2,
+          y: ((row + 0.5) * 100) / ROWS + jitterY * 1.2,
+        },
+        size,
+      };
+    });
   }, [cases]);
 
   const searching = query.trim().length > 0;
