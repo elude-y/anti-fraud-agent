@@ -49,7 +49,8 @@
 /* ── 舞台 ── */
 .stage {
   position: relative;
-  display: block;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 0fr;
   min-height: 660px;
   max-height: 90vh;
   border-radius: 24px;
@@ -59,11 +60,12 @@
   box-shadow:
     inset 0 0 70px rgba(150, 178, 214, 0.26),
     0 18px 48px rgba(120, 150, 190, 0.14);
+  transition: grid-template-columns 480ms cubic-bezier(0.22, 0.68, 0.28, 1);
 }
 
-/* 面板改为浮层：打开时球池宽度不变，球一个像素都不移动 */
+/* 展开时面板占一列，球池被轻微压缩后整体平移 */
 .stageOpen {
-  min-height: 660px;
+  grid-template-columns: minmax(0, 1fr) minmax(380px, 440px);
 }
 
 .leftCol {
@@ -413,27 +415,20 @@
 
 /* ── 水洼 + 右侧面板 ── */
 .poolPanel {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
+  position: relative;
   display: flex;
   flex-direction: column;
-  width: min(440px, 94%);
+  min-width: 0;
   padding: 16px 18px 18px;
-  border-left: 1px solid rgba(120, 150, 190, 0.18);
-  background: rgba(250, 252, 255, 0.92);
-  backdrop-filter: blur(6px);
   opacity: 0;
   pointer-events: none;
-  transform: translateX(102%);
-  transition: transform 420ms cubic-bezier(0.22, 0.68, 0.28, 1), opacity 300ms ease;
+  transition: opacity 320ms ease;
 }
 
 .stageOpen .poolPanel {
   opacity: 1;
   pointer-events: auto;
-  transform: translateX(0);
+  transition-delay: 120ms;
 }
 
 .pool {
