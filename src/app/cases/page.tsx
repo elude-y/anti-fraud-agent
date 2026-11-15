@@ -108,6 +108,27 @@ function scatterPositions(count: number): Array<{ x: number; y: number }> {
   return placed.map((p) => ({ x: p.x * 100, y: p.y * 100 }));
 }
 
+/**
+ * 送去智能研判的文本：优先用话术原文，过长则只保留开头，并去掉案例改写时追加的说明段。
+ * 研判输入框上限 500 字，这里控制在约 160 字，保留关键话术即可。
+ */
+function buildAnalysisText(item: ApiCase): string {
+  const raw =
+    item.scriptText && !item.scriptText.includes("无话术") ? item.scriptText : item.content ?? "";
+  let text = raw
+    .split("从同类案件看")[0]
+    .split("这类案件的共同特征")[0]
+    .split("。同类案件中")[0]
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/[。；;，,]$/, "");
+
+  if (text.length > 160) {
+    text = `${text.slice(0, 160)}…`;
+  }
+  return text;
+}
+
 const MIN_CASES = 4;
 
 function formatDate(value?: string | null) {
@@ -493,13 +514,7 @@ export default function CasesPage() {
                               <div className={styles.actions}>
                                 <Link
                                   className={styles.primaryButton}
-                                  href={`/analyze?input=${encodeURIComponent(
-                                    item.scriptText && !item.scriptText.includes("无话术")
-                                      ? item.scriptText
-                                      : item.content
-                                  )}&title=${encodeURIComponent(item.title)}${
-                                    item.sourceUrl ? `&source=${encodeURIComponent(item.sourceUrl)}` : ""
-                                  }`}
+                                  href={`/analyze?input=${encodeURIComponent(buildAnalysisText(item))}&title=${encodeURIComponent(item.title)}${item.sourceUrl ? `&source=${encodeURIComponent(item.sourceUrl)}` : ""}`}
                                 >
                                   使用此案例测试
                                   <ArrowRight size={15} />
