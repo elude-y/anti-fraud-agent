@@ -2,6 +2,8 @@ import { createUIMessageStream, createUIMessageStreamResponse } from "ai";
 import { NextResponse } from "next/server";
 import type { RagSearchResult, RiskLevel, SandboxEnvelope } from "@/lib/contracts";
 import { computeAuthoritativeVerdict } from "@/lib/agent/verdict";
+import { redactPii } from "@/lib/privacy";
+import { clientIp, createRateLimiter } from "@/lib/rate-limit";
 import { searchWeb, type WebSearchResult } from "@/lib/search/web";
 import { getExpert, type AssistantExpert } from "@/lib/assistant/experts";
 
@@ -16,6 +18,8 @@ interface DeepSeekChunk {
 
 const MAX_MESSAGES = 30;
 const MAX_QUESTION_LENGTH = 1000;
+// AI 助手调用付费大模型，按 IP 限流，防止被刷导致高额接口费用
+const assistantRateLimiter = createRateLimiter("assistant", 60_000, 20);
 
 function readMessages(value: unknown): IncomingMessage[] | null {
   if (!value || typeof value !== "object" || !("messages" in value)) return null;
@@ -187,7 +191,7 @@ function fallbackAnswer(question: string, rag: RagSearchResult, sandbox: Sandbox
 
 function providerMessages(messages: IncomingMessage[]) {
   return messages
-    .map((message) => ({ role: message.role, content: messageText(message) }))
+    .map((message) => ({ role: message.role, content: redactPii(messageText(message)) }))
     .filter((message) => message.content)
     .slice(-16);
 }
@@ -251,6 +255,9 @@ export async function POST(request: Request) {
   if (!messages || question.length < 2 || question.length > MAX_QUESTION_LENGTH) {
     return NextResponse.json({ message: "请输入 2 至 1000 字的问题" }, { status: 400 });
   }
+  if (!assistantRateLimiter.allow(clientIp(request))) {
+    return NextResponse.json({ message: "提问过于频繁，请稍后再试。" }, { status: 429 });
+  }
 
   const stream = createUIMessageStream({
     onError: () => "AI 助手暂时不可用，请稍后重试",
@@ -280,8 +287,8 @@ export async function POST(request: Request) {
         rag = { matches: [], patterns: [], topSimilarity: 0, labelAgreement: 0, coverageScore: 0 };
       }
 
-      // 联网搜索：仅 DeepSeek 官方搜索接口
-      const web = await searchWeb(question);
+      // 联网搜索：仅 DeepSeek 官方搜索接口（发送前脱敏 PII）
+      const web = await searchWeb(redactPii(question));
 
       const apiKey = process.env.DEEPSEEK_API_KEY?.trim();
       if (apiKey) {
