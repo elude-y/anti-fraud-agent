@@ -26,7 +26,7 @@ export async function POST(request: Request) {
   const reuseChatProvider = !configuredBase && !configuredKey;
   const apiKey = reuseChatProvider ? process.env.DEEPSEEK_API_KEY?.trim() : configuredKey;
   const base = (reuseChatProvider ? process.env.DEEPSEEK_BASE_URL?.trim() : configuredBase)?.replace(/\/+$/, "");
-  const model = process.env.VISION_MODEL?.trim();
+  const model = process.env.VISION_MODEL?.trim() || process.env.DEEPSEEK_CHAT_MODEL?.trim() || "deepseek-chat";
   if (!apiKey || !base || !model) {
     return Response.json({ message: "视觉模型未配置。可改用本机识别，或设置支持图片的 VISION_MODEL 和服务地址。" }, { status: 503 });
   }
