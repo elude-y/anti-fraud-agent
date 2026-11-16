@@ -356,7 +356,7 @@ export async function analyzeRequest(request: Request, variant: AnalysisVariant 
         const semanticScore = prevention ? 0 : pathDecision.inducement ? Math.max(0.3, ruleScore) : ruleScore;
         const analyzed = buildResult({
           normalized, sandbox, trustedMatch, ruleScore: semanticScore, prevention, reputation,
-          needsContext: pathDecision.action === "clarify",
+          needsContext: false,
         });
         const previousVerdict = baseline.verdict !== analyzed.verdict ? baseline.verdict : undefined;
         const followUp = analyzed.verdict === "待核验"
