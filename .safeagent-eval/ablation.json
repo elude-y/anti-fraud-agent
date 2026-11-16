@@ -1,0 +1,820 @@
+{
+  "generatedAt": "2026-11-16T14:41:48.991Z",
+  "forceTier0": false,
+  "embeddingConfigured": true,
+  "llmConfigured": true,
+  "datasetNote": "合成、回归与外部留出数据分别报告，由提交者注明外部样本来源。风险召回率分母包含待核验及错误的风险样本。",
+  "costNote": "providerUsage 记录请求次数和供应商返回的 token。estimatedCost 按显式传入的费率估算，未提供费率则为空。",
+  "results": {
+    "synthetic": {
+      "rule-only": {
+        "total": 205,
+        "tp": 111,
+        "fp": 0,
+        "tn": 30,
+        "fn": 8,
+        "pending": 56,
+        "expectedPending": 0,
+        "pendingRisk": 26,
+        "errors": 0,
+        "accuracy": 0.6878,
+        "precision": 1,
+        "recall": 0.7655,
+        "coverage": 0.7268,
+        "p50Ms": 1,
+        "p95Ms": 1,
+        "falsePositiveRate": 0,
+        "missedRiskRate": 0.2345,
+        "sandboxSources": {
+          "none": 205
+        },
+        "providerUsage": [],
+        "estimatedCost": null,
+        "failures": [
+          {
+            "sample": 10,
+            "expected": "诈骗",
+            "actual": "安全"
+          },
+          {
+            "sample": 13,
+            "expected": "诈骗",
+            "actual": "安全"
+          },
+          {
+            "sample": 58,
+            "expected": "诈骗",
+            "actual": "安全"
+          },
+          {
+            "sample": 59,
+            "expected": "诈骗",
+            "actual": "安全"
+          },
+          {
+            "sample": 61,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 62,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 63,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 64,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 65,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 66,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 70,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 73,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 75,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 77,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 78,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 79,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 82,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 84,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 86,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 89,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 91,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 92,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 93,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 94,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 95,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 96,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 98,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 99,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 100,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 131,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 132,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 133,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 134,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 135,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 136,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 137,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 138,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 139,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 140,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 141,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 142,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 143,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 144,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 145,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 146,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 147,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 148,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 149,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 150,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 151,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 152,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 153,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 154,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 155,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 156,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 157,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 158,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 159,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 160,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 182,
+            "expected": "诈骗",
+            "actual": "安全"
+          },
+          {
+            "sample": 184,
+            "expected": "诈骗",
+            "actual": "安全"
+          },
+          {
+            "sample": 191,
+            "expected": "诈骗",
+            "actual": "安全"
+          },
+          {
+            "sample": 197,
+            "expected": "诈骗",
+            "actual": "安全"
+          },
+          {
+            "sample": 205,
+            "expected": "诈骗",
+            "actual": "待核验"
+          }
+        ]
+      },
+      "rule-rag": {
+        "total": 205,
+        "tp": 122,
+        "fp": 0,
+        "tn": 30,
+        "fn": 1,
+        "pending": 52,
+        "expectedPending": 0,
+        "pendingRisk": 22,
+        "errors": 0,
+        "accuracy": 0.7415,
+        "precision": 1,
+        "recall": 0.8414,
+        "coverage": 0.7463,
+        "p50Ms": 1109,
+        "p95Ms": 1542,
+        "falsePositiveRate": 0,
+        "missedRiskRate": 0.1586,
+        "sandboxSources": {
+          "none": 205
+        },
+        "providerUsage": [
+          {
+            "provider": "embedding",
+            "requests": 202,
+            "metered": 202,
+            "inputTokens": 3094,
+            "outputTokens": 0
+          },
+          {
+            "provider": "chat",
+            "requests": 202,
+            "metered": 202,
+            "inputTokens": 90067,
+            "outputTokens": 2222
+          }
+        ],
+        "estimatedCost": null,
+        "failures": [
+          {
+            "sample": 10,
+            "expected": "诈骗",
+            "actual": "安全"
+          },
+          {
+            "sample": 62,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 63,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 64,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 65,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 66,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 70,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 73,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 77,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 78,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 79,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 82,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 84,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 86,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 89,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 91,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 92,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 93,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 94,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 95,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 96,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 99,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 100,
+            "expected": "诈骗",
+            "actual": "待核验"
+          },
+          {
+            "sample": 131,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 132,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 133,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 134,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 135,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 136,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 137,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 138,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 139,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 140,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 141,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 142,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 143,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 144,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 145,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 146,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 147,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 148,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 149,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 150,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 151,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 152,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 153,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 154,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 155,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 156,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 157,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 158,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 159,
+            "expected": "安全",
+            "actual": "待核验"
+          },
+          {
+            "sample": 160,
+            "expected": "安全",
+            "actual": "待核验"
+          }
+        ]
+      },
+      "full": {
+        "total": 205,
+        "tp": 145,
+        "fp": 0,
+        "tn": 60,
+        "fn": 0,
+        "pending": 0,
+        "expectedPending": 0,
+        "pendingRisk": 0,
+        "errors": 0,
+        "accuracy": 1,
+        "precision": 1,
+        "recall": 1,
+        "coverage": 1,
+        "p50Ms": 1944,
+        "p95Ms": 3509,
+        "falsePositiveRate": 0,
+        "missedRiskRate": 0,
+        "sandboxSources": {
+          "tier0": 82,
+          "none": 123
+        },
+        "providerUsage": [
+          {
+            "provider": "embedding",
+            "requests": 231,
+            "metered": 231,
+            "inputTokens": 3622,
+            "outputTokens": 0
+          },
+          {
+            "provider": "chat",
+            "requests": 433,
+            "metered": 433,
+            "inputTokens": 149925,
+            "outputTokens": 7907
+          },
+          {
+            "provider": "virustotal",
+            "requests": 2,
+            "metered": 0,
+            "inputTokens": 0,
+            "outputTokens": 0
+          }
+        ],
+        "estimatedCost": null,
+        "failures": []
+      }
+    },
+    "regression": {
+      "rule-only": {
+        "total": 8,
+        "tp": 3,
+        "fp": 0,
+        "tn": 4,
+        "fn": 0,
+        "pending": 1,
+        "expectedPending": 1,
+        "pendingRisk": 0,
+        "errors": 0,
+        "accuracy": 1,
+        "precision": 1,
+        "recall": 1,
+        "coverage": 0.875,
+        "p50Ms": 0,
+        "p95Ms": 1,
+        "falsePositiveRate": 0,
+        "missedRiskRate": 0,
+        "sandboxSources": {
+          "none": 8
+        },
+        "providerUsage": [],
+        "estimatedCost": null,
+        "failures": []
+      },
+      "rule-rag": {
+        "total": 8,
+        "tp": 3,
+        "fp": 0,
+        "tn": 4,
+        "fn": 0,
+        "pending": 1,
+        "expectedPending": 1,
+        "pendingRisk": 0,
+        "errors": 0,
+        "accuracy": 1,
+        "precision": 1,
+        "recall": 1,
+        "coverage": 0.875,
+        "p50Ms": 863,
+        "p95Ms": 1330,
+        "falsePositiveRate": 0,
+        "missedRiskRate": 0,
+        "sandboxSources": {
+          "none": 8
+        },
+        "providerUsage": [
+          {
+            "provider": "embedding",
+            "requests": 5,
+            "metered": 5,
+            "inputTokens": 77,
+            "outputTokens": 0
+          },
+          {
+            "provider": "chat",
+            "requests": 5,
+            "metered": 5,
+            "inputTokens": 2200,
+            "outputTokens": 55
+          }
+        ],
+        "estimatedCost": null,
+        "failures": []
+      },
+      "full": {
+        "total": 8,
+        "tp": 3,
+        "fp": 0,
+        "tn": 4,
+        "fn": 0,
+        "pending": 1,
+        "expectedPending": 1,
+        "pendingRisk": 0,
+        "errors": 0,
+        "accuracy": 1,
+        "precision": 1,
+        "recall": 1,
+        "coverage": 0.875,
+        "p50Ms": 1744,
+        "p95Ms": 2281,
+        "falsePositiveRate": 0,
+        "missedRiskRate": 0,
+        "sandboxSources": {
+          "none": 7,
+          "tier0": 1
+        },
+        "providerUsage": [
+          {
+            "provider": "embedding",
+            "requests": 5,
+            "metered": 5,
+            "inputTokens": 77,
+            "outputTokens": 0
+          },
+          {
+            "provider": "chat",
+            "requests": 10,
+            "metered": 10,
+            "inputTokens": 3365,
+            "outputTokens": 196
+          }
+        ],
+        "estimatedCost": null,
+        "failures": []
+      }
+    }
+  }
+}
