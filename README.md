@@ -59,7 +59,7 @@ npm run build
 npm run eval:ablation
 ```
 
-消融脚本直接调用网页研判使用的同一服务函数，对比规则、规则加 RAG、完整工作流。报告写到 .safeagent-eval/ablation.json，分别记录原合成样本和新增回归样本，并报告待核验比例和风险召回率。旧的 scripts/ablation-results.json 是改造前的历史快照。快速回归用 npm run eval:ablation -- --regression。可用 npm run eval:ablation -- --dataset 已脱敏留出集.json 加载独立评测数据，格式为由 input 和 label 组成的 JSON 数组。请保留留出集来源，并优先使用保留域名或经允许的测试链接。报告记录请求数、供应商返回的 token、延迟、待核验、误报和漏报。通过 --rates 单价.json 可估算成本。费率 JSON 包含 currency 和 providers，其中 chat、embedding、virustotal、urlscan 可分别设置 perRequest、perMillionInputTokens、perMillionOutputTokens。缺少费率或用量的服务会列入未核算项。
+消融脚本直接调用网页研判使用的同一服务函数，对比规则、规则加 RAG、完整工作流。报告写到 .safeagent-eval/ablation.json，分别记录原合成样本和新增回归样本，并报告待核验比例和风险召回率。快速回归用 npm run eval:ablation -- --regression。可用 npm run eval:ablation -- --dataset 已脱敏留出集.json 加载独立评测数据，格式为由 input 和 label 组成的 JSON 数组。请保留留出集来源，并优先使用保留域名或经允许的测试链接。报告记录请求数、供应商返回的 token、延迟、待核验、误报和漏报。通过 --rates 单价.json 可估算成本。费率 JSON 包含 currency 和 providers，其中 chat、embedding、virustotal、urlscan 可分别设置 perRequest、perMillionInputTokens、perMillionOutputTokens。缺少费率或用量的服务会列入未核算项。
 
 浏览器冒烟测试需要先启动产品服务：
 
@@ -77,10 +77,6 @@ npm run test:ui
 ```
 
 测试覆盖流式研判、安全链接、纯短信、PII 脱敏、Tier0 降级、证据渲染、历史入库、快照回放和 390px 移动端结果页。
-
-录制演示视频可参考 [`docs/c-demo-guide.md`](docs/c-demo-guide.md)。
-
-完整职责验收见 [`docs/c-completion-audit.md`](docs/c-completion-audit.md)。
 
 重新生成 Tier0 模板快照：
 
