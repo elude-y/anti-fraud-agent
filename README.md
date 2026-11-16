@@ -2,6 +2,10 @@
 
 SafeAgent 是面向可疑链接和诈骗短信的智能研判系统。当前版本完成输入规范化、案例检索、置信度融合、沙箱行为验证、证据链可视化、历史快照与全链路回放。
 
+## 在线访问
+
+- 线上部署：**https://www.eludey.com/**
+
 ## 核心能力
 
 - `/api/analyze` 通过 AI SDK 的 UI Message Stream 流式输出阶段、工具、证据和最终结论。
@@ -18,13 +22,14 @@ SafeAgent 是面向可疑链接和诈骗短信的智能研判系统。当前版�
 
 ## 本地运行
 
+本压缩包已内置填好的 `.env.local`，解压后直接安装运行即可：
+
 ```bash
 npm install
-cp .env.example .env.local
 npm run dev
 ```
 
-打开 `http://localhost:3000`。所有环境变量均为可选项，空配置会自动使用 Tier0。
+打开 `http://localhost:3000`。生产模式用 `npm run build && npm start`。如需从模板重建配置，可参考 `.env.example`。
 
 ## 环境变量
 
