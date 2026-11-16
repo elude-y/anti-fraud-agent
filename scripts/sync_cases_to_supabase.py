@@ -10,6 +10,7 @@ import json
 import os
 import re
 import sys
+import time
 import urllib.request
 from collections import defaultdict
 
@@ -35,7 +36,7 @@ KEY = _load_env("NEXT_PUBLIC_SUPABASE_ANON_KEY")
 DRY_RUN = "--dry-run" in sys.argv
 
 
-def request(method, url, payload=None):
+def request(method, url, payload=None, retries=4):
     headers = {
         "apikey": SERVICE,
         "Authorization": f"Bearer {SERVICE}",
@@ -43,9 +44,16 @@ def request(method, url, payload=None):
         "Prefer": "return=minimal",
     }
     data = json.dumps(payload).encode("utf-8") if payload is not None else None
-    req = urllib.request.Request(url, data=data, headers=headers, method=method)
-    with urllib.request.urlopen(req, timeout=60) as r:
-        return r.read()
+    last = None
+    for attempt in range(retries):
+        try:
+            req = urllib.request.Request(url, data=data, headers=headers, method=method)
+            with urllib.request.urlopen(req, timeout=60) as r:
+                return r.read()
+        except Exception as e:  # noqa: BLE001
+            last = e
+            time.sleep(0.6 * (attempt + 1))  # 退避后重试
+    raise last
 
 
 def query(select, limit=2000):
@@ -73,6 +81,8 @@ def main():
     patched = 0
     deleted = 0
     for content, group in groups.items():
+        if not DRY_RUN:
+            time.sleep(0.12)  # 限速，避免连续请求触发 Supabase 限流
         meta = by_content.get(content)
         if meta is None:
             # 过期行：content 已不在 fallback（被去重/删除）→ 删除
