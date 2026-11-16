@@ -28,11 +28,11 @@ import styles from "../home.module.css";
 type AnalysisMode = "link" | "message";
 
 const examples = [
-  { label: "快递理赔", value: "【速运中心】您的包裹已破损，请点击 http://claim-example.cn 办理理赔。", icon: Truck, tone: "violet" },
-  { label: "银行认证", value: "https://bank-verify.example.com/security", icon: Bank, tone: "blue" },
-  { label: "ETC 通知", value: "您的ETC账户已停用，请于今日完成身份认证：https://etc-check.example.cn", icon: CarProfile, tone: "cyan" },
-  { label: "中奖活动", value: "恭喜您成为幸运用户，点击链接领取手机大奖：http://gift-example.cn", icon: Gift, tone: "orange" },
-  { label: "冒充客服", value: "我是平台客服，检测到订单异常，请添加联系方式处理退款。", icon: Headset, tone: "indigo" },
+  { label: "快递理赔", value: "【顺丰速运】您的包裹运输破损，点击链接领取理赔金：http://claim-express.example.cn", icon: Truck, tone: "violet" },
+  { label: "银行认证", value: "【工商银行】您的账户存在异常，请 24 小时内完成认证否则冻结：https://icbc-verify.example.cn", icon: Bank, tone: "blue" },
+  { label: "ETC 通知", value: "您的 ETC 已过期失效，请点击链接续约，逾期将停用：https://etc-renew.example.cn", icon: CarProfile, tone: "cyan" },
+  { label: "中奖活动", value: "恭喜您抽中手机，缴纳运费和保证金即可领取：http://gift-award.example.cn", icon: Gift, tone: "orange" },
+  { label: "冒充客服", value: "我是平台客服，您的订单异常需要办理退款，请添加客服并提供验证码。", icon: Headset, tone: "indigo" },
 ] as const;
 
 const toneClass = {

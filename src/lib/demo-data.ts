@@ -149,11 +149,11 @@ export const seedHistory: HistoryRecord[] = [
 ];
 
 export const categoryStats = [
-  { label: "冒充客服", value: 31, color: "#3478ef" },
-  { label: "快递理赔", value: 24, color: "#5d90f5" },
-  { label: "ETC 通知", value: 18, color: "#82a9f7" },
-  { label: "银行认证", value: 15, color: "#a7c2f8" },
-  { label: "其他类型", value: 12, color: "#cfddf8" },
+  { label: "虚拟货币与AI伪造", value: 15, color: "#3478ef" },
+  { label: "冒充领导/熟人", value: 15, color: "#5d90f5" },
+  { label: "网络游戏交易", value: 11, color: "#82a9f7" },
+  { label: "正常服务", value: 11, color: "#a7c2f8" },
+  { label: "贷款/信用服务", value: 10, color: "#cfddf8" },
 ];
 
 export const trendData = [38, 52, 47, 65, 58, 76, 72, 89, 83, 101, 96, 118];

@@ -52,13 +52,13 @@ const runningLabels: Record<string, string> = {
 const samples = {
   link: [
     "https://claim-express.example.cn/refund",
-    "https://etc-verify.example.cn/security",
+    "https://etc-renew.example.cn/security",
     "https://www.gov.cn/zhengce/",
   ],
   message: [
-    "【速运中心】您的包裹已破损，请点击 http://claim-example.cn 办理理赔。",
-    "【ETC】账户将在今晚停用，请访问 https://etc-check.example.cn 完成认证。",
-    "平台客服称订单异常，需要添加好友处理退款。",
+    "【顺丰速运】您的包裹运输破损，点击链接领取理赔金：http://claim-express.example.cn",
+    "【ETC】您的账户已过期失效，请点击链接续约，逾期将停用：https://etc-renew.example.cn",
+    "我是平台客服，您的订单异常需要办理退款，请添加客服并提供验证码",
   ],
 };
 
