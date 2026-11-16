@@ -29,7 +29,7 @@ npm install
 npm run dev
 ```
 
-打开 `http://localhost:3000`。生产模式用 `npm run build && npm start`。如需从模板重建配置，可参考 `.env.example`。
+打开 `http://localhost:3000`。生产模式用 `npm run build && npm start`。
 
 ## 环境变量
 
