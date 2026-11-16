@@ -1,7 +1,7 @@
 .pet {
   position: fixed;
   right: max(18px, env(safe-area-inset-right));
-  bottom: max(18px, env(safe-area-inset-bottom));
+  bottom: max(84px, calc(env(safe-area-inset-bottom) + 70px));
   z-index: 95;
   display: grid;
   width: 92px;

@@ -13,6 +13,20 @@ const clueSchema = z.object({
 }).refine(({ x, y, width, height }) => width > 0 && height > 0
   && x + width <= 1.001 && y + height <= 1.001);
 
+// 简单 IP 限流（10 次/分钟），防止公网无鉴权刷视觉模型额度
+const rateWindowMs = 60_000;
+const rateLimit = 10;
+const ipHits = new Map<string, number[]>();
+
+function allowRequest(ip: string): boolean {
+  const now = Date.now();
+  const hits = (ipHits.get(ip) ?? []).filter((t) => now - t < rateWindowMs);
+  if (hits.length >= rateLimit) return false;
+  hits.push(now);
+  ipHits.set(ip, hits);
+  return true;
+}
+
 export async function POST(request: Request) {
   const mime = request.headers.get("content-type");
   if (!mime || !isScreenshotMime(mime)) {
@@ -20,6 +34,11 @@ export async function POST(request: Request) {
   }
   if (Number(request.headers.get("content-length")) > MAX_VISION_UPLOAD_BYTES) {
     return Response.json({ message: "单个上传片段不能超过 2 MB。" }, { status: 413 });
+  }
+  // IP 限流：防止公网无鉴权刷视觉模型额度
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+  if (!allowRequest(ip)) {
+    return Response.json({ message: "请求过于频繁，请稍后再试。" }, { status: 429 });
   }
   const configuredBase = process.env.VISION_BASE_URL?.trim();
   const configuredKey = process.env.VISION_API_KEY?.trim();

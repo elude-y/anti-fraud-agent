@@ -1,6 +1,6 @@
 .header {
   position: relative;
-  z-index: 40;
+  z-index: 120;
   display: grid;
   grid-template-columns: minmax(230px, 1fr) auto minmax(110px, 1fr);
   align-items: center;
