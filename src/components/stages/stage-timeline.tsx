@@ -14,7 +14,7 @@ import styles from "./stage-timeline.module.css";
 const stages = [
   { label: "输入规范化", icon: Fingerprint },
   { label: "案例库检索", icon: MagnifyingGlass },
-  { label: "置信度评估", icon: Gauge },
+  { label: "证据评估", icon: Gauge },
   { label: "沙箱验证", icon: Cube },
   { label: "综合研判", icon: Brain },
   { label: "生成结论", icon: CheckCircle },

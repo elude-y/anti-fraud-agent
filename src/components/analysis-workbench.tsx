@@ -92,7 +92,7 @@ function buildReportText(result: AnalysisStreamResult, evidence: EvidenceNode[])
   lines.push("");
   lines.push("## 结论");
   lines.push(`- 风险等级：${result.verdict}`);
-  lines.push(`- 综合置信度：${(result.confidence * 100).toFixed(0)}%`);
+  lines.push(`- 证据充分程度：${(result.confidence * 100).toFixed(0)}%`);
   lines.push(`- 处置建议：${result.suggestion}`);
   lines.push("");
   lines.push("## 研判摘要");

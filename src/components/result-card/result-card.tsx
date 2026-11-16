@@ -77,7 +77,7 @@ export default function ResultCard({ result }: ResultCardProps) {
     const report = [
       `SafeAgent 研判报告`,
       `结论：${result.verdict}`,
-      `综合置信度：${(result.confidence * 100).toFixed(0)}%`,
+      `证据充分程度：${(result.confidence * 100).toFixed(0)}%`,
       `摘要：${result.summary}`,
       `处置建议：${result.suggestion}`,
       `主要依据：${reasons.map((reason) => `${reason.label}（${reason.detail}）`).join("；")}`,
@@ -135,7 +135,7 @@ export default function ResultCard({ result }: ResultCardProps) {
       </section>
 
       <div className={styles.confidence}>
-        <div><span>综合置信度</span><strong>{(result.confidence * 100).toFixed(0)}%</strong></div>
+        <div><span>证据充分程度</span><strong>{(result.confidence * 100).toFixed(0)}%</strong></div>
         <div className={styles.track}><span style={{ width: `${result.confidence * 100}%` }} /></div>
       </div>
 

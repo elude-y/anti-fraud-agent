@@ -84,31 +84,17 @@ function sandboxSourceLabel(source: SandboxEnvelope["source"]) {
 function finalConfidenceScore(
   baseScore: number,
   sandbox: SandboxEnvelope | null,
-  trustedMatch: Awaited<ReturnType<typeof rag_search>>["matches"][number] | null,
+  _trustedMatch: Awaited<ReturnType<typeof rag_search>>["matches"][number] | null,
 ) {
   if (!sandbox) return baseScore;
 
-  const raw = sandbox.result.raw && typeof sandbox.result.raw === "object"
-    ? sandbox.result.raw as Record<string, unknown>
-    : null;
-  const tier0Behavior = raw?.behavior && typeof raw.behavior === "object"
-    ? raw.behavior as Record<string, unknown>
-    : raw;
-  const trustedDomain = tier0Behavior?.template === "trusted-domain";
-
-  if (sandbox.result.verdict === "安全") {
-    if (trustedDomain) return Math.max(baseScore, 0.96);
-    if (sandbox.source === "urlscan+virustotal") return Math.max(baseScore, 0.9);
-    if (sandbox.source === "urlscan" || sandbox.source === "virustotal+tier0") return Math.max(baseScore, 0.84);
-    if (trustedMatch?.riskLabel === "安全") return Math.max(baseScore, 0.82);
-    return Math.max(baseScore, 0.68);
-  }
-
+  // 仅当沙箱确证"恶意"时才提升置信度——这是对风险结论的实锤。
   if (sandbox.result.verdict === "诈骗") return Math.max(baseScore, 0.92);
   if (sandbox.result.verdict === "高危") return Math.max(baseScore, 0.84);
 
-  // Tier0 对未知域名只能说明“证据不足”，不应把 0%~2% 展示成最终结论置信度。
-  return Math.max(baseScore, sandbox.source === "tier0" ? 0.45 : 0.6);
+  // 网址安全（可信域名等）只是「网址」这一条证据，不能代表短信话术没有风险；
+  // 因此不因网址可信而抬高整条消息的置信度，只保留规则/RAG 计算出的证据充分度。
+  return baseScore;
 }
 
 function buildResult(input: {
@@ -287,7 +273,7 @@ export async function analyzeRequest(request: Request, variant: AnalysisVariant 
         let needsSandbox = pathDecision.action === "sandbox";
         const pathReason = pathDecision.reason;
         const confidenceNode = evidenceNode("confidence", "前置检索信号评估", {
-          description: `沙箱前置信度 ${(confidence.score * 100).toFixed(0)}%，标签一致性 ${(rag.labelAgreement * 100).toFixed(0)}%，关键要素覆盖度 ${(rag.coverageScore * 100).toFixed(0)}%。${pathReason}`,
+          description: `沙箱前证据充分度 ${(confidence.score * 100).toFixed(0)}%，标签一致性 ${(rag.labelAgreement * 100).toFixed(0)}%，关键要素覆盖度 ${(rag.coverageScore * 100).toFixed(0)}%。${pathReason}`,
           tags: [
             pathDecision.planner === "llm" ? "模型规划路径" : "规则护栏",
             `Top-1 ${(rag.topSimilarity * 100).toFixed(0)}%`,
@@ -399,7 +385,7 @@ export async function analyzeRequest(request: Request, variant: AnalysisVariant 
         const conclusionNode = evidenceNode("conclusion", `研判结论：${analyzed.verdict}`, {
           description: analyzed.suggestion,
           tags: [
-            `置信度 ${(confidenceScore * 100).toFixed(0)}%`,
+            `证据充分程度 ${(confidenceScore * 100).toFixed(0)}%`,
             `证据 ${sandboxNode ? 6 : 5} 个`,
             sandbox ? sandboxSourceLabel(sandbox.source) : "文本研判",
           ],
@@ -445,7 +431,7 @@ export async function analyzeRequest(request: Request, variant: AnalysisVariant 
         });
         emitStage("done", "done");
 
-        const message = `研判完成：${result.verdict}，综合置信度 ${(result.confidence * 100).toFixed(0)}%。${result.summary}`;
+        const message = `研判完成：${result.verdict}，证据充分程度 ${(result.confidence * 100).toFixed(0)}%。${result.summary}`;
         writer.write({ type: "text-start", id: "analysis-summary" });
         writer.write({ type: "text-delta", id: "analysis-summary", delta: message });
         writer.write({ type: "text-end", id: "analysis-summary" });
