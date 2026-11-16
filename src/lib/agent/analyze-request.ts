@@ -6,6 +6,7 @@ import { normalize } from "@/lib/agent/normalize";
 import { computeRuleScore, isPreventionNotice, isRoutineNotice } from "@/lib/agent/rules";
 import { decidePath } from "@/lib/agent/stateMachine";
 import { finalizeVerdict } from "@/lib/agent/synthesize";
+import { asRiskLevel, inputCategory, MIN_RAG_SIMILARITY, relevantRagMatch } from "@/lib/agent/verdict";
 import type {
   AnalysisStage,
   AnalysisStreamResult,
@@ -33,14 +34,6 @@ const requestSchema = z.object({
 }).refine((body) => Boolean(body.input?.trim() || body.messages?.length), {
   message: "缺少待研判内容",
 });
-
-const MIN_RAG_SIMILARITY = 0.6;
-
-function asRiskLevel(value: string): RiskLevel {
-  return value === "安全" || value === "待核验" || value === "可疑" || value === "高危" || value === "诈骗"
-    ? value
-    : "待核验";
-}
 
 function messageText(messages: Array<{ role: string; parts: unknown[] }> | undefined) {
   const userMessage = [...(messages ?? [])].reverse().find((message) => message.role === "user");
@@ -116,25 +109,6 @@ function finalConfidenceScore(
 
   // Tier0 对未知域名只能说明“证据不足”，不应把 0%~2% 展示成最终结论置信度。
   return Math.max(baseScore, sandbox.source === "tier0" ? 0.45 : 0.6);
-}
-
-function inputCategory(raw: string): "银行" | "ETC" | "快递" | null {
-  if (/ETC|高速通行/i.test(raw)) return "ETC";
-  if (/快递|包裹|物流|顺丰|中通|圆通|韵达|申通/i.test(raw)) return "快递";
-  if (/工商银行|建设银行|农业银行|中国银行|招商银行|银行|工行|建行|农行|中行|招行|\bbank\b/i.test(raw)) return "银行";
-  return null;
-}
-
-function relevantRagMatch(rag: Awaited<ReturnType<typeof rag_search>>, normalized: Awaited<ReturnType<typeof normalize>>) {
-  if (isPreventionNotice(normalized) || isRoutineNotice(normalized)) return null;
-  const category = inputCategory(normalized.raw);
-  return rag.matches.find((match) => {
-    if (match.similarity < MIN_RAG_SIMILARITY || match.riskLabel === "安全") return false;
-    if (category === "银行") return /银行|KYC/i.test(match.category);
-    if (category === "ETC") return /ETC/i.test(match.category);
-    if (category === "快递") return /快递|物流/i.test(match.category);
-    return true;
-  }) ?? null;
 }
 
 function buildResult(input: {
