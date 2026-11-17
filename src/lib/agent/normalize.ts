@@ -11,7 +11,10 @@ export interface NormalizedInput {
   raw: string;
 }
 
-const URL_RE = /(https?:\/\/[^\s"'<>，。；;！!）)\]}]+)/g;
+const URL_RE = /(https?:\/\/[^\s"'<>，。；;！!？?）)\]}]+)/g;
+
+// 无协议的裸域名/短链（如 g5d.cn/IiOIDu），补 http:// 协议
+const BARE_URL_RE = /(?:^|[^\w])((?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+(?:com|cn|net|org|io|vip|xyz|top|cc|me|club|site|app|shop|info|biz|tv|link|co|live|plus|icu)(?:\/[^\s"'<>，。；;！!？?）)\]}]*)?)/g;
 
 // 常见短链域名（可扩充）
 const SHORT_DOMAINS = ['t.cn', 'dwz.cn', 'url.cn', 'bit.ly', 't.co', 'suo.im'];
@@ -28,7 +31,13 @@ const COURIERS = ['顺丰', '中通', '圆通', '韵达', '申通', '邮政', '�
 const ACTIONS = ['点击', '打开', '下载', '填写', '登录', '转账', '付款', '领取', '兑换'];
 
 export function extractUrls(text: string): string[] {
-  return text.match(URL_RE) ?? [];
+  const urls: string[] = [];
+  for (const m of text.matchAll(URL_RE)) urls.push(m[0]);
+  for (const m of text.matchAll(BARE_URL_RE)) {
+    const bare = m[1];
+    if (bare && !urls.some((u) => u.includes(bare))) urls.push("http://" + bare);
+  }
+  return urls;
 }
 
 export function isShortLink(url: string): boolean {

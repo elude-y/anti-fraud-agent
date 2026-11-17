@@ -3,7 +3,7 @@ import type { NormalizedInput } from './normalize';
 import { normalizeText } from '../rag/signals';
 
 const STRONG_RISK = ['银行卡', '身份证', '验证码', '冻结', '解冻', '扣款', '逾期', '保证金', '安全账户', '盗刷', '检察院', '涉嫌', '涉案', '远程核查', '远程操控'];
-const MEDIUM_RISK = ['理赔', '退款', '中奖', '过期', '贷款', '刷单', '兼职', '点击链接', '领取', '兑换', '理财', '投资', '稳赚', '补贴', '社保', '认领', '培训费', '服装费', '报名费', '高薪', '入职培训'];
+const MEDIUM_RISK = ['理赔', '退款', '中奖', '过期', '贷款', '刷单', '兼职', '点击链接', '领取', '兑换', '理财', '投资', '稳赚', '补贴', '补助', '就医补助', '社保', '医保', '认领', '培训费', '服装费', '报名费', '高薪', '入职培训'];
 
 export function isPreventionNotice(input: NormalizedInput): boolean {
   if (input.urls.length) return false;
@@ -34,6 +34,11 @@ export function computeRuleScore(input: NormalizedInput): number {
   if (/(?:验证|核验|点击|账户异常).{0,35}(?:转账|汇款|打款)/.test(text)
     || /(?:转账|汇款|打款).{0,20}(?:验证|核验|解冻)/.test(text)) {
     score = Math.max(score, 0.5);
+  }
+  // 点击诱导：请点/点击/点开/访问 + 链接或查看（如「请点 g5d.cn 查看」「点击链接领取」）
+  if (/(?:请点|点击|点开|访问|打开|戳|进).{0,12}(?:链接|网址|查看|办理|领取|兑换|核验|认证)/.test(text)
+    || /(?:请点|点击|点开)\s*[a-zA-Z0-9]/.test(text)) {
+    score = Math.max(score, 0.4);
   }
   if (input.urls.length > 0) score += 0.1;                          // 含链接
 
